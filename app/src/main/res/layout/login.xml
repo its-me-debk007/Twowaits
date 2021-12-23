@@ -52,21 +52,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sub_heading"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:hintEnabled="false"
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/EnterYourPassword"
+            android:id="@+id/EmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/login_border"
             android:fontFamily="@font/roboto_regular"
             android:hint="Email Address"
             android:paddingTop="15dp"
             android:paddingBottom="14dp"
-            android:textColor="#A17A69CF"
-            android:textSize="16sp"/>
+            android:textColor="#A17A69"
+            android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -76,7 +79,11 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:hintEnabled="false"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ConfirmYourPassword"
@@ -84,13 +91,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/login_border"
             android:fontFamily="@font/roboto_regular"
             android:hint="Password"
+            android:inputType="textPassword"
             android:paddingTop="15dp"
             android:paddingBottom="14dp"
-            android:textColor="#A17A69CF"
-            android:textSize="16sp"/>
+            android:textColor="#A17A69"
+            android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -107,7 +115,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
     <Button
-        android:id="@+id/VerifyEmailButton"
+        android:id="@+id/LogInButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -137,7 +145,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/VerifyEmailButton" />
+        app:layout_constraintTop_toBottomOf="@+id/LogInButton" />
 
     <View
         android:id="@+id/view"
@@ -217,8 +225,8 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
