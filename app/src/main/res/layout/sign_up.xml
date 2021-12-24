@@ -70,7 +70,8 @@
             android:paddingTop="15dp"
             android:paddingBottom="14dp"
             android:textColor="#A17A69"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:lines="1"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -97,7 +98,8 @@
             android:paddingTop="15dp"
             android:paddingBottom="14dp"
             android:textColor="#A17A69"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:lines="1"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

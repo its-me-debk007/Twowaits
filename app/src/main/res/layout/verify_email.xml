@@ -30,7 +30,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout2"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +41,7 @@
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/EnterYourPassword"
+            android:id="@+id/emailForVerifying"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -52,11 +52,12 @@
             android:paddingTop="15dp"
             android:paddingBottom="14dp"
             android:textColor="#A17A69"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:lines="1"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/verifyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -76,8 +77,8 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,114 +86,112 @@
         app:lottie_fileName="blob_animation.json"
         app:lottie_loop="true" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView2"
-        android:layout_width="218dp"
-        android:layout_height="218dp"
-        android:layout_marginEnd="272dp"
-        android:layout_marginBottom="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/VerifyEmail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="blob2_animation.json"
-        app:lottie_loop="true" />
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/animationView2"-->
+<!--        android:layout_width="218dp"-->
+<!--        android:layout_height="218dp"-->
+<!--        android:layout_marginEnd="245dp"-->
+<!--        android:layout_marginBottom="33dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/VerifyEmail"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_fileName="blob2_animation.json"-->
+<!--        app:lottie_loop="true" />-->
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView3"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="72dp"
-        android:layout_marginBottom="145dp"
-        app:layout_constraintBottom_toTopOf="@+id/VerifyEmail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="blob2_animation.json"
-        app:lottie_loop="true" />
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/animationView3"-->
+<!--        android:layout_width="44dp"-->
+<!--        android:layout_height="44dp"-->
+<!--        android:layout_marginStart="210dp"-->
+<!--        android:layout_marginTop="68dp"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/animationView7"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/verifyButton"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_fileName="blob2_animation.json"-->
+<!--        app:lottie_loop="true" />-->
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView4"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="244dp"
-        android:layout_marginTop="124dp"
-        app:layout_constraintStart_toEndOf="@+id/animationView2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="blob2_animation.json"
-        app:lottie_loop="true" />
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/animationView4"-->
+<!--        android:layout_width="44dp"-->
+<!--        android:layout_height="44dp"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginTop="194dp"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/animationView7"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/verifyButton"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_fileName="blob2_animation.json"-->
+<!--        app:lottie_loop="true" />-->
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView5"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/animationView2"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="blob2_animation.json"
-        app:lottie_loop="true" />
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/animationView5"-->
+<!--        android:layout_width="44dp"-->
+<!--        android:layout_height="44dp"-->
+<!--        android:layout_marginStart="64dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/animationView2"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_fileName="blob2_animation.json"-->
+<!--        app:lottie_loop="true" />-->
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView6"
-        android:layout_width="218dp"
-        android:layout_height="218dp"
-        android:layout_marginStart="206dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/animationView4"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="blob2_animation.json"
-        app:lottie_loop="true" />
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/animationView6"-->
+<!--        android:layout_width="218dp"-->
+<!--        android:layout_height="218dp"-->
+<!--        android:layout_marginStart="206dp"-->
+<!--        android:layout_marginTop="125dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/animationView8"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_fileName="blob2_animation.json"-->
+<!--        app:lottie_loop="true" />-->
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView7"
-        android:layout_width="218dp"
-        android:layout_height="218dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="71dp"
-        app:layout_constraintEnd_toStartOf="@+id/animationView"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="blob2_animation.json"
-        app:lottie_loop="true" />
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/animationView7"-->
+<!--        android:layout_width="218dp"-->
+<!--        android:layout_height="218dp"-->
+<!--        android:layout_marginTop="13dp"-->
+<!--        android:layout_marginEnd="71dp"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/animationView"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/verifyButton"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_fileName="blob2_animation.json"-->
+<!--        app:lottie_loop="true" />-->
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView8"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="194dp"
-        app:layout_constraintStart_toEndOf="@+id/animationView7"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="blob2_animation.json"
-        app:lottie_loop="true" />
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/animationView8"-->
+<!--        android:layout_width="44dp"-->
+<!--        android:layout_height="44dp"-->
+<!--        android:layout_marginTop="21dp"-->
+<!--        android:layout_marginEnd="72dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_fileName="blob2_animation.json"-->
+<!--        app:lottie_loop="true" />-->
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView9"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="49dp"
-        android:layout_marginBottom="-10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/animationView8"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="blob2_animation.json"
-        app:lottie_loop="true" />
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/animationView9"-->
+<!--        android:layout_width="44dp"-->
+<!--        android:layout_height="44dp"-->
+<!--        android:layout_marginStart="49dp"-->
+<!--        android:layout_marginBottom="-20dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/animationView4"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_fileName="blob2_animation.json"-->
+<!--        app:lottie_loop="true" />-->
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView10"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="blob2_animation.json"
-        app:lottie_loop="true" />
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/animationView10"-->
+<!--        android:layout_width="44dp"-->
+<!--        android:layout_height="44dp"-->
+<!--        android:layout_marginStart="221dp"-->
+<!--        android:layout_marginTop="122dp"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/animationView2"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_fileName="blob2_animation.json"-->
+<!--        app:lottie_loop="true" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
 <!--</ScrollView>-->

@@ -38,7 +38,7 @@
         tools:layout="@layout/create_password" />
     <fragment
         android:id="@+id/otpVerfication"
-        android:name="com.example.twowaits.OtpVerfication"
+        android:name="com.example.twowaits.OtpVerification"
         android:label="otp_verfication"
         tools:layout="@layout/otp_verfication" />
     <fragment
