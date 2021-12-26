@@ -13,7 +13,20 @@ interface API {
 //    suspend fun logInUser(
 //        @Field("email")email: String,
 //        @Field("password")password: String
-//    ): Call<
-    @GET("fact/ ")
-    suspend fun getCatFacts(): Response<CatFacts>
+//    ): Call<>
+  
+//    @FormUrlEncoded
+//    @POST("account/signup/")
+//    suspend fun signUp(
+//        @Field("email")email:String,
+//        @Field("password")password: String
+//    ): Response<>
+//
+//    @FormUrlEncoded
+//    @POST("account/login/")
+//    suspend fun login(
+//        @Field("email")email:String,
+//        @Field("password")password: String
+//    ): Response<>
+
 }

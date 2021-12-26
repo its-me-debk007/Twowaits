@@ -6,7 +6,7 @@
     app:startDestination="@id/login3">
     <fragment
         android:id="@+id/login3"
-        android:name="com.example.twowaits.Login"
+        android:name="com.example.twowaits.AuthPages.Login"
         android:label="login"
         tools:layout="@layout/login" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUp"
-        android:name="com.example.twowaits.SignUp"
+        android:name="com.example.twowaits.AuthPages.SignUp"
         android:label="sign_up"
         tools:layout="@layout/sign_up" >
         <action
@@ -33,17 +33,21 @@
     </fragment>
     <fragment
         android:id="@+id/createPassword2"
-        android:name="com.example.twowaits.CreatePassword"
+        android:name="com.example.twowaits.AuthPages.CreatePassword"
         android:label="create_password"
         tools:layout="@layout/create_password" />
     <fragment
         android:id="@+id/otpVerfication"
-        android:name="com.example.twowaits.OtpVerification"
+        android:name="com.example.twowaits.AuthPages.OtpVerification"
         android:label="otp_verfication"
-        tools:layout="@layout/otp_verfication" />
+        tools:layout="@layout/otp_verfication" >
+        <action
+            android:id="@+id/action_otpVerfication_to_createPassword2"
+            app:destination="@id/createPassword2" />
+    </fragment>
     <fragment
         android:id="@+id/verifyEmail"
-        android:name="com.example.twowaits.VerifyEmail"
+        android:name="com.example.twowaits.AuthPages.VerifyEmail"
         android:label="verify_email"
         tools:layout="@layout/verify_email" >
         <action

@@ -8,8 +8,7 @@ import com.example.twowaits.apiCalls.CatFacts
 class BaseRepository(private val api: API){
     private val factsLiveData = MutableLiveData<CatFacts>()
 
-    val facts: LiveData<CatFacts>
-    get() = factsLiveData
+    val facts: LiveData<CatFacts> = factsLiveData
 
     suspend fun getCatFacts(){
         val result = api.getCatFacts()

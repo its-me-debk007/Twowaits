@@ -6,7 +6,7 @@
         <entry key="..\:/Twowaits/app/src/main/res/drawable/login_border.xml" value="0.24895833333333334" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/activity_main.xml" value="0.17777777777777778" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/create_password.xml" value="0.264" />
-        <entry key="..\:/Twowaits/app/src/main/res/layout/login.xml" value="0.2" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/login.xml" value="0.4" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/otp_verfication.xml" value="0.22864583333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/sign_up.xml" value="0.2" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/splash_screen.xml" value="0.17777777777777778" />
@@ -19,5 +19,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.22864583333333333" />
+      </ProjectState>
+    </option>
   </component>
 </project>
