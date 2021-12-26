@@ -66,7 +66,6 @@ class Login: Fragment() {
 //            .build()
 //        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 //        val account = GoogleSignIn.getLastSignedInAccount(this)
-
         return binding.root
     }
     override fun onDestroy() {
