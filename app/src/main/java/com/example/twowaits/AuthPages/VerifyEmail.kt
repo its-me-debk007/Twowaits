@@ -1,4 +1,4 @@
-package com.example.twowaits
+package com.example.twowaits.AuthPages
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

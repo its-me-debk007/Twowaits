@@ -14,6 +14,6 @@ interface API {
 //        @Field("email")email: String,
 //        @Field("password")password: String
 //    ): Call<>
-    @GET("fact/ ")
+    @GET("fact/")
     suspend fun getCatFacts(): Response<CatFacts>
 }

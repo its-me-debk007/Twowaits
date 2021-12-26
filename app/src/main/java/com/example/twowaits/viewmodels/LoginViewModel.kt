@@ -8,12 +8,12 @@ import com.example.twowaits.repository.BaseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val repository: BaseRepository): ViewModel() {
-    init {     // In place of init, we just have to use setOnClickListener
+class LoginViewModel(private val repository: BaseRepository): ViewModel() {
+
+    fun gettingFacts(){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getCatFacts()
+                repository.getCatFacts()
         }
     }
-    val facts: LiveData<CatFacts>
-    get() = repository.facts
+    val facts: LiveData<CatFacts> = repository.facts
 }
