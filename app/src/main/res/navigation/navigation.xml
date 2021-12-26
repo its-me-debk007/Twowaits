@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/createPassword2">
+    app:startDestination="@id/login3">
     <fragment
         android:id="@+id/login3"
         android:name="com.example.twowaits.AuthPages.Login"
