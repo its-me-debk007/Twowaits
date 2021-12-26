@@ -15,6 +15,8 @@ import com.example.twowaits.databinding.LoginBinding
 import com.example.twowaits.repository.BaseRepository
 import com.example.twowaits.viewmodels.LoginViewModel
 import com.example.twowaits.viewmodels.LoginViewModelFactory
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 class Login: Fragment() {
     private var _binding: LoginBinding? = null
@@ -59,6 +61,12 @@ class Login: Fragment() {
                 binding.Heading.text = "${it.fact}\nWith a length of ${it.length}"
             })
         }
+//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//            .requestEmail()
+//            .build()
+//        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+//        val account = GoogleSignIn.getLastSignedInAccount(this)
+
         return binding.root
     }
     override fun onDestroy() {

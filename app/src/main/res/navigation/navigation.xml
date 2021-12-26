@@ -40,7 +40,11 @@
         android:id="@+id/otpVerfication"
         android:name="com.example.twowaits.AuthPages.OtpVerification"
         android:label="otp_verfication"
-        tools:layout="@layout/otp_verfication" />
+        tools:layout="@layout/otp_verfication" >
+        <action
+            android:id="@+id/action_otpVerfication_to_createPassword2"
+            app:destination="@id/createPassword2" />
+    </fragment>
     <fragment
         android:id="@+id/verifyEmail"
         android:name="com.example.twowaits.AuthPages.VerifyEmail"

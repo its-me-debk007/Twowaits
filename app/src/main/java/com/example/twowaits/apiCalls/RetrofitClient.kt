@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
     fun getInstance(): Retrofit{
         return Retrofit.Builder()
-            .baseUrl("https://catfact.ninja/")
+            .baseUrl("http://localhost:8000/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(OkHttpClient.Builder().build())
             .build()
