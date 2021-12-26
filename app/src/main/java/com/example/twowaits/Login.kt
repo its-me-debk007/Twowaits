@@ -1,19 +1,26 @@
 package com.example.twowaits
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.example.twowaits.apiCalls.API
+import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.databinding.LoginBinding
-import com.google.android.material.textfield.TextInputEditText
-import kotlinx.android.synthetic.main.login.*
-import kotlinx.android.synthetic.main.login.view.*
+import com.example.twowaits.repository.BaseRepository
+import com.example.twowaits.viewmodels.MainViewModel
+import com.example.twowaits.viewmodels.MainViewModelFactory
 
-class Login: Fragment(R.layout.login) {
+class Login: Fragment() {
     private var _binding: LoginBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var mainViewModel: MainViewModel
 
     fun isValidEmail(str: String): Boolean{
         return android.util.Patterns.EMAIL_ADDRESS.matcher(str).matches()
@@ -24,6 +31,13 @@ class Login: Fragment(R.layout.login) {
         savedInstanceState: Bundle?
     ): View {
         _binding = LoginBinding.inflate(inflater, container, false)
+        val api = RetrofitClient.getInstance().create(API::class.java)
+        val repository = BaseRepository(api)
+        mainViewModel = ViewModelProvider(this, MainViewModelFactory(repository))[MainViewModel::class.java]
+        mainViewModel.facts.observe(viewLifecycleOwner, Observer {
+            Log.d("RETROFIT_IMPLEMENTED", "${it.fact}\nWith a length of ${it.length.toString()}")
+        })
+
         binding.signUpLink.setOnClickListener{
             Navigation.findNavController(binding.root).navigate(R.id.action_login3_to_signUp)
         }

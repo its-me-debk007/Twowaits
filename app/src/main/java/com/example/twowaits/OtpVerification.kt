@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.twowaits.databinding.OtpVerficationBinding
-import kotlinx.android.synthetic.main.otp_verfication.*
-import kotlinx.android.synthetic.main.otp_verfication.view.*
 
 class OtpVerification : Fragment() {
     private var _binding: OtpVerficationBinding? = null
@@ -47,8 +45,8 @@ override fun onCreateView(
     }
 
     binding.verify.setOnClickListener{
-        if(EnterOTP.text.toString().isEmpty()) {
-            EnterOTP.error = "Please enter the OTP"
+        if(binding.EnterOTP.text.toString().isEmpty()) {
+            binding.EnterOTP.error = "Please enter the OTP"
             return@setOnClickListener
         }
     }

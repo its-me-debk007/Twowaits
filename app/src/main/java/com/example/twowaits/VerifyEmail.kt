@@ -6,10 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.twowaits.databinding.VerifyEmailBinding
-import kotlinx.android.synthetic.main.sign_up.*
-import kotlinx.android.synthetic.main.sign_up.view.*
-import kotlinx.android.synthetic.main.verify_email.*
-import kotlinx.android.synthetic.main.verify_email.view.*
 
 class VerifyEmail : Fragment() {
     private var _binding: VerifyEmailBinding? = null
@@ -22,9 +18,9 @@ class VerifyEmail : Fragment() {
         _binding = VerifyEmailBinding.inflate(inflater, container, false)
 
         binding.verifyButton.setOnClickListener {
-            val userEmail = emailForVerifying.text.toString().trim()
+            val userEmail = binding.emailForVerifying.text.toString().trim()
             if(!Login().isValidEmail(userEmail)){
-                emailForVerifying.error="Please enter a valid email"
+                binding.emailForVerifying.error="Please enter a valid email"
                 return@setOnClickListener
             }
         }

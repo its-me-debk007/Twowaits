@@ -6,9 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.twowaits.databinding.CreatePasswordBinding
-import com.example.twowaits.databinding.LoginBinding
-import kotlinx.android.synthetic.main.create_password.*
-import kotlinx.android.synthetic.main.create_password.view.*
 
 class CreatePassword : Fragment() {
     private var _binding: CreatePasswordBinding? = null
@@ -25,8 +22,8 @@ class CreatePassword : Fragment() {
             var flagUpper = false
             var flagNumber = false
             var flagSpecialChar = false
-            for (i in EnterYourPassword.text.toString().indices) {
-                val ch = EnterYourPassword.text.toString()[i]
+            for (i in binding.EnterYourPassword.text.toString().indices) {
+                val ch = binding.EnterYourPassword.text.toString()[i]
                 if (ch in 'a'..'z') {
                     flagLower = true
                 }
@@ -44,7 +41,7 @@ class CreatePassword : Fragment() {
                     flagSpecialChar = true
                 }
                 }
-            if(EnterYourPassword.text.toString().length < 8){
+            if(binding.EnterYourPassword.text.toString().length < 8){
                 binding.EnterYourPassword.error = "Password must contain at least 8 characters"
                 return@setOnClickListener
             }
@@ -68,8 +65,8 @@ class CreatePassword : Fragment() {
             flagUpper = false
             flagNumber = false
             flagSpecialChar = false
-            for (i in ConfirmYourPassword.text.toString().indices) {
-                val ch = ConfirmYourPassword.text.toString()[i]
+            for (i in binding.ConfirmYourPassword.text.toString().indices) {
+                val ch = binding.ConfirmYourPassword.text.toString()[i]
                 if (ch in 'a'..'z') {
                     flagLower = true
                 }
@@ -87,7 +84,7 @@ class CreatePassword : Fragment() {
                     flagSpecialChar = true
                 }
             }
-            if(ConfirmYourPassword.text.toString().length < 8){
+            if(binding.ConfirmYourPassword.text.toString().length < 8){
                 binding.ConfirmYourPassword.error = "Password must contain at least 8 characters"
                 return@setOnClickListener
             }
