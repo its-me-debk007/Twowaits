@@ -6,8 +6,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
     fun getInstance(): Retrofit{
+        val baseUrl = "https://two2waits.herokuapp.com/"
         return Retrofit.Builder()
-            .baseUrl("http://localhost:8000/")
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(OkHttpClient.Builder().build())
             .build()

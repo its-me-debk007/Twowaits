@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/login3">
+    app:startDestination="@id/login">
     <fragment
-        android:id="@+id/login3"
+        android:id="@+id/login"
         android:name="com.example.twowaits.AuthPages.Login"
         android:label="login"
         tools:layout="@layout/login" >
@@ -23,27 +23,35 @@
         tools:layout="@layout/sign_up" >
         <action
             android:id="@+id/action_signUp_to_login3"
-            app:destination="@id/login3" />
+            app:destination="@id/login" />
         <action
             android:id="@+id/action_signUp_to_createPassword2"
             app:destination="@id/createPassword2" />
         <action
-            android:id="@+id/action_signUp_to_otpVerfication"
-            app:destination="@id/otpVerfication" />
+            android:id="@+id/action_signUp_to_otpVerification"
+            app:destination="@id/otpVerification" />
+
     </fragment>
     <fragment
         android:id="@+id/createPassword2"
         android:name="com.example.twowaits.AuthPages.CreatePassword"
         android:label="create_password"
-        tools:layout="@layout/create_password" />
-    <fragment
-        android:id="@+id/otpVerfication"
-        android:name="com.example.twowaits.AuthPages.OtpVerification"
-        android:label="otp_verfication"
-        tools:layout="@layout/otp_verfication" >
+        tools:layout="@layout/create_password" >
         <action
-            android:id="@+id/action_otpVerfication_to_createPassword2"
+            android:id="@+id/action_createPassword2_to_login"
+            app:destination="@id/login" />
+    </fragment>
+    <fragment
+        android:id="@+id/otpVerification"
+        android:name="com.example.twowaits.AuthPages.OtpVerification"
+        android:label="otp_verification"
+        tools:layout="@layout/otp_verification" >
+        <action
+            android:id="@+id/action_otpVerification_to_createPassword2"
             app:destination="@id/createPassword2" />
+        <action
+            android:id="@+id/action_otpVerification_to_login"
+            app:destination="@id/login" />
     </fragment>
     <fragment
         android:id="@+id/verifyEmail"
@@ -51,7 +59,7 @@
         android:label="verify_email"
         tools:layout="@layout/verify_email" >
         <action
-            android:id="@+id/action_verifyEmail_to_otpVerfication"
-            app:destination="@id/otpVerfication" />
+            android:id="@+id/action_verifyEmail_to_otpVerification"
+            app:destination="@id/otpVerification" />
     </fragment>
 </navigation>
