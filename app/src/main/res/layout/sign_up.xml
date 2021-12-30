@@ -11,7 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AuthPages.SignUp">
+    tools:context=".authPages.SignUp">
 
 
     <TextView
@@ -60,12 +60,12 @@
         app:layout_constraintTop_toBottomOf="@+id/sub_heading">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/EnterName"
+            android:id="@+id/EnterEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/login_border"
             android:fontFamily="@font/roboto_regular"
-            android:hint="Enter Your Name"
+            android:hint="Enter Your Email Address"
             android:lines="1"
             android:paddingTop="15dp"
             android:paddingBottom="14dp"
@@ -84,17 +84,21 @@
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
         app:hintEnabled="false"
+        app:helperText=""
+        app:helperTextTextColor="#ff0000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/EnterEmail"
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/login_border"
             android:fontFamily="@font/roboto_regular"
-            android:hint="Enter Your Email Address"
+            android:hint="Enter Your Password"
+            android:inputType="textPassword"
             android:lines="1"
             android:paddingTop="15dp"
             android:paddingBottom="14dp"
@@ -114,73 +118,38 @@
         android:fontFamily="@font/roboto_medium"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="Verify Email"
+        android:text="Sign Up"
         android:textAllCaps="false"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
-
-    <TextView
-        android:id="@+id/OrLine"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="197dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="197dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Or"
-        android:textColor="#00000075"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/VerifyEmailButton" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="0.2dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="34dp"
-        android:background="#00000075"
-        app:layout_constraintEnd_toStartOf="@+id/OrLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/VerifyEmailButton" />
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0.2dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="35dp"
-        android:background="#00000075"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/OrLine"
-        app:layout_constraintTop_toBottomOf="@+id/VerifyEmailButton" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
     <TextView
         android:id="@+id/SignUpUsingGoogle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="66dp"
         android:fontFamily="@font/roboto_medium"
         android:text="Sign Up using Google"
         android:textColor="#020100"
         android:textSize="17sp"
         app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/OrLine" />
+        app:layout_constraintTop_toBottomOf="@+id/VerifyEmailButton" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="98dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="66dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/OrLine"
+        app:layout_constraintTop_toBottomOf="@+id/VerifyEmailButton"
         app:srcCompat="@drawable/google" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -205,22 +174,65 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:fontFamily="@font/reemkufi_regular"
+            android:text="@string/log_in"
             android:textColor="#A17A69"
             android:textSize="20sp"
-            android:text="@string/log_in"
             app:layout_constraintStart_toEndOf="@+id/simpleText"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_fileName="blob_animation.json"
         app:lottie_loop="true" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:hintEnabled="false"
+        app:helperText=""
+        app:helperTextTextColor="#ff0000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/confirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_border"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="Confirm Your Password"
+            android:lines="1"
+            android:inputType="textPassword"
+            android:paddingTop="15dp"
+            android:paddingBottom="14dp"
+            android:textColor="#A17A69"
+            android:textColorHint="#A17A69"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ProgressBar
+        android:id="@+id/ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 <!--</ScrollView>-->

@@ -2,18 +2,19 @@ package com.example.twowaits.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.twowaits.apiCalls.CatFacts
-import com.example.twowaits.repository.BaseRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.twowaits.apiCalls.API
+import com.example.twowaits.apiCalls.RetrofitClient
+import com.example.twowaits.repository.LoginRepository
 
-class LoginViewModel(private val repository: BaseRepository): ViewModel() {
+class LoginViewModel(): ViewModel() {
+    lateinit var errorLiveData: LiveData<String>
+    val api = RetrofitClient.getInstance().create(API::class.java)
+    val repository = LoginRepository(api)
 
-    fun gettingFacts(){
-        viewModelScope.launch(Dispatchers.IO) {
-                repository.getCatFacts()
-        }
+    fun login(email: String, password: String){
+//        viewModelScope.launch(Dispatchers.IO) {
+        repository.login(email, password)
+//        }
+        errorLiveData = repository.errorMutableLiveData
     }
-    val facts: LiveData<CatFacts> = repository.facts
 }

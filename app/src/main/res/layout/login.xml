@@ -11,7 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AuthPages.Login">
+    tools:context=".authPages.Login">
 
     <TextView
         android:id="@+id/sub_heading"
@@ -49,8 +49,8 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="24dp"
         app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
         app:hintEnabled="false"
+        app:boxStrokeWidthFocused="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sub_heading">
@@ -83,7 +83,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
-        app:passwordToggleEnabled="true">
+        app:passwordToggleEnabled="true"
+        app:helperText=""
+        app:helperTextTextColor="#ff0000">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/Password"
@@ -145,28 +147,6 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LogInButton" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="0.2dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="34dp"
-        android:background="#00000075"
-        app:layout_constraintEnd_toStartOf="@+id/OrLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LogInButton" />
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="0dp"
-        android:layout_height="0.2dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="35dp"
-        android:background="#00000075"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/OrLine"
         app:layout_constraintTop_toBottomOf="@+id/LogInButton" />
 
     <TextView
@@ -236,12 +216,23 @@
         app:lottie_fileName="blob_animation.json"
         app:lottie_loop="true" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
+    <ProgressBar
+        android:id="@+id/ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <!--    <com.google.android.gms.common.SignInButton-->
+<!--        android:id="@+id/sign_in_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
     <!--    <com.airbnb.lottie.LottieAnimationView-->
     <!--        android:id="@+id/animationView2"-->
     <!--        android:layout_width="218dp"-->
