@@ -1,4 +1,4 @@
-package com.example.twowaits.AuthPages
+package com.example.twowaits.authPages
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
-import com.example.twowaits.AuthPages.SignUp.Companion.EMAIL
-import com.example.twowaits.AuthPages.SignUp.Companion.PREVIOUS_PAGE
+import com.example.twowaits.authPages.SignUp.Companion.EMAIL
+import com.example.twowaits.authPages.SignUp.Companion.PREVIOUS_PAGE
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.API
 import com.example.twowaits.apiCalls.RetrofitClient
@@ -24,19 +24,21 @@ class VerifyEmail : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = VerifyEmailBinding.inflate(inflater, container, false)
-        val api = RetrofitClient.getInstance().create(API::class.java)
-        val repository = SendOtpRepository(api)
 
         binding.verifyButton.setOnClickListener {
+            val api = RetrofitClient.getInstance().create(API::class.java)
+            val repository = SendOtpRepository(api)
+
             val userEmail = binding.emailForVerifying.text.toString().trim()
             if(!Login().isValidEmail(userEmail)){
                 binding.emailForVerifying.error="Please enter a valid email"
                 return@setOnClickListener
             }
-            // Not Using ViewModel here
+
             EMAIL = userEmail
             repository.sendOtp(userEmail)
             binding.verifyButton.isEnabled = false
+            binding.ProgressBar.visibility = View.VISIBLE
             repository.errorMutableLiveData.observe(viewLifecycleOwner, {
                 if (it == "success"){
                     PREVIOUS_PAGE = "VerifyEmail"
@@ -45,6 +47,7 @@ class VerifyEmail : Fragment() {
                 else{
                     Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
                     binding.verifyButton.isEnabled = true
+                    binding.ProgressBar.visibility = View.INVISIBLE
                 }
             })
         }

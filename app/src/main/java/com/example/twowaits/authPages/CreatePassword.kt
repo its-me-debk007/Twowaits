@@ -1,4 +1,4 @@
-package com.example.twowaits.AuthPages
+package com.example.twowaits.authPages
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
-import com.example.twowaits.AuthPages.SignUp.Companion.EMAIL
+import com.example.twowaits.authPages.SignUp.Companion.EMAIL
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.API
 import com.example.twowaits.apiCalls.RetrofitClient
@@ -23,10 +23,11 @@ class CreatePassword : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = CreatePasswordBinding.inflate(inflater, container, false)
-        val api = RetrofitClient.getInstance().create(API::class.java)
-        val repository = ResetPasswordRepository(api)
 
         binding.Proceed.setOnClickListener {
+            val api = RetrofitClient.getInstance().create(API::class.java)
+            val repository = ResetPasswordRepository(api)
+
             var flagLower = false
             var flagUpper = false
             var flagNumber = false

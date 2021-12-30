@@ -11,7 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AuthPages.Login">
+    tools:context=".authPages.Login">
 
     <TextView
         android:id="@+id/sub_heading"
@@ -49,8 +49,8 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="24dp"
         app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
         app:hintEnabled="false"
+        app:boxStrokeWidthFocused="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sub_heading">
@@ -147,28 +147,6 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LogInButton" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="0.2dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="34dp"
-        android:background="#00000075"
-        app:layout_constraintEnd_toStartOf="@+id/OrLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LogInButton" />
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="0dp"
-        android:layout_height="0.2dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="35dp"
-        android:background="#00000075"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/OrLine"
         app:layout_constraintTop_toBottomOf="@+id/LogInButton" />
 
     <TextView
