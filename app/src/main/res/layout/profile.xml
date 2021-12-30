@@ -6,9 +6,4 @@
     tools:context=".homePages.Profile"
     android:background="#ff0000">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="profile" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
