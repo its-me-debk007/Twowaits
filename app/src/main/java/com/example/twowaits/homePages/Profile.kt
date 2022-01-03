@@ -17,6 +17,10 @@ class Profile : Fragment() {
     ): View? {
         _binding = ProfileBinding.inflate(inflater, container, false)
 
+        binding.AddPicBtn.setOnClickListener{
+
+        }
+
         return binding.root
     }
     override fun onDestroy() {
