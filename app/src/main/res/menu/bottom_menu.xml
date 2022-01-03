@@ -14,7 +14,7 @@
     <item
         android:id="@+id/explore"
         android:icon="@drawable/explore_icon"
-        android:title="Explore" />
+        android:title="Ask" />
 
     <item
         android:id="@+id/downloads"
