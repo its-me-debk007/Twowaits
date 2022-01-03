@@ -15,10 +15,10 @@ import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.databinding.LoginBinding
 import com.example.twowaits.repository.LoginRepository
 
+
 class Login: Fragment() {
     private var _binding: LoginBinding? = null
     private val binding get() = _binding!!
-//    private lateinit var loginViewModel: LoginViewModel
 
     fun isValidEmail(str: String): Boolean{
         return android.util.Patterns.EMAIL_ADDRESS.matcher(str).matches()

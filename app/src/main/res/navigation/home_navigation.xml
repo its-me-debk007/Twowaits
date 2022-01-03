@@ -19,9 +19,9 @@
     </fragment>
     <fragment
         android:id="@+id/explore"
-        android:name="com.example.twowaits.homePages.Explore"
+        android:name="com.example.twowaits.homePages.Ask"
         android:label="explore"
-        tools:layout="@layout/explore" >
+        tools:layout="@layout/ask" >
     </fragment>
     <fragment
         android:id="@+id/library"

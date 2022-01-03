@@ -5,17 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.twowaits.databinding.ExploreBinding
+import com.example.twowaits.databinding.AskBinding
 
-class Explore : Fragment() {
-    private var _binding: ExploreBinding? = null
+class Ask : Fragment() {
+    private var _binding: AskBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = ExploreBinding.inflate(inflater, container, false)
+        _binding = AskBinding.inflate(inflater, container, false)
 
         return binding.root
     }
