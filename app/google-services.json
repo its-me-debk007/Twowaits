@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "793763133847",
+    "project_id": "si-project-1640520939795",
+    "storage_bucket": "si-project-1640520939795.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:793763133847:android:149cc1c2befda39f26ecd2",
+        "android_client_info": {
+          "package_name": "com.example.twowaits"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "793763133847-2ot01rp471v61of6bl3sgqvoansdujak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmwhKzzgmN2uAni2sqwfQ4WcuI56l9pa0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "793763133847-2ot01rp471v61of6bl3sgqvoansdujak.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

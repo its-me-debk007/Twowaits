@@ -1,4 +1,4 @@
-package com.example.twowaits.repository
+package com.example.twowaits.repository.authRepositories
 
 import androidx.lifecycle.MutableLiveData
 import com.example.twowaits.apiCalls.API
@@ -8,11 +8,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class VerifyOtpRepository(private val api: API) {
+class ResetPasswordRepository(private val api: API) {
     val errorMutableLiveData = MutableLiveData<String>()
 
-    fun verifyOtp(email: String, otp: String){
-        RetrofitClient.getInstance().create(API::class.java).verifyOtp(email, otp).enqueue(object :
+    fun resetPassword(email: String, password: String){
+        RetrofitClient.getInstance().create(API::class.java).resetPassword(email, password).enqueue(object :
             Callback<VerifyOtpResponse?> {
             override fun onResponse(
                 call: Call<VerifyOtpResponse?>,
@@ -20,10 +20,9 @@ class VerifyOtpRepository(private val api: API) {
             ) {
                 if (response.isSuccessful) {
                     errorMutableLiveData.postValue("success")
-                } else if (response.code() == 406) {
-                    errorMutableLiveData.postValue("OTP expired! Please tap on Resend OTP button to get a new OTP")
-                } else if (response.code() == 400) {
-                    errorMutableLiveData.postValue("Wrong OTP!")
+                }
+                else if (response.code() == 406){
+                    errorMutableLiveData.postValue("New password cannot be same as old one")
                 }
             }
             override fun onFailure(call: Call<VerifyOtpResponse?>, t: Throwable) {

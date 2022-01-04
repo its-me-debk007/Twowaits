@@ -13,7 +13,7 @@ import com.example.twowaits.R
 import com.example.twowaits.apiCalls.API
 import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.databinding.LoginBinding
-import com.example.twowaits.repository.LoginRepository
+import com.example.twowaits.repository.authRepositories.LoginRepository
 
 
 class Login: Fragment() {
