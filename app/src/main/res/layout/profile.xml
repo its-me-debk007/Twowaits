@@ -76,11 +76,11 @@
                 android:layout_marginStart="77dp"
                 android:layout_marginTop="66dp"
                 android:src="@drawable/plus_icon"
-                app:layout_constraintStart_toStartOf="@+id/imageView3"
-                app:layout_constraintTop_toTopOf="@+id/imageView3" />
+                app:layout_constraintStart_toStartOf="@+id/ProfilePic"
+                app:layout_constraintTop_toTopOf="@+id/ProfilePic" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/ProfilePic"
                 android:layout_width="113dp"
                 android:layout_height="111dp"
                 android:layout_marginTop="16dp"
@@ -100,7 +100,7 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+                app:layout_constraintTop_toBottomOf="@+id/ProfilePic" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -121,12 +121,13 @@
         android:id="@+id/PremiumBadge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="78dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/roboto_regular"
         android:text="Premium Badge"
         android:textColor="#606060"
         android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.243"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TwoWaitsPremium" />
 
@@ -134,11 +135,12 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="78dp"
         android:layout_marginTop="2dp"
         android:text="Priority in free video lectures and unlimited\ndownloads."
         android:textColor="#606060"
         android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.451"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PremiumBadge" />
 

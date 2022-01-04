@@ -8,20 +8,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.example.twowaits.CompanionObjects
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.API
 import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.databinding.SignUpBinding
-import com.example.twowaits.repository.BaseRepository
+import com.example.twowaits.repository.authRepositories.BaseRepository
 
 class SignUp : Fragment() {
     private var _binding: SignUpBinding? = null
     private val binding get() = _binding!!
 //    private lateinit var signUpViewModel: SignUpViewModel
-    companion object{
-        lateinit var EMAIL: String
-        lateinit var PREVIOUS_PAGE: String
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -103,8 +101,8 @@ class SignUp : Fragment() {
             var flag = false
             repository.errorMutableLiveData.observe(viewLifecycleOwner, {
                 if (it == "success"){
-                    EMAIL = userEmail
-                    PREVIOUS_PAGE = "SignUp"
+                    CompanionObjects.EMAIL = userEmail
+                    CompanionObjects.PREVIOUS_PAGE = "SignUp"
                     findNavController().navigate(R.id.action_signUp_to_otpVerification)
                 }
                 else {

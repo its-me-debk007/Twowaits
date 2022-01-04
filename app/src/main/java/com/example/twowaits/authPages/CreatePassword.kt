@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
-import com.example.twowaits.authPages.SignUp.Companion.EMAIL
+import com.example.twowaits.CompanionObjects
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.API
 import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.databinding.CreatePasswordBinding
-import com.example.twowaits.repository.ResetPasswordRepository
+import com.example.twowaits.repository.authRepositories.ResetPasswordRepository
 
 class CreatePassword : Fragment() {
     private var _binding: CreatePasswordBinding? = null
@@ -83,7 +83,7 @@ class CreatePassword : Fragment() {
             binding.textInputLayout.helperText = ""
 
             // Not Using ViewModel here
-            repository.resetPassword(EMAIL, binding.EnterYourPassword.text.toString())
+            repository.resetPassword(CompanionObjects.EMAIL, binding.EnterYourPassword.text.toString())
             binding.Proceed.isEnabled = false
             binding.ProgressBar.visibility = View.VISIBLE
 

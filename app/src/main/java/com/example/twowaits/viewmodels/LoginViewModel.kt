@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.twowaits.apiCalls.API
 import com.example.twowaits.apiCalls.RetrofitClient
-import com.example.twowaits.repository.LoginRepository
+import com.example.twowaits.repository.authRepositories.LoginRepository
 
-class LoginViewModel(): ViewModel() {
+class LoginViewModel: ViewModel() {
     lateinit var errorLiveData: LiveData<String>
     val api = RetrofitClient.getInstance().create(API::class.java)
     val repository = LoginRepository(api)

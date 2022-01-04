@@ -4,11 +4,10 @@ import com.example.twowaits.apiCalls.authApiCalls.LoginResponse
 import com.example.twowaits.apiCalls.authApiCalls.SendOtpResponse
 import com.example.twowaits.apiCalls.authApiCalls.SignUpResponse
 import com.example.twowaits.apiCalls.authApiCalls.VerifyOtpResponse
+import com.example.twowaits.apiCalls.dashboardApiCalls.ProfileDetailsResponse
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.Response
+import retrofit2.http.*
 
 interface API {
     @FormUrlEncoded
@@ -44,5 +43,10 @@ interface API {
         @Field("email")email: String,
         @Field("new_password")password: String
     ): Call<VerifyOtpResponse>
+
+    @GET("profile/")
+    fun profileDetails(
+        @Header("Authorization")authToken: String
+    ): Call<ProfileDetailsResponse>
 
 }

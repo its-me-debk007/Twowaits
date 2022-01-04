@@ -1,4 +1,4 @@
-package com.example.twowaits.repository
+package com.example.twowaits.repository.authRepositories
 
 import androidx.lifecycle.MutableLiveData
 import com.example.twowaits.apiCalls.API

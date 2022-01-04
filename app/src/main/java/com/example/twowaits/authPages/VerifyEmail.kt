@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
-import com.example.twowaits.authPages.SignUp.Companion.EMAIL
-import com.example.twowaits.authPages.SignUp.Companion.PREVIOUS_PAGE
+import com.example.twowaits.CompanionObjects
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.API
 import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.databinding.VerifyEmailBinding
-import com.example.twowaits.repository.SendOtpRepository
+import com.example.twowaits.repository.authRepositories.SendOtpRepository
 
 class VerifyEmail : Fragment() {
     private var _binding: VerifyEmailBinding? = null
@@ -35,13 +34,13 @@ class VerifyEmail : Fragment() {
                 return@setOnClickListener
             }
 
-            EMAIL = userEmail
+            CompanionObjects.EMAIL = userEmail
             repository.sendOtp(userEmail)
             binding.verifyButton.isEnabled = false
             binding.ProgressBar.visibility = View.VISIBLE
             repository.errorMutableLiveData.observe(viewLifecycleOwner, {
                 if (it == "success"){
-                    PREVIOUS_PAGE = "VerifyEmail"
+                    CompanionObjects.PREVIOUS_PAGE = "VerifyEmail"
                     Navigation.findNavController(binding.root).navigate(R.id.action_verifyEmail_to_otpVerification)
                 }
                 else{
