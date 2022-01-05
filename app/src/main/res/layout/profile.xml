@@ -300,6 +300,7 @@
         app:layout_constraintTop_toBottomOf="@+id/BuyNowBtn" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ProfileQnA_RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
