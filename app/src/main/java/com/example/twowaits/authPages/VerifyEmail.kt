@@ -9,8 +9,6 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import com.example.twowaits.CompanionObjects
 import com.example.twowaits.R
-import com.example.twowaits.apiCalls.API
-import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.databinding.VerifyEmailBinding
 import com.example.twowaits.repository.authRepositories.SendOtpRepository
 
@@ -25,8 +23,7 @@ class VerifyEmail : Fragment() {
         _binding = VerifyEmailBinding.inflate(inflater, container, false)
 
         binding.verifyButton.setOnClickListener {
-            val api = RetrofitClient.getInstance().create(API::class.java)
-            val repository = SendOtpRepository(api)
+            val repository = SendOtpRepository()
 
             val userEmail = binding.emailForVerifying.text.toString().trim()
             if(!Login().isValidEmail(userEmail)){

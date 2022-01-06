@@ -25,8 +25,7 @@ class CreatePassword : Fragment() {
         _binding = CreatePasswordBinding.inflate(inflater, container, false)
 
         binding.Proceed.setOnClickListener {
-            val api = RetrofitClient.getInstance().create(API::class.java)
-            val repository = ResetPasswordRepository(api)
+            val repository = ResetPasswordRepository()
 
             var flagLower = false
             var flagUpper = false

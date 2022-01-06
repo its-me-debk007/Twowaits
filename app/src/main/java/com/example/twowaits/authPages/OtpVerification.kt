@@ -12,8 +12,6 @@ import androidx.navigation.Navigation
 import com.example.twowaits.CompanionObjects
 import com.example.twowaits.HomeActivity
 import com.example.twowaits.R
-import com.example.twowaits.apiCalls.API
-import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.databinding.OtpVerificationBinding
 import com.example.twowaits.repository.authRepositories.SendOtpRepository
 import com.example.twowaits.repository.authRepositories.VerifyOtpRepository
@@ -30,9 +28,8 @@ override fun onCreateView(
         savedInstanceState: Bundle?
     ): View {
     _binding = OtpVerificationBinding.inflate(inflater, container, false)
-    val api = RetrofitClient.getInstance().create(API::class.java)
-    val repository = SendOtpRepository(api)
-    val repository2 = VerifyOtpRepository(api)
+    val repository = SendOtpRepository()
+    val repository2 = VerifyOtpRepository()
 //    otpVerificationViewModel = ViewModelProvider(this, OtpVerificationViewModelFactory(repository))[OtpVerificationViewModel::class.java]
 
 //    otpVerificationViewModel.sendOtp(SignUp.EMAIL)
@@ -65,9 +62,8 @@ override fun onCreateView(
     }
 
     binding.verify.setOnClickListener{
-        val api = RetrofitClient.getInstance().create(API::class.java)
-        val repository = SendOtpRepository(api)
-        val repository2 = VerifyOtpRepository(api)
+        val repository = SendOtpRepository()
+        val repository2 = VerifyOtpRepository()
 
         val otp = binding.EnterOTP.text.toString().trim()
         if(otp.isEmpty()) {

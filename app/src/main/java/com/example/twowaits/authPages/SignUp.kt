@@ -10,16 +10,12 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.CompanionObjects
 import com.example.twowaits.R
-import com.example.twowaits.apiCalls.API
-import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.databinding.SignUpBinding
 import com.example.twowaits.repository.authRepositories.BaseRepository
 
 class SignUp : Fragment() {
     private var _binding: SignUpBinding? = null
     private val binding get() = _binding!!
-//    private lateinit var signUpViewModel: SignUpViewModel
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +29,7 @@ class SignUp : Fragment() {
             Navigation.findNavController(binding.root).navigate(R.id.action_signUp_to_login3)
         }
         binding.VerifyEmailButton.setOnClickListener {
-            val api = RetrofitClient.getInstance().create(API::class.java)
-            val repository = BaseRepository(api)
+            val repository = BaseRepository()
 
             val userEmail = binding.EnterEmail.text.toString().trim()
             if(!Login().isValidEmail(userEmail)){

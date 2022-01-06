@@ -1,19 +1,18 @@
 package com.example.twowaits.repository.authRepositories
 
 import androidx.lifecycle.MutableLiveData
-import com.example.twowaits.apiCalls.API
 import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.apiCalls.authApiCalls.SignUpResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class BaseRepository(private val api: API){
+class BaseRepository {
 
     val errorMutableLiveData = MutableLiveData<String>()
 
     fun signUp(email: String, password: String){
-        RetrofitClient.getInstance().create(API::class.java).signUp(email, password).enqueue(object : Callback<SignUpResponse?> {
+        RetrofitClient.getInstance().signUp(email, password).enqueue(object : Callback<SignUpResponse?> {
             override fun onResponse(
                 call: Call<SignUpResponse?>,
                 response: Response<SignUpResponse?>

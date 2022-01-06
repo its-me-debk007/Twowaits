@@ -1,18 +1,17 @@
 package com.example.twowaits.repository.authRepositories
 
 import androidx.lifecycle.MutableLiveData
-import com.example.twowaits.apiCalls.API
 import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.apiCalls.authApiCalls.VerifyOtpResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ResetPasswordRepository(private val api: API) {
+class ResetPasswordRepository {
     val errorMutableLiveData = MutableLiveData<String>()
 
     fun resetPassword(email: String, password: String){
-        RetrofitClient.getInstance().create(API::class.java).resetPassword(email, password).enqueue(object :
+        RetrofitClient.getInstance().resetPassword(email, password).enqueue(object :
             Callback<VerifyOtpResponse?> {
             override fun onResponse(
                 call: Call<VerifyOtpResponse?>,

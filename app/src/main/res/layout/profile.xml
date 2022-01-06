@@ -48,7 +48,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="AKGEC, Ghaziabad"
+                android:text=""
                 android:textColor="#000000"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="2nd Year | B.Tech | CSE"
+                android:text=""
                 android:textColor="#000000"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -76,18 +76,19 @@
                 android:layout_marginStart="77dp"
                 android:layout_marginTop="66dp"
                 android:src="@drawable/plus_icon"
+                android:backgroundTint="#804D37"
                 app:layout_constraintStart_toStartOf="@+id/ProfilePic"
                 app:layout_constraintTop_toTopOf="@+id/ProfilePic" />
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ProfilePic"
                 android:layout_width="113dp"
                 android:layout_height="111dp"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/google"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/circular_image_view" />
 
             <TextView
                 android:id="@+id/NameOfUser"
@@ -95,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Vishal Ahuja"
+                android:text=""
                 android:textColor="#000000"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -140,7 +141,7 @@
         android:textColor="#606060"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.451"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PremiumBadge" />
 

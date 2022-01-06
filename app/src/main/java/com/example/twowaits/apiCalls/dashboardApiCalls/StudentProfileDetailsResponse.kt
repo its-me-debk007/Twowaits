@@ -1,6 +1,6 @@
 package com.example.twowaits.apiCalls.dashboardApiCalls
 
-data class ProfileDetailsResponse(
+data class StudentProfileDetailsResponse(
     val branch: String,
     val college: String,
     val course: String,
@@ -8,6 +8,6 @@ data class ProfileDetailsResponse(
     val name: String,
     val profile_pic: String,
     val student_account_id: Int,
-    val year: String,
+    var year: String,
     val detail: String
 )
