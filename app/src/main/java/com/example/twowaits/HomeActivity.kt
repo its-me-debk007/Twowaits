@@ -1,12 +1,8 @@
 package com.example.twowaits
 
-import android.app.SearchManager
-import android.content.Context
-import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.NavController
@@ -16,6 +12,7 @@ import com.example.twowaits.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -50,11 +47,26 @@ class HomeActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.ChatIcon -> Toast.makeText(this@HomeActivity, "Look", Toast.LENGTH_SHORT).show()
-        }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when(item.itemId){
+//            R.id.ChatIcon -> Toast.makeText(this@HomeActivity, "Look", Toast.LENGTH_SHORT).show()
+//        }
 
-        return super.onOptionsItemSelected(item)
-    }
+//        return super.onOptionsItemSelected(item)
+//    }
+
+//    override fun onBackPressed() {
+//        AlertDialog.Builder(this@HomeActivity)
+//            .setTitle("Exit")
+//            .setMessage("Are you sure you want to exit?")
+//            .setIcon(R.drawable.exit_warning)
+//            .setPositiveButton("Yes", ){
+//                    _, _ -> finish()
+//            }
+//            .setNegativeButton("No"){
+//                    _, _ ->
+//            }
+//            .create()
+//            .show()
+//    }
 }

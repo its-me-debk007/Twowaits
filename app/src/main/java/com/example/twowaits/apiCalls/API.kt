@@ -1,10 +1,8 @@
 package com.example.twowaits.apiCalls
 
-import com.example.twowaits.apiCalls.authApiCalls.LoginResponse
-import com.example.twowaits.apiCalls.authApiCalls.SendOtpResponse
-import com.example.twowaits.apiCalls.authApiCalls.SignUpResponse
-import com.example.twowaits.apiCalls.authApiCalls.VerifyOtpResponse
-import com.example.twowaits.apiCalls.dashboardApiCalls.ProfileDetailsResponse
+import com.example.twowaits.apiCalls.authApiCalls.*
+import com.example.twowaits.apiCalls.dashboardApiCalls.FacultyProfileDetailsResponse
+import com.example.twowaits.apiCalls.dashboardApiCalls.StudentProfileDetailsResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -16,6 +14,13 @@ interface API {
         @Field("email")email: String,
         @Field("password")password: String
     ): Call<SignUpResponse>
+
+    @FormUrlEncoded
+    @POST("account/token/")
+    suspend fun getTokens(
+        @Field("email")email: String,
+        @Field("password")password: String
+    ): Response<GettingTokensResponse>
 
     @FormUrlEncoded
     @POST("account/send-otp/")
@@ -45,8 +50,40 @@ interface API {
     ): Call<VerifyOtpResponse>
 
     @GET("profile/")
-    fun profileDetails(
+    suspend  fun profileDetails(
         @Header("Authorization")authToken: String
-    ): Call<ProfileDetailsResponse>
+    ): Response<StudentProfileDetailsResponse>
+
+    @FormUrlEncoded
+    @PUT("profile/")
+    suspend  fun updateProfileDetails(
+        @Header("Authorization")authToken: String,
+        @Field("name")name: String,
+        @Field("college")college: String,
+        @Field("course")course: String,
+        @Field("branch")branch: String,
+        @Field("year")year: String,
+        @Field("interest")interest: String,
+    ): Response<StudentProfileDetailsResponse>
+
+    @FormUrlEncoded
+    @POST("profile/student/")
+    suspend  fun createStudentProfileDetails(
+        @Header("Authorization")authToken: String,
+        @Field("name")name: String,
+        @Field("college")college: String,
+        @Field("course")course: String,
+        @Field("branch")branch: String,
+        @Field("year")year: String,
+        @Field("interest")interest: String,
+    ): Response<StudentProfileDetailsResponse>
+
+    @FormUrlEncoded
+    @POST("profile/faculty/")
+    suspend  fun createFacultyProfileDetails(
+        @Header("Authorization")authToken: String,
+        @Field("name")name: String,
+        @Field("department")department: String,
+    ): Response<FacultyProfileDetailsResponse>
 
 }

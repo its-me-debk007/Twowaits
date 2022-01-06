@@ -7,13 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.twowaits.CompanionObjects
 import com.example.twowaits.HomeActivity
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.API
 import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.databinding.LoginBinding
 import com.example.twowaits.repository.authRepositories.LoginRepository
+import kotlinx.coroutines.launch
 
 
 class Login: Fragment() {
@@ -39,8 +42,7 @@ class Login: Fragment() {
             findNavController().navigate(R.id.action_login3_to_verifyEmail)
         }
         binding.LogInButton.setOnClickListener {
-            val api = RetrofitClient.getInstance().create(API::class.java)
-            val repository = LoginRepository(api)
+            val repository = LoginRepository()
 
             val userEmail = binding.EmailAddress.text.toString().trim()
             val userPassword = binding.Password.text.toString()
@@ -62,6 +64,9 @@ class Login: Fragment() {
             var flag = false
             repository.errorMutableLiveData.observe(viewLifecycleOwner, {
                 if (it == "success"){
+                    lifecycleScope.launch {
+                        CompanionObjects.saveLoginStatus("log_in_status", "true")
+                    }
                     val intent = Intent(activity, HomeActivity::class.java)
                     startActivity(intent)
                     activity?.finish()
@@ -72,7 +77,6 @@ class Login: Fragment() {
                     binding.Password.text?.clear()
                     binding.LogInButton.isEnabled = true
                     binding.ProgressBar.visibility = View.INVISIBLE
-//                    return@observe
                 }
             })
             if (flag)
