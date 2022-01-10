@@ -10,7 +10,7 @@
 
 
         <TextView
-            android:id="@+id/textView20"
+            android:id="@+id/YourDownloads"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView21"
+            android:id="@+id/DownloadedNotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -33,7 +33,7 @@
             android:textColor="#000000"
             android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView20" />
+            app:layout_constraintTop_toBottomOf="@+id/YourDownloads" />
 
         <TextView
             android:id="@+id/textView22"
@@ -46,9 +46,10 @@
             android:textColor="#000000"
             android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+            app:layout_constraintTop_toBottomOf="@+id/DownloadedNotesRecyclerView" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/DownloadedLecturesRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="24dp"
@@ -57,13 +58,13 @@
             app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/DownloadedNotesRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView21">
+            app:layout_constraintTop_toBottomOf="@+id/DownloadedNotes">
 
         </androidx.recyclerview.widget.RecyclerView>
     </androidx.constraintlayout.widget.ConstraintLayout>

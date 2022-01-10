@@ -19,11 +19,11 @@ import com.example.twowaits.repository.authRepositories.LoginRepository
 import kotlinx.coroutines.launch
 
 
-class Login: Fragment() {
+class Login : Fragment() {
     private var _binding: LoginBinding? = null
     private val binding get() = _binding!!
 
-    fun isValidEmail(str: String): Boolean{
+    fun isValidEmail(str: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(str).matches()
     }
 
@@ -33,12 +33,10 @@ class Login: Fragment() {
     ): View {
         _binding = LoginBinding.inflate(inflater, container, false)
 
-//        loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-
-        binding.signUpLink.setOnClickListener{
+        binding.signUpLink.setOnClickListener {
             findNavController().navigate(R.id.action_login3_to_signUp)
         }
-        binding.ForgotPassword.setOnClickListener{
+        binding.ForgotPassword.setOnClickListener {
             findNavController().navigate(R.id.action_login3_to_verifyEmail)
         }
         binding.LogInButton.setOnClickListener {
@@ -47,11 +45,11 @@ class Login: Fragment() {
             val userEmail = binding.EmailAddress.text.toString().trim()
             val userPassword = binding.Password.text.toString()
 
-            if(!isValidEmail(userEmail)){
-                binding.EmailAddress.error="Please enter a valid email"
+            if (!isValidEmail(userEmail)) {
+                binding.EmailAddress.error = "Please enter a valid email"
                 return@setOnClickListener
             }
-            if(userPassword.isEmpty()) {
+            if (userPassword.isEmpty()) {
                 binding.textInputLayout.helperText = "Please enter your Password!"
                 return@setOnClickListener
             }
@@ -63,15 +61,15 @@ class Login: Fragment() {
 
             var flag = false
             repository.errorMutableLiveData.observe(viewLifecycleOwner, {
-                if (it == "success"){
+                if (it == "success") {
+                    repository.getAuthTokens(userEmail, userPassword)
                     lifecycleScope.launch {
                         CompanionObjects.saveLoginStatus("log_in_status", "true")
                     }
                     val intent = Intent(activity, HomeActivity::class.java)
                     startActivity(intent)
                     activity?.finish()
-                }
-                else{
+                } else {
                     Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
                     flag = true
                     binding.Password.text?.clear()
@@ -89,6 +87,7 @@ class Login: Fragment() {
 //        val account = GoogleSignIn.getLastSignedInAccount(this)
         return binding.root
     }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

@@ -3,12 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".homePages.HomePage"
-    android:background="#00ff00">
+    tools:context=".homePages.HomePage">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Home Page" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
