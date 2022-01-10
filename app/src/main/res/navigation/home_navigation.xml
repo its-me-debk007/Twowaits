@@ -16,6 +16,11 @@
         android:name="com.example.twowaits.homePages.Profile"
         android:label="profile"
         tools:layout="@layout/profile" >
+        <action
+            android:id="@+id/action_profile_to_yourQuestions"
+            app:destination="@id/yourQuestions"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/explore"
@@ -28,6 +33,21 @@
         android:name="com.example.twowaits.homePages.Library"
         android:label="library"
         tools:layout="@layout/library" >
+        <action
+            android:id="@+id/action_library_to_bookmarkedQuestions"
+            app:destination="@id/bookmarkedQuestions"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_library_to_bookmarkedNotes"
+            app:destination="@id/bookmarkedNotes"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_library_to_wishlist"
+            app:destination="@id/wishlist"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/downloads"
@@ -35,4 +55,23 @@
         android:label="downloads"
         tools:layout="@layout/downloads" >
     </fragment>
+    <fragment
+        android:id="@+id/yourQuestions"
+        android:name="com.example.twowaits.homePages.YourQuestions"
+        android:label="YourQuestions"
+        tools:layout="@layout/your_questions">
+    </fragment>
+    <fragment
+        android:id="@+id/bookmarkedQuestions"
+        android:name="com.example.twowaits.homePages.BookmarkedQuestions"
+        android:label="BookmarkedQuestions"
+        tools:layout="@layout/bookmarked_questions"/>
+    <fragment
+        android:id="@+id/bookmarkedNotes"
+        android:name="com.example.twowaits.homePages.BookmarkedNotes"
+        android:label="BookmarkedNotes" />
+    <fragment
+        android:id="@+id/wishlist"
+        android:name="com.example.twowaits.homePages.Wishlist"
+        android:label="Wishlist" />
 </navigation>

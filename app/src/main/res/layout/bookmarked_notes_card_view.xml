@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -12,8 +12,13 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:cardCornerRadius="8dp"
-        app:cardElevation="40dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -32,7 +37,7 @@
                 android:textColor="#656565"
                 android:textSize="10sp"
                 app:layout_constraintStart_toEndOf="@+id/NotesImg"
-                app:layout_constraintTop_toBottomOf="@+id/textView15" />
+                app:layout_constraintTop_toBottomOf="@+id/SubjectName" />
 
             <ImageView
                 android:id="@+id/NotesImg"
@@ -44,7 +49,7 @@
                 app:srcCompat="@drawable/notes" />
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/SubjectName"
                 android:layout_width="108dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"

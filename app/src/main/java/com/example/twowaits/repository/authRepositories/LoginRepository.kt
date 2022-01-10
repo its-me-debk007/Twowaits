@@ -1,5 +1,6 @@
 package com.example.twowaits.repository.authRepositories
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.twowaits.CompanionObjects
 import com.example.twowaits.apiCalls.authApiCalls.LoginResponse
@@ -15,35 +16,28 @@ class LoginRepository {
     val errorMutableLiveData = MutableLiveData<String>()
 
     fun login(email: String, password: String){
-        RetrofitClient.getInstance().login(email, password).enqueue(object :
-            Callback<LoginResponse?> {
-            override fun onResponse(
-                call: Call<LoginResponse?>,
-                response: Response<LoginResponse?>
-            ) {
-                when {
-                    response.isSuccessful -> {
-                        errorMutableLiveData.postValue("success")
-                    }
-                    response.code() == 406 -> {
-                        errorMutableLiveData.postValue("No matching user found")
-                    }
-                    response.code() == 401 -> {
-                        errorMutableLiveData.postValue("You've entered the wrong password. Please try again!")
-                    }
+        GlobalScope.launch (Dispatchers.IO){
+            val response = RetrofitClient.getInstance().login(email, password)
+            when {
+                response.isSuccessful -> {
+                    errorMutableLiveData.postValue("success")
+                }
+                response.code() == 406 -> {
+                    errorMutableLiveData.postValue("No matching user found")
+                }
+                response.code() == 401 -> {
+                    errorMutableLiveData.postValue("You've entered the wrong password. Please try again!")
                 }
             }
-            override fun onFailure(call: Call<LoginResponse?>, t: Throwable) {
-                errorMutableLiveData.postValue(t.message)
-            }
-        })
+        }
     }
-    fun getTokens(email: String, password: String){
+    fun getAuthTokens(email: String, password: String){
         GlobalScope.launch(Dispatchers.IO) {
-            val response = RetrofitClient.getInstance().getTokens(email, password)
+            val response = RetrofitClient.getInstance().getAuthTokens(email, password)
             if (response.isSuccessful){
                 CompanionObjects.saveAccessToken("accessToken", response.body()!!.access)
                 CompanionObjects.saveRefreshToken("refreshToken", response.body()!!.refresh)
+                Log.d("ABCDE", response.body()!!.access)
             }
         }
     }
