@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.twowaits.CompanionObjects
 import com.example.twowaits.HomeActivity
 import com.example.twowaits.R
@@ -83,13 +85,17 @@ override fun onCreateView(
         repository2.errorMutableLiveData.observe(viewLifecycleOwner, {
             if (it == "success"){
                 if (CompanionObjects.PREVIOUS_PAGE == "SignUp") {
+                    timerCountDownTimer.cancel()
                     val intent = Intent(activity, HomeActivity::class.java)
                     startActivity(intent)
-                    timerCountDownTimer.cancel()
+                    activity?.finish()
                 }
                 else if (CompanionObjects.PREVIOUS_PAGE == "VerifyEmail"){
-                    Navigation.findNavController(binding.root).navigate(R.id.action_otpVerification_to_createPassword2)
                     timerCountDownTimer.cancel()
+                    binding.verify.isEnabled = true
+                    binding.ProgressBar.visibility = View.INVISIBLE
+                    binding.EnterOTP.text?.clear()
+                    findNavController().navigate(R.id.action_otpVerification_to_createPassword2)
                 }
             }
             else {
@@ -107,6 +113,18 @@ override fun onCreateView(
 //      timerCountDownTimer.cancel()
 
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (CompanionObjects.PREVIOUS_PAGE == "SignUp")
+                    findNavController().navigate(R.id.action_otpVerification_to_signUp)
+                else if (CompanionObjects.PREVIOUS_PAGE == "VerifyEmail")
+                    findNavController().navigate(R.id.action_otpVerification_to_verifyEmail)
+            }
+        })
     }
     override fun onDestroy() {
         super.onDestroy()
