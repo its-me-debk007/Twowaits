@@ -19,6 +19,11 @@
             app:destination="@id/verifyEmail"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_login_to_firstAuthPage"
+            app:destination="@id/firstAuthPage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/signUp"
@@ -40,6 +45,11 @@
             app:destination="@id/otpVerification"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_signUp_to_firstAuthPage"
+            app:destination="@id/firstAuthPage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
 
     </fragment>
     <fragment
@@ -50,6 +60,11 @@
         <action
             android:id="@+id/action_createPassword2_to_login"
             app:destination="@id/login"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_createPassword2_to_otpVerification"
+            app:destination="@id/otpVerification"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"/>
     </fragment>
@@ -68,6 +83,16 @@
             app:destination="@id/login"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_otpVerification_to_signUp"
+            app:destination="@id/signUp"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_otpVerification_to_verifyEmail"
+            app:destination="@id/verifyEmail"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/verifyEmail"
@@ -79,13 +104,16 @@
             app:destination="@id/otpVerification"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_verifyEmail_to_login"
+            app:destination="@id/login"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/firstAuthPage"
         android:name="com.example.twowaits.authPages.FirstAuthPage"
-        android:label="FirstAuthPage"
-        app:enterAnim="@android:anim/slide_in_left"
-        app:exitAnim="@android:anim/slide_out_right">
+        android:label="FirstAuthPage">
         <action
             android:id="@+id/action_firstAuthPage_to_login"
             app:destination="@id/login"

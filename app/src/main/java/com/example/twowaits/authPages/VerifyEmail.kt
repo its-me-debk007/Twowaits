@@ -6,7 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.Navigation
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import com.example.twowaits.CompanionObjects
 import com.example.twowaits.R
 import com.example.twowaits.databinding.VerifyEmailBinding
@@ -38,7 +39,10 @@ class VerifyEmail : Fragment() {
             repository.errorMutableLiveData.observe(viewLifecycleOwner, {
                 if (it == "success"){
                     CompanionObjects.PREVIOUS_PAGE = "VerifyEmail"
-                    Navigation.findNavController(binding.root).navigate(R.id.action_verifyEmail_to_otpVerification)
+                    binding.verifyButton.isEnabled = true
+                    binding.ProgressBar.visibility = View.INVISIBLE
+                    binding.emailForVerifying.text?.clear()
+                    findNavController().navigate(R.id.action_verifyEmail_to_otpVerification)
                 }
                 else{
                     Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
@@ -48,6 +52,15 @@ class VerifyEmail : Fragment() {
             })
         }
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.action_verifyEmail_to_login)
+            }
+        })
     }
     override fun onDestroy() {
         super.onDestroy()

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -86,6 +87,15 @@ class Login : Fragment() {
 //        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 //        val account = GoogleSignIn.getLastSignedInAccount(this)
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.action_login_to_firstAuthPage)
+            }
+        })
     }
 
     override fun onDestroy() {

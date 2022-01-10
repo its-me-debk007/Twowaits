@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.twowaits.CompanionObjects
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.API
@@ -81,23 +83,37 @@ class CreatePassword : Fragment() {
             }
             binding.textInputLayout.helperText = ""
 
-            // Not Using ViewModel here
             repository.resetPassword(CompanionObjects.EMAIL, binding.EnterYourPassword.text.toString())
             binding.Proceed.isEnabled = false
             binding.ProgressBar.visibility = View.VISIBLE
 
             repository.errorMutableLiveData.observe(viewLifecycleOwner, {
                 if (it == "success"){
-                    Navigation.findNavController(binding.root).navigate(R.id.action_createPassword2_to_login)
+                    binding.Proceed.isEnabled = true
+                    binding.ProgressBar.visibility = View.INVISIBLE
+                    binding.EnterYourPassword.text?.clear()
+                    binding.ConfirmYourPassword.text?.clear()
+                    findNavController().navigate(R.id.action_createPassword2_to_login)
                 }
                 else{
                     Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
                     binding.Proceed.isEnabled = true
                     binding.ProgressBar.visibility = View.INVISIBLE
+                    binding.EnterYourPassword.text?.clear()
+                    binding.ConfirmYourPassword.text?.clear()
                 }
             })
             }
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.action_createPassword2_to_otpVerification)
+            }
+        })
     }
     override fun onDestroy() {
         super.onDestroy()

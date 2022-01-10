@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.CompanionObjects
@@ -98,6 +99,13 @@ class SignUp : Fragment() {
                 if (it == "success"){
                     CompanionObjects.EMAIL = userEmail
                     CompanionObjects.PREVIOUS_PAGE = "SignUp"
+
+                    binding.EnterEmail.text?.clear()
+                    binding.password.text?.clear()
+                    binding.confirmPassword.text?.clear()
+                    binding.VerifyEmailButton.isEnabled = true
+                    binding.ProgressBar.visibility = View.INVISIBLE
+
                     findNavController().navigate(R.id.action_signUp_to_otpVerification)
                 }
                 else {
@@ -114,6 +122,16 @@ class SignUp : Fragment() {
         }
         return binding.root
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.action_signUp_to_firstAuthPage)
+            }
+        })
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
