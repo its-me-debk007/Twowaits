@@ -11,16 +11,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.twowaits.databinding.ProfileBinding
 import coil.load
+import com.example.twowaits.databinding.ProfileBinding
 import coil.transform.CircleCropTransformation
 import com.example.twowaits.CompanionObjects
-import com.example.twowaits.MainActivity
+import com.example.twowaits.AuthActivity
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.QnAResponseItem
 import com.example.twowaits.recyclerAdapters.ItemClicked
-import com.example.twowaits.recyclerAdapters.YourQuestionsRecyclerAdapter
 import com.example.twowaits.viewmodels.ProfileDetailsViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -107,7 +105,7 @@ class Profile : Fragment(), ItemClicked {
             lifecycleScope.launch {
                 CompanionObjects.saveLoginStatus("log_in_status", "false")
             }
-            val intent = Intent (context, MainActivity::class.java)
+            val intent = Intent (context, AuthActivity::class.java)
             startActivity(intent)
             activity?.finish()
         }

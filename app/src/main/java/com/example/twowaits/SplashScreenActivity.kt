@@ -34,7 +34,7 @@ class SplashScreenActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             lifecycleScope.launch {
                 val logInStatus = CompanionObjects.readLoginStatus("log_in_status")
-                val intent = if (logInStatus == "true") Intent(this@SplashScreenActivity, HomeActivity::class.java) else Intent(this@SplashScreenActivity, MainActivity::class.java)
+                val intent = if (logInStatus == "true") Intent(this@SplashScreenActivity, HomeActivity::class.java) else Intent(this@SplashScreenActivity, AuthActivity::class.java)
                 startActivity(intent)
                 finish()
             }

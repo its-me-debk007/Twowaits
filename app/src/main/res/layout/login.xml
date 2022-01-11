@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<ScrollView-->
-<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    >-->
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".authPages.Login">
 
     <TextView
@@ -150,7 +147,7 @@
         app:layout_constraintTop_toBottomOf="@+id/LogInButton" />
 
     <TextView
-        android:id="@+id/SignUpUsingGoogle"
+        android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -179,7 +176,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SignUpUsingGoogle">
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_button">
 
         <TextView
             android:id="@+id/simpleText"
@@ -207,8 +204,8 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -225,13 +222,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <!--    <com.airbnb.lottie.LottieAnimationView-->
     <!--        android:id="@+id/animationView2"-->
@@ -353,4 +343,4 @@
     <!--        app:lottie_fileName="blob2_animation.json"-->
     <!--        app:lottie_loop="true" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
-<!--</ScrollView>-->
+</ScrollView>
