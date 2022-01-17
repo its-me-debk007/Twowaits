@@ -7,5 +7,6 @@ data class CreateQuizResponse(
     val quiz_id: Int,
     val time_limit: Int,
     val title: String,
-    val detail: String
+    val detail: String,
+    val code: String
 )

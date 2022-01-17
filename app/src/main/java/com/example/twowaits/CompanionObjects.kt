@@ -12,7 +12,8 @@ class CompanionObjects {
         lateinit var PREVIOUS_PAGE: String
         var ACCESS_TOKEN = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY0NDg1MTgwOCwiaWF0IjoxNjQyMjU5ODA4LCJqdGkiOiJhYmZkYzY1ZWI2NTQ0MzYzOWEzNDMzMTQwODk2Y2FlNyIsInVzZXJfaWQiOjN9.suLx_Q6jp5viw9MP2PwEM2w5Mq2so7k24fpy2MNMLHM"
         lateinit var REFRESH_TOKEN: String
-        var QUIZ_ID = 16
+        var QUIZ_ID = 0
+        var QUESTIONS_LEFT = -1
 
         var dataStore: DataStore<Preferences>? = null
         suspend fun saveLoginStatus(key: String, value: String){

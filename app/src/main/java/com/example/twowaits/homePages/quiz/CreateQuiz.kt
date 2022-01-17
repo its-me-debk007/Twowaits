@@ -13,6 +13,7 @@ import com.example.twowaits.CompanionObjects
 import com.example.twowaits.R
 import com.example.twowaits.databinding.CreateQuizBinding
 import com.example.twowaits.viewmodels.CreateQuizViewModel
+import kotlinx.coroutines.DelicateCoroutinesApi
 
 class CreateQuiz : Fragment() {
     private var _binding: CreateQuizBinding? = null
@@ -50,13 +51,14 @@ class CreateQuiz : Fragment() {
 
             val title = binding.Title.text?.trim().toString()
             val description = "Just a quiz"
-            val noOfQuestion = binding.NoOfQuestions.text?.trim().toString()
-            val timeLimit = binding.Duration.text?.trim().toString()
-            Log.d("Details", "$title $description ${noOfQuestion.toInt()} ${timeLimit.toInt()}")
-            val authToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQyNDE4Mzc2LCJpYXQiOjE2NDIzMzE5NzYsImp0aSI6ImIzOTlmZTFjZGM2ZjQxMGY5Yzk1ZGVhMzYxOTg5NGVlIiwidXNlcl9pZCI6Nn0.JDrAQVl0A5lcTBy4Np3z4Icr3lHaUr3jZ_AbccUdL24".trim()
-            viewModel.createQuiz( title, description, noOfQuestion.toInt(), timeLimit.toInt())
+            val noOfQuestion = binding.NoOfQuestions.text?.trim().toString().toInt()
+            val timeLimit = binding.Duration.text?.trim().toString().toInt()
+            val createQuizBody = CreateQuizBody(title, description, noOfQuestion, timeLimit)
+
+            viewModel.createQuiz(createQuizBody)
             viewModel.createQuizLiveData.observe(viewLifecycleOwner, {
                 CompanionObjects.QUIZ_ID = it.quiz_id
+                CompanionObjects.QUESTIONS_LEFT = noOfQuestion
                 findNavController().navigate(R.id.action_createQuiz_to_addQuestions)
             })
             viewModel.errorLiveData.observe(viewLifecycleOwner, {

@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +20,10 @@ import com.example.twowaits.databinding.PleaseWaitDialogBinding
 import com.example.twowaits.databinding.ProfileBinding
 import com.example.twowaits.viewmodels.ProfileDetailsViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 
+@DelicateCoroutinesApi
 class Profile : Fragment() {
     private var _binding: ProfileBinding? = null
     private val binding get() = _binding!!
@@ -35,10 +36,8 @@ class Profile : Fragment() {
 
         val viewModel = ViewModelProvider(this)[ProfileDetailsViewModel::class.java]
 
-        val authToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQyNDE4Mzc2LCJpYXQiOjE2NDIzMzE5NzYsImp0aSI6ImIzOTlmZTFjZGM2ZjQxMGY5Yzk1ZGVhMzYxOTg5NGVlIiwidXNlcl9pZCI6Nn0.JDrAQVl0A5lcTBy4Np3z4Icr3lHaUr3jZ_AbccUdL24"
-
-        viewModel.profileDetails(authToken)
-        viewModel.profileLiveData.observe(viewLifecycleOwner, {
+        viewModel.profileDetailsFaculty()
+        viewModel.profileFacultyLiveData.observe(viewLifecycleOwner, {
             binding.ProfilePic.load(it.profile_pic) {
                 transformations(CircleCropTransformation())
             }
@@ -52,7 +51,7 @@ class Profile : Fragment() {
 //            binding.DetailsOfUser.text = "${it.year} | ${it.course} | ${it.branch}"
 //            binding.CollegeOfUser.text = it.college
         })
-        viewModel.errorLiveData.observe(viewLifecycleOwner, {
+        viewModel.errorFacultyLiveData.observe(viewLifecycleOwner, {
             Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
         })
 
@@ -128,11 +127,6 @@ class Profile : Fragment() {
         }
 
         return binding.root
-    }
-
-    private fun progressBarDialog() {
-
-
     }
 
     override fun onDestroy() {

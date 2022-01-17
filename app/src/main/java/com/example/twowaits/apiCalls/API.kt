@@ -5,9 +5,12 @@ import com.example.twowaits.apiCalls.dashboardApiCalls.FacultyProfileDetailsResp
 import com.example.twowaits.apiCalls.dashboardApiCalls.GetNewRefreshTokenResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.QnAResponseItem
 import com.example.twowaits.apiCalls.dashboardApiCalls.StudentProfileDetailsResponse
+import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.AddCorrectOptionResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.AddQuestionsResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.CreateQuizResponse
-import com.example.twowaits.homePages.quiz.OptionsForRetrofit
+import com.example.twowaits.homePages.quiz.AddCorrectOptionBody
+import com.example.twowaits.homePages.quiz.CreateQuestionBody
+import com.example.twowaits.homePages.quiz.CreateQuizBody
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Response
@@ -62,14 +65,13 @@ interface API {
     ): Call<VerifyOtpResponse>
 
     @GET("profile/")
-    suspend fun profileDetails(
-        @Header("Authorization") authToken: String
-    ): Response<FacultyProfileDetailsResponse>
+    suspend fun profileDetailsFaculty(): Response<FacultyProfileDetailsResponse>
 
+    @GET("profile/")
+    suspend fun profileDetailsStudent(): Response<StudentProfileDetailsResponse>
     @FormUrlEncoded
     @PUT("profile/")
     suspend fun updateProfileDetails(
-        @Header("Authorization") authToken: String,
         @Field("name") name: String,
         @Field("college") college: String,
         @Field("course") course: String,
@@ -81,7 +83,6 @@ interface API {
     @FormUrlEncoded
     @POST("profile/student/")
     suspend fun createStudentProfileDetails(
-        @Header("Authorization") authToken: String,
         @Field("name") name: String,
         @Field("college") college: String,
         @Field("course") course: String,
@@ -93,7 +94,6 @@ interface API {
     @FormUrlEncoded
     @POST("profile/faculty/")
     suspend fun createFacultyProfileDetails(
-        @Header("Authorization") authToken: String,
         @Field("name") name: String,
         @Field("department") department: String
     ): Response<FacultyProfileDetailsResponse>
@@ -108,30 +108,18 @@ interface API {
     @GET("forum/")
     suspend fun getQnA(): Response<List<QnAResponseItem>>
 
-    @FormUrlEncoded
     @POST("quiz/")
-    suspend fun createQuiz(
-        @Field("title") title: String,
-        @Field("description") description: String,
-        @Field("no_of_question") no_of_question: Int,
-        @Field("time_limit") time_limit: Int
-    ): Response<CreateQuizResponse>
+    fun createQuiz(
+        @Body createQuizBody: CreateQuizBody
+    ): Call<CreateQuizResponse>
 
-    @FormUrlEncoded
     @POST("quiz/question/")
     suspend fun createQuestion(
-        @Header("Authorization") authToken: String,
-        @Field("quiz_id") quiz_id: Int,
-        @Field("question_text") question_text: String,
-        @Field("options") options: List<OptionsForRetrofit>
+        @Body createQuestionBody: CreateQuestionBody
     ): Response<AddQuestionsResponse>
 
-    @FormUrlEncoded
-    @POST("quiz/question/")
+    @POST("quiz/question/correct/")
     suspend fun addCorrectOption(
-        @Header("Authorization") authToken: String,
-        @Field("quiz_id") quiz_id: Int,
-        @Field("question_text") question_text: String,
-        @Field("options") options: List<OptionsForRetrofit>
-    ): Response<AddQuestionsResponse>
+        @Body addCorrectOptionBody: AddCorrectOptionBody
+    ): Response<AddCorrectOptionResponse>
 }

@@ -2,26 +2,36 @@ package com.example.twowaits.viewmodels
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.twowaits.apiCalls.dashboardApiCalls.FacultyProfileDetailsResponse
-import com.example.twowaits.apiCalls.dashboardApiCalls.QnAResponseItem
 import com.example.twowaits.apiCalls.dashboardApiCalls.StudentProfileDetailsResponse
 import com.example.twowaits.repository.dashboardRepositories.ProfileRepository
-import com.example.twowaits.repository.dashboardRepositories.QnARepository
+import kotlinx.coroutines.DelicateCoroutinesApi
 
-class ProfileDetailsViewModel: ViewModel() {
+@DelicateCoroutinesApi
+class ProfileDetailsViewModel : ViewModel() {
 
-    lateinit var profileLiveData: LiveData<FacultyProfileDetailsResponse>
-    lateinit var errorLiveData: LiveData<String>
+    lateinit var profileFacultyLiveData: LiveData<FacultyProfileDetailsResponse>
+    lateinit var errorFacultyLiveData: LiveData<String>
+
+    lateinit var profileStudentLiveData: LiveData<StudentProfileDetailsResponse>
+    lateinit var errorStudentLiveData: LiveData<String>
+
     lateinit var saveRefreshTokenMutableLiveData: LiveData<String>
     lateinit var uploadImageLiveData: LiveData<String>
 
-    fun profileDetails(authToken: String) {
+    fun profileDetailsFaculty() {
         val repository = ProfileRepository()
-        repository.profileDetails(authToken)
-        profileLiveData = repository.profileLiveData
-        errorLiveData = repository.errorLiveData
+        repository.profileDetailsFaculty()
+        profileFacultyLiveData = repository.profileFacultyLiveData
+        errorFacultyLiveData = repository.errorFacultyLiveData
+    }
+
+    fun profileDetailsStudent() {
+        val repository = ProfileRepository()
+        repository.profileDetailsStudent()
+        profileStudentLiveData = repository.profileStudentLiveData
+        errorStudentLiveData = repository.errorStudentLiveData
     }
 
     fun uploadProfilePic(uri: Uri) {
@@ -30,7 +40,7 @@ class ProfileDetailsViewModel: ViewModel() {
         uploadImageLiveData = repository.uploadImageLiveData
     }
 
-    fun getNewAccessToken(refreshToken: String){
+    fun getNewAccessToken(refreshToken: String) {
         val repository = ProfileRepository()
         repository.getNewAccessToken(refreshToken)
         saveRefreshTokenMutableLiveData = repository.saveRefreshTokenLiveData

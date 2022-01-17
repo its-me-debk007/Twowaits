@@ -1,5 +1,5 @@
 package com.example.twowaits.homePages.quiz
 
-data class OptionsForRetrofit(
+data class Option(
     val option: String
 )

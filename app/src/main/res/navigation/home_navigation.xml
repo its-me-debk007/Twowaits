@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_navigation"
-    app:startDestination="@id/addQuestions">
+    app:startDestination="@id/createQuiz">
 
     <fragment
         android:id="@+id/homePage"
@@ -89,5 +89,10 @@
             app:destination="@id/createQuiz"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_addQuestions_to_addQuestions"
+            app:destination="@id/addQuestions"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
     </fragment>
 </navigation>
