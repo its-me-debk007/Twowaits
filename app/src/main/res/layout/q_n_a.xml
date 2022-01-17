@@ -74,7 +74,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/roboto_regular"
-        android:text="In microprocessor multi microcontroller work at a time means microprocessor is multitasking but in the case of microcontroller one work done at a"
+        android:text="@string/sample_long_text"
         android:textColor="#525252"
         app:trimCollapsedText="Show Less"
         app:colorClickableText="#804D37"

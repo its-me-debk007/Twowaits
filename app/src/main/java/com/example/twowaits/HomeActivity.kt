@@ -20,7 +20,6 @@ import kotlinx.coroutines.launch
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -31,14 +30,14 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navController)
 
         GlobalScope.launch {
-            CompanionObjects.accessToken = CompanionObjects.readAccessToken("accessToken").toString()
-            CompanionObjects.refreshToken = CompanionObjects.readRefreshToken("refreshToken").toString()
+            CompanionObjects.ACCESS_TOKEN = CompanionObjects.readAccessToken("accessToken").toString()
+            CompanionObjects.REFRESH_TOKEN = CompanionObjects.readRefreshToken("refreshToken").toString()
 //            Log.d("AccessToken", CompanionObjects.accessToken)
         }
 
-        if (!isConnectedToInternet()){
-            Toast.makeText(this@HomeActivity, "No Internet", Toast.LENGTH_SHORT).show()
-        }
+//        if (!isConnectedToInternet()){
+//            Toast.makeText(this@HomeActivity, "No Internet", Toast.LENGTH_SHORT).show()
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -65,22 +64,22 @@ class HomeActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun isConnectedToInternet(): Boolean{
-        var isConnected = false
-        val connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        connectivityManager.let {
-            it.getNetworkCapabilities(connectivityManager.activeNetwork)?.apply {
-                isConnected = when {
-                    hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                    hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                    else -> false
-                }
-            }
-        }
-        return isConnected
-    }
+//    @RequiresApi(Build.VERSION_CODES.M)
+//    private fun isConnectedToInternet(): Boolean{
+//        var isConnected = false
+//        val connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+//        connectivityManager.let {
+//            it.getNetworkCapabilities(connectivityManager.activeNetwork)?.apply {
+//                isConnected = when {
+//                    hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+//                    hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+//                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+//                    else -> false
+//                }
+//            }
+//        }
+//        return isConnected
+//    }
 
 //    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 //        when(item.itemId){

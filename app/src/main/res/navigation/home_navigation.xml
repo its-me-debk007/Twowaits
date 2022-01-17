@@ -3,19 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_navigation"
-    app:startDestination="@id/homePage">
+    app:startDestination="@id/addQuestions">
 
     <fragment
         android:id="@+id/homePage"
         android:name="com.example.twowaits.homePages.HomePage"
         android:label="home_page"
-        tools:layout="@layout/home_page" >
-    </fragment>
+        tools:layout="@layout/home_page"></fragment>
     <fragment
         android:id="@+id/profile"
         android:name="com.example.twowaits.homePages.Profile"
         android:label="profile"
-        tools:layout="@layout/profile" >
+        tools:layout="@layout/profile">
         <action
             android:id="@+id/action_profile_to_yourQuestions"
             app:destination="@id/yourQuestions"
@@ -26,13 +25,12 @@
         android:id="@+id/explore"
         android:name="com.example.twowaits.homePages.Ask"
         android:label="explore"
-        tools:layout="@layout/ask" >
-    </fragment>
+        tools:layout="@layout/ask"></fragment>
     <fragment
         android:id="@+id/library"
         android:name="com.example.twowaits.homePages.Library"
         android:label="library"
-        tools:layout="@layout/library" >
+        tools:layout="@layout/library">
         <action
             android:id="@+id/action_library_to_bookmarkedQuestions"
             app:destination="@id/bookmarkedQuestions"
@@ -53,19 +51,17 @@
         android:id="@+id/downloads"
         android:name="com.example.twowaits.homePages.Downloads"
         android:label="downloads"
-        tools:layout="@layout/downloads" >
-    </fragment>
+        tools:layout="@layout/downloads"></fragment>
     <fragment
         android:id="@+id/yourQuestions"
         android:name="com.example.twowaits.homePages.YourQuestions"
         android:label="YourQuestions"
-        tools:layout="@layout/your_questions">
-    </fragment>
+        tools:layout="@layout/your_questions"></fragment>
     <fragment
         android:id="@+id/bookmarkedQuestions"
         android:name="com.example.twowaits.homePages.BookmarkedQuestions"
         android:label="BookmarkedQuestions"
-        tools:layout="@layout/bookmarked_questions"/>
+        tools:layout="@layout/bookmarked_questions" />
     <fragment
         android:id="@+id/bookmarkedNotes"
         android:name="com.example.twowaits.homePages.BookmarkedNotes"
@@ -74,4 +70,24 @@
         android:id="@+id/wishlist"
         android:name="com.example.twowaits.homePages.Wishlist"
         android:label="Wishlist" />
+    <fragment
+        android:id="@+id/createQuiz"
+        android:name="com.example.twowaits.homePages.quiz.CreateQuiz"
+        android:label="CreateQuiz" >
+        <action
+            android:id="@+id/action_createQuiz_to_addQuestions"
+            app:destination="@id/addQuestions"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/addQuestions"
+        android:name="com.example.twowaits.homePages.quiz.AddQuestions"
+        android:label="AddQuestions" >
+        <action
+            android:id="@+id/action_addQuestions_to_createQuiz"
+            app:destination="@id/createQuiz"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
 </navigation>

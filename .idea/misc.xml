@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Twowaits/app/src/main/res/drawable/add_questions_button_radius.xml" value="0.26458333333333334" />
+        <entry key="..\:/Twowaits/app/src/main/res/drawable/auth_horizontal_line.xml" value="0.26458333333333334" />
         <entry key="..\:/Twowaits/app/src/main/res/drawable/bookmark_button_state.xml" value="0.3927083333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/drawable/bookmark_icon_active.xml" value="0.3927083333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/drawable/button_border.xml" value="0.28020833333333334" />
@@ -21,21 +23,28 @@
         <entry key="..\:/Twowaits/app/src/main/res/drawable/questions_separator_for_recycler_view.xml" value="0.3927083333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/activity_home.xml" value="0.22864583333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/activity_main.xml" value="0.17777777777777778" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/add_questions.xml" value="0.264" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/ask.xml" value="0.2640625" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/bookmarked_notes.xml" value="0.30913978494623656" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/bookmarked_notes_card_view.xml" value="0.43079584775086505" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/bookmarked_questions.xml" value="0.1" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/card_view.xml" value="0.536" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/create_password.xml" value="0.264" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/create_quiz.xml" value="0.264" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/downloaded_lectures.xml" value="0.2484375" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/downloaded_notes.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/downloads.xml" value="0.264" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/dropdown_item.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/explore.xml" value="0.22864583333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/first_auth_page.xml" value="0.264" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/home_page.xml" value="0.22864583333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/library.xml" value="0.264" />
-        <entry key="..\:/Twowaits/app/src/main/res/layout/login.xml" value="0.176" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/login.xml" value="0.264" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/options.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/otp_verfication.xml" value="0.22864583333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/otp_verification.xml" value="0.2" />
-        <entry key="..\:/Twowaits/app/src/main/res/layout/profile.xml" value="0.1" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/please_wait_dialog.xml" value="0.264" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/profile.xml" value="0.264" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/q_n_a.xml" value="0.3765625" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/questions_and_answers.xml" value="0.2640625" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/sign_up.xml" value="0.2" />
@@ -44,7 +53,7 @@
         <entry key="..\:/Twowaits/app/src/main/res/layout/verify_email.xml" value="0.22864583333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/wishlist.xml" value="0.30913978494623656" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/wishlist_card_view.xml" value="0.536" />
-        <entry key="..\:/Twowaits/app/src/main/res/layout/your_questions.xml" value="0.3765625" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/your_questions.xml" value="0.29064039408866993" />
         <entry key="..\:/Twowaits/app/src/main/res/menu/bottom_menu.xml" value="0.17777777777777778" />
         <entry key="..\:/Twowaits/app/src/main/res/menu/toolbar_menu.xml" value="0.2640625" />
       </map>

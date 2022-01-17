@@ -1,7 +1,10 @@
 package com.example.twowaits.viewmodels
 
+import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.twowaits.apiCalls.dashboardApiCalls.FacultyProfileDetailsResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.QnAResponseItem
 import com.example.twowaits.apiCalls.dashboardApiCalls.StudentProfileDetailsResponse
 import com.example.twowaits.repository.dashboardRepositories.ProfileRepository
@@ -9,30 +12,27 @@ import com.example.twowaits.repository.dashboardRepositories.QnARepository
 
 class ProfileDetailsViewModel: ViewModel() {
 
-    val repository = ProfileRepository()
-    var profileMutableLiveData = MutableLiveData<StudentProfileDetailsResponse>()
-    var errorMutableLiveData = MutableLiveData<String>()
-    var q_n_aMutableLiveData = MutableLiveData<List<QnAResponseItem>>()
-    var saveRefreshTokenMutableLiveData = MutableLiveData<String>()
+    lateinit var profileLiveData: LiveData<FacultyProfileDetailsResponse>
+    lateinit var errorLiveData: LiveData<String>
+    lateinit var saveRefreshTokenMutableLiveData: LiveData<String>
+    lateinit var uploadImageLiveData: LiveData<String>
 
     fun profileDetails(authToken: String) {
+        val repository = ProfileRepository()
         repository.profileDetails(authToken)
-        profileMutableLiveData = repository.profileMutableLiveData
-        errorMutableLiveData = repository.errorMutableLiveData
+        profileLiveData = repository.profileLiveData
+        errorLiveData = repository.errorLiveData
     }
 
-    fun uploadProfilePic() {
-//        repository.uploadProfilePic()
+    fun uploadProfilePic(uri: Uri) {
+        val repository = ProfileRepository()
+        repository.uploadProfilePic(uri)
+        uploadImageLiveData = repository.uploadImageLiveData
     }
-
-    fun getQnA(){
-        val q_n_a_repository = QnARepository()
-        q_n_a_repository.getQnA()
-        q_n_aMutableLiveData = q_n_a_repository.q_n_aMutableLiveData
-        }
 
     fun getNewAccessToken(refreshToken: String){
+        val repository = ProfileRepository()
         repository.getNewAccessToken(refreshToken)
-        saveRefreshTokenMutableLiveData = repository.saveRefreshTokenMutableLiveData
+        saveRefreshTokenMutableLiveData = repository.saveRefreshTokenLiveData
     }
 }

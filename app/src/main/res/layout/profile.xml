@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".homePages.Profile">
 
     <androidx.cardview.widget.CardView
@@ -86,6 +86,7 @@
                 android:layout_height="111dp"
                 android:layout_marginTop="16dp"
                 android:scaleType="centerCrop"
+                app:srcCompat="@drawable/google"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -154,21 +155,6 @@
         app:layout_constraintEnd_toStartOf="@+id/TwoWaitsPremium"
         app:layout_constraintTop_toBottomOf="@+id/ProfileCardView"
         app:srcCompat="@drawable/premium_ribbon" />
-
-    <TextView
-        android:id="@+id/Logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="@font/rockwell"
-        android:text="Logout"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ProfileQnA_RecyclerView" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/PriceConstraintLayout"
@@ -302,35 +288,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PriceConstraintLayout" />
 
-    <TextView
-        android:id="@+id/YourQuestions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Your Questions"
-        android:textColor="#000000"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BuyNowBtn" />
-
-    <ImageView
-        android:id="@+id/MoreYourQuestions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="24dp"
-        android:src="@drawable/greater_than_arrow"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BuyNowBtn" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ProfileQnA_RecyclerView"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/TabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/YourQuestions" />
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/BuyNowBtn"
+        app:tabIndicatorColor="#804D37"
+        app:tabSelectedTextColor="#804D37"
+        app:tabTextColor="#000000"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ScrollView
+        android:id="@+id/ScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TabLayout">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ScrollView" />
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/Logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/rockwell"
+        android:text="Logout"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ScrollView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

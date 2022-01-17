@@ -23,15 +23,7 @@ class BookmarkedNotes: Fragment() {
     ): View? {
         _binding = BookmarkedNotesBinding.inflate(inflater, container, false)
 
-//        val repository = QnARepository()
-//        repository.getQnA()
-//        repository.q_n_aMutableLiveData.observe(viewLifecycleOwner, {
-            binding.BookmarkedNotesRecyclerView.adapter = BookmarkedNotesRecyclerAdapter(7)
-            binding.BookmarkedNotesRecyclerView.layoutManager = LinearLayoutManager(container?.context)
-//        })
-//        repository.errorMutableLiveData.observe(viewLifecycleOwner, {
-//            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-//        })
+
 
         return binding.root
     }
