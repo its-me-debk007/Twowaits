@@ -6,16 +6,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
     fun getInstance(): API {
-        val baseUrl = "http://3.109.121.225/"
+        val baseUrl = "http://3.110.33.189/"
 
-//        val okHttpClient = OkHttpClient.Builder()
-//            .addInterceptor(networkInterceptor)
-//            .build()
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(TokenInterceptor())
+            .build()
 
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(OkHttpClient.Builder().build())
+            .client(okHttpClient)
             .build()
             .create(API::class.java)
     }

@@ -1,48 +1,97 @@
 package com.example.twowaits.repository.dashboardRepositories
 
 import android.net.Uri
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.twowaits.apiCalls.RetrofitClient
+import com.example.twowaits.apiCalls.dashboardApiCalls.FacultyProfileDetailsResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.StudentProfileDetailsResponse
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
+@DelicateCoroutinesApi
 class ProfileRepository {
-    val profileMutableLiveData = MutableLiveData<StudentProfileDetailsResponse>()
-    val errorMutableLiveData = MutableLiveData<String>()
-    val saveRefreshTokenMutableLiveData = MutableLiveData<String>()
+    private val profileFacultyMutableLiveData = MutableLiveData<FacultyProfileDetailsResponse>()
+    val profileFacultyLiveData: LiveData<FacultyProfileDetailsResponse> =
+        profileFacultyMutableLiveData
 
-    fun profileDetails(authToken: String) {
+    private val profileStudentMutableLiveData = MutableLiveData<StudentProfileDetailsResponse>()
+    val profileStudentLiveData: LiveData<StudentProfileDetailsResponse> =
+        profileStudentMutableLiveData
 
+    private val errorFacultyMutableLiveData = MutableLiveData<String>()
+    val errorFacultyLiveData: LiveData<String> = errorFacultyMutableLiveData
+
+    private val errorStudentMutableLiveData = MutableLiveData<String>()
+    val errorStudentLiveData: LiveData<String> = errorStudentMutableLiveData
+
+    private val saveRefreshTokenMutableLiveData = MutableLiveData<String>()
+    val saveRefreshTokenLiveData: LiveData<String> = saveRefreshTokenMutableLiveData
+
+    private val uploadImageMutableLiveData = MutableLiveData<String>()
+    val uploadImageLiveData: LiveData<String> = uploadImageMutableLiveData
+
+    fun profileDetailsFaculty() {
         GlobalScope.launch(Dispatchers.IO) {
-            val response = RetrofitClient.getInstance().profileDetails(authToken)
+            val response = RetrofitClient.getInstance().profileDetailsFaculty()
             when {
                 response.isSuccessful -> {
-                    profileMutableLiveData.postValue(response.body())
+                    profileFacultyMutableLiveData.postValue(response.body())
                 }
                 response.code() == 400 -> {
-                    errorMutableLiveData.postValue("Token has Expired")
+                    errorFacultyMutableLiveData.postValue("Token has Expired")
                 }
                 else -> {
-                    errorMutableLiveData.postValue("Error code is ${response.code()}\n${response.body()?.detail}")
+                    errorFacultyMutableLiveData.postValue("Error code is ${response.code()}")
+                }
+            }
+        }
+    }
+
+    fun profileDetailsStudent() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val response = RetrofitClient.getInstance().profileDetailsStudent()
+            when {
+                response.isSuccessful -> {
+                    profileStudentMutableLiveData.postValue(response.body())
+                }
+                response.code() == 400 -> {
+                    errorStudentMutableLiveData.postValue("Token has Expired")
+                }
+                else -> {
+                    errorStudentMutableLiveData.postValue("Error code is ${response.code()}")
                 }
             }
         }
     }
 
     fun uploadProfilePic(uri: Uri) {
-//        val requestUserId = RequestBody.create(MediaType.parse("multipart/form-data"), userId);
-//        val requestImage: MultipartBody.Part? = null;
+        val storageRef = Firebase.storage.reference
+        val imageRef = storageRef.child("sample.jpg")
+        imageRef.putFile(uri)
+            .addOnSuccessListener {
+                uploadImageMutableLiveData.postValue("Uploaded")
+                imageRef.downloadUrl
+                    .addOnSuccessListener {
+                        Log.d("URI", it.toString())
+                    }
+            }
+            .addOnFailureListener {
+                uploadImageMutableLiveData.postValue(it.message)
+            }
     }
 
-    fun getNewAccessToken(refreshToken: String){
-
-        GlobalScope.launch (Dispatchers.IO){
+    fun getNewAccessToken(refreshToken: String) {
+        GlobalScope.launch(Dispatchers.IO) {
             val response = RetrofitClient.getInstance().getNewAccessToken(refreshToken)
-            if (response.isSuccessful){
+            if (response.isSuccessful) {
                 saveRefreshTokenMutableLiveData.postValue(response.body()?.access)
-            } else{
+            } else {
                 saveRefreshTokenMutableLiveData.postValue("Error")
             }
         }

@@ -22,15 +22,7 @@ class BookmarkedQuestions: Fragment() {
     ): View? {
         _binding = BookmarkedQuestionsBinding.inflate(inflater, container, false)
 
-//        val repository = QnARepository()
-//        repository.getQnA()
-//        repository.q_n_aMutableLiveData.observe(viewLifecycleOwner, {
-//            binding.BookmarkedQuestionsRecyclerView.adapter = YourQuestionsRecyclerAdapter(it, it.size)
-//            binding.BookmarkedQuestionsRecyclerView.layoutManager = LinearLayoutManager(container?.context)
-//        })
-//        repository.errorMutableLiveData.observe(viewLifecycleOwner, {
-//            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-//        })
+
 
         return binding.root
     }

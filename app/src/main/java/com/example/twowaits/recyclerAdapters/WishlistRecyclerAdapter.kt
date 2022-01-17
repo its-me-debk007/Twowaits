@@ -11,13 +11,13 @@ class WishlistRecyclerAdapter (private val size: Int): RecyclerView.Adapter<Wish
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): WishlistRecyclerAdapter.WishlistViewHolder {
+    ): WishlistViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.wishlist_card_view, parent, false)
-        return WishlistRecyclerAdapter.WishlistViewHolder(view)
+        return WishlistViewHolder(view)
     }
 
     override fun onBindViewHolder(
-        holder: WishlistRecyclerAdapter.WishlistViewHolder,
+        holder: WishlistViewHolder,
         position: Int
     ) {
     }

@@ -5,10 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twowaits.databinding.DownloadsBinding
-import com.example.twowaits.recyclerAdapters.DownloadedLecturesRecyclerAdapter
-import com.example.twowaits.recyclerAdapters.DownloadedNotesRecyclerAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 
 class Downloads : Fragment() {
     private var _binding: DownloadsBinding? = null
@@ -20,11 +18,20 @@ class Downloads : Fragment() {
     ): View {
         _binding = DownloadsBinding.inflate(inflater, container, false)
 
-        binding.DownloadedNotesRecyclerView.adapter = DownloadedNotesRecyclerAdapter()
-        binding.DownloadedNotesRecyclerView.layoutManager = LinearLayoutManager(container?.context)
+//        binding.DownloadedNotesRecyclerView.adapter = DownloadedNotesRecyclerAdapter()
+//        binding.DownloadedNotesRecyclerView.layoutManager = LinearLayoutManager(container?.context)
 
-        binding.DownloadedLecturesRecyclerView.adapter = DownloadedLecturesRecyclerAdapter()
-        binding.DownloadedLecturesRecyclerView.layoutManager = LinearLayoutManager(container?.context)
+//        binding.DownloadedLecturesRecyclerView.adapter = DownloadedLecturesRecyclerAdapter()
+//        binding.DownloadedLecturesRecyclerView.layoutManager = LinearLayoutManager(container?.context)
+
+        val viewPagerAdapter = DownloadsViewPagerAdapter(childFragmentManager, lifecycle)
+        binding.viewPager2.adapter = viewPagerAdapter
+        TabLayoutMediator(binding.TabLayout, binding.viewPager2){tab, position ->
+            when (position){
+                0 -> tab.text = "Notes"
+                1 -> tab.text = "Lectures"
+            }
+        }.attach()
 
         return binding.root
     }

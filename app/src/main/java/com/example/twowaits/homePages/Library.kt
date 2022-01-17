@@ -12,6 +12,7 @@ import com.example.twowaits.databinding.LibraryBinding
 import com.example.twowaits.recyclerAdapters.BookmarkedNotesRecyclerAdapter
 import com.example.twowaits.recyclerAdapters.WishlistRecyclerAdapter
 import com.example.twowaits.recyclerAdapters.YourQuestionsRecyclerAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 
 class Library : Fragment() {
     private var _binding: LibraryBinding? = null
@@ -23,38 +24,14 @@ class Library : Fragment() {
     ): View? {
         _binding = LibraryBinding.inflate(inflater, container, false)
 
-//        binding.BookmarkedQuestionsRecyclerView.adapter = YourQuestionsRecyclerAdapter()
-//        binding.BookmarkedQuestionsRecyclerView.layoutManager = LinearLayoutManager(container?.context)
-
-        binding.BookmarkedNotesRecyclerView.adapter = BookmarkedNotesRecyclerAdapter(4)
-        binding.BookmarkedNotesRecyclerView.layoutManager = LinearLayoutManager(container?.context, LinearLayoutManager.HORIZONTAL, false)
-
-        binding.WishlistRecyclerView.adapter = WishlistRecyclerAdapter(4)
-        binding.WishlistRecyclerView.layoutManager = LinearLayoutManager(container?.context, LinearLayoutManager.HORIZONTAL, false)
-
-        binding.SubHeading1.setOnClickListener {
-            findNavController().navigate(R.id.action_library_to_bookmarkedQuestions)
-        }
-
-        binding.MoreBookmarkedQuestions.setOnClickListener {
-            findNavController().navigate(R.id.action_library_to_bookmarkedQuestions)
-        }
-
-        binding.SubHeading2.setOnClickListener {
-            findNavController().navigate(R.id.action_library_to_bookmarkedNotes)
-        }
-
-        binding.MoreBookmarkedNotes.setOnClickListener {
-            findNavController().navigate(R.id.action_library_to_bookmarkedNotes)
-        }
-
-        binding.SubHeading3.setOnClickListener {
-            findNavController().navigate(R.id.action_library_to_wishlist)
-        }
-
-        binding.MoreWishlistContents.setOnClickListener {
-            findNavController().navigate(R.id.action_library_to_wishlist)
-        }
+        val viewPagerAdapter = LibraryViewPagerAdapter(childFragmentManager, lifecycle)
+        binding.LibraryViewPager.adapter = viewPagerAdapter
+        TabLayoutMediator(binding.TabLayout, binding.LibraryViewPager){tab, position ->
+            when (position){
+                0 -> tab.text = "Q & A’s"
+                1 -> tab.text = "Notes"
+            }
+        }.attach()
 
         return binding.root
     }

@@ -29,7 +29,7 @@ class SignUp : Fragment() {
         binding.loginLink.setOnClickListener{
             Navigation.findNavController(binding.root).navigate(R.id.action_signUp_to_login3)
         }
-        binding.VerifyEmailButton.setOnClickListener {
+        binding.SignUpButton.setOnClickListener {
             val repository = BaseRepository()
 
             val userEmail = binding.EnterEmail.text.toString().trim()
@@ -91,7 +91,7 @@ class SignUp : Fragment() {
             }
             binding.textInputLayout3.helperText = ""
             repository.signUp(userEmail, binding.confirmPassword.text.toString())
-            binding.VerifyEmailButton.isEnabled = false
+            binding.SignUpButton.isEnabled = false
             binding.ProgressBar.visibility = View.VISIBLE
 
             var flag = false
@@ -103,7 +103,7 @@ class SignUp : Fragment() {
                     binding.EnterEmail.text?.clear()
                     binding.password.text?.clear()
                     binding.confirmPassword.text?.clear()
-                    binding.VerifyEmailButton.isEnabled = true
+                    binding.SignUpButton.isEnabled = true
                     binding.ProgressBar.visibility = View.INVISIBLE
 
                     findNavController().navigate(R.id.action_signUp_to_otpVerification)
@@ -112,7 +112,7 @@ class SignUp : Fragment() {
                     Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
                     binding.password.text?.clear()
                     binding.confirmPassword.text?.clear()
-                    binding.VerifyEmailButton.isEnabled = true
+                    binding.SignUpButton.isEnabled = true
                     binding.ProgressBar.visibility = View.INVISIBLE
                     flag = true
                 }
