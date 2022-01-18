@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_navigation"
-    app:startDestination="@id/createQuiz">
+    app:startDestination="@id/quiz">
 
     <fragment
         android:id="@+id/homePage"
         android:name="com.example.twowaits.homePages.HomePage"
         android:label="home_page"
-        tools:layout="@layout/home_page"></fragment>
+        tools:layout="@layout/home_page">
+
+    </fragment>
     <fragment
         android:id="@+id/profile"
         android:name="com.example.twowaits.homePages.Profile"
@@ -25,7 +27,9 @@
         android:id="@+id/explore"
         android:name="com.example.twowaits.homePages.Ask"
         android:label="explore"
-        tools:layout="@layout/ask"></fragment>
+        tools:layout="@layout/ask">
+
+    </fragment>
     <fragment
         android:id="@+id/library"
         android:name="com.example.twowaits.homePages.Library"
@@ -73,7 +77,7 @@
     <fragment
         android:id="@+id/createQuiz"
         android:name="com.example.twowaits.homePages.quiz.CreateQuiz"
-        android:label="CreateQuiz" >
+        android:label="CreateQuiz">
         <action
             android:id="@+id/action_createQuiz_to_addQuestions"
             app:destination="@id/addQuestions"
@@ -83,7 +87,7 @@
     <fragment
         android:id="@+id/addQuestions"
         android:name="com.example.twowaits.homePages.quiz.AddQuestions"
-        android:label="AddQuestions" >
+        android:label="AddQuestions">
         <action
             android:id="@+id/action_addQuestions_to_createQuiz"
             app:destination="@id/createQuiz"
@@ -93,6 +97,31 @@
             android:id="@+id/action_addQuestions_to_addQuestions"
             app:destination="@id/addQuestions"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"/>
+            app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/quiz"
+        android:name="com.example.twowaits.homePages.quiz.Quiz"
+        android:label="Quiz">
+        <action
+            android:id="@+id/action_quiz_self"
+            app:destination="@id/quiz"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_quiz_self2"
+            app:destination="@id/quiz"
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_quiz_to_quizResult"
+            app:destination="@id/quizResult"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizResult"
+        android:name="com.example.twowaits.homePages.quiz.QuizResult"
+        android:label="quiz_result"
+        tools:layout="@layout/quiz_result" />
 </navigation>

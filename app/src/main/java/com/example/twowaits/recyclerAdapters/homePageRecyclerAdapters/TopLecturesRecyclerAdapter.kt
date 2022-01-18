@@ -1,4 +1,4 @@
-package com.example.twowaits.recyclerAdapters
+package com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,26 +8,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twowaits.R
 
-class WishlistRecyclerAdapter (private val size: Int): RecyclerView.Adapter<WishlistRecyclerAdapter.WishlistViewHolder>() {
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): WishlistViewHolder {
+class TopLecturesRecyclerAdapter: RecyclerView.Adapter<TopLecturesRecyclerAdapter.TopLecturesViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopLecturesViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.wishlist_card_view, parent, false)
-        return WishlistViewHolder(view)
+        return TopLecturesViewHolder(view)
     }
 
-    override fun onBindViewHolder(
-        holder: WishlistViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: TopLecturesViewHolder, position: Int) {
+
     }
 
     override fun getItemCount(): Int {
-        return size
+        return 5
     }
 
-    class WishlistViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    class TopLecturesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val nameOfLecture: TextView = itemView.findViewById<TextView>(R.id.NameOfLecture)
         val lectureDetails: TextView = itemView.findViewById(R.id.LectureDetails)
         val creator: TextView = itemView.findViewById(R.id.Creator)

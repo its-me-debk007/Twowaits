@@ -23,6 +23,6 @@ class BookmarkedNotesRecyclerAdapter (private val size: Int): RecyclerView.Adapt
     }
 
     class BookmarkedNotesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){  //Nested Class
-        val answerer: TextView = itemView.findViewById<TextView>(R.id.SubjectName)
+        val subjectName: TextView = itemView.findViewById(R.id.SubjectName)
     }
 }
