@@ -1,9 +1,13 @@
 package com.example.twowaits
 
+import android.os.CountDownTimer
 import androidx.datastore.DataStore
 import androidx.datastore.preferences.Preferences
 import androidx.datastore.preferences.edit
 import androidx.datastore.preferences.preferencesKey
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.GetQuizDataResponse
 import kotlinx.coroutines.flow.first
 
 class CompanionObjects {
@@ -14,6 +18,11 @@ class CompanionObjects {
         lateinit var REFRESH_TOKEN: String
         var QUIZ_ID = 0
         var QUESTIONS_LEFT = -1
+        var CURRENT_QUESTION = 0
+        var FIRST_TIME = true
+        lateinit var QUIZ_DATA: GetQuizDataResponse
+        var QUIZ_RESULT_ID = 0
+        var CHOSEN_OPTION: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
 
         var dataStore: DataStore<Preferences>? = null
         suspend fun saveLoginStatus(key: String, value: String){
@@ -82,6 +91,26 @@ class CompanionObjects {
                 }
             }
             return "Answered at $hour:$minutes $meridian, $day $monthName"
+        }
+
+        lateinit var timerCountDownTimer: CountDownTimer
+
+        private val timeLeftData = MutableLiveData<Long>()
+        val timeLeftLiveData: LiveData<Long> = timeLeftData
+
+        private val timeFinishedData = MutableLiveData<Boolean>()
+        val timeFinishedLiveData: LiveData<Boolean> = timeFinishedData
+
+        fun startTimer(time_limit: Int ) {
+            timerCountDownTimer = object : CountDownTimer((time_limit * 60 * 1000).toLong(), 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    val timeLeft = millisUntilFinished / 1000
+                    timeLeftData.postValue(timeLeft)
+                }
+                override fun onFinish() {
+                    timeFinishedData.postValue(false)
+                }
+            }.start()
         }
     }
 }

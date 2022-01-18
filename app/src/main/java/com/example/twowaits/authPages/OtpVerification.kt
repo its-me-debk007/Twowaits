@@ -23,7 +23,7 @@ class OtpVerification : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var timerCountDownTimer: CountDownTimer
-    var timerOnStatus: Boolean = true
+    private var timerOnStatus: Boolean = true
 
 override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

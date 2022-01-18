@@ -5,10 +5,9 @@ import com.example.twowaits.apiCalls.dashboardApiCalls.FacultyProfileDetailsResp
 import com.example.twowaits.apiCalls.dashboardApiCalls.GetNewRefreshTokenResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.QnAResponseItem
 import com.example.twowaits.apiCalls.dashboardApiCalls.StudentProfileDetailsResponse
-import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.AddCorrectOptionResponse
-import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.AddQuestionsResponse
-import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.CreateQuizResponse
+import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.*
 import com.example.twowaits.homePages.quiz.AddCorrectOptionBody
+import com.example.twowaits.homePages.quiz.AttemptQuizBody
 import com.example.twowaits.homePages.quiz.CreateQuestionBody
 import com.example.twowaits.homePages.quiz.CreateQuizBody
 import okhttp3.MultipartBody
@@ -122,4 +121,24 @@ interface API {
     suspend fun addCorrectOption(
         @Body addCorrectOptionBody: AddCorrectOptionBody
     ): Response<AddCorrectOptionResponse>
+
+    @POST("quiz/results/data/")
+    suspend fun getQuizData(
+        @Body attemptQuizBody: AttemptQuizBody
+    ): Response<GetQuizDataResponse>
+
+    @POST("quiz/results/attempt/")
+    suspend fun attemptQuiz(
+        @Body attemptQuizBody: AttemptQuizBody
+    ): Response<AttemptQuizResponse>
+
+    @POST("quiz/results/answer/")
+    suspend fun registerResponse(
+        @Body registerResponseBody: RegisterResponseBody
+    ): Response<RegisterOptionsResponse>
+
+    @POST("quiz/results/submit/")
+    suspend fun viewScore(
+        @Body attemptQuizBody: AttemptQuizBody
+    ): Response<ViewScoreResponse>
 }

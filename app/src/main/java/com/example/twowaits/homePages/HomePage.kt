@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twowaits.R
 import com.example.twowaits.databinding.HomePageBinding
+import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.*
 
 class HomePage : Fragment() {
     private var _binding: HomePageBinding? = null
@@ -21,12 +23,20 @@ class HomePage : Fragment() {
     ): View? {
         _binding = HomePageBinding.inflate(inflater, container, false)
 
-//        val callback = object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                exitConfirmation()
-//            }
-//        }
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+        binding.TopNotesRecyclerView.adapter = TopNotesRecyclerAdapter()
+        binding.TopNotesRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        binding.TopLecturesRecyclerView.adapter = TopLecturesRecyclerAdapter()
+        binding.TopLecturesRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        binding.QuizzesRecyclerView.adapter = QuizzesRecyclerAdapter()
+        binding.QuizzesRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        binding.QnARecyclerView.adapter = QnARecyclerAdapter()
+        binding.QnARecyclerView.layoutManager = LinearLayoutManager(context)
+
+        binding.StudentSuggestionRecyclerView.adapter = StudentsSuggestionRecyclerAdapter()
+        binding.StudentSuggestionRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         return binding.root
     }
