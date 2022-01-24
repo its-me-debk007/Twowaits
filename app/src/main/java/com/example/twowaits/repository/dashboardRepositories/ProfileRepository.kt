@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.apiCalls.dashboardApiCalls.FacultyProfileDetailsResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.StudentProfileDetailsResponse
+import com.example.twowaits.homePages.UpdateProfileDetailsBody
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -21,8 +22,7 @@ class ProfileRepository {
         profileFacultyMutableLiveData
 
     private val profileStudentMutableLiveData = MutableLiveData<StudentProfileDetailsResponse>()
-    val profileStudentLiveData: LiveData<StudentProfileDetailsResponse> =
-        profileStudentMutableLiveData
+    val profileStudentLiveData: LiveData<StudentProfileDetailsResponse> = profileStudentMutableLiveData
 
     private val errorFacultyMutableLiveData = MutableLiveData<String>()
     val errorFacultyLiveData: LiveData<String> = errorFacultyMutableLiveData
@@ -36,6 +36,12 @@ class ProfileRepository {
     private val uploadImageMutableLiveData = MutableLiveData<String>()
     val uploadImageLiveData: LiveData<String> = uploadImageMutableLiveData
 
+    private val updateProfileDetailsData = MutableLiveData<StudentProfileDetailsResponse>()
+    val updateProfileDetailsLiveData: LiveData<StudentProfileDetailsResponse> = updateProfileDetailsData
+
+    private val errorUpdateProfileDetailsData = MutableLiveData<String>()
+    val errorUpdateProfileDetailsLiveData: LiveData<String> = errorUpdateProfileDetailsData
+
     fun profileDetailsFaculty() {
         GlobalScope.launch(Dispatchers.IO) {
             val response = RetrofitClient.getInstance().profileDetailsFaculty()
@@ -47,7 +53,7 @@ class ProfileRepository {
                     errorFacultyMutableLiveData.postValue("Token has Expired")
                 }
                 else -> {
-                    errorFacultyMutableLiveData.postValue("Error code is ${response.code()}")
+                    errorFacultyMutableLiveData.postValue("Error code is ${response.code()}\n${response.message()}")
                 }
             }
         }
@@ -70,20 +76,38 @@ class ProfileRepository {
         }
     }
 
-    fun uploadProfilePic(uri: Uri) {
-        val storageRef = Firebase.storage.reference
-        val imageRef = storageRef.child("sample.jpg")
+    fun uploadProfilePic(uri: Uri, student_account_id: Int) {
+        val imageRef = Firebase.storage.reference.child("${student_account_id}.jpg")
         imageRef.putFile(uri)
             .addOnSuccessListener {
-                uploadImageMutableLiveData.postValue("Uploaded")
                 imageRef.downloadUrl
                     .addOnSuccessListener {
-                        Log.d("URI", it.toString())
+                        uploadImageMutableLiveData.postValue("Uploaded $it")
+                    }
+                    .addOnFailureListener {
+                        uploadImageMutableLiveData.postValue(it.message)
                     }
             }
             .addOnFailureListener {
                 uploadImageMutableLiveData.postValue(it.message)
             }
+    }
+
+    fun updateProfileDetails(updateProfileDetailsBody: UpdateProfileDetailsBody) {
+        GlobalScope.launch(Dispatchers.IO) {
+            val response = RetrofitClient.getInstance().updateProfileDetails(updateProfileDetailsBody)
+            when {
+                response.isSuccessful -> {
+                    updateProfileDetailsData.postValue(response.body())
+                }
+                response.code() == 400 -> {
+                    errorUpdateProfileDetailsData.postValue("Token has Expired")
+                }
+                else -> {
+                    errorUpdateProfileDetailsData.postValue("Error code is ${response.code()}")
+                }
+            }
+        }
     }
 
     fun getNewAccessToken(refreshToken: String) {

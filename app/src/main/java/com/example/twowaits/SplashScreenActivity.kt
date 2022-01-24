@@ -9,8 +9,10 @@ import android.view.View
 import androidx.datastore.preferences.createDataStore
 import androidx.lifecycle.lifecycleScope
 import com.example.twowaits.databinding.SplashScreenBinding
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 
+@DelicateCoroutinesApi
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding: SplashScreenBinding
 
@@ -34,7 +36,7 @@ class SplashScreenActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             lifecycleScope.launch {
                 val logInStatus = CompanionObjects.readLoginStatus("log_in_status")
-                val intent = if (logInStatus == "true") Intent(this@SplashScreenActivity, HomeActivity::class.java) else Intent(this@SplashScreenActivity, AuthActivity::class.java)
+                val intent = if (logInStatus == "FACULTY" || logInStatus == "STUDENT") Intent(this@SplashScreenActivity, HomeActivity::class.java) else Intent(this@SplashScreenActivity, AuthActivity::class.java)
                 startActivity(intent)
                 finish()
             }

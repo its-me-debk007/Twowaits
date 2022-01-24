@@ -1,16 +1,22 @@
 package com.example.twowaits.apiCalls
 
 import com.example.twowaits.apiCalls.authApiCalls.*
-import com.example.twowaits.apiCalls.dashboardApiCalls.FacultyProfileDetailsResponse
-import com.example.twowaits.apiCalls.dashboardApiCalls.GetNewRefreshTokenResponse
-import com.example.twowaits.apiCalls.dashboardApiCalls.QnAResponseItem
-import com.example.twowaits.apiCalls.dashboardApiCalls.StudentProfileDetailsResponse
+import com.example.twowaits.apiCalls.dashboardApiCalls.*
+import com.example.twowaits.apiCalls.dashboardApiCalls.chatApiCalls.FetchConversationsMessagesResponse
+import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.AskQuestionResponse
+import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.BookmarkQuestionResponse
+import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.LikeAnswerResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.*
+import com.example.twowaits.authPages.CreateFacultyProfileBody
+import com.example.twowaits.authPages.CreateStudentProfileBody
+import com.example.twowaits.homePages.UpdateProfileDetailsBody
+import com.example.twowaits.homePages.questionsAnswers.AskQuestionBody
+import com.example.twowaits.homePages.questionsAnswers.BookmarkQuestionBody
+import com.example.twowaits.homePages.questionsAnswers.LikeAnswerBody
 import com.example.twowaits.homePages.quiz.AddCorrectOptionBody
 import com.example.twowaits.homePages.quiz.AttemptQuizBody
 import com.example.twowaits.homePages.quiz.CreateQuestionBody
 import com.example.twowaits.homePages.quiz.CreateQuizBody
-import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -68,41 +74,21 @@ interface API {
 
     @GET("profile/")
     suspend fun profileDetailsStudent(): Response<StudentProfileDetailsResponse>
-    @FormUrlEncoded
+
     @PUT("profile/")
     suspend fun updateProfileDetails(
-        @Field("name") name: String,
-        @Field("college") college: String,
-        @Field("course") course: String,
-        @Field("branch") branch: String,
-        @Field("year") year: String,
-        @Field("interest") interest: String
+        @Body updateProfileDetailsBody: UpdateProfileDetailsBody
     ): Response<StudentProfileDetailsResponse>
 
-    @FormUrlEncoded
     @POST("profile/student/")
     suspend fun createStudentProfileDetails(
-        @Field("name") name: String,
-        @Field("college") college: String,
-        @Field("course") course: String,
-        @Field("branch") branch: String,
-        @Field("year") year: String,
-        @Field("interest") interest: String
+        @Body createStudentProfileBody: CreateStudentProfileBody
     ): Response<StudentProfileDetailsResponse>
 
-    @FormUrlEncoded
     @POST("profile/faculty/")
     suspend fun createFacultyProfileDetails(
-        @Field("name") name: String,
-        @Field("department") department: String
+        @Body createFacultyProfileBody: CreateFacultyProfileBody
     ): Response<FacultyProfileDetailsResponse>
-
-    @Multipart
-    @PUT("profile/")
-    suspend fun uploadProfilePic(
-        @Part profile_pic: MultipartBody.Part,
-        @Part("name") name: String
-    ): Response<StudentProfileDetailsResponse>
 
     @GET("forum/")
     suspend fun getQnA(): Response<List<QnAResponseItem>>
@@ -141,4 +127,35 @@ interface API {
     suspend fun viewScore(
         @Body attemptQuizBody: AttemptQuizBody
     ): Response<ViewScoreResponse>
+
+    @POST("forum/question/")
+    suspend fun askQuestion(
+        @Body askQuestionBody: AskQuestionBody
+    ): Response<AskQuestionResponse>
+
+    @POST("forum/answer/like-unlike/")
+    suspend fun likeAnswer(
+        @Body likeAnswerBody: LikeAnswerBody
+    ): Response<LikeAnswerResponse>
+
+    @POST("forum/bookmark/")
+    suspend fun bookmarkQuestion(
+        @Body bookmarkQuestionBody: BookmarkQuestionBody
+    ): Response<BookmarkQuestionResponse>
+
+    @GET("forum/your-questions/")
+    suspend fun getYourQnA(): Response<List<QnAResponseItem>>
+
+    @GET("forum/your-bookmarked/")
+    suspend fun getYourBookmarkedQ(): Response<List<QnAResponseItem>>
+
+    @GET("quiz/testing")
+    suspend fun recentQuizzes(): Response<List<RecentQuizzesResponse>>
+
+    @GET("notes/view/")
+    suspend fun recentNotes(): Response<List<RecentNotesResponse>>
+
+    @GET("chat/conversation/")
+    suspend fun fetchConversationsMessages(): Response<List<FetchConversationsMessagesResponse>>
+
 }

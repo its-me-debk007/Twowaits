@@ -1,7 +1,6 @@
 package com.example.twowaits.homePages.quiz
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.twowaits.CompanionObjects
 import com.example.twowaits.R
 import com.example.twowaits.databinding.CreateQuizBinding
-import com.example.twowaits.viewmodels.CreateQuizViewModel
-import kotlinx.coroutines.DelicateCoroutinesApi
+import com.example.twowaits.viewmodels.quizViewModels.CreateQuizViewModel
 
 class CreateQuiz : Fragment() {
     private var _binding: CreateQuizBinding? = null
@@ -50,7 +48,7 @@ class CreateQuiz : Fragment() {
             binding.DurationOfQuiz.helperText = ""
 
             val title = binding.Title.text?.trim().toString()
-            val description = "Just a quiz"
+            val description = null
             val noOfQuestion = binding.NoOfQuestions.text?.trim().toString().toInt()
             val timeLimit = binding.Duration.text?.trim().toString().toInt()
             val createQuizBody = CreateQuizBody(title, description, noOfQuestion, timeLimit)
@@ -63,7 +61,33 @@ class CreateQuiz : Fragment() {
             })
             viewModel.errorLiveData.observe(viewLifecycleOwner, {
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        })
+            })
+        }
+        binding.AddNoOfQuestions.setOnClickListener {
+            if (binding.NoOfQuestions.text.isNullOrEmpty()) binding.NoOfQuestions.setText("1")
+            else {
+                var noOfQuestions = binding.NoOfQuestions.text.toString().toInt()
+                binding.NoOfQuestions.setText((++noOfQuestions).toString())
+            }
+        }
+        binding.SubtractNoOfQuestions.setOnClickListener {
+            if (!binding.NoOfQuestions.text.isNullOrEmpty() && binding.NoOfQuestions.text.toString().toInt() > 0) {
+                var noOfQuestions = binding.NoOfQuestions.text.toString().toInt()
+                binding.NoOfQuestions.setText((--noOfQuestions).toString())
+            }
+        }
+        binding.AddDuration.setOnClickListener {
+            if (binding.Duration.text.isNullOrEmpty()) binding.Duration.setText("1")
+            else {
+                var duration = binding.Duration.text.toString().toInt()
+                binding.Duration.setText((++duration).toString())
+            }
+        }
+        binding.SubtractDuration.setOnClickListener {
+            if (!binding.Duration.text.isNullOrEmpty() && binding.Duration.text.toString().toInt() > 0) {
+                var duration = binding.Duration.text.toString().toInt()
+                binding.Duration.setText((--duration).toString())
+            }
         }
         return binding.root
     }

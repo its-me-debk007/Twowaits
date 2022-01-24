@@ -24,8 +24,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.DelicateCoroutinesApi
 
 
+@DelicateCoroutinesApi
 class Login : Fragment() {
     private var _binding: LoginBinding? = null
     private val binding get() = _binding!!
@@ -69,22 +71,27 @@ class Login : Fragment() {
             binding.LogInButton.isEnabled = false
 
             var flag = false
-            repository.errorMutableLiveData.observe(viewLifecycleOwner, {
-                if (it == "success") {
-                    repository.getAuthTokens(userEmail, userPassword)
+            repository.loginLiveData.observe(viewLifecycleOwner, {
+                repository.getAuthTokens(userEmail, userPassword)
+                if (it.type == "faculty"){
                     lifecycleScope.launch {
-                        CompanionObjects.saveLoginStatus("log_in_status", "true")
+                        CompanionObjects.saveLoginStatus("log_in_status", "FACULTY")
                     }
-                    val intent = Intent(activity, HomeActivity::class.java)
-                    startActivity(intent)
-                    activity?.finish()
                 } else {
+                    lifecycleScope.launch {
+                        CompanionObjects.saveLoginStatus("log_in_status", "STUDENT")
+                    }
+                }
+                val intent = Intent(activity, HomeActivity::class.java)
+                startActivity(intent)
+                activity?.finish()
+            })
+            repository.errorLiveData.observe(viewLifecycleOwner, {
                     Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
                     flag = true
                     binding.Password.text?.clear()
                     binding.LogInButton.isEnabled = true
                     binding.ProgressBar.visibility = View.INVISIBLE
-                }
             })
             if (flag)
                 return@setOnClickListener
@@ -106,11 +113,7 @@ class Login : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == 100) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleSignInResult(task)
         }
@@ -128,8 +131,6 @@ class Login : Fragment() {
 
                 Toast.makeText(context, "Hello, $personName ($personEmail)", Toast.LENGTH_SHORT).show()
         } catch (e: ApiException) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.d("SIGN IN ATTEMPT","signInResult:failed code=" + e.statusCode)
         }
     }

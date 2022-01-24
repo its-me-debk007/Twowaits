@@ -86,9 +86,7 @@ override fun onCreateView(
             if (it == "success"){
                 if (CompanionObjects.PREVIOUS_PAGE == "SignUp") {
                     timerCountDownTimer.cancel()
-                    val intent = Intent(activity, HomeActivity::class.java)
-                    startActivity(intent)
-                    activity?.finish()
+
                 }
                 else if (CompanionObjects.PREVIOUS_PAGE == "VerifyEmail"){
                     timerCountDownTimer.cancel()

@@ -125,4 +125,12 @@
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/enterDetailsFaculty"
+        android:name="com.example.twowaits.authPages.EnterDetailsFaculty"
+        android:label="EnterDetailsFaculty" />
+    <fragment
+        android:id="@+id/enterDetailsStudent"
+        android:name="com.example.twowaits.authPages.EnterDetailsStudent"
+        android:label="EnterDetailsStudent" />
 </navigation>

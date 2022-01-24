@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_navigation"
-    app:startDestination="@id/quiz">
+    app:startDestination="@id/homePage">
 
     <fragment
         android:id="@+id/homePage"
@@ -11,6 +11,24 @@
         android:label="home_page"
         tools:layout="@layout/home_page">
 
+        <action
+            android:id="@+id/action_homePage_self"
+            app:destination="@id/homePage" />
+        <action
+            android:id="@+id/action_homePage_to_moreQnA2"
+            app:destination="@id/moreQnA2"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homePage_to_quiz"
+            app:destination="@id/quiz"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homePage_to_PDFViewer"
+            app:destination="@id/PDFViewer"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/profile"
@@ -22,6 +40,9 @@
             app:destination="@id/yourQuestions"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_profile_self"
+            app:destination="@id/profile" />
     </fragment>
     <fragment
         android:id="@+id/explore"
@@ -29,6 +50,11 @@
         android:label="explore"
         tools:layout="@layout/ask">
 
+        <action
+            android:id="@+id/action_explore_to_createQuiz"
+            app:destination="@id/createQuiz"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/library"
@@ -50,12 +76,19 @@
             app:destination="@id/wishlist"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_library_self"
+            app:destination="@id/library" />
     </fragment>
     <fragment
         android:id="@+id/downloads"
         android:name="com.example.twowaits.homePages.Downloads"
         android:label="downloads"
-        tools:layout="@layout/downloads"></fragment>
+        tools:layout="@layout/downloads">
+        <action
+            android:id="@+id/action_downloads_self"
+            app:destination="@id/downloads" />
+    </fragment>
     <fragment
         android:id="@+id/yourQuestions"
         android:name="com.example.twowaits.homePages.YourQuestions"
@@ -82,7 +115,9 @@
             android:id="@+id/action_createQuiz_to_addQuestions"
             app:destination="@id/addQuestions"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/addQuestions"
@@ -96,6 +131,11 @@
         <action
             android:id="@+id/action_addQuestions_to_addQuestions"
             app:destination="@id/addQuestions"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_addQuestions_to_homePage"
+            app:destination="@id/homePage"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
@@ -123,5 +163,52 @@
         android:id="@+id/quizResult"
         android:name="com.example.twowaits.homePages.quiz.QuizResult"
         android:label="quiz_result"
-        tools:layout="@layout/quiz_result" />
+        tools:layout="@layout/quiz_result" >
+        <action
+            android:id="@+id/action_quizResult_to_homePage"
+            app:destination="@id/homePage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/askQuestion"
+        android:name="com.example.twowaits.homePages.questionsAnswers.AskQuestion"
+        android:label="AskQuestion" />
+    <fragment
+        android:id="@+id/chatList"
+        android:name="com.example.twowaits.homePages.chats.ChatList"
+        android:label="ChatList" >
+        <action
+            android:id="@+id/action_chatList_to_homePage"
+            app:destination="@id/homePage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_chatList_to_chatProfile"
+            app:destination="@id/chatProfile"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/moreQnA2"
+        android:name="com.example.twowaits.homePages.MoreQnA"
+        android:label="MoreQnA" >
+        <action
+            android:id="@+id/action_moreQnA2_self"
+            app:destination="@id/moreQnA2" />
+    </fragment>
+    <fragment
+        android:id="@+id/PDFViewer"
+        android:name="com.example.twowaits.homePages.PDFViewer"
+        android:label="PDFViewer" />
+    <fragment
+        android:id="@+id/enterDetailsFaculty2"
+        android:name="com.example.twowaits.authPages.EnterDetailsFaculty"
+        android:label="EnterDetailsFaculty" />
+    <fragment
+        android:id="@+id/chatProfile"
+        android:name="com.example.twowaits.homePages.chats.ChatProfile"
+        android:label="ChatProfile" />
 </navigation>

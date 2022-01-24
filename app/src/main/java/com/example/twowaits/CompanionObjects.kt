@@ -22,7 +22,8 @@ class CompanionObjects {
         var FIRST_TIME = true
         lateinit var QUIZ_DATA: GetQuizDataResponse
         var QUIZ_RESULT_ID = 0
-        var CHOSEN_OPTION: MutableMap<Int, Int> = mutableMapOf<Int, Int>()
+        var CHOSEN_OPTION: MutableMap<Int, Int> = mutableMapOf()
+        lateinit var TITLE_OF_QUIZ: String
 
         var dataStore: DataStore<Preferences>? = null
         suspend fun saveLoginStatus(key: String, value: String){
@@ -95,22 +96,28 @@ class CompanionObjects {
 
         lateinit var timerCountDownTimer: CountDownTimer
 
-        private val timeLeftData = MutableLiveData<Long>()
-        val timeLeftLiveData: LiveData<Long> = timeLeftData
+        private val timeLeftData = MutableLiveData<Int>()
+        val timeLeftLiveData: LiveData<Int> = timeLeftData
 
         private val timeFinishedData = MutableLiveData<Boolean>()
         val timeFinishedLiveData: LiveData<Boolean> = timeFinishedData
 
+        var time = 0
         fun startTimer(time_limit: Int ) {
             timerCountDownTimer = object : CountDownTimer((time_limit * 60 * 1000).toLong(), 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     val timeLeft = millisUntilFinished / 1000
-                    timeLeftData.postValue(timeLeft)
+                    time++
+                    timeLeftData.postValue(time)
                 }
                 override fun onFinish() {
                     timeFinishedData.postValue(false)
                 }
             }.start()
         }
+
+        var TIME_LIMIT = 0
+        val isSearchBarActiveLiveData = MutableLiveData<Boolean>()
+
     }
 }
