@@ -21,18 +21,11 @@ class QnARecyclerAdapter: RecyclerView.Adapter<QnARecyclerAdapter.QnAViewHolder>
     }
 
     override fun getItemCount(): Int {
-        return 3
+        return 5
     }
 
     class QnAViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val answerer: TextView = itemView.findViewById(R.id.Answerer)
         val question: TextView = itemView.findViewById(R.id.Question)
-        val answer: ReadMoreTextView = itemView.findViewById(R.id.Answer)
-        val answerDetails: TextView = itemView.findViewById(R.id.AnswerDetails)
-        val answererProfilePic: ImageView = itemView.findViewById(R.id.AnswererProfilePic)
-        val likesCount: TextView = itemView.findViewById(R.id.LikeCount)
-        val commentsCount: TextView = itemView.findViewById(R.id.CommentCount)
-        val likeBtn: ToggleButton = itemView.findViewById(R.id.Like)
-        val commentBtn: ImageView = itemView.findViewById(R.id.Comment)
+        val answersRecyclerView: RecyclerView = itemView.findViewById(R.id.answersRecyclerView)
     }
 }

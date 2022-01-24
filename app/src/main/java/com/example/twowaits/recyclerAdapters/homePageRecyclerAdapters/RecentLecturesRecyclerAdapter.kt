@@ -7,8 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twowaits.R
+import com.example.twowaits.apiCalls.dashboardApiCalls.RecentQuizzesResponse
 
-class TopLecturesRecyclerAdapter: RecyclerView.Adapter<TopLecturesRecyclerAdapter.TopLecturesViewHolder>() {
+class RecentLecturesRecyclerAdapter(
+    private val size: Int
+) : RecyclerView.Adapter<RecentLecturesRecyclerAdapter.TopLecturesViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopLecturesViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.wishlist_card_view, parent, false)
         return TopLecturesViewHolder(view)
@@ -22,7 +25,7 @@ class TopLecturesRecyclerAdapter: RecyclerView.Adapter<TopLecturesRecyclerAdapte
         return 5
     }
 
-    class TopLecturesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    class TopLecturesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameOfLecture: TextView = itemView.findViewById<TextView>(R.id.NameOfLecture)
         val lectureDetails: TextView = itemView.findViewById(R.id.LectureDetails)
         val creator: TextView = itemView.findViewById(R.id.Creator)

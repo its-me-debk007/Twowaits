@@ -85,6 +85,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
+            android:background="@drawable/login_border"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:helperTextTextColor="#ff0000"
@@ -97,11 +98,13 @@
                 android:id="@+id/NoOfQuestions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"
-                android:background="@drawable/login_border"
+                android:layout_marginStart="110dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="110dp"
+                android:layout_marginBottom="2dp"
+                android:background="#FFFFFF"
                 android:fontFamily="@font/reemkufi_regular"
-                android:hint="Enter the total no. of questions"
+                android:hint="Quantity"
                 android:inputType="number"
                 android:lines="1"
                 android:paddingTop="13dp"
@@ -119,7 +122,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/reemkufi_regular"
-            android:text="Duration"
+            android:text="Duration (in minutes)"
             android:textColor="#804D37"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -132,6 +135,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
+            android:background="@drawable/login_border"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:helperTextTextColor="#ff0000"
@@ -144,9 +148,13 @@
                 android:id="@+id/Duration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/login_border"
+                android:layout_marginStart="110dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="110dp"
+                android:layout_marginBottom="2dp"
+                android:background="#FFFFFF"
                 android:fontFamily="@font/reemkufi_regular"
-                android:hint="Enter the duration for completing the quiz"
+                android:hint="Duration"
                 android:inputType="number"
                 android:lines="1"
                 android:paddingTop="13dp"
@@ -155,6 +163,30 @@
                 android:textColorHint="#B89A8D"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/SubtractDuration"
+            android:layout_width="110dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/login_border"
+            android:backgroundTint="#804D37"
+            android:src="@drawable/minus_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/DurationOfQuiz"
+            app:layout_constraintStart_toStartOf="@+id/DurationOfQuiz"
+            app:layout_constraintTop_toBottomOf="@+id/SubHeading3" />
+
+        <ImageButton
+            android:id="@+id/AddDuration"
+            android:layout_width="110dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/login_border"
+            android:backgroundTint="#804D37"
+            android:src="@drawable/plus_white_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/DurationOfQuiz"
+            app:layout_constraintEnd_toEndOf="@+id/DurationOfQuiz"
+            app:layout_constraintTop_toBottomOf="@+id/SubHeading3" />
 
         <Button
             android:id="@+id/CreateAndAddQuestions"
@@ -176,12 +208,29 @@
             app:layout_constraintTop_toBottomOf="@+id/DurationOfQuiz" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/AddNoOfQuestions"
+            android:layout_width="110dp"
+            android:layout_height="55dp"
             android:layout_marginTop="4dp"
-            android:backgroundTint="#FFFFFF"
-            android:src="@drawable/plus_brown_icon"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/login_border"
+            android:backgroundTint="#804D37"
+            android:src="@drawable/plus_white_icon"
+            app:layout_constraintBottom_toTopOf="@+id/SubHeading3"
             app:layout_constraintEnd_toEndOf="@+id/NoOfQuestionsOfQuiz"
+            app:layout_constraintTop_toBottomOf="@+id/SubHeading2" />
+
+        <ImageButton
+            android:id="@+id/SubtractNoOfQuestions"
+            android:layout_width="110dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/login_border"
+            android:backgroundTint="#804D37"
+            android:src="@drawable/minus_icon"
+            app:layout_constraintBottom_toTopOf="@+id/SubHeading3"
+            app:layout_constraintStart_toStartOf="@+id/NoOfQuestionsOfQuiz"
             app:layout_constraintTop_toBottomOf="@+id/SubHeading2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

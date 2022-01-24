@@ -1,6 +1,8 @@
 package com.example.twowaits.homePages
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +13,6 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.LibraryBinding
 import com.example.twowaits.recyclerAdapters.BookmarkedNotesRecyclerAdapter
 import com.example.twowaits.recyclerAdapters.WishlistRecyclerAdapter
-import com.example.twowaits.recyclerAdapters.YourQuestionsRecyclerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 class Library : Fragment() {
@@ -21,8 +22,14 @@ class Library : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = LibraryBinding.inflate(inflater, container, false)
+
+        binding.swipeToRefresh.setOnRefreshListener {
+            Handler(Looper.getMainLooper()).postDelayed({
+                findNavController().navigate(R.id.action_library_self)
+            }, 440)
+        }
 
         val viewPagerAdapter = LibraryViewPagerAdapter(childFragmentManager, lifecycle)
         binding.LibraryViewPager.adapter = viewPagerAdapter

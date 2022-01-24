@@ -1,4 +1,4 @@
-package com.example.twowaits.viewmodels
+package com.example.twowaits.viewmodels.quizViewModels
 
 import android.os.CountDownTimer
 import android.widget.Toast
@@ -54,6 +54,4 @@ class QuizViewModel: ViewModel() {
         viewScoreLiveData = repository.viewScoreLiveData
         errorViewScoreLiveData = repository.errorViewScoreLiveData
     }
-
-
 }

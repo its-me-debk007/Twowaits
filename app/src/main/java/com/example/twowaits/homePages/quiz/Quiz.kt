@@ -3,7 +3,6 @@ package com.example.twowaits.homePages.quiz
 import android.app.Dialog
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,7 @@ import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.OptionXX
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.RegisterResponseBody
 import com.example.twowaits.databinding.PleaseWaitDialogBinding
 import com.example.twowaits.databinding.QuizBinding
-import com.example.twowaits.viewmodels.QuizViewModel
+import com.example.twowaits.viewmodels.quizViewModels.QuizViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
@@ -32,7 +31,7 @@ class Quiz : Fragment() {
         _binding = QuizBinding.inflate(inflater, container, false)
         val viewModel = ViewModelProvider(this)[QuizViewModel::class.java]
         var chosenOptionId = 0
-        val attemptQuizBody = AttemptQuizBody(45)
+        val attemptQuizBody = AttemptQuizBody(CompanionObjects.QUIZ_ID)
 
         if (CompanionObjects.CHOSEN_OPTION[CompanionObjects.CURRENT_QUESTION] != null){
             when (CompanionObjects.CHOSEN_OPTION[CompanionObjects.CURRENT_QUESTION]){
@@ -53,17 +52,18 @@ class Quiz : Fragment() {
             if (dialog.window != null)
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
 
-
             viewModel.getQuizData(attemptQuizBody)
             viewModel.getQuizLiveData.observe(viewLifecycleOwner, {
                 CompanionObjects.QUIZ_DATA = it
-
-                CompanionObjects.startTimer(it.time_limit)
+                CompanionObjects.TIME_LIMIT = it.time_limit
                 viewModel.attemptQuiz(attemptQuizBody)
                 viewModel.attemptQuizLiveData.observe(viewLifecycleOwner, { response ->
-                    Toast.makeText(context, "Quiz has started", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(context, "Quiz has started", Toast.LENGTH_SHORT).show()
+                    CompanionObjects.startTimer(it.time_limit)
                     CompanionObjects.QUIZ_RESULT_ID = response.quiz_result_id
-
+                    CompanionObjects.TITLE_OF_QUIZ = it.title
+                    binding.Title.text = CompanionObjects.TITLE_OF_QUIZ
+                    binding.QuestionNo.text = "Q${CompanionObjects.CURRENT_QUESTION + 1}."
                     binding.Question.text =
                         CompanionObjects.QUIZ_DATA.question[CompanionObjects.CURRENT_QUESTION].question_text
                     dialog.hide()
@@ -117,8 +117,13 @@ class Quiz : Fragment() {
                     }
                 })
                 viewModel.errorAttemptQuizLiveData.observe(viewLifecycleOwner, { errorMessage ->
-                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-                    dialog.hide()
+                    if (errorMessage == "Quiz already attempted"){
+                        dialog.hide()
+                        findNavController().navigate(R.id.action_quiz_to_quizResult)
+                    }else {
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                        dialog.hide()
+                    }
                 })
             })
             viewModel.errorGetQuizLiveData.observe(viewLifecycleOwner, {
@@ -127,6 +132,8 @@ class Quiz : Fragment() {
             })
 
         } else {
+            binding.Title.text = CompanionObjects.TITLE_OF_QUIZ
+            binding.QuestionNo.text = "Q${CompanionObjects.CURRENT_QUESTION + 1}"
             binding.Question.text =
                 CompanionObjects.QUIZ_DATA.question[CompanionObjects.CURRENT_QUESTION].question_text
 
@@ -153,6 +160,10 @@ class Quiz : Fragment() {
                 }
             }
 
+            if (CompanionObjects.CURRENT_QUESTION == CompanionObjects.QUIZ_DATA.question.size - 1)
+                binding.NextBtn.text = "Complete"
+            else
+                binding.NextBtn.text = "Next"
             binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
                 when (checkedId) {
                     R.id.option1 -> {
@@ -180,7 +191,11 @@ class Quiz : Fragment() {
         }
 
         CompanionObjects.timeLeftLiveData.observe(viewLifecycleOwner, {
-            binding.TimeLeft.text = "$it sec(s) Left"
+            val timeLimit = if (CompanionObjects.TIME_LIMIT == 1) "${CompanionObjects.TIME_LIMIT} min" else "${CompanionObjects.TIME_LIMIT} mins"
+            val min = if (it/60 == 1) "${it/60} min" else "${it/60} mins"
+            val sec = if (it%60 == 1) "${it%60} second" else "${it%60} seconds"
+
+            binding.TimeLeft.text = "You have spent $min $sec out of ${timeLimit}"
         })
         CompanionObjects.timeFinishedLiveData.observe(viewLifecycleOwner, {
             if (chosenOptionId != 0) {
@@ -308,7 +323,7 @@ class Quiz : Fragment() {
                         CompanionObjects.CURRENT_QUESTION--
                         binding.NextBtn.isEnabled = true
                         binding.PreviousBtn.isEnabled = true
-                        findNavController().navigate(R.id.action_quiz_self2)
+                        findNavController().navigate(R.id.action_quiz_self)
                     })
                     viewModel.errorRegisterResponseLiveData.observe(viewLifecycleOwner, {
                         Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
@@ -320,13 +335,14 @@ class Quiz : Fragment() {
                     CompanionObjects.CURRENT_QUESTION--
                     binding.NextBtn.isEnabled = true
                     binding.PreviousBtn.isEnabled = true
-                    findNavController().navigate(R.id.action_quiz_self2)
+                    findNavController().navigate(R.id.action_quiz_self)
                 }
             }
         }
 
         binding.Clear.setOnClickListener {
             binding.radioGroup.clearCheck()
+            CompanionObjects.CHOSEN_OPTION.remove(CompanionObjects.CURRENT_QUESTION)
         }
 
         return binding.root

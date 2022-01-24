@@ -7,26 +7,56 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twowaits.R
+import com.example.twowaits.apiCalls.dashboardApiCalls.RecentQuizzesResponse
 
-class QuizzesRecyclerAdapter: RecyclerView.Adapter<QuizzesRecyclerAdapter.QuizzesViewHolder>() {
+class QuizzesRecyclerAdapter(
+    private val size: Int,
+    private val quizzes: List<RecentQuizzesResponse>,
+    private val listener: QuizClicked
+) :
+    RecyclerView.Adapter<QuizzesRecyclerAdapter.QuizzesViewHolder>() {
 
-    class QuizzesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val quizTopic: TextView = itemView.findViewById<TextView>(R.id.QuizTopic)
+    inner class QuizzesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val quizTopic: TextView = itemView.findViewById(R.id.QuizTopic)
         val details: TextView = itemView.findViewById(R.id.Detail)
         val quizCreator: TextView = itemView.findViewById(R.id.QuizCreator)
         val quizImg: ImageView = itemView.findViewById(R.id.QuizImg)
         val noOfQuestions: TextView = itemView.findViewById(R.id.NoOfQuestions)
+
+        init {
+            itemView.setOnClickListener {
+                listener.onQuizClicked(quizzes[adapterPosition].quiz_id)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuizzesViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.quiz_card_view, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.quiz_card_view, parent, false)
         return QuizzesViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: QuizzesViewHolder, position: Int) {
+        holder.apply {
+            quizTopic.text = quizzes[position].title
+            noOfQuestions.text = quizzes[position].no_of_question.toString()
+            if (quizzes[position].author_id.faculty != null) {
+                val nameOfTeacher = when (quizzes[position].author_id.faculty?.gender) {
+                    "M" -> "${quizzes[position].author_id.faculty?.name} Sir"
+                    "F" -> "${quizzes[position].author_id.faculty?.name} Ma'am"
+                    else -> "${quizzes[position].author_id.faculty?.name} Faculty"
+                }
+                quizCreator.text = "Quiz by $nameOfTeacher"
+            } else quizCreator.text = "Anonymous"
+
+        }
     }
 
     override fun getItemCount(): Int {
-        return 5
+            return size
     }
+}
+
+interface QuizClicked {
+    fun onQuizClicked(quiz_id: Int)
 }
