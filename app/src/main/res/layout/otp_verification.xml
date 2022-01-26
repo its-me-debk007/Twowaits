@@ -47,6 +47,7 @@
             android:fontFamily="@font/roboto_regular"
             android:hint="Enter Your OTP"
             android:lines="1"
+            android:inputType="number"
             android:paddingTop="15dp"
             android:paddingBottom="14dp"
             android:textColor="#A17A69"

@@ -52,9 +52,9 @@ class ChatList: Fragment(), ChatProfileClicked {
         super.onCreate(savedInstanceState)
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val navGraph = findNavController().graph
-                navGraph.startDestination = R.id.chatList
-                findNavController().graph = navGraph
+//                val navGraph = findNavController().graph
+//                navGraph.startDestination = R.id.chatList
+//                findNavController().graph = navGraph
                 findNavController().navigate(R.id.action_chatList_to_homePage)
                 val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
                 bottomNavigationView?.visibility = View.VISIBLE

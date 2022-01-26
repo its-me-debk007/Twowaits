@@ -29,6 +29,13 @@
             app:destination="@id/PDFViewer"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homePage_to_showSearchQuestions"
+            app:destination="@id/showSearchQuestions"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/profile"
@@ -54,7 +61,23 @@
             android:id="@+id/action_explore_to_createQuiz"
             app:destination="@id/createQuiz"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_explore_to_uploadNotes2"
+            app:destination="@id/uploadNotes2"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_explore_to_askQuestion"
+            app:destination="@id/askQuestion"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/library"
@@ -173,7 +196,15 @@
     <fragment
         android:id="@+id/askQuestion"
         android:name="com.example.twowaits.homePages.questionsAnswers.AskQuestion"
-        android:label="AskQuestion" />
+        android:label="AskQuestion" >
+        <action
+            android:id="@+id/action_askQuestion_to_explore"
+            app:destination="@id/explore"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/chatList"
         android:name="com.example.twowaits.homePages.chats.ChatList"
@@ -204,11 +235,79 @@
         android:name="com.example.twowaits.homePages.PDFViewer"
         android:label="PDFViewer" />
     <fragment
-        android:id="@+id/enterDetailsFaculty2"
-        android:name="com.example.twowaits.authPages.EnterDetailsFaculty"
-        android:label="EnterDetailsFaculty" />
-    <fragment
         android:id="@+id/chatProfile"
         android:name="com.example.twowaits.homePages.chats.ChatProfile"
         android:label="ChatProfile" />
+    <fragment
+        android:id="@+id/aboutEduCool"
+        android:name="com.example.twowaits.homePages.navdrawerPages.AboutEduCool"
+        android:label="AboutEduCool" >
+        <action
+            android:id="@+id/action_aboutEduCool_to_homePage"
+            app:destination="@id/homePage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePassword2"
+        android:name="com.example.twowaits.homePages.navdrawerPages.ChangePassword"
+        android:label="ChangePassword" >
+        <action
+            android:id="@+id/action_changePassword2_to_homePage"
+            app:destination="@id/homePage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/downloadedLectures"
+        android:name="com.example.twowaits.homePages.DownloadedLectures"
+        android:label="DownloadedLectures" />
+    <fragment
+        android:id="@+id/downloadedNotes"
+        android:name="com.example.twowaits.homePages.DownloadedNotes"
+        android:label="DownloadedNotes" />
+    <fragment
+        android:id="@+id/feedback2"
+        android:name="com.example.twowaits.homePages.navdrawerPages.Feedback"
+        android:label="Feedback" >
+        <action
+            android:id="@+id/action_feedback2_to_homePage"
+            app:destination="@id/homePage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/privacyPolicy2"
+        android:name="com.example.twowaits.homePages.navdrawerPages.PrivacyPolicy"
+        android:label="PrivacyPolicy" >
+        <action
+            android:id="@+id/action_privacyPolicy2_to_homePage"
+            app:destination="@id/homePage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/uploadNotes2"
+        android:name="com.example.twowaits.homePages.UploadNotes"
+        android:label="UploadNotes" >
+        <action
+            android:id="@+id/action_uploadNotes2_to_explore"
+            app:destination="@id/explore"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/showSearchQuestions"
+        android:name="com.example.twowaits.homePages.ShowSearchQuestions"
+        android:label="ShowSearchQuestions" />
 </navigation>

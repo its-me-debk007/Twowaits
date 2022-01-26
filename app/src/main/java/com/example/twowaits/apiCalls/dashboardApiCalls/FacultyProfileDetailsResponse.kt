@@ -7,5 +7,7 @@ data class FacultyProfileDetailsResponse(
     val profile_pic: String,
     val dob: String,
     val college: String,
-    val gender: String
+    val gender: String,
+    val contact_id: Int,
+    val profile_pic_firebase: String
 )

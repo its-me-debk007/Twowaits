@@ -3,16 +3,17 @@ package com.example.twowaits.apiCalls
 import com.example.twowaits.apiCalls.authApiCalls.*
 import com.example.twowaits.apiCalls.dashboardApiCalls.*
 import com.example.twowaits.apiCalls.dashboardApiCalls.chatApiCalls.FetchConversationsMessagesResponse
-import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.AskQuestionResponse
-import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.BookmarkQuestionResponse
-import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.LikeAnswerResponse
+import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.*
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.*
 import com.example.twowaits.authPages.CreateFacultyProfileBody
 import com.example.twowaits.authPages.CreateStudentProfileBody
+import com.example.twowaits.authPages.LoginBody
+import com.example.twowaits.authPages.VerifyOtpBody
+import com.example.twowaits.homePages.BookmarkNoteBody
 import com.example.twowaits.homePages.UpdateProfileDetailsBody
-import com.example.twowaits.homePages.questionsAnswers.AskQuestionBody
-import com.example.twowaits.homePages.questionsAnswers.BookmarkQuestionBody
-import com.example.twowaits.homePages.questionsAnswers.LikeAnswerBody
+import com.example.twowaits.homePages.UploadNoteBody
+import com.example.twowaits.homePages.navdrawerPages.ChangePasswordBody
+import com.example.twowaits.homePages.questionsAnswers.*
 import com.example.twowaits.homePages.quiz.AddCorrectOptionBody
 import com.example.twowaits.homePages.quiz.AttemptQuizBody
 import com.example.twowaits.homePages.quiz.CreateQuestionBody
@@ -48,19 +49,22 @@ interface API {
         @Field("email") email: String
     ): Call<SendOtpResponse>
 
-    @FormUrlEncoded
     @POST("account/login/")
     suspend fun login(
-        @Field("email") email: String,
-        @Field("password") password: String
+        @Body loginBody: LoginBody
     ): Response<LoginResponse>
 
-    @FormUrlEncoded
+//    @FormUrlEncoded
+//    @POST("account/otp-verify/")
+//    fun verifyOtp(
+//        @Field("email") email: String,
+//        @Field("otp") otp: String
+//    ): Call<VerifyOtpResponse>
+
     @POST("account/otp-verify/")
-    fun verifyOtp(
-        @Field("email") email: String,
-        @Field("otp") otp: String
-    ): Call<VerifyOtpResponse>
+    suspend fun verifyOtp(
+        @Body verifyOtpBody: VerifyOtpBody
+    ): Response<VerifyOtpResponse>
 
     @FormUrlEncoded
     @POST("account/forgot-reset/")
@@ -138,13 +142,31 @@ interface API {
         @Body likeAnswerBody: LikeAnswerBody
     ): Response<LikeAnswerResponse>
 
+    @POST("forum/answer/")
+    suspend fun createAnswer(
+        @Body createAnswerBody: CreateAnswerBody
+    ): Response<CreateAnswerResponse>
+
+    @POST("forum/comment/")
+    suspend fun createComment(
+        @Body createCommentBody: CreateCommentBody
+    ): Response<CreateCommentResponse>
+
     @POST("forum/bookmark/")
     suspend fun bookmarkQuestion(
         @Body bookmarkQuestionBody: BookmarkQuestionBody
     ): Response<BookmarkQuestionResponse>
 
+    @POST("notes/bookmark/")
+    suspend fun bookmarkNote(
+            @Body bookmarkNoteBody: BookmarkNoteBody
+    ): Response<BookmarkNoteResponse>
+
     @GET("forum/your-questions/")
     suspend fun getYourQnA(): Response<List<QnAResponseItem>>
+
+    @GET("notes/your-bookmarked/")
+    suspend fun getBookmarkedNotes(): Response<List<RecentNotesResponse>>
 
     @GET("forum/your-bookmarked/")
     suspend fun getYourBookmarkedQ(): Response<List<QnAResponseItem>>
@@ -155,7 +177,21 @@ interface API {
     @GET("notes/view/")
     suspend fun recentNotes(): Response<List<RecentNotesResponse>>
 
+    @POST("notes/")
+    suspend fun uploadNote(
+        @Body uploadNoteBody: UploadNoteBody
+    ): Response<UploadNotesResponse>
+
     @GET("chat/conversation/")
     suspend fun fetchConversationsMessages(): Response<List<FetchConversationsMessagesResponse>>
 
+    @POST("account/change-password/")
+    suspend fun changePassword(
+        @Body changePasswordBody: ChangePasswordBody
+    ): Response<SendOtpResponse>
+
+    @GET("forum/")
+    suspend fun searchQnA(
+        @Query("search") search: String
+    ): Response<List<QnAResponseItem>>
 }

@@ -1,10 +1,10 @@
 package com.example.twowaits.authPages
 
 data class CreateStudentProfileBody(
-    val branch: String,
+    val name: String,
     val college: String,
     val course: String,
-    val name: String,
+    val branch: String,
     val year: String,
     val gender: String,
     val dob: String,

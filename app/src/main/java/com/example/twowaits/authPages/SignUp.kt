@@ -13,7 +13,9 @@ import com.example.twowaits.CompanionObjects
 import com.example.twowaits.R
 import com.example.twowaits.databinding.SignUpBinding
 import com.example.twowaits.repository.authRepositories.BaseRepository
+import kotlinx.coroutines.DelicateCoroutinesApi
 
+@DelicateCoroutinesApi
 class SignUp : Fragment() {
     private var _binding: SignUpBinding? = null
     private val binding get() = _binding!!
@@ -52,9 +54,6 @@ class SignUp : Fragment() {
                 if (ch in '0'..'9') {
                     flagNumber = true
                 }
-//                if(ch == '#' || ch == '%' || ch == '@' || ch == '$' || ch == '^' || ch == '&' || ch == '+' || ch == '='){
-//                    flagSpecialChar = true
-//                }
                 val asciiCode = ch.code
                 if((asciiCode in 32..47)||(asciiCode in 58..64)||(asciiCode in 91..96)||(asciiCode in 123..126)){
                     flagSpecialChar = true
@@ -98,6 +97,7 @@ class SignUp : Fragment() {
             repository.errorMutableLiveData.observe(viewLifecycleOwner, {
                 if (it == "success"){
                     CompanionObjects.EMAIL = userEmail
+                    CompanionObjects.PASSWORD = binding.confirmPassword.text.toString()
                     CompanionObjects.PREVIOUS_PAGE = "SignUp"
 
                     binding.EnterEmail.text?.clear()

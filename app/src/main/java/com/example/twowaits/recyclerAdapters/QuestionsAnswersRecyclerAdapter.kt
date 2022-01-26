@@ -37,13 +37,21 @@ class QuestionsAnswersRecyclerAdapter (private val size: Int, private val questi
         val question: TextView = itemView.findViewById(R.id.Question)
         val answersRecyclerView: RecyclerView = itemView.findViewById(R.id.answersRecyclerView)
         val bookmarkBtn: ToggleButton = itemView.findViewById(R.id.bookmarkBtn)
-
+        val shareBtn: ImageView = itemView.findViewById(R.id.Share)
+        val addAnswer: TextView = itemView.findViewById(R.id.addAnswer)
         init {
             question.setOnClickListener {
                 listener.onQuestionClicked(question.text.toString())
             }
             bookmarkBtn.setOnClickListener {
                 listener.bookmarkBtnClicked(questionsAndAnswers[adapterPosition].question_id)
+            }
+            shareBtn.setOnClickListener {
+                listener.shareBtnClicked(questionsAndAnswers[adapterPosition].question,
+                    questionsAndAnswers[adapterPosition].answer)
+            }
+            addAnswer.setOnClickListener {
+                listener.addAnswerClicked(questionsAndAnswers[adapterPosition].question, questionsAndAnswers[adapterPosition].question_id)
             }
         }
     }
@@ -52,14 +60,21 @@ class QuestionsAnswersRecyclerAdapter (private val size: Int, private val questi
         listener.likeBtnClicked(question_id)
     }
 
-    override fun commentBtnClicked(question_id: Int) {
-        listener.commentBtnClicked(question_id)
+    override fun commentBtnClicked(): Boolean {
+        return listener.commentBtnClicked()
+    }
+
+    override fun addCommentClicked(answer: String, answer_id: Int) {
+        listener.addCommentClicked(answer, answer_id)
     }
 }
 
 interface ItemClicked {
     fun onQuestionClicked(question: String)
     fun likeBtnClicked(question_id: Int)
-    fun commentBtnClicked(question_id: Int)
+    fun commentBtnClicked(): Boolean
     fun bookmarkBtnClicked(question_id: Int)
+    fun shareBtnClicked(question: String, answersList: List<Answer>)
+    fun addAnswerClicked(question: String, question_id: Int)
+    fun addCommentClicked(answer: String, answer_id: Int)
 }
