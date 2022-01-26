@@ -14,6 +14,7 @@ import com.example.twowaits.CompanionObjects
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.OptionXX
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.RegisterResponseBody
+import com.example.twowaits.databinding.PleaseWaitDialog2Binding
 import com.example.twowaits.databinding.PleaseWaitDialogBinding
 import com.example.twowaits.databinding.QuizBinding
 import com.example.twowaits.viewmodels.quizViewModels.QuizViewModel
@@ -46,7 +47,7 @@ class Quiz : Fragment() {
             CompanionObjects.FIRST_TIME = false
 
             val dialog = Dialog(requireContext())
-            dialog.setContentView(PleaseWaitDialogBinding.inflate(layoutInflater).root)
+            dialog.setContentView(PleaseWaitDialog2Binding.inflate(layoutInflater).root)
             dialog.setCancelable(false)
             dialog.show()
             if (dialog.window != null)
