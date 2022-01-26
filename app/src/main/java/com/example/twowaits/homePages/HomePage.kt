@@ -274,9 +274,6 @@ class HomePage : Fragment(), ItemClicked, QuizClicked, NotesClicked {
     override fun likeBtnClicked(question_id: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         viewModel.likeAnswer(LikeAnswerBody(question_id))
-//        viewModel.likeAnswerLiveData.observe(viewLifecycleOwner, {
-
-//        })
         viewModel.errorLikeAnswerLiveData.observe(viewLifecycleOwner, {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         })
