@@ -21,7 +21,6 @@ class ChatProfilesRecyclerAdapter(
         val name: TextView = itemView.findViewById(R.id.name)
         val profilePic: ShapeableImageView = itemView.findViewById(R.id.profilePic)
         val lastSeen: TextView = itemView.findViewById(R.id.lastSeen)
-
         init {
             itemView.setOnClickListener {
                 listener.onChatProfileClicked()

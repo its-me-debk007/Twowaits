@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,7 @@ class Profile : Fragment() {
     private val binding get() = _binding!!
 
     lateinit var name: String
-    var student_account_id = 0
+    var account_id = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,18 +48,20 @@ class Profile : Fragment() {
             }, 440)
         }
 
-        var userType: String? = null
-        lifecycleScope.launch {
-            userType = CompanionObjects.readLoginStatus("log_in_status")
-        }
-        if (userType == "FACULTY"){
+        if (CompanionObjects.USER == "FACULTY"){
             viewModel.profileDetailsFaculty()
             viewModel.profileFacultyLiveData.observe(viewLifecycleOwner, {
                 binding.ProfilePic.load(it.profile_pic) {
                     transformations(CircleCropTransformation())
                 }
                 name = it.name
-                binding.NameOfUser.text = it.name
+                val title: String = when (it.gender) {
+                    "M" -> "Sir"
+                    "F" -> "Ma'am"
+                    else -> "Faculty"
+                }
+                account_id = it.faculty_account_id
+                binding.NameOfUser.text = it.name + " " + title
 
 //            binding.ShimmerLayout.stopShimmer()
 //            binding.ShimmerLayout.visibility = View.GONE
@@ -77,7 +80,7 @@ class Profile : Fragment() {
                     transformations(CircleCropTransformation())
                 }
                 name = it.name
-                student_account_id = it.student_account_id
+                account_id = it.student_account_id
                 binding.NameOfUser.text = it.name
                 it.year = when (it.year) {
                     "1" -> "1st Year"
@@ -110,7 +113,7 @@ class Profile : Fragment() {
             if (dialog.window != null)
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
 
-            viewModel.uploadProfilePic(it, student_account_id)
+            viewModel.uploadProfilePic(it, account_id)
             viewModel.uploadImageLiveData.observe(viewLifecycleOwner, { message ->
                 if (message.substring(0, 8) == "Uploaded") {
                     val uri = message.substring(8)
@@ -121,7 +124,6 @@ class Profile : Fragment() {
                     viewModel.errorUpdateProfileDetailsLiveData.observe(viewLifecycleOwner, { errorMessage ->
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                     })
-                    // Change name of uploaded image in repository
                     binding.ProfilePic.setImageURI(it)
                     dialog.hide()
                 } else {

@@ -1,11 +1,14 @@
 package com.example.twowaits.apiCalls
 
+import com.example.twowaits.CompanionObjects
 import okhttp3.Interceptor
 import okhttp3.Response
 
 class TokenInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request().newBuilder().header("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQzMTE0NzI1LCJpYXQiOjE2NDMwMjgzMjUsImp0aSI6Ijg2MTlhNDg1YzViZjRhZTA4MWFjZTAxZjIzOThlMDc1IiwidXNlcl9pZCI6Nn0.AbxvrSW-HKn8NaagvylaqrRy9R9iab0KI3Z8-TK9ag8")
+//        val token = if (CompanionObjects.ACCESS_TOKEN == null) "ABC" else CompanionObjects.ACCESS_TOKEN
+//        val request = chain.request().newBuilder().header("Authorization", "Bearer $token")
+        val request = chain.request().newBuilder().header("Authorization", "Bearer ${CompanionObjects.ACCESS_TOKEN}")
             .build()
         return chain.proceed(request)
     }

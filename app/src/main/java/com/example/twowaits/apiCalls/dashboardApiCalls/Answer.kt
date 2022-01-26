@@ -6,5 +6,6 @@ data class Answer(
     val answered: String,
     val author_id: AuthorId,
     val comment: List<Comment>,
-    val likes: Int
+    val likes: Int,
+    val liked_by_user: String
 )

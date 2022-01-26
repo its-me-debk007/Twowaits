@@ -3,6 +3,7 @@ package com.example.twowaits.authPages
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,9 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.OtpVerificationBinding
 import com.example.twowaits.repository.authRepositories.SendOtpRepository
 import com.example.twowaits.repository.authRepositories.VerifyOtpRepository
+import kotlinx.coroutines.DelicateCoroutinesApi
 
+@DelicateCoroutinesApi
 class OtpVerification : Fragment() {
     private var _binding: OtpVerificationBinding? = null
     private val binding get() = _binding!!
@@ -76,8 +79,9 @@ override fun onCreateView(
             binding.EnterOTP.error = "OTP is incorrect"
             return@setOnClickListener
         }
-
-        repository2.verifyOtp(CompanionObjects.EMAIL, otp)
+        Log.d("DDDD", CompanionObjects.EMAIL)
+        Log.d("DDDD", otp)
+        repository2.verifyOtp(VerifyOtpBody(CompanionObjects.EMAIL, otp))
         binding.verify.isEnabled = false
         binding.ProgressBar.visibility = View.VISIBLE
 
@@ -86,7 +90,7 @@ override fun onCreateView(
             if (it == "success"){
                 if (CompanionObjects.PREVIOUS_PAGE == "SignUp") {
                     timerCountDownTimer.cancel()
-
+                    findNavController().navigate(R.id.action_otpVerification_to_chooseYourRole)
                 }
                 else if (CompanionObjects.PREVIOUS_PAGE == "VerifyEmail"){
                     timerCountDownTimer.cancel()
@@ -106,10 +110,8 @@ override fun onCreateView(
         if (flag)
             return@setOnClickListener
     }
-
-//    Before Moving to next fragment, write this:
+//    Before Moving to next fragment:
 //      timerCountDownTimer.cancel()
-
         return binding.root
     }
 

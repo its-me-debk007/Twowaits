@@ -26,14 +26,26 @@ class AnswersRecyclerAdapter(private val answers: List<Answer>, private val list
         val commentsCount: TextView = itemView.findViewById(R.id.CommentCount)
         val likeBtn: ToggleButton = itemView.findViewById(R.id.Like)
         val commentBtn: ImageView = itemView.findViewById(R.id.Comment)
+        val addComment: TextView = itemView.findViewById(R.id.addComment)
+        val commentsRecyclerView: RecyclerView = itemView.findViewById(R.id.commentsRecyclerView)
 
         init {
             likeBtn.setOnClickListener {
                 listener.likeBtnClicked(answers[adapterPosition].answer_id)
-//                likesCount.text = (answers[adapterPosition].likes + 1).toString()
+                if (likeBtn.isChecked) likesCount.text = (likesCount.text.toString().toInt() + 1).toString()
+                else likesCount.text = (likesCount.text.toString().toInt() - 1).toString()
             }
             commentBtn.setOnClickListener {
-                listener.commentBtnClicked(answers[adapterPosition].answer_id)
+                if (listener.commentBtnClicked()) {
+                    commentsRecyclerView.visibility = View.VISIBLE
+                    addComment.visibility = View.VISIBLE
+                } else {
+                    commentsRecyclerView.visibility = View.GONE
+                    addComment.visibility = View.GONE
+                }
+            }
+            addComment.setOnClickListener {
+                listener.addCommentClicked(answers[adapterPosition].answer, answers[adapterPosition].answer_id)
             }
         }
     }
@@ -50,23 +62,31 @@ class AnswersRecyclerAdapter(private val answers: List<Answer>, private val list
         val minutes = answers[position].answered.subSequence(14, 16)
 
         holder.apply {
-            answerDetails.text = CompanionObjects.properTimeFormat(
+            answerDetails.text = "Answered at ${CompanionObjects.properTimeFormat(
                 monthNumber.toString(),
                 day.toString(),
                 hours.toString(),
-                minutes.toString()
-            )
+                minutes.toString())}"
             likesCount.text = answers[position].likes.toString()
             commentsCount.text = answers[position].comment.size.toString()
             answer.text = answers[position].answer
+            likeBtn.isChecked = answers[position].liked_by_user == "True"
+            commentsRecyclerView.adapter = CommentsRecyclerAdapter(answers[position].comment)
             try {
                 answerer.text = answers[position].author_id.student.name
                 answererProfilePic.load(answers[position].author_id.student.profile_pic) {
                     transformations(CircleCropTransformation())
                 }
             } catch (e: Exception) {
-                answerer.text = "Anonymous"
-                answererProfilePic.setImageResource(R.drawable.profile_pic_default)
+                try {
+                    answerer.text = answers[position].author_id.faculty.name
+                    answererProfilePic.load(answers[position].author_id.faculty.profile_pic) {
+                        transformations(CircleCropTransformation())
+                    }
+                } catch (e: Exception) {
+                    answerer.text = "Anonymous"
+                    answererProfilePic.setImageResource(R.drawable.profile_pic_default)
+                }
             }
         }
     }
@@ -77,5 +97,6 @@ class AnswersRecyclerAdapter(private val answers: List<Answer>, private val list
 }
 interface AnswerItemClicked {
     fun likeBtnClicked(question_id: Int)
-    fun commentBtnClicked(question_id: Int)
+    fun commentBtnClicked(): Boolean
+    fun addCommentClicked(answer: String, answer_id: Int)
 }

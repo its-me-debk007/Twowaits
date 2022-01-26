@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.twowaits.CompanionObjects
 import com.example.twowaits.databinding.PdfViewerBinding
 
 class PDFViewer: Fragment() {
@@ -17,7 +18,7 @@ class PDFViewer: Fragment() {
     ): View {
         _binding = PdfViewerBinding.inflate(inflater, container, false)
 
-        binding.pdf.fromAsset("DataStructures.pdf").load()
+        binding.pdf.fromUri(CompanionObjects.PDF_URI)
 
         return binding.root
     }

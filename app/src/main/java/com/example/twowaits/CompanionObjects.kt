@@ -1,5 +1,6 @@
 package com.example.twowaits
 
+import android.net.Uri
 import android.os.CountDownTimer
 import androidx.datastore.DataStore
 import androidx.datastore.preferences.Preferences
@@ -13,9 +14,11 @@ import kotlinx.coroutines.flow.first
 class CompanionObjects {
     companion object{
         lateinit var EMAIL: String
+        lateinit var PASSWORD: String
         lateinit var PREVIOUS_PAGE: String
-        var ACCESS_TOKEN = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY0NDg1MTgwOCwiaWF0IjoxNjQyMjU5ODA4LCJqdGkiOiJhYmZkYzY1ZWI2NTQ0MzYzOWEzNDMzMTQwODk2Y2FlNyIsInVzZXJfaWQiOjN9.suLx_Q6jp5viw9MP2PwEM2w5Mq2so7k24fpy2MNMLHM"
         lateinit var REFRESH_TOKEN: String
+//        var ACCESS_TOKEN: String = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQzMTMwMTQ4LCJpYXQiOjE2NDMwNDM3NDgsImp0aSI6ImU3MmIwOWJiNjZjYjRiYzQ5ZTA2YjZmYTZlNmZjODBjIiwidXNlcl9pZCI6Nn0.wenO_OHmBW9iOB5HvPDT1Fs32T642P_oAyg4ObjP89c"
+        var ACCESS_TOKEN: String? = null
         var QUIZ_ID = 0
         var QUESTIONS_LEFT = -1
         var CURRENT_QUESTION = 0
@@ -24,37 +27,17 @@ class CompanionObjects {
         var QUIZ_RESULT_ID = 0
         var CHOSEN_OPTION: MutableMap<Int, Int> = mutableMapOf()
         lateinit var TITLE_OF_QUIZ: String
+        lateinit var USER: String
+        var isSearchBarOpen = false
 
         var dataStore: DataStore<Preferences>? = null
-        suspend fun saveLoginStatus(key: String, value: String){
+        suspend fun saveData(key: String, value: String){
             val dataStoreKey = preferencesKey<String>(key)
             dataStore?.edit {
                 it[dataStoreKey] = value
             }
         }
-        suspend fun readLoginStatus(key:String): String?{
-            val dataStoreKey = preferencesKey<String>(key)
-            val preferences = dataStore?.data?.first()
-            return preferences?.get(dataStoreKey)
-        }
-        suspend fun saveAccessToken(key: String, value: String){
-            val dataStoreKey = preferencesKey<String>(key)
-            dataStore?.edit {
-                it[dataStoreKey] = value
-            }
-        }
-        suspend fun readAccessToken(key:String): String?{
-            val dataStoreKey = preferencesKey<String>(key)
-            val preferences = dataStore?.data?.first()
-            return preferences?.get(dataStoreKey)
-        }
-        suspend fun saveRefreshToken(key: String, value: String){
-            val dataStoreKey = preferencesKey<String>(key)
-            dataStore?.edit {
-                it[dataStoreKey] = value
-            }
-        }
-        suspend fun readRefreshToken(key:String): String?{
+        suspend fun readData(key:String): String?{
             val dataStoreKey = preferencesKey<String>(key)
             val preferences = dataStore?.data?.first()
             return preferences?.get(dataStoreKey)
@@ -91,7 +74,7 @@ class CompanionObjects {
                     meridian = "am"
                 }
             }
-            return "Answered at $hour:$minutes $meridian, $day $monthName"
+            return "$hour:$minutes $meridian, $day $monthName"
         }
 
         lateinit var timerCountDownTimer: CountDownTimer
@@ -103,7 +86,7 @@ class CompanionObjects {
         val timeFinishedLiveData: LiveData<Boolean> = timeFinishedData
 
         var time = 0
-        fun startTimer(time_limit: Int ) {
+        fun startTimer(time_limit: Int) {
             timerCountDownTimer = object : CountDownTimer((time_limit * 60 * 1000).toLong(), 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     val timeLeft = millisUntilFinished / 1000
@@ -118,6 +101,7 @@ class CompanionObjects {
 
         var TIME_LIMIT = 0
         val isSearchBarActiveLiveData = MutableLiveData<Boolean>()
-
+        lateinit var PDF_URI: Uri
+        var Q_SEARCHED: String? = null
     }
 }

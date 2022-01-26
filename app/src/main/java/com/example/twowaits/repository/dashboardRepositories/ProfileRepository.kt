@@ -18,27 +18,19 @@ import kotlinx.coroutines.launch
 @DelicateCoroutinesApi
 class ProfileRepository {
     private val profileFacultyMutableLiveData = MutableLiveData<FacultyProfileDetailsResponse>()
-    val profileFacultyLiveData: LiveData<FacultyProfileDetailsResponse> =
-        profileFacultyMutableLiveData
-
+    val profileFacultyLiveData: LiveData<FacultyProfileDetailsResponse> = profileFacultyMutableLiveData
     private val profileStudentMutableLiveData = MutableLiveData<StudentProfileDetailsResponse>()
     val profileStudentLiveData: LiveData<StudentProfileDetailsResponse> = profileStudentMutableLiveData
-
     private val errorFacultyMutableLiveData = MutableLiveData<String>()
     val errorFacultyLiveData: LiveData<String> = errorFacultyMutableLiveData
-
     private val errorStudentMutableLiveData = MutableLiveData<String>()
     val errorStudentLiveData: LiveData<String> = errorStudentMutableLiveData
-
     private val saveRefreshTokenMutableLiveData = MutableLiveData<String>()
     val saveRefreshTokenLiveData: LiveData<String> = saveRefreshTokenMutableLiveData
-
     private val uploadImageMutableLiveData = MutableLiveData<String>()
     val uploadImageLiveData: LiveData<String> = uploadImageMutableLiveData
-
     private val updateProfileDetailsData = MutableLiveData<StudentProfileDetailsResponse>()
     val updateProfileDetailsLiveData: LiveData<StudentProfileDetailsResponse> = updateProfileDetailsData
-
     private val errorUpdateProfileDetailsData = MutableLiveData<String>()
     val errorUpdateProfileDetailsLiveData: LiveData<String> = errorUpdateProfileDetailsData
 

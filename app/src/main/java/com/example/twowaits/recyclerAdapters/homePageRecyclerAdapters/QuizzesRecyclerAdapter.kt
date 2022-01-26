@@ -22,7 +22,6 @@ class QuizzesRecyclerAdapter(
         val quizCreator: TextView = itemView.findViewById(R.id.QuizCreator)
         val quizImg: ImageView = itemView.findViewById(R.id.QuizImg)
         val noOfQuestions: TextView = itemView.findViewById(R.id.NoOfQuestions)
-
         init {
             itemView.setOnClickListener {
                 listener.onQuizClicked(quizzes[adapterPosition].quiz_id)
@@ -48,7 +47,6 @@ class QuizzesRecyclerAdapter(
                 }
                 quizCreator.text = "Quiz by $nameOfTeacher"
             } else quizCreator.text = "Anonymous"
-
         }
     }
 

@@ -7,6 +7,7 @@ import com.example.twowaits.CompanionObjects
 import com.example.twowaits.apiCalls.authApiCalls.LoginResponse
 import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.apiCalls.authApiCalls.GettingTokensResponse
+import com.example.twowaits.authPages.LoginBody
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -19,13 +20,16 @@ import retrofit2.Response
 class LoginRepository {
     private val loginMutableLiveData = MutableLiveData<LoginResponse>()
     val loginLiveData: LiveData<LoginResponse> = loginMutableLiveData
-
     private val errorMutableLiveData = MutableLiveData<String>()
     val errorLiveData: LiveData<String> = errorMutableLiveData
+    private val getTokenData = MutableLiveData<GettingTokensResponse>()
+    val getTokenLiveData: LiveData<GettingTokensResponse> = getTokenData
+    private val error = MutableLiveData<String>()
+    val errorData: LiveData<String> = error
 
-    fun login(email: String, password: String){
+    fun login(loginBody: LoginBody){
         GlobalScope.launch (Dispatchers.IO){
-            val response = RetrofitClient.getInstance().login(email, password)
+            val response = RetrofitClient.getInstance().login(loginBody)
             when {
                 response.isSuccessful -> {
                     loginMutableLiveData.postValue(response.body())
@@ -37,7 +41,7 @@ class LoginRepository {
                     errorMutableLiveData.postValue("You've entered the wrong password. Please try again!")
                 }
                 else -> {
-                    errorMutableLiveData.postValue(response.body()?.message)
+                    errorMutableLiveData.postValue("Error code is ${response.code()}\n${response.message()}\n${response.body()?.message}")
                 }
             }
         }
@@ -47,9 +51,11 @@ class LoginRepository {
         GlobalScope.launch(Dispatchers.IO) {
             val response = RetrofitClient.getInstance().getAuthTokens(email, password)
             if (response.isSuccessful){
-                CompanionObjects.saveAccessToken("accessToken", response.body()!!.access)
-                CompanionObjects.saveRefreshToken("refreshToken", response.body()!!.refresh)
-                Log.d("TOKENS", response.body()!!.access)
+                getTokenData.postValue(response.body())
+//                Log.d("TOKENS", CompanionObjects.readRefreshToken("refreshToken")!!)
+            }
+            else {
+                error.postValue("Error code is ${response.code()}\n${response.message()}")
             }
         }
     }
