@@ -15,7 +15,6 @@ import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.OptionXX
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.RegisterResponseBody
 import com.example.twowaits.databinding.PleaseWaitDialog2Binding
-import com.example.twowaits.databinding.PleaseWaitDialogBinding
 import com.example.twowaits.databinding.QuizBinding
 import com.example.twowaits.viewmodels.quizViewModels.QuizViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -34,8 +33,8 @@ class Quiz : Fragment() {
         var chosenOptionId = 0
         val attemptQuizBody = AttemptQuizBody(CompanionObjects.QUIZ_ID)
 
-        if (CompanionObjects.CHOSEN_OPTION[CompanionObjects.CURRENT_QUESTION] != null){
-            when (CompanionObjects.CHOSEN_OPTION[CompanionObjects.CURRENT_QUESTION]){
+        if (CompanionObjects.CHOSEN_OPTION[CompanionObjects.CURRENT_QUESTION] != null) {
+            when (CompanionObjects.CHOSEN_OPTION[CompanionObjects.CURRENT_QUESTION]) {
                 1 -> binding.option1.isChecked = true
                 2 -> binding.option2.isChecked = true
                 3 -> binding.option3.isChecked = true
@@ -97,31 +96,35 @@ class Quiz : Fragment() {
                             R.id.option1 -> {
                                 chosenOptionId =
                                     CompanionObjects.QUIZ_DATA.question[CompanionObjects.CURRENT_QUESTION].option[0].option_id
-                                CompanionObjects.CHOSEN_OPTION[CompanionObjects.CURRENT_QUESTION] = 1
+                                CompanionObjects.CHOSEN_OPTION[CompanionObjects.CURRENT_QUESTION] =
+                                    1
                             }
                             R.id.option2 -> {
                                 chosenOptionId =
                                     CompanionObjects.QUIZ_DATA.question[CompanionObjects.CURRENT_QUESTION].option[1].option_id
-                                CompanionObjects.CHOSEN_OPTION[CompanionObjects.CURRENT_QUESTION] = 2
+                                CompanionObjects.CHOSEN_OPTION[CompanionObjects.CURRENT_QUESTION] =
+                                    2
                             }
                             R.id.option3 -> {
                                 chosenOptionId =
                                     CompanionObjects.QUIZ_DATA.question[CompanionObjects.CURRENT_QUESTION].option[2].option_id
-                                CompanionObjects.CHOSEN_OPTION[CompanionObjects.CURRENT_QUESTION] = 3
+                                CompanionObjects.CHOSEN_OPTION[CompanionObjects.CURRENT_QUESTION] =
+                                    3
                             }
                             R.id.option4 -> {
                                 chosenOptionId =
                                     CompanionObjects.QUIZ_DATA.question[CompanionObjects.CURRENT_QUESTION].option[3].option_id
-                                CompanionObjects.CHOSEN_OPTION[CompanionObjects.CURRENT_QUESTION] = 4
+                                CompanionObjects.CHOSEN_OPTION[CompanionObjects.CURRENT_QUESTION] =
+                                    4
                             }
                         }
                     }
                 })
                 viewModel.errorAttemptQuizLiveData.observe(viewLifecycleOwner, { errorMessage ->
-                    if (errorMessage == "Quiz already attempted"){
+                    if (errorMessage == "Quiz already attempted") {
                         dialog.hide()
                         findNavController().navigate(R.id.action_quiz_to_quizResult)
-                    }else {
+                    } else {
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                         dialog.hide()
                     }
@@ -192,9 +195,10 @@ class Quiz : Fragment() {
         }
 
         CompanionObjects.timeLeftLiveData.observe(viewLifecycleOwner, {
-            val timeLimit = if (CompanionObjects.TIME_LIMIT == 1) "${CompanionObjects.TIME_LIMIT} min" else "${CompanionObjects.TIME_LIMIT} mins"
-            val min = if (it/60 == 1) "${it/60} min" else "${it/60} mins"
-            val sec = if (it%60 == 1) "${it%60} second" else "${it%60} seconds"
+            val timeLimit =
+                if (CompanionObjects.TIME_LIMIT == 1) "${CompanionObjects.TIME_LIMIT} min" else "${CompanionObjects.TIME_LIMIT} mins"
+            val min = if (it / 60 == 1) "${it / 60} min" else "${it / 60} mins"
+            val sec = if (it % 60 == 1) "${it % 60} second" else "${it % 60} seconds"
 
             binding.TimeLeft.text = "You have spent $min $sec out of ${timeLimit}"
         })
@@ -227,8 +231,7 @@ class Quiz : Fragment() {
                     binding.PreviousBtn.isEnabled = true
                     findNavController().navigate(R.id.action_quiz_to_quizResult)
                 })
-            }
-            else {
+            } else {
                 CompanionObjects.FIRST_TIME = false
                 CompanionObjects.CURRENT_QUESTION = 0
                 CompanionObjects.CHOSEN_OPTION.clear()
@@ -261,8 +264,7 @@ class Quiz : Fragment() {
                         binding.NextBtn.isEnabled = true
                         binding.PreviousBtn.isEnabled = true
                     })
-                }
-                else {
+                } else {
                     CompanionObjects.CURRENT_QUESTION++
                     binding.NextBtn.isEnabled = true
                     binding.PreviousBtn.isEnabled = true
@@ -290,8 +292,7 @@ class Quiz : Fragment() {
                         binding.NextBtn.isEnabled = true
                         binding.PreviousBtn.isEnabled = true
                     })
-                }
-                else {
+                } else {
                     CompanionObjects.FIRST_TIME = false
                     CompanionObjects.CURRENT_QUESTION = 0
                     CompanionObjects.CHOSEN_OPTION.clear()
@@ -313,7 +314,7 @@ class Quiz : Fragment() {
             binding.PreviousBtn.isEnabled = false
 
             if (CompanionObjects.CURRENT_QUESTION > 0) {
-                if (chosenOptionId != 0){
+                if (chosenOptionId != 0) {
                     val registerResponseBody = RegisterResponseBody(
                         CompanionObjects.QUIZ_RESULT_ID,
                         CompanionObjects.QUIZ_DATA.question[CompanionObjects.CURRENT_QUESTION].quiz_question_id,
@@ -331,8 +332,7 @@ class Quiz : Fragment() {
                         binding.NextBtn.isEnabled = true
                         binding.PreviousBtn.isEnabled = true
                     })
-                }
-                else {
+                } else {
                     CompanionObjects.CURRENT_QUESTION--
                     binding.NextBtn.isEnabled = true
                     binding.PreviousBtn.isEnabled = true
