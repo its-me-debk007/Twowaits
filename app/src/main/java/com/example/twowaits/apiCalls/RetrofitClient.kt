@@ -1,19 +1,42 @@
 package com.example.twowaits.apiCalls
 
+import com.example.twowaits.Data
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
-    private val client = OkHttpClient.Builder().build()
+    fun getInstance(): API {
+        val baseUrl = "http://3.110.33.189/"
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("")
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(client)
-        .build()
+        val tokenInterceptor = Interceptor { chain ->
+            var request = chain.request()
+            request = request.newBuilder()
+                .addHeader("Authorization", "Bearer ${Data.ACCESS_TOKEN}")
+                .build()
+            chain.proceed(request)
+        }
 
-    fun init(): API {
-        return retrofit.create(API::class.java)
+        if (Data.ACCESS_TOKEN != null) {
+            val tokenClient = OkHttpClient.Builder()
+                .addInterceptor(tokenInterceptor)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build()
+
+            return Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(tokenClient)
+                .build()
+                .create(API::class.java)
+        } else {
+            return Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(API::class.java)
+        }
     }
 }

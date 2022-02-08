@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<!--    <com.borjabravo.readmoretextview.ReadMoreTextView-->
+<!--        android:id="@+id/QuestionDetails"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="24dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:fontFamily="@font/roboto_regular"-->
+<!--        android:text="You asked in AKGEC, Ghaziabad"-->
+<!--        android:textColor="#A17A69"-->
+<!--        android:textSize="12sp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <TextView
+        android:id="@+id/Question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Difference between microprocessor and microcontroller in details?"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Share" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/answersRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/addAnswer" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/answersRecyclerView"
+        app:srcCompat="@drawable/questions_separator_for_recycler_view" />
+
+    <ToggleButton
+        android:id="@+id/bookmarkBtn"
+        android:layout_width="16dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/bookmark_button_state"
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bookmarks_icon" />
+
+    <ImageView
+        android:id="@+id/Share"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/bookmarkBtn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/share_icon" />
+
+    <TextView
+        android:id="@+id/addAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Add answer"
+        android:textColor="#A17A69"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Question" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".homePages.Profile">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ProfileCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/profile_constraint_layout_design">
+
+                <ImageView
+                    android:id="@+id/HorizontalLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginStart="19dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="19dp"
+                    android:src="@drawable/profile_page_horizontal_line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/NameOfUser" />
+
+                <TextView
+                    android:id="@+id/CollegeOfUser"
+                    android:layout_width="147dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="#000000"
+                    android:background="@color/shimmer_color"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/DetailsOfUser" />
+
+                <TextView
+                    android:id="@+id/DetailsOfUser"
+                    android:layout_width="164dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@color/shimmer_color"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/HorizontalLine" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/AddPicBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="77dp"
+                    android:layout_marginTop="66dp"
+                    android:backgroundTint="@color/shimmer_color"
+                    app:layout_constraintStart_toStartOf="@+id/ProfilePic"
+                    app:layout_constraintTop_toTopOf="@+id/ProfilePic" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ProfilePic"
+                    android:layout_width="113dp"
+                    android:layout_height="111dp"
+                    android:layout_marginTop="16dp"
+                    android:scaleType="centerCrop"
+                    android:background="@color/shimmer_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/circular_image_view" />
+
+                <TextView
+                    android:id="@+id/NameOfUser"
+                    android:layout_width="107dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:background="@color/shimmer_color"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ProfilePic" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/TwoWaitsPremium"
+            android:layout_width="252dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/roboto_medium"
+            android:background="@color/shimmer_color"
+            android:textColor="#000000"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ProfileCardView" />
+
+
+        <TextView
+            android:id="@+id/PremiumBadgeText"
+            android:layout_width="86dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto_regular"
+            android:background="@color/shimmer_color"
+            android:textColor="#606060"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/TwoWaitsPremium" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="251dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/shimmer_color"
+            android:textColor="#606060"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/PremiumBadgeText" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="48dp"
+            android:layout_height="77dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintEnd_toStartOf="@+id/TwoWaitsPremium"
+            app:layout_constraintTop_toBottomOf="@+id/ProfileCardView"
+            android:background="@color/shimmer_color"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/PriceConstraintLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout5"
+                android:layout_width="135dp"
+                android:layout_height="0dp"
+                android:background="@color/shimmer_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout4"
+                android:layout_width="135dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/shimmer_color"
+                app:layout_constraintStart_toEndOf="@+id/constraintLayout5"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/BuyNowBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingTop="10dp"
+            android:paddingBottom="12dp"
+            android:backgroundTint="@color/shimmer_color"
+            android:textAllCaps="false"
+            android:textSize="22sp"
+            app:cornerRadius="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/PriceConstraintLayout" />
+
+<!--        <com.google.android.material.tabs.TabLayout-->
+<!--            android:id="@+id/TabLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/BuyNowBtn"-->
+<!--            app:tabIndicatorColor="#804D37"-->
+<!--            app:tabSelectedTextColor="#804D37"-->
+<!--            app:tabTextColor="#000000"-->
+<!--            tools:ignore="SpeakableTextPresentCheck" />-->
+
+<!--        <ScrollView-->
+<!--            android:id="@+id/ScrollView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/TabLayout">-->
+
+<!--            <androidx.viewpager2.widget.ViewPager2-->
+<!--                android:id="@+id/viewPager2"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="24dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/ScrollView" />-->
+
+<!--        </ScrollView>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/Logout"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:fontFamily="@font/rockwell"-->
+<!--            android:text="Logout"-->
+<!--            android:textColor="#000000"-->
+<!--            android:textSize="16sp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/ScrollView" />-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

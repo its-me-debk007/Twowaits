@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/Answerer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Karan Goel"
+        android:textColor="#000000"
+        android:textSize="13sp"
+        app:layout_constraintStart_toEndOf="@+id/AnswererProfilePic"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/AnswererProfilePic"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/AnswerDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Answered at 1:45 pm, 21 Dec"
+        android:textColor="#A17A69"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/AnswererProfilePic"
+        app:layout_constraintTop_toBottomOf="@+id/Answerer" />
+
+    <com.borjabravo.readmoretextview.ReadMoreTextView
+        android:id="@+id/Answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="@string/sample_long_text"
+        android:textColor="#525252"
+        app:trimCollapsedText="Show Less"
+        app:colorClickableText="#804D37"
+        app:trimMode="trimModeLength"
+        app:trimLength="143"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AnswerDetails" />
+
+    <ToggleButton
+        android:id="@+id/Like"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/like_button_state"
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Answer" />
+
+    <TextView
+        android:id="@+id/LikeCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="243"
+        android:textColor="#263238"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/Like"
+        app:layout_constraintTop_toBottomOf="@+id/Answer" />
+
+    <ImageView
+        android:id="@+id/Comment"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/LikeCount"
+        app:layout_constraintTop_toBottomOf="@+id/Answer"
+        app:srcCompat="@drawable/comment_icon" />
+
+    <TextView
+        android:id="@+id/CommentCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="43"
+        android:textColor="#263238"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/Comment"
+        app:layout_constraintTop_toBottomOf="@+id/Answer" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/commentsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="24dp"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addComment" />
+
+    <TextView
+        android:id="@+id/addComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Add Comment"
+        android:textColor="#A17A69"
+        android:textSize="13sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Comment" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

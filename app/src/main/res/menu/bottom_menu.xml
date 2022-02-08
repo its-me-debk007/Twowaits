@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homePage"
+        android:icon="@drawable/home_icon"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/library"
+        android:icon="@drawable/library_icon"
+        android:title="Library" />
+
+    <item
+        android:id="@+id/explore"
+        android:icon="@drawable/explore_icon"
+        android:title="Ask" />
+
+    <item
+        android:id="@+id/downloads"
+        android:icon="@drawable/download_icon"
+        android:title="Downloads" />
+
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/profile_icon"
+        android:title="Profile" />
+</menu>
