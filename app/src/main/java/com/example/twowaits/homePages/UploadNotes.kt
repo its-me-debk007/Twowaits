@@ -70,7 +70,7 @@ class UploadNotes : Fragment() {
 
             viewModel.uploadNote(pdfUri!!,
                 UploadNotePartialBody(binding.description.text.toString().trim(), binding.title.text.toString().trim()))
-            viewModel.uploadPDF.observe(viewLifecycleOwner, { message ->
+            viewModel.uploadPDF.observe(viewLifecycleOwner) { message ->
                 if (message == "success") {
                     Toast.makeText(context, "Successfully uploaded", Toast.LENGTH_SHORT).show()
                     binding.upload.isEnabled = true
@@ -85,7 +85,7 @@ class UploadNotes : Fragment() {
                     binding.upload.isEnabled = true
                     dialog.hide()
                 }
-            })
+            }
         }
 
         return binding.root

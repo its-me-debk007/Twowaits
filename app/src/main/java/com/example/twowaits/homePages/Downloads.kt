@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
 import com.example.twowaits.databinding.DownloadsBinding
@@ -28,12 +29,6 @@ class Downloads : Fragment() {
             }, 440)
         }
 
-//        binding.DownloadedNotesRecyclerView.adapter = DownloadedNotesRecyclerAdapter()
-//        binding.DownloadedNotesRecyclerView.layoutManager = LinearLayoutManager(container?.context)
-
-//        binding.DownloadedLecturesRecyclerView.adapter = DownloadedLecturesRecyclerAdapter()
-//        binding.DownloadedLecturesRecyclerView.layoutManager = LinearLayoutManager(container?.context)
-
         val viewPagerAdapter = DownloadsViewPagerAdapter(childFragmentManager, lifecycle)
         binding.viewPager2.adapter = viewPagerAdapter
         TabLayoutMediator(binding.TabLayout, binding.viewPager2){tab, position ->
@@ -45,6 +40,16 @@ class Downloads : Fragment() {
 
         return binding.root
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.action_downloads_to_homePage)
+            }
+        })
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

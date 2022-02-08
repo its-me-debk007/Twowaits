@@ -1,5 +1,5 @@
 package com.example.twowaits.apiCalls.dashboardApiCalls
 
-data class GetNewRefreshTokenResponse(
+data class GetNewAccessTokenResponse(
     val access: String
 )

@@ -184,6 +184,7 @@
 
         <TextView
             android:id="@+id/sign_in_button"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
@@ -195,6 +196,7 @@
 
         <ImageView
             android:id="@+id/imageView"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"

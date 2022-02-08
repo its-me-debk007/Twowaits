@@ -17,10 +17,8 @@ import kotlin.random.Random.Default.nextInt
 
 @DelicateCoroutinesApi
 class CreateProfileRepository {
-    private val createStudentProfileData = MutableLiveData<String>()
-    val createStudentProfileLiveData: LiveData<String> = createStudentProfileData
-    private val createFacultyProfileData = MutableLiveData<String>()
-    val createFacultyProfileLiveData: LiveData<String> = createFacultyProfileData
+    val createStudentProfileData = MutableLiveData<String>()
+    val createFacultyProfileData = MutableLiveData<String>()
 
     fun createStudentProfileDetails(name: String, college: String, course: String, branch: String,
                                     year: String, gender: String,
@@ -35,11 +33,10 @@ class CreateProfileRepository {
                         GlobalScope.launch {
                             val response = RetrofitClient.getInstance().createStudentProfileDetails(
                                 CreateStudentProfileBody(name, college, course, branch,
-                                    year, gender, dob, it.toString())
-                            )
+                                    year, gender, dob, it.toString()))
                             when {
                                 response.isSuccessful -> createStudentProfileData.postValue("success")
-                                else -> createStudentProfileData.postValue("Error code ${response.code()}\n${response.message()}")
+                                else -> createStudentProfileData.postValue("${response.message()}\nPlease try again")
                             }
                         }
                     }
@@ -52,8 +49,8 @@ class CreateProfileRepository {
             }
     }
 
-    fun createFacultyProfileDetails(name: String, department: String, college: String, gender: String,
-                                    dob: String, uri: Uri){
+    fun createFacultyProfileDetails(college: String, department: String, dob: String, gender: String,
+                                    name: String, uri: Uri){
         val sdf = SimpleDateFormat("yyyy/MM/dd_HH:mm:ss", Locale.UK)
         val file = sdf.format(Date())+nextInt(1000)
         val imageRef = Firebase.storage.reference.child("${file}.jpg")
@@ -63,11 +60,10 @@ class CreateProfileRepository {
                     .addOnSuccessListener {
                         GlobalScope.launch {
                             val response = RetrofitClient.getInstance().createFacultyProfileDetails(
-                                CreateFacultyProfileBody(name, department, college, gender, dob, it.toString())
-                            )
+                                CreateFacultyProfileBody(college, department, dob, gender, name, it.toString()))
                             when {
                                 response.isSuccessful -> createFacultyProfileData.postValue("success")
-                                else -> createFacultyProfileData.postValue("Error code ${response.code()}\n${response.message()}")
+                                else -> createFacultyProfileData.postValue("${response.message()}\nPlease try again")
                             }
                         }
                     }

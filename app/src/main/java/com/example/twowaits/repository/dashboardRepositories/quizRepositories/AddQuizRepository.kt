@@ -2,6 +2,7 @@ package com.example.twowaits.repository.dashboardRepositories.quizRepositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.twowaits.Data
 import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.AddCorrectOptionResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.AddQuestionsResponse
@@ -16,13 +17,10 @@ import kotlinx.coroutines.launch
 class AddQuizRepository {
     private val addQuestionsMutableLiveData = MutableLiveData<AddQuestionsResponse>()
     val addQuestionsLiveData: LiveData<AddQuestionsResponse> = addQuestionsMutableLiveData
-
     private val errorAddQuestionsMutableLiveData = MutableLiveData<String>()
     val errorAddQuestionsLiveData: LiveData<String> = errorAddQuestionsMutableLiveData
-
     private val addCorrectOptionMutableLiveData = MutableLiveData<AddCorrectOptionResponse>()
     val addCorrectOptionLiveData: LiveData<AddCorrectOptionResponse> = addCorrectOptionMutableLiveData
-
     private val errorAddCorrectOptionMutableLiveData = MutableLiveData<String>()
     val errorAddCorrectOptionLiveData: LiveData<String> = errorAddCorrectOptionMutableLiveData
 
@@ -34,7 +32,11 @@ class AddQuizRepository {
                     addQuestionsMutableLiveData.postValue(response.body())
                 }
                 response.code() == 400 -> {
-                    errorAddQuestionsMutableLiveData.postValue("Token has Expired")
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        createQuestion(createQuestionBody)
+                    else
+                        errorAddQuestionsMutableLiveData.postValue("Some error has occurred!\nPlease try again")
                 }
                 else -> {
                     errorAddQuestionsMutableLiveData.postValue("Error code is ${response.code()}")
@@ -51,7 +53,11 @@ class AddQuizRepository {
                     addCorrectOptionMutableLiveData.postValue(response.body())
                 }
                 response.code() == 400 -> {
-                    errorAddCorrectOptionMutableLiveData.postValue("Token has Expired")
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        addCorrectOption(addCorrectOptionBody)
+                    else
+                        errorAddCorrectOptionMutableLiveData.postValue("Some error has occurred!\nPlease try again")
                 }
                 else -> {
                     errorAddCorrectOptionMutableLiveData.postValue("Error code is ${response.code()}\n${response.message()}")

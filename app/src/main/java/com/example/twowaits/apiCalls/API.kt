@@ -1,5 +1,6 @@
 package com.example.twowaits.apiCalls
 
+import com.example.twowaits.homePages.UploadLectureBody
 import com.example.twowaits.apiCalls.authApiCalls.*
 import com.example.twowaits.apiCalls.dashboardApiCalls.*
 import com.example.twowaits.apiCalls.dashboardApiCalls.chatApiCalls.FetchConversationsMessagesResponse
@@ -13,6 +14,7 @@ import com.example.twowaits.homePages.BookmarkNoteBody
 import com.example.twowaits.homePages.UpdateProfileDetailsBody
 import com.example.twowaits.homePages.UploadNoteBody
 import com.example.twowaits.homePages.navdrawerPages.ChangePasswordBody
+import com.example.twowaits.homePages.navdrawerPages.Feedbackbody
 import com.example.twowaits.homePages.questionsAnswers.*
 import com.example.twowaits.homePages.quiz.AddCorrectOptionBody
 import com.example.twowaits.homePages.quiz.AttemptQuizBody
@@ -39,9 +41,9 @@ interface API {
 
     @FormUrlEncoded
     @POST("account/token/refresh/")
-    suspend fun getNewAccessToken(
+    fun getNewAccessToken(
         @Field("refresh") refresh: String
-    ): Response<GetNewRefreshTokenResponse>
+    ): Call<GetNewAccessTokenResponse>
 
     @FormUrlEncoded
     @POST("account/send-otp/")
@@ -53,13 +55,6 @@ interface API {
     suspend fun login(
         @Body loginBody: LoginBody
     ): Response<LoginResponse>
-
-//    @FormUrlEncoded
-//    @POST("account/otp-verify/")
-//    fun verifyOtp(
-//        @Field("email") email: String,
-//        @Field("otp") otp: String
-//    ): Call<VerifyOtpResponse>
 
     @POST("account/otp-verify/")
     suspend fun verifyOtp(
@@ -158,15 +153,19 @@ interface API {
     ): Response<BookmarkQuestionResponse>
 
     @POST("notes/bookmark/")
-    suspend fun bookmarkNote(
-            @Body bookmarkNoteBody: BookmarkNoteBody
-    ): Response<BookmarkNoteResponse>
+    suspend fun bookmarkNote(@Body bookmarkNoteBody: BookmarkNoteBody): Response<BookmarkNoteResponse>
+
+    @POST("lecture/wishlist/")
+    suspend fun addToWishlist(@Body addToWishlistBody: AddToWishlistBody): Response<AddToWishlistResponse>
 
     @GET("forum/your-questions/")
     suspend fun getYourQnA(): Response<List<QnAResponseItem>>
 
     @GET("notes/your-bookmarked/")
     suspend fun getBookmarkedNotes(): Response<List<RecentNotesResponse>>
+
+    @GET("lecture/your-wishlist/")
+    suspend fun getWishlist(): Response<List<WishlistResponse>>
 
     @GET("forum/your-bookmarked/")
     suspend fun getYourBookmarkedQ(): Response<List<QnAResponseItem>>
@@ -177,10 +176,18 @@ interface API {
     @GET("notes/view/")
     suspend fun recentNotes(): Response<List<RecentNotesResponse>>
 
+    @GET("lecture/view/")
+    suspend fun recentLectures(): Response<List<RecentLecturesResponse>>
+
     @POST("notes/")
     suspend fun uploadNote(
         @Body uploadNoteBody: UploadNoteBody
     ): Response<UploadNotesResponse>
+
+    @POST("lecture/add/")
+    suspend fun uploadLecture(
+        @Body uploadLectureBody: UploadLectureBody
+    ): Response<UploadLectureResponse>
 
     @GET("chat/conversation/")
     suspend fun fetchConversationsMessages(): Response<List<FetchConversationsMessagesResponse>>
@@ -194,4 +201,9 @@ interface API {
     suspend fun searchQnA(
         @Query("search") search: String
     ): Response<List<QnAResponseItem>>
+
+    @POST("profile/feedback/")
+    suspend fun feedback(
+        @Body feedbackBody: Feedbackbody
+    ): Response<FeedbackResponse>
 }

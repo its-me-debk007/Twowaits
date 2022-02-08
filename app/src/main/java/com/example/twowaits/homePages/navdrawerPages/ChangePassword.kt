@@ -111,6 +111,8 @@ class ChangePassword : Fragment() {
                 binding.confirmPassword.text?.clear()
                 Toast.makeText(context, "New password set successfully", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_changePassword2_to_homePage)
+                val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                bottomNavigationView?.visibility = View.VISIBLE
             })
             viewModel.errorChangePasswordData.observe(viewLifecycleOwner, {
                 binding.btn.isEnabled = true

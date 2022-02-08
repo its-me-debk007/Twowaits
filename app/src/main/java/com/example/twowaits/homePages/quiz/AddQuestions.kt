@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.twowaits.CompanionObjects
+import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.databinding.AddQuestionsBinding
 import com.example.twowaits.viewmodels.quizViewModels.AddQuestionsViewModel
@@ -36,7 +37,7 @@ class AddQuestions : Fragment() {
         val data = mutableListOf<OptionsDataClass>()
         val options = mutableListOf<Option>()
 
-        if (CompanionObjects.QUESTIONS_LEFT == 1)
+        if (Data.QUESTIONS_LEFT == 1)
             binding.CreateAndAddQuestions.text = "Finish"
 
 //        binding.OptionsRecyclerView.adapter = OptionsRecyclerAdapter()
@@ -152,12 +153,12 @@ class AddQuestions : Fragment() {
             }
 
             val createQuestionBody = CreateQuestionBody(
-                CompanionObjects.QUIZ_ID,
+                Data.QUIZ_ID,
                 binding.QuestionForQuiz.text.toString(),
                 options
             )
             viewModel.createQuestion(createQuestionBody)
-            viewModel.addQuestionsLiveData.observe(viewLifecycleOwner, { response ->
+            viewModel.addQuestionsLiveData.observe(viewLifecycleOwner) { response ->
 
                 val questionId = response.question.last().quiz_question_id
                 val correctOptions = mutableListOf<CorrectOption>()
@@ -170,10 +171,14 @@ class AddQuestions : Fragment() {
                 val addCorrectOptionBody = AddCorrectOptionBody(questionId, correctOptions)
                 viewModel.addCorrectOption(addCorrectOptionBody)
 
-                viewModel.addCorrectOptionLiveData.observe(viewLifecycleOwner, {
-                    CompanionObjects.QUESTIONS_LEFT--
-                    if (CompanionObjects.QUESTIONS_LEFT == 0) {
-                        Toast.makeText(context, "You have successfully created your quiz", Toast.LENGTH_SHORT).show()
+                viewModel.addCorrectOptionLiveData.observe(viewLifecycleOwner) {
+                    Data.QUESTIONS_LEFT--
+                    if (Data.QUESTIONS_LEFT == 0) {
+                        Toast.makeText(
+                            context,
+                            "You have successfully created your quiz",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         findNavController().navigate(R.id.action_addQuestions_to_homePage)
                     } else
                         findNavController().navigate(R.id.action_addQuestions_to_addQuestions)
@@ -187,20 +192,33 @@ class AddQuestions : Fragment() {
 //                    viewModel.optionCount = 0
 //                    dropdownItems.clear()
 //                    options.clear()
-                })
+                }
                 viewModel.errorAddCorrectOptionLiveData.observe(
-                    viewLifecycleOwner,
-                    { errorMessage ->
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-                    })
-            })
+                    viewLifecycleOwner
+                ) { errorMessage ->
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
 
-            viewModel.errorAddQuestionsLiveData.observe(viewLifecycleOwner, { errorMessage ->
+            viewModel.errorAddQuestionsLiveData.observe(viewLifecycleOwner) { errorMessage ->
                 Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-            })
+            }
         }
 
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Toast.makeText(
+                    context,
+                    "Complete creating your quiz first",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
     }
 
     override fun onDestroy() {

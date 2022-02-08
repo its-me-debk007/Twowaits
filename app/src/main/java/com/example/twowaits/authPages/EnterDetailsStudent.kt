@@ -17,14 +17,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.twowaits.CompanionObjects
+import com.example.twowaits.Data
 import com.example.twowaits.HomeActivity
 import com.example.twowaits.R
-import com.example.twowaits.databinding.EnterDetailsFacultyBinding
 import com.example.twowaits.databinding.EnterDetailsStudentBinding
 import com.example.twowaits.databinding.PleaseWaitDialog2Binding
-import com.example.twowaits.databinding.PleaseWaitDialogBinding
-import com.example.twowaits.repository.authRepositories.CreateProfileRepository
 import com.example.twowaits.viewmodels.EnterDetailsViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
@@ -63,58 +60,42 @@ class EnterDetailsStudent: Fragment() {
         }
 
         binding.submitBtn.setOnClickListener {
-            when {
-                imgUri.toString().trim() == "null" -> {
-                    Toast.makeText(context, "Please select a profile pic", Toast.LENGTH_SHORT)
-                        .show()
-                    return@setOnClickListener
-                }
-                binding.enterYourName.text.isNullOrEmpty() -> {
-                    binding.enterName.helperText = "Please enter your name"
-                    return@setOnClickListener
-                }
-                binding.autoCompleteTextView3.text.isNullOrEmpty() -> {
-                    binding.enterName.helperText = ""
-                    binding.enterBranch.helperText = "Please select your branch"
-                    return@setOnClickListener
-                }
-                binding.autoCompleteTextView.text.isNullOrEmpty() -> {
-                    binding.enterName.helperText = ""
-                    binding.enterBranch.helperText = ""
-                    binding.genderTextInputLayout.helperText = "Please enter your gender and DOB"
-                    return@setOnClickListener
-                }
-                binding.enterYourCollege.text.isNullOrEmpty() -> {
-                    binding.enterName.helperText = ""
-                    binding.enterBranch.helperText = ""
-                    binding.genderTextInputLayout.helperText = ""
-                    binding.enterCollege.helperText = "Please enter your college name"
-                    return@setOnClickListener
-                }
-                binding.autoCompleteTextView2.text.isNullOrEmpty() -> {
-                    binding.enterName.helperText = ""
-                    binding.enterBranch.helperText = ""
-                    binding.genderTextInputLayout.helperText = ""
-                    binding.enterCollege.helperText = ""
-                    binding.courseTextInputLayout.helperText = "Please select your course"
-                    return@setOnClickListener
-                }
-                binding.autoCompleteTextView4.text.isNullOrEmpty() -> {
-                    binding.enterName.helperText = ""
-                    binding.enterBranch.helperText = ""
-                    binding.genderTextInputLayout.helperText = ""
-                    binding.enterCollege.helperText = ""
-                    binding.courseTextInputLayout.helperText = ""
-                    binding.yearTextInputLayout.helperText = "Please select your current year"
-                    return@setOnClickListener
-                }
-            }
+            var flag = false
             binding.enterName.helperText = ""
             binding.enterBranch.helperText = ""
             binding.genderTextInputLayout.helperText = ""
             binding.enterCollege.helperText = ""
             binding.courseTextInputLayout.helperText = ""
             binding.yearTextInputLayout.helperText = ""
+            if (imgUri == null) {
+                Toast.makeText(context, "Please choose your profile pic", Toast.LENGTH_SHORT).show()
+                flag = true
+            }
+            if (binding.enterYourName.text.isNullOrBlank()) {
+                binding.enterName.helperText = "Please enter your name"
+                flag = true
+            }
+            if (binding.enterYourCollege.text.isNullOrBlank()) {
+                binding.enterCollege.helperText = "Please enter your college"
+                flag = true
+            }
+            if (binding.autoCompleteTextView.text.isNullOrBlank() || binding.enterDate.text == "DD/MM/YYYY") {
+                binding.genderTextInputLayout.helperText = "Please enter your gender and DOB"
+                flag = true
+            }
+            if (binding.enterYourCollege.text.isNullOrBlank()) {
+                binding.enterCollege.helperText = "Please enter your college"
+                flag = true
+            }
+            if (binding.autoCompleteTextView2.text.isNullOrBlank()) {
+                binding.courseTextInputLayout.helperText = "Please enter your course"
+                flag = true
+            }
+            if (binding.autoCompleteTextView4.text.isNullOrBlank()) {
+                binding.yearTextInputLayout.helperText = "Please enter your college year"
+                flag = true
+            }
+            if (flag) return@setOnClickListener
 
             val dialog = Dialog(requireContext())
             dialog.setContentView(PleaseWaitDialog2Binding.inflate(layoutInflater).root)
@@ -133,8 +114,12 @@ class EnterDetailsStudent: Fragment() {
                 binding.enterDate.text.toString().trim(),
                 imgUri!!
             )
-            viewModel.createStudentProfileLiveData.observe(viewLifecycleOwner, {
+            viewModel.createStudentProfileLiveData.observe(viewLifecycleOwner) {
                 if (it == "success") {
+                    Data.USER = "STUDENT"
+                    lifecycleScope.launch {
+                        Data.saveData("email", Data.USER_EMAIL)
+                    }
                     val intent = Intent(activity, HomeActivity::class.java)
                     startActivity(intent)
                     activity?.finish()
@@ -142,7 +127,7 @@ class EnterDetailsStudent: Fragment() {
                     Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                     dialog.hide()
                 }
-            })
+            }
         }
         return  binding.root
     }

@@ -7,12 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.example.twowaits.CompanionObjects
+import com.example.twowaits.Data
 import com.example.twowaits.R
-import com.example.twowaits.apiCalls.API
-import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.databinding.CreatePasswordBinding
 import com.example.twowaits.repository.authRepositories.ResetPasswordRepository
 
@@ -28,7 +25,6 @@ class CreatePassword : Fragment() {
 
         binding.Proceed.setOnClickListener {
             val repository = ResetPasswordRepository()
-
             var flagLower = false
             var flagUpper = false
             var flagNumber = false
@@ -44,9 +40,6 @@ class CreatePassword : Fragment() {
                 if (ch in '0'..'9') {
                     flagNumber = true
                 }
-//                if(ch == '#' || ch == '%' || ch == '@' || ch == '$' || ch == '^' || ch == '&' || ch == '+' || ch == '='){
-//                    flagSpecialChar = true
-//                }
                 val asciiCode = ch.code
                 if((asciiCode in 32..47)||(asciiCode in 58..64)||(asciiCode in 91..96)||(asciiCode in 123..126)){
                     flagSpecialChar = true
@@ -83,27 +76,26 @@ class CreatePassword : Fragment() {
             }
             binding.textInputLayout.helperText = ""
 
-            repository.resetPassword(CompanionObjects.EMAIL, binding.EnterYourPassword.text.toString())
+            repository.resetPassword(Data.EMAIL, binding.EnterYourPassword.text.toString())
             binding.Proceed.isEnabled = false
             binding.ProgressBar.visibility = View.VISIBLE
 
-            repository.errorMutableLiveData.observe(viewLifecycleOwner, {
-                if (it == "success"){
+            repository.errorMutableLiveData.observe(viewLifecycleOwner) {
+                if (it == "success") {
                     binding.Proceed.isEnabled = true
                     binding.ProgressBar.visibility = View.INVISIBLE
                     binding.EnterYourPassword.text?.clear()
                     binding.ConfirmYourPassword.text?.clear()
                     findNavController().navigate(R.id.action_createPassword2_to_login)
-                }
-                else{
+                } else {
                     Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
                     binding.Proceed.isEnabled = true
                     binding.ProgressBar.visibility = View.INVISIBLE
                     binding.EnterYourPassword.text?.clear()
                     binding.ConfirmYourPassword.text?.clear()
                 }
-            })
             }
+        }
         return binding.root
     }
 
@@ -111,7 +103,7 @@ class CreatePassword : Fragment() {
         super.onCreate(savedInstanceState)
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.action_createPassword2_to_otpVerification)
+                findNavController().navigate(R.id.action_createPassword2_to_login)
             }
         })
     }

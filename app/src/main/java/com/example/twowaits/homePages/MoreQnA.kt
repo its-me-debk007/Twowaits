@@ -17,12 +17,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
-import com.example.twowaits.CompanionObjects
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
 import com.example.twowaits.databinding.CreateAnswerBinding
 import com.example.twowaits.databinding.MoreQNABinding
-import com.example.twowaits.databinding.ProfileBinding
 import com.example.twowaits.homePages.questionsAnswers.CreateAnswerBody
 import com.example.twowaits.homePages.questionsAnswers.CreateCommentBody
 import com.example.twowaits.homePages.questionsAnswers.LikeAnswerBody

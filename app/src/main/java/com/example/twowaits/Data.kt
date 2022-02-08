@@ -1,5 +1,6 @@
 package com.example.twowaits
 
+import android.app.Application
 import android.net.Uri
 import android.os.CountDownTimer
 import androidx.datastore.DataStore
@@ -8,16 +9,17 @@ import androidx.datastore.preferences.edit
 import androidx.datastore.preferences.preferencesKey
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.GetQuizDataResponse
 import kotlinx.coroutines.flow.first
+import java.io.File
 
-class CompanionObjects {
-    companion object{
+class Data : Application() {
+    companion object {
         lateinit var EMAIL: String
         lateinit var PASSWORD: String
         lateinit var PREVIOUS_PAGE: String
         lateinit var REFRESH_TOKEN: String
-//        var ACCESS_TOKEN: String = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQzMTMwMTQ4LCJpYXQiOjE2NDMwNDM3NDgsImp0aSI6ImU3MmIwOWJiNjZjYjRiYzQ5ZTA2YjZmYTZlNmZjODBjIiwidXNlcl9pZCI6Nn0.wenO_OHmBW9iOB5HvPDT1Fs32T642P_oAyg4ObjP89c"
         var ACCESS_TOKEN: String? = null
         var QUIZ_ID = 0
         var QUESTIONS_LEFT = -1
@@ -29,22 +31,36 @@ class CompanionObjects {
         lateinit var TITLE_OF_QUIZ: String
         lateinit var USER: String
         var isSearchBarOpen = false
+        lateinit var USER_EMAIL: String
+        lateinit var PREV_PAGE_FOR_PLAYER: String
+        lateinit var PDF_URI: Uri
+        lateinit var NOTE_NAME: String
+        lateinit var LECTURE_NAME: String
+        lateinit var VIDEO_URI: Uri
+        lateinit var DOWNLOADED_NOTE: File
+        lateinit var DOWNLOADED_LECTURE: File
 
         var dataStore: DataStore<Preferences>? = null
-        suspend fun saveData(key: String, value: String){
+        suspend fun saveData(key: String, value: String) {
             val dataStoreKey = preferencesKey<String>(key)
             dataStore?.edit {
                 it[dataStoreKey] = value
             }
         }
-        suspend fun readData(key:String): String?{
+
+        suspend fun readData(key: String): String? {
             val dataStoreKey = preferencesKey<String>(key)
             val preferences = dataStore?.data?.first()
             return preferences?.get(dataStoreKey)
         }
 
-        fun properTimeFormat(monthNumber: String, day:String, hours: String, minutes: String): String {
-            val monthName = when(monthNumber){
+        fun properTimeFormat(
+            monthNumber: String,
+            day: String,
+            hours: String,
+            minutes: String
+        ): String {
+            val monthName = when (monthNumber) {
                 "01" -> "Jan"
                 "02" -> "Feb"
                 "03" -> "Mar"
@@ -60,12 +76,12 @@ class CompanionObjects {
             }
             val hour: Int
             val meridian: String
-            when{
+            when {
                 (hours.toInt() + 5 in 13..24) -> {
                     hour = hours.toInt() + 5 - 12
                     meridian = "pm"
                 }
-                (hours.toInt() + 5 in 25..28)-> {
+                (hours.toInt() + 5 in 25..28) -> {
                     hour = hours.toInt() + 5 - 24
                     meridian = "am"
                 }
@@ -78,7 +94,6 @@ class CompanionObjects {
         }
 
         lateinit var timerCountDownTimer: CountDownTimer
-
         private val timeLeftData = MutableLiveData<Int>()
         val timeLeftLiveData: LiveData<Int> = timeLeftData
 
@@ -93,6 +108,7 @@ class CompanionObjects {
                     time++
                     timeLeftData.postValue(time)
                 }
+
                 override fun onFinish() {
                     timeFinishedData.postValue(false)
                 }
@@ -101,7 +117,19 @@ class CompanionObjects {
 
         var TIME_LIMIT = 0
         val isSearchBarActiveLiveData = MutableLiveData<Boolean>()
-        lateinit var PDF_URI: Uri
         var Q_SEARCHED: String? = null
+        val removeActionBarLiveData = MutableLiveData<Boolean>()
+    }
+
+    fun getNewAccessToken(): String {
+        var result = ""
+        val response = RetrofitClient.getInstance().getNewAccessToken(REFRESH_TOKEN).execute()
+        if (response.isSuccessful) {
+            ACCESS_TOKEN = response.body()?.access
+            result = "success"
+        } else {
+            result = "failure"
+        }
+        return result
     }
 }

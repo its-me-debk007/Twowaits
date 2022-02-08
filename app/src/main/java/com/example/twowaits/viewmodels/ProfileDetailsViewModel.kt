@@ -53,10 +53,4 @@ class ProfileDetailsViewModel : ViewModel() {
         updateProfileDetailsLiveData = repository.updateProfileDetailsLiveData
         errorUpdateProfileDetailsLiveData = repository.errorUpdateProfileDetailsLiveData
     }
-
-    fun getNewAccessToken(refreshToken: String) {
-        val repository = ProfileRepository()
-        repository.getNewAccessToken(refreshToken)
-        saveRefreshTokenMutableLiveData = repository.saveRefreshTokenLiveData
-    }
 }

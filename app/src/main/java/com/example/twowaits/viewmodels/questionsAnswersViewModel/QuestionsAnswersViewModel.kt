@@ -3,11 +3,12 @@ package com.example.twowaits.viewmodels.questionsAnswersViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.twowaits.apiCalls.dashboardApiCalls.QnAResponseItem
+import com.example.twowaits.apiCalls.dashboardApiCalls.*
 import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.AskQuestionResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.BookmarkQuestionResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.LikeAnswerResponse
 import com.example.twowaits.homePages.BookmarkNoteBody
+import com.example.twowaits.homePages.Wishlist
 import com.example.twowaits.homePages.questionsAnswers.*
 import com.example.twowaits.repository.dashboardRepositories.questionsAnswersRepositories.QnARepository
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -27,6 +28,11 @@ class QuestionsAnswersViewModel: ViewModel() {
     lateinit var createAnswerData: MutableLiveData<String>
     lateinit var createCommentData: MutableLiveData<String>
     lateinit var bookmarkNoteData: MutableLiveData<String>
+    lateinit var bookmarkedNotesData: MutableLiveData<List<RecentNotesResponse>>
+    lateinit var errorBookmarkedNotesData: MutableLiveData<String>
+    lateinit var addToWishlistData: MutableLiveData<String>
+    lateinit var getWishlistData: MutableLiveData<List<WishlistResponse>>
+    lateinit var errorGetWishlistData: MutableLiveData<String>
     var isClicked = false
 
     fun getQnA() {
@@ -63,11 +69,31 @@ class QuestionsAnswersViewModel: ViewModel() {
         bookmarkNoteData = repository.bookmarkNoteData
     }
 
+    fun addToWishlist(addToWishlistBody: AddToWishlistBody){
+        val repository = QnARepository()
+        repository.addToWishlist(addToWishlistBody)
+        addToWishlistData = repository.addToWishlistData
+    }
+
     fun getYourBookmarkedQ(){
         val repository = QnARepository()
         repository.getYourBookmarkedQ()
         getBookmarkedQLiveData = repository.getBookmarkedQLiveData
         errorGetBookmarkedQLiveData = repository.errorGetBookmarkedQLiveData
+    }
+
+    fun getBookmarkedNotes(){
+        val repository = QnARepository()
+        repository.getBookmarkedNotes()
+        bookmarkedNotesData = repository.bookmarkedNotesData
+        errorBookmarkedNotesData = repository.errorBookmarkedNotesData
+    }
+
+    fun getWishlist(){
+        val repository = QnARepository()
+        repository.getWishlist()
+        getWishlistData = repository.getWishlistData
+        errorGetWishlistData = repository.errorGetWishlistData
     }
 
     fun createAnswer(createAnswerBody: CreateAnswerBody){

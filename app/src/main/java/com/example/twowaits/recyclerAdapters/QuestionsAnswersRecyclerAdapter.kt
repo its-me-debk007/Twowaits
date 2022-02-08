@@ -7,9 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.borjabravo.readmoretextview.ReadMoreTextView
-import com.example.twowaits.CompanionObjects
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
 import com.example.twowaits.apiCalls.dashboardApiCalls.QnAResponseItem
@@ -25,6 +22,7 @@ class QuestionsAnswersRecyclerAdapter (private val size: Int, private val questi
     override fun onBindViewHolder(holder: QnA_ViewHolder, position: Int) {
         holder.apply {
             question.text = questionsAndAnswers[position].question
+            bookmarkBtn.isChecked = questionsAndAnswers[position].bookmarked_by_user == "True"
             answersRecyclerView.adapter = AnswersRecyclerAdapter(questionsAndAnswers[position].answer, this@QuestionsAnswersRecyclerAdapter)
         }
     }
