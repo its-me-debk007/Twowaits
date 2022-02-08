@@ -1,18 +1,20 @@
 package com.example.twowaits.authPages
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.example.twowaits.CompanionObjects
+import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.databinding.SignUpBinding
-import com.example.twowaits.repository.authRepositories.BaseRepository
+import com.example.twowaits.repository.authRepositories.SignUpRepository
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
@@ -26,13 +28,11 @@ class SignUp : Fragment() {
     ): View {
         _binding = SignUpBinding.inflate(inflater, container, false)
 
-//        signUpViewModel = ViewModelProvider(this, SignUpViewModelFactory(repository))[SignUpViewModel::class.java]
-
         binding.loginLink.setOnClickListener{
             Navigation.findNavController(binding.root).navigate(R.id.action_signUp_to_login3)
         }
         binding.SignUpButton.setOnClickListener {
-            val repository = BaseRepository()
+            val repository = SignUpRepository()
 
             val userEmail = binding.EnterEmail.text.toString().trim()
             if(!Login().isValidEmail(userEmail)){
@@ -89,17 +89,18 @@ class SignUp : Fragment() {
                 return@setOnClickListener
             }
             binding.textInputLayout3.helperText = ""
+            hideKeyboard(requireView())
             repository.signUp(userEmail, binding.confirmPassword.text.toString())
             binding.SignUpButton.isEnabled = false
             binding.ProgressBar.visibility = View.VISIBLE
 
             var flag = false
-            repository.errorMutableLiveData.observe(viewLifecycleOwner, {
-                if (it == "success"){
-                    CompanionObjects.EMAIL = userEmail
-                    CompanionObjects.PASSWORD = binding.confirmPassword.text.toString()
-                    CompanionObjects.PREVIOUS_PAGE = "SignUp"
-
+            repository.errorMutableLiveData.observe(viewLifecycleOwner) {
+                if (it == "success") {
+                    Data.EMAIL = userEmail
+                    Data.PASSWORD = binding.confirmPassword.text.toString()
+                    Data.PREVIOUS_PAGE = "SignUp"
+                    Data.USER_EMAIL = userEmail
                     binding.EnterEmail.text?.clear()
                     binding.password.text?.clear()
                     binding.confirmPassword.text?.clear()
@@ -107,8 +108,7 @@ class SignUp : Fragment() {
                     binding.ProgressBar.visibility = View.INVISIBLE
 
                     findNavController().navigate(R.id.action_signUp_to_otpVerification)
-                }
-                else {
+                } else {
                     Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
                     binding.password.text?.clear()
                     binding.confirmPassword.text?.clear()
@@ -116,11 +116,21 @@ class SignUp : Fragment() {
                     binding.ProgressBar.visibility = View.INVISIBLE
                     flag = true
                 }
-            })
+            }
             if (flag)
                 return@setOnClickListener
         }
         return binding.root
+    }
+
+    private fun showKeyboard(view: View) {
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    private fun hideKeyboard(view: View) {
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

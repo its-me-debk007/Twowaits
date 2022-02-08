@@ -92,12 +92,13 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/AddPicBtn"
+                app:fabSize="mini"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="82dp"
                 android:layout_marginTop="77dp"
                 android:backgroundTint="#804D37"
-                android:src="@drawable/plus_icon"
+                app:srcCompat="@drawable/plus_icon"
                 app:borderWidth="0dp"
                 app:layout_constraintStart_toStartOf="@+id/ProfilePic"
                 app:layout_constraintTop_toTopOf="@+id/ProfilePic" />
@@ -108,6 +109,7 @@
                 android:layout_height="111dp"
                 android:layout_marginTop="16dp"
                 android:scaleType="centerCrop"
+                android:src="@drawable/enter_details_profile_pic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

@@ -92,12 +92,6 @@
         android:label="otp_verification"
         tools:layout="@layout/otp_verification">
         <action
-            android:id="@+id/action_otpVerification_to_createPassword2"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
             android:id="@+id/action_otpVerification_to_login"
             app:destination="@id/login"
             app:enterAnim="@android:anim/slide_in_left"
@@ -121,6 +115,13 @@
         <action
             android:id="@+id/action_otpVerification_to_chooseYourRole"
             app:destination="@id/chooseYourRole"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_otpVerification_to_createPassword2"
+            app:destination="@id/createPassword2"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"

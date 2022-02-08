@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/heading"
@@ -36,13 +36,14 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/AddPicBtn"
+        app:fabSize="mini"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="82dp"
         android:layout_marginTop="77dp"
         android:backgroundTint="#804D37"
         app:borderWidth="0dp"
-        android:src="@drawable/plus_icon"
+        app:srcCompat="@drawable/plus_icon"
         app:layout_constraintStart_toStartOf="@+id/ProfilePic"
         app:layout_constraintTop_toTopOf="@+id/ProfilePic" />
 
@@ -118,7 +119,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-        android:background="@drawable/enter_details_border"
         android:layout_marginStart="19dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="19dp"
@@ -164,7 +164,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/enter_details_border"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
         app:hintEnabled="false"
@@ -285,7 +284,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/enter_details_border"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
         app:helperTextTextColor="#FF0000"
@@ -324,7 +322,6 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/yearTextInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-        android:background="@drawable/enter_details_border"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"

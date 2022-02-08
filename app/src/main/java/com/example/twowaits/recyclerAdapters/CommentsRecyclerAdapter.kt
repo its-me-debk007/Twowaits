@@ -5,13 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.example.twowaits.CompanionObjects
+import com.example.twowaits.Data
 import com.example.twowaits.R
-import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
 import com.example.twowaits.apiCalls.dashboardApiCalls.Comment
 
 class CommentsRecyclerAdapter(private val comments: List<Comment>): RecyclerView.Adapter<CommentsRecyclerAdapter.CommentsViewHolder>() {
@@ -33,7 +31,7 @@ class CommentsRecyclerAdapter(private val comments: List<Comment>): RecyclerView
         val hours = comments[position].commented.subSequence(11, 13)
         val minutes = comments[position].commented.subSequence(14, 16)
         holder.apply {
-            commentedAt.text = "Commented at ${CompanionObjects.properTimeFormat(
+            commentedAt.text = "Commented at ${Data.properTimeFormat(
                 monthNumber.toString(),
                 day.toString(),
                 hours.toString(),

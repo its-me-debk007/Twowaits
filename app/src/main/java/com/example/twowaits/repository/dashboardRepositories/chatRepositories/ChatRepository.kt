@@ -2,6 +2,7 @@ package com.example.twowaits.repository.dashboardRepositories.chatRepositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.twowaits.Data
 import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.apiCalls.dashboardApiCalls.chatApiCalls.FetchConversationsMessagesResponse
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -21,8 +22,16 @@ class ChatRepository {
             when {
                 response.isSuccessful -> {
                     fetchData.postValue(response.body())
-                } else -> {
-                    errorData.postValue("Error code is ${response.code()}\n${response.message()}")
+                }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        fetchConversationsMessages()
+                    else
+                        errorData.postValue("Some error has occurred!\nPlease try again")
+                }
+                else -> {
+                    errorData.postValue("${response.message()}\nPlease try again")
                 }
             }
         }

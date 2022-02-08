@@ -1,5 +1,6 @@
 package com.example.twowaits.authPages
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,12 +8,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.twowaits.CompanionObjects
+import com.example.twowaits.Data
 import com.example.twowaits.HomeActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.LoginBinding
@@ -63,52 +65,54 @@ class Login : Fragment() {
                 return@setOnClickListener
             }
             binding.textInputLayout.helperText = ""
+            hideKeyboard(requireView())
             repository.login(LoginBody(userEmail, userPassword))
-            Log.d("VVVV", userEmail+'\n'+userPassword)
             binding.ProgressBar.visibility = View.VISIBLE
             binding.LogInButton.isEnabled = false
 
             var flag = false
-            repository.loginLiveData.observe(viewLifecycleOwner, { loginResponse ->
+            repository.loginLiveData.observe(viewLifecycleOwner) { loginResponse ->
                 repository.getAuthTokens(userEmail, userPassword)
-                repository.getTokenLiveData.observe(viewLifecycleOwner, { tokensResponse ->
+                repository.getTokenLiveData.observe(viewLifecycleOwner) { tokensResponse ->
                     if (loginResponse.type == "faculty") {
-                        CompanionObjects.USER = "FACULTY"
+                        Data.USER = "FACULTY"
                         lifecycleScope.launch {
-                            CompanionObjects.saveData("log_in_status", "FACULTY")
-                            CompanionObjects.saveData("accessToken", tokensResponse.access)
-                            CompanionObjects.saveData("refreshToken", tokensResponse.refresh)
+                            Data.saveData("log_in_status", "FACULTY")
+                            Data.saveData("accessToken", tokensResponse.access)
+                            Data.saveData("refreshToken", tokensResponse.refresh)
+                            Data.saveData("email", userEmail)
                         }
                     } else {
-                        CompanionObjects.USER = "STUDENT"
+                        Data.USER = "STUDENT"
                         lifecycleScope.launch {
-                            CompanionObjects.saveData("log_in_status", "STUDENT")
-                            CompanionObjects.saveData("accessToken", tokensResponse.access)
-                            CompanionObjects.saveData("refreshToken", tokensResponse.refresh)
+                            Data.saveData("log_in_status", "STUDENT")
+                            Data.saveData("accessToken", tokensResponse.access)
+                            Data.saveData("refreshToken", tokensResponse.refresh)
+                            Data.saveData("email", userEmail)
                         }
                     }
-                    CompanionObjects.ACCESS_TOKEN = tokensResponse.access
-                    CompanionObjects.REFRESH_TOKEN = tokensResponse.refresh
-                    Log.d("VVVV", CompanionObjects.ACCESS_TOKEN.toString())
+                    Data.ACCESS_TOKEN = tokensResponse.access
+                    Data.REFRESH_TOKEN = tokensResponse.refresh
+                    Data.USER_EMAIL = userEmail
                     val intent = Intent(activity, HomeActivity::class.java)
                     startActivity(intent)
                     activity?.finish()
-                })
-                repository.errorData.observe(viewLifecycleOwner, {
+                }
+                repository.errorData.observe(viewLifecycleOwner) {
                     Toast.makeText(context, "Token error\n$it", Toast.LENGTH_SHORT).show()
                     flag = true
                     binding.Password.text?.clear()
                     binding.LogInButton.isEnabled = true
                     binding.ProgressBar.visibility = View.INVISIBLE
-                })
-            })
-            repository.errorLiveData.observe(viewLifecycleOwner, {
+                }
+            }
+            repository.errorLiveData.observe(viewLifecycleOwner) {
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                 flag = true
                 binding.Password.text?.clear()
                 binding.LogInButton.isEnabled = true
                 binding.ProgressBar.visibility = View.INVISIBLE
-            })
+            }
             if (flag)
                 return@setOnClickListener
         }
@@ -149,6 +153,16 @@ class Login : Fragment() {
         } catch (e: ApiException) {
             Log.d("SIGN IN ATTEMPT", "signInResult:failed code=" + e.statusCode)
         }
+    }
+
+    private fun showKeyboard(view: View) {
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    private fun hideKeyboard(view: View) {
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

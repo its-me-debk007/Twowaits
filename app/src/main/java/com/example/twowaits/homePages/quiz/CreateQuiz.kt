@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.twowaits.CompanionObjects
+import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.databinding.CreateQuizBinding
 import com.example.twowaits.viewmodels.quizViewModels.CreateQuizViewModel
@@ -25,6 +25,9 @@ class CreateQuiz : Fragment() {
         val viewModel = ViewModelProvider(this)[CreateQuizViewModel::class.java]
 
         binding.CreateAndAddQuestions.setOnClickListener {
+            binding.TitleOfQuiz.helperText = ""
+            binding.NoOfQuestionsOfQuiz.helperText = ""
+            binding.DurationOfQuiz.helperText = ""
             when {
                 binding.Title.text!!.trim().isEmpty() -> {
                     binding.TitleOfQuiz.helperText = "Please enter the title of the Quiz"
@@ -43,9 +46,10 @@ class CreateQuiz : Fragment() {
                     return@setOnClickListener
                 }
             }
-            binding.TitleOfQuiz.helperText = ""
-            binding.NoOfQuestionsOfQuiz.helperText = ""
-            binding.DurationOfQuiz.helperText = ""
+            if (binding.NoOfQuestions.text.toString().toInt() > 50) {
+                binding.NoOfQuestionsOfQuiz.helperText = "You can add upto 50 Questions only"
+                return@setOnClickListener
+            }
 
             val title = binding.Title.text?.trim().toString()
             val description = null
@@ -54,14 +58,14 @@ class CreateQuiz : Fragment() {
             val createQuizBody = CreateQuizBody(title, description, noOfQuestion, timeLimit)
 
             viewModel.createQuiz(createQuizBody)
-            viewModel.createQuizLiveData.observe(viewLifecycleOwner, {
-                CompanionObjects.QUIZ_ID = it.quiz_id
-                CompanionObjects.QUESTIONS_LEFT = noOfQuestion
+            viewModel.createQuizLiveData.observe(viewLifecycleOwner) {
+                Data.QUIZ_ID = it.quiz_id
+                Data.QUESTIONS_LEFT = noOfQuestion
                 findNavController().navigate(R.id.action_createQuiz_to_addQuestions)
-            })
-            viewModel.errorLiveData.observe(viewLifecycleOwner, {
+            }
+            viewModel.errorLiveData.observe(viewLifecycleOwner) {
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            })
+            }
         }
         binding.AddNoOfQuestions.setOnClickListener {
             if (binding.NoOfQuestions.text.isNullOrEmpty()) binding.NoOfQuestions.setText("1")

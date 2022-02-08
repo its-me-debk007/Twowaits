@@ -24,14 +24,13 @@ import com.example.twowaits.homePages.questionsAnswers.CreateCommentBody
 import com.example.twowaits.homePages.questionsAnswers.LikeAnswerBody
 import com.example.twowaits.recyclerAdapters.ItemClicked
 import com.example.twowaits.recyclerAdapters.QuestionsAnswersRecyclerAdapter
-import com.example.twowaits.viewmodels.YourQuestionsViewModel
 import com.example.twowaits.viewmodels.questionsAnswersViewModel.QuestionsAnswersViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class BookmarkedQuestions: Fragment(), ItemClicked {
+class BookmarkedQuestions : Fragment(), ItemClicked {
     private var isClicked = false
     private var _binding: BookmarkedQuestionsBinding? = null
     private val binding get() = _binding!!
@@ -39,19 +38,21 @@ class BookmarkedQuestions: Fragment(), ItemClicked {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
+    ): View {
         _binding = BookmarkedQuestionsBinding.inflate(inflater, container, false)
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         viewModel.getYourBookmarkedQ()
-        viewModel.getBookmarkedQLiveData.observe(viewLifecycleOwner, {
-            binding.BookmarkedQuestionsRecyclerView.adapter = QuestionsAnswersRecyclerAdapter( it.size, it, this)
-            binding.BookmarkedQuestionsRecyclerView.layoutManager = object: LinearLayoutManager(context) {
-                override fun canScrollVertically(): Boolean = false
-            }
-        })
-        viewModel.errorGetBookmarkedQLiveData.observe(viewLifecycleOwner, {
+        viewModel.getBookmarkedQLiveData.observe(viewLifecycleOwner) {
+            binding.BookmarkedQuestionsRecyclerView.adapter =
+                QuestionsAnswersRecyclerAdapter(it.size, it, this)
+            binding.BookmarkedQuestionsRecyclerView.layoutManager =
+                object : LinearLayoutManager(context) {
+                    override fun canScrollVertically(): Boolean = false
+                }
+        }
+        viewModel.errorGetBookmarkedQLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        })
+        }
 
         return binding.root
     }
@@ -97,8 +98,8 @@ class BookmarkedQuestions: Fragment(), ItemClicked {
         shareIntent.type = "text/plain"
         var answerFormat = ""
         for (i in answersList.indices) {
-            answerFormat += "A${i+1}) ${answersList[i].answer_id}"
-            if (i != answersList.size-1) answerFormat += "\n\n"
+            answerFormat += "A${i + 1}) ${answersList[i].answer_id}"
+            if (i != answersList.size - 1) answerFormat += "\n\n"
         }
         val format = "Q) $question\n\n$answerFormat"
         shareIntent.putExtra(Intent.EXTRA_TEXT, format)
@@ -115,22 +116,29 @@ class BookmarkedQuestions: Fragment(), ItemClicked {
             dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
         dialog.findViewById<TextView>(R.id.particularQuestion).text = question
         dialog.findViewById<Button>(R.id.answerButton).setOnClickListener {
-            if (dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim().isEmpty()){
-                dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText = "Please enter your answer first"
+            if (dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim()
+                    .isEmpty()
+            ) {
+                dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText =
+                    "Please enter your answer first"
                 return@setOnClickListener
             }
             dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText = ""
             viewModel.createAnswer(
-                CreateAnswerBody(dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim(),
-                question_id)
+                CreateAnswerBody(
+                    dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim(),
+                    question_id
+                )
             )
             dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.VISIBLE
             viewModel.createAnswerData.observe(viewLifecycleOwner, {
                 if (it == "success") {
-                    Toast.makeText(context, "Added your answer successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Added your answer successfully", Toast.LENGTH_SHORT)
+                        .show()
                     dialog.cancel()
                 } else {
-                    dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.GONE
+                    dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
+                        View.GONE
                     Toast.makeText(context, "Please try again!\n$it", Toast.LENGTH_SHORT).show()
                 }
             })
@@ -146,21 +154,29 @@ class BookmarkedQuestions: Fragment(), ItemClicked {
             dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
         dialog.findViewById<TextView>(R.id.particularQuestion).text = answer
         dialog.findViewById<Button>(R.id.answerButton).setOnClickListener {
-            if (dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim().isEmpty()){
-                dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText = "Please enter your comment first"
+            if (dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim()
+                    .isEmpty()
+            ) {
+                dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText =
+                    "Please enter your comment first"
                 return@setOnClickListener
             }
             dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText = ""
             viewModel.createComment(
-                CreateCommentBody(answer_id, dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim())
+                CreateCommentBody(
+                    answer_id,
+                    dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim()
+                )
             )
             dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.VISIBLE
             viewModel.createCommentData.observe(viewLifecycleOwner, {
                 if (it == "success") {
-                    Toast.makeText(context, "Added your comment successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Added your comment successfully", Toast.LENGTH_SHORT)
+                        .show()
                     dialog.cancel()
                 } else {
-                    dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.GONE
+                    dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
+                        View.GONE
                     Toast.makeText(context, "Please try again!\n$it", Toast.LENGTH_SHORT).show()
                 }
             })

@@ -1,13 +1,7 @@
 package com.example.twowaits.viewmodels.quizViewModels
 
-import android.os.CountDownTimer
-import android.widget.Toast
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.fragment.findNavController
-import com.example.twowaits.CompanionObjects
-import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.*
 import com.example.twowaits.homePages.quiz.AttemptQuizBody
 import com.example.twowaits.repository.dashboardRepositories.quizRepositories.AttemptQuizRepository

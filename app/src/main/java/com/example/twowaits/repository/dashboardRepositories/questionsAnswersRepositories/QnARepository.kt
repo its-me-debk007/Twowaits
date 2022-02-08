@@ -2,12 +2,14 @@ package com.example.twowaits.repository.dashboardRepositories.questionsAnswersRe
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.twowaits.Data
 import com.example.twowaits.apiCalls.RetrofitClient
-import com.example.twowaits.apiCalls.dashboardApiCalls.QnAResponseItem
+import com.example.twowaits.apiCalls.dashboardApiCalls.*
 import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.AskQuestionResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.BookmarkQuestionResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.LikeAnswerResponse
 import com.example.twowaits.homePages.BookmarkNoteBody
+import com.example.twowaits.homePages.Wishlist
 import com.example.twowaits.homePages.questionsAnswers.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -43,16 +45,31 @@ class QnARepository {
     val createAnswerData = MutableLiveData<String>()
     val createCommentData = MutableLiveData<String>()
     val bookmarkNoteData = MutableLiveData<String>()
+    val addToWishlistData = MutableLiveData<String>()
     val getSearchQnAData = MutableLiveData<List<QnAResponseItem>>()
     val errorGetSearchQnAData = MutableLiveData<String>()
+    val bookmarkedNotesData = MutableLiveData<List<RecentNotesResponse>>()
+    val errorBookmarkedNotesData = MutableLiveData<String>()
+    val getWishlistData = MutableLiveData<List<WishlistResponse>>()
+    val errorGetWishlistData = MutableLiveData<String>()
 
     fun getYourQnA() {
         GlobalScope.launch(Dispatchers.IO) {
             val response = RetrofitClient.getInstance().getYourQnA()
-            if (response.isSuccessful) {
-                q_n_aMutableLiveData.postValue(response.body())
-            } else {
-                errorMutableLiveData.postValue("Error code is ${response.code()}\n${response.message()}")
+            when {
+                response.isSuccessful -> {
+                    q_n_aMutableLiveData.postValue(response.body())
+                }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        getYourQnA()
+                    else
+                        errorMutableLiveData.postValue("Some error has occurred!\nPlease try again")
+                }
+                else -> {
+                    errorMutableLiveData.postValue("${response.message()}\nPlease try again")
+                }
             }
         }
     }
@@ -60,118 +77,252 @@ class QnARepository {
     fun getQnA() {
         GlobalScope.launch(Dispatchers.IO) {
             val response = RetrofitClient.getInstance().getQnA()
-            if (response.isSuccessful) {
-                getQnAData.postValue(response.body())
-            } else {
-                errorGetQnAData.postValue("Error code is ${response.code()}\n${response.message()}")
+            when {
+                response.isSuccessful -> {
+                    getQnAData.postValue(response.body())
+                }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        getQnA()
+                    else
+                        errorGetQnAData.postValue("Some error has occurred!\nPlease try again")
+                }
+                else -> {
+                    errorGetQnAData.postValue("${response.message()}\nPlease try again")
+                }
             }
         }
     }
 
-    fun askQuestion(askQuestionBody: AskQuestionBody){
-        GlobalScope.launch {
+    fun askQuestion(askQuestionBody: AskQuestionBody) {
+        GlobalScope.launch(Dispatchers.IO) {
             val response = RetrofitClient.getInstance().askQuestion(askQuestionBody)
             when {
                 response.isSuccessful -> {
                     askQuestionData.postValue(response.body())
                 }
                 response.code() == 400 -> {
-                    errorAskQuestionData.postValue(response.body()?.message)
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        askQuestion(askQuestionBody)
+                    else
+                        errorAskQuestionData.postValue("Some error has occurred!\nPlease try again")
                 }
                 else -> {
-                    errorAskQuestionData.postValue("Error code is ${response.code()}")
+                    errorAskQuestionData.postValue("${response.code()}\nPlease try again")
                 }
             }
         }
     }
 
-    fun likeAnswer(likeAnswerBody: LikeAnswerBody){
-        GlobalScope.launch {
+    fun likeAnswer(likeAnswerBody: LikeAnswerBody) {
+        GlobalScope.launch(Dispatchers.IO) {
             val response = RetrofitClient.getInstance().likeAnswer(likeAnswerBody)
             when {
                 response.isSuccessful -> {
                     likeAnswerData.postValue(response.body())
-                } else -> {
-                    errorLikeAnswerData.postValue("Error code is ${response.code()}")
+                }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        likeAnswer(likeAnswerBody)
+                    else
+                        errorLikeAnswerData.postValue("Some error has occurred!\nPlease try again")
+                }
+                else -> {
+                    errorLikeAnswerData.postValue("${response.message()}\nPlease refresh the page")
                 }
             }
         }
     }
 
-    fun bookmarkQuestion(bookmarkQuestionBody: BookmarkQuestionBody){
-        GlobalScope.launch {
+    fun bookmarkQuestion(bookmarkQuestionBody: BookmarkQuestionBody) {
+        GlobalScope.launch(Dispatchers.IO) {
             val response = RetrofitClient.getInstance().bookmarkQuestion(bookmarkQuestionBody)
             when {
                 response.isSuccessful -> {
                     bookmarkQuestionData.postValue(response.body())
-                } else -> {
-                errorBookmarkQuestionData.postValue("Error code is ${response.code()}\n${response.message()}")
-            }
-            }
-        }
-    }
-
-    fun bookmarkNote(bookmarkNoteBody: BookmarkNoteBody){
-        GlobalScope.launch {
-            val response = RetrofitClient.getInstance().bookmarkNote(bookmarkNoteBody)
-            when {
-                response.isSuccessful -> {
-                    bookmarkNoteData.postValue("success")
-                } else -> {
-                    bookmarkNoteData.postValue(response.message())
+                }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        bookmarkQuestion(bookmarkQuestionBody)
+                    else
+                        errorBookmarkQuestionData.postValue("Some error has occurred!\nPlease try again")
+                }
+                else -> {
+                    errorBookmarkQuestionData.postValue("${response.message()}\nPlease refresh the page")
                 }
             }
         }
     }
 
-    fun getYourBookmarkedQ(){
-        GlobalScope.launch {
+    fun bookmarkNote(bookmarkNoteBody: BookmarkNoteBody) {
+        GlobalScope.launch(Dispatchers.IO) {
+            val response = RetrofitClient.getInstance().bookmarkNote(bookmarkNoteBody)
+            when {
+                response.isSuccessful -> {
+                    bookmarkNoteData.postValue("success")
+                }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        bookmarkNote(bookmarkNoteBody)
+                    else
+                        bookmarkNoteData.postValue("Some error has occurred!\nPlease try again")
+                }
+                else -> {
+                    bookmarkNoteData.postValue("${response.message()}\nPlease refresh the page")
+                }
+            }
+        }
+    }
+
+    fun addToWishlist(addToWishlistBody: AddToWishlistBody) {
+        GlobalScope.launch(Dispatchers.IO) {
+            val response = RetrofitClient.getInstance().addToWishlist(addToWishlistBody)
+            when {
+                response.isSuccessful -> {
+                    addToWishlistData.postValue("success")
+                }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        addToWishlist(addToWishlistBody)
+                    else
+                        addToWishlistData.postValue("Some error has occurred!\nPlease try again")
+                }
+                else -> {
+                    addToWishlistData.postValue("${response.message()}\nPlease refresh the page")
+                }
+            }
+        }
+    }
+
+    fun getYourBookmarkedQ() {
+        GlobalScope.launch(Dispatchers.IO) {
             val response = RetrofitClient.getInstance().getYourBookmarkedQ()
             when {
                 response.isSuccessful -> {
                     getBookmarkedQData.postValue(response.body())
-                } else -> {
-                    errorGetBookmarkedQData.postValue("Error code is ${response.code()}\n${response.message()}")
-            }
+                }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        getYourBookmarkedQ()
+                    else
+                        errorGetBookmarkedQData.postValue("Some error has occurred!\nPlease try again")
+                }
+                else -> {
+                    errorGetBookmarkedQData.postValue("${response.message()}\nPlease refresh the page")
+                }
             }
         }
     }
 
-    fun createAnswer(createAnswerBody: CreateAnswerBody){
-        GlobalScope.launch {
+    fun getBookmarkedNotes() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val response = RetrofitClient.getInstance().getBookmarkedNotes()
+            when {
+                response.isSuccessful -> {
+                    bookmarkedNotesData.postValue(response.body())
+                }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        getBookmarkedNotes()
+                    else
+                        errorBookmarkedNotesData.postValue("Some error has occurred!\nPlease try again")
+                }
+                else -> {
+                    errorBookmarkedNotesData.postValue("${response.message()}\nPlease refresh the page")
+                }
+            }
+        }
+    }
+
+    fun createAnswer(createAnswerBody: CreateAnswerBody) {
+        GlobalScope.launch(Dispatchers.IO) {
             val response = RetrofitClient.getInstance().createAnswer(createAnswerBody)
             when {
                 response.isSuccessful -> {
                     createAnswerData.postValue("success")
-                } else -> {
+                }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        createAnswer(createAnswerBody)
+                    else
+                        createAnswerData.postValue("Some error has occurred!\nPlease try again")
+                }
+                else -> {
                     createAnswerData.postValue("Error code is ${response.code()}\n${response.message()}")
-            }
+                }
             }
         }
     }
 
-    fun createComment(createCommentBody: CreateCommentBody){
+    fun createComment(createCommentBody: CreateCommentBody) {
         GlobalScope.launch {
             val response = RetrofitClient.getInstance().createComment(createCommentBody)
             when {
                 response.isSuccessful -> {
                     createCommentData.postValue("success")
-                } else -> {
+                }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        createComment(createCommentBody)
+                    else
+                        createCommentData.postValue("Some error has occurred!\nPlease try again")
+                }
+                else -> {
                     createCommentData.postValue("Error code is ${response.code()}\n${response.message()}")
-            }
+                }
             }
         }
     }
 
-    fun searchQnA(search: String){
+    fun searchQnA(search: String) {
         GlobalScope.launch {
             val response = RetrofitClient.getInstance().searchQnA(search)
             when {
                 response.isSuccessful -> {
                     getSearchQnAData.postValue(response.body())
-                } else -> {
-                    errorGetSearchQnAData.postValue("Error code is ${response.code()}\n${response.message()}")
+                }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        searchQnA(search)
+                    else
+                        errorGetSearchQnAData.postValue("Some error has occurred!\nPlease try again")
+                }
+                else -> {
+                    errorGetSearchQnAData.postValue("${response.message()}\n" +
+                            "Please refresh the page")
+                }
             }
+        }
+    }
+
+    fun getWishlist() {
+        GlobalScope.launch {
+            val response = RetrofitClient.getInstance().getWishlist()
+            when {
+                response.isSuccessful -> {
+                    getWishlistData.postValue(response.body())
+                }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        getWishlist()
+                    else
+                        errorGetWishlistData.postValue("Some error has occurred!\nPlease try again")
+                }
+                else -> {
+                    errorGetWishlistData.postValue("${response.message()}\nPlease refresh the page")
+                }
             }
         }
     }

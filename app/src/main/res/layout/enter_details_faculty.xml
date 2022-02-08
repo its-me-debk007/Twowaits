@@ -37,13 +37,14 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/AddPicBtn"
+        app:fabSize="mini"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="82dp"
         android:layout_marginTop="77dp"
         app:borderWidth="0dp"
         android:backgroundTint="#804D37"
-        android:src="@drawable/plus_icon"
+        app:srcCompat="@drawable/plus_icon"
         app:layout_constraintStart_toStartOf="@+id/ProfilePic"
         app:layout_constraintTop_toTopOf="@+id/ProfilePic" />
 
@@ -81,6 +82,7 @@
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
         app:hintEnabled="false"
+        app:helperTextTextColor="#FF0000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name">
@@ -115,6 +117,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/enterCollege"
+        app:helperTextTextColor="#FF0000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
@@ -169,10 +172,10 @@
         android:id="@+id/genderTextInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="0dp"
+        app:helperTextTextColor="#FF0000"
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/enter_details_border"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
         app:hintEnabled="false"
@@ -244,7 +247,9 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/enterDepartment"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="match_parent"
+        app:helperTextTextColor="#FF0000"
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
         android:layout_marginTop="1dp"
@@ -256,17 +261,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/department">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:id="@+id/enterYourDepartment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/enter_details_border"
             android:fontFamily="@font/reemkufi_regular"
-            android:hint="Enter Your Department"
-            android:imeOptions="actionNext"
+            android:hint="Department"
+            android:inputType="none"
             android:lines="1"
-            android:paddingTop="13dp"
-            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="13dp"
             android:textColor="#A17A69"
             android:textColorHint="#A17A69"
             android:textSize="16sp" />

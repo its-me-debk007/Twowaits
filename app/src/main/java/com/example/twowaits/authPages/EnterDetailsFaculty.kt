@@ -15,14 +15,16 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.twowaits.Data
 import com.example.twowaits.HomeActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.EnterDetailsFacultyBinding
 import com.example.twowaits.databinding.PleaseWaitDialog2Binding
-import com.example.twowaits.databinding.PleaseWaitDialogBinding
 import com.example.twowaits.viewmodels.EnterDetailsViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.launch
 import java.util.*
 
 @DelicateCoroutinesApi
@@ -57,36 +59,33 @@ class EnterDetailsFaculty : Fragment() {
         binding.AddPicBtn.setOnClickListener {
             chooseImage.launch("image/*")
         }
-
         binding.submitBtn.setOnClickListener {
-            when {
-                binding.enterYourName.text.toString().trim().isEmpty() -> {
-                    binding.enterName.helperText = "Please enter your name"
-                    return@setOnClickListener
-                }
-                binding.enterYourCollege.text.toString().trim().isEmpty() -> {
-                    binding.enterName.helperText = ""
-                    binding.enterCollege.helperText = "Please enter your college name"
-                    return@setOnClickListener
-                }
-                binding.autoCompleteTextView.text.toString().trim()
-                    .isEmpty() || binding.enterDate.text.toString().trim().isEmpty() -> {
-                    binding.enterName.helperText = ""
-                    binding.enterCollege.helperText = ""
-                    binding.genderTextInputLayout.helperText = "Please enter your gender and DOB"
-                    return@setOnClickListener
-                }
-                binding.enterYourDepartment.text.toString().trim().isEmpty() -> {
-                    binding.enterName.helperText = ""
-                    binding.enterCollege.helperText = ""
-                    binding.genderTextInputLayout.helperText = ""
-                    binding.enterDepartment.helperText = "Please enter your department"
-                }
-            }
+            var flag = false
             binding.enterName.helperText = ""
             binding.enterCollege.helperText = ""
             binding.genderTextInputLayout.helperText = ""
             binding.enterDepartment.helperText = ""
+            if (imgUri == null) {
+                Toast.makeText(context, "Please choose your profile pic", Toast.LENGTH_SHORT).show()
+                flag = true
+            }
+            if (binding.enterYourName.text.isNullOrBlank()) {
+                binding.enterName.helperText = "Please enter your name"
+                flag = true
+            }
+            if (binding.enterYourCollege.text.isNullOrBlank()) {
+                binding.enterCollege.helperText = "Please enter your college"
+                flag = true
+            }
+            if (binding.autoCompleteTextView.text.isNullOrBlank() || binding.enterDate.text == "DD/MM/YYYY") {
+                binding.genderTextInputLayout.helperText = "Please enter your gender and DOB"
+                flag = true
+            }
+            if (binding.enterYourDepartment.text.isNullOrBlank()) {
+                binding.enterDepartment.helperText = "Please enter your department"
+                flag = true
+            }
+            if (flag) return@setOnClickListener
 
             val dialog = Dialog(requireContext())
             dialog.setContentView(PleaseWaitDialog2Binding.inflate(layoutInflater).root)
@@ -94,17 +93,19 @@ class EnterDetailsFaculty : Fragment() {
             dialog.show()
             if (dialog.window != null)
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
-
             viewModel.createFacultyProfileDetails(
-                binding.enterYourName.text.toString().trim(),
-                binding.enterYourDepartment.text.toString().trim(),
                 binding.enterYourCollege.text.toString().trim(),
-                binding.autoCompleteTextView.text.toString().trim()[0].toString(),
+                binding.enterYourDepartment.text.toString().trim(),
                 binding.enterDate.text.toString().trim(),
-                imgUri!!
-            )
-            viewModel.createFacultyProfileLiveData.observe(viewLifecycleOwner, {
+                binding.autoCompleteTextView.text.toString().trim()[0].toString(),
+                binding.enterYourName.text.toString().trim(),
+                imgUri!!)
+            viewModel.createFacultyProfileLiveData.observe(viewLifecycleOwner) {
                 if (it == "success") {
+                    Data.USER = "FACULTY"
+                    lifecycleScope.launch {
+                        Data.saveData("email", Data.USER_EMAIL)
+                    }
                     val intent = Intent(activity, HomeActivity::class.java)
                     startActivity(intent)
                     activity?.finish()
@@ -112,7 +113,7 @@ class EnterDetailsFaculty : Fragment() {
                     Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                     dialog.hide()
                 }
-            })
+            }
         }
         return binding.root
     }
@@ -125,7 +126,10 @@ class EnterDetailsFaculty : Fragment() {
             R.layout.enter_details_dropdown_item,
             genderDropdownItems
         )
+        val departmentDropDownItems = listOf("CS", "CS&IT", "IT", "ME", "CE", "EE", "Humanities", "Others")
+        val departmentArrayAdapter = ArrayAdapter(requireContext(), R.layout.enter_details_dropdown_item, departmentDropDownItems)
         binding.autoCompleteTextView.setAdapter(genderArrayAdapter)
+        binding.enterYourDepartment.setAdapter(departmentArrayAdapter)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

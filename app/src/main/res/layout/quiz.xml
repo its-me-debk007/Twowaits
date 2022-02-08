@@ -187,7 +187,7 @@
         android:paddingTop="4dp"
         android:paddingEnd="18dp"
         android:paddingBottom="4dp"
-        android:text="Clear All Options"
+        android:text="Clear Option"
         android:textAllCaps="false"
         android:textSize="18dp"
         app:cornerRadius="4dp"

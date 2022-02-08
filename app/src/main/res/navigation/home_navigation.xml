@@ -18,20 +18,33 @@
             android:id="@+id/action_homePage_to_moreQnA2"
             app:destination="@id/moreQnA2"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_homePage_to_quiz"
             app:destination="@id/quiz"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_homePage_to_PDFViewer"
             app:destination="@id/PDFViewer"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_homePage_to_showSearchQuestions"
             app:destination="@id/showSearchQuestions"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homePage_to_videoPlayer2"
+            app:destination="@id/videoPlayer2"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
@@ -46,10 +59,26 @@
             android:id="@+id/action_profile_to_yourQuestions"
             app:destination="@id/yourQuestions"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_profile_self"
             app:destination="@id/profile" />
+        <action
+            android:id="@+id/action_profile_to_homePage"
+            app:destination="@id/homePage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_out_right"
+            app:popExitAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_profile_to_videoPlayer2"
+            app:destination="@id/videoPlayer2"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/explore"
@@ -78,6 +107,20 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_explore_to_uploadLecture"
+            app:destination="@id/uploadLecture"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_explore_to_homePage"
+            app:destination="@id/homePage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/library"
@@ -88,20 +131,33 @@
             android:id="@+id/action_library_to_bookmarkedQuestions"
             app:destination="@id/bookmarkedQuestions"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_library_to_bookmarkedNotes"
             app:destination="@id/bookmarkedNotes"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_library_to_wishlist"
             app:destination="@id/wishlist"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_library_self"
             app:destination="@id/library" />
+        <action
+            android:id="@+id/action_library_to_homePage"
+            app:destination="@id/homePage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/downloads"
@@ -111,12 +167,35 @@
         <action
             android:id="@+id/action_downloads_self"
             app:destination="@id/downloads" />
+        <action
+            android:id="@+id/action_downloads_to_PDFViewer"
+            app:destination="@id/PDFViewer"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_downloads_to_homePage"
+            app:destination="@id/homePage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_downloads_to_videoPlayer2"
+            app:destination="@id/videoPlayer2"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/yourQuestions"
         android:name="com.example.twowaits.homePages.YourQuestions"
         android:label="YourQuestions"
-        tools:layout="@layout/your_questions"></fragment>
+        tools:layout="@layout/your_questions">
+
+    </fragment>
     <fragment
         android:id="@+id/bookmarkedQuestions"
         android:name="com.example.twowaits.homePages.BookmarkedQuestions"
@@ -125,7 +204,15 @@
     <fragment
         android:id="@+id/bookmarkedNotes"
         android:name="com.example.twowaits.homePages.BookmarkedNotes"
-        android:label="BookmarkedNotes" />
+        android:label="BookmarkedNotes">
+        <action
+            android:id="@+id/action_bookmarkedNotes_to_PDFViewer"
+            app:destination="@id/PDFViewer"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/wishlist"
         android:name="com.example.twowaits.homePages.Wishlist"
@@ -150,17 +237,23 @@
             android:id="@+id/action_addQuestions_to_createQuiz"
             app:destination="@id/createQuiz"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_addQuestions_to_addQuestions"
             app:destination="@id/addQuestions"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_addQuestions_to_homePage"
             app:destination="@id/homePage"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/quiz"
@@ -170,33 +263,41 @@
             android:id="@+id/action_quiz_self"
             app:destination="@id/quiz"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_quiz_self2"
             app:destination="@id/quiz"
             app:enterAnim="@android:anim/slide_out_right"
-            app:exitAnim="@android:anim/slide_in_left" />
+            app:exitAnim="@android:anim/slide_in_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_quiz_to_quizResult"
             app:destination="@id/quizResult"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/quizResult"
         android:name="com.example.twowaits.homePages.quiz.QuizResult"
         android:label="quiz_result"
-        tools:layout="@layout/quiz_result" >
+        tools:layout="@layout/quiz_result">
         <action
             android:id="@+id/action_quizResult_to_homePage"
             app:destination="@id/homePage"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/askQuestion"
         android:name="com.example.twowaits.homePages.questionsAnswers.AskQuestion"
-        android:label="AskQuestion" >
+        android:label="AskQuestion">
         <action
             android:id="@+id/action_askQuestion_to_explore"
             app:destination="@id/explore"
@@ -208,12 +309,14 @@
     <fragment
         android:id="@+id/chatList"
         android:name="com.example.twowaits.homePages.chats.ChatList"
-        android:label="ChatList" >
+        android:label="ChatList">
         <action
             android:id="@+id/action_chatList_to_homePage"
             app:destination="@id/homePage"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_chatList_to_chatProfile"
             app:destination="@id/chatProfile"
@@ -225,7 +328,7 @@
     <fragment
         android:id="@+id/moreQnA2"
         android:name="com.example.twowaits.homePages.MoreQnA"
-        android:label="MoreQnA" >
+        android:label="MoreQnA">
         <action
             android:id="@+id/action_moreQnA2_self"
             app:destination="@id/moreQnA2" />
@@ -233,7 +336,29 @@
     <fragment
         android:id="@+id/PDFViewer"
         android:name="com.example.twowaits.homePages.PDFViewer"
-        android:label="PDFViewer" />
+        android:label="PDFViewer">
+        <action
+            android:id="@+id/action_PDFViewer_to_downloads"
+            app:destination="@id/downloads"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_PDFViewer_to_library"
+            app:destination="@id/library"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_PDFViewer_to_homePage"
+            app:destination="@id/homePage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/chatProfile"
         android:name="com.example.twowaits.homePages.chats.ChatProfile"
@@ -241,7 +366,7 @@
     <fragment
         android:id="@+id/aboutEduCool"
         android:name="com.example.twowaits.homePages.navdrawerPages.AboutEduCool"
-        android:label="AboutEduCool" >
+        android:label="AboutEduCool">
         <action
             android:id="@+id/action_aboutEduCool_to_homePage"
             app:destination="@id/homePage"
@@ -253,7 +378,7 @@
     <fragment
         android:id="@+id/changePassword2"
         android:name="com.example.twowaits.homePages.navdrawerPages.ChangePassword"
-        android:label="ChangePassword" >
+        android:label="ChangePassword">
         <action
             android:id="@+id/action_changePassword2_to_homePage"
             app:destination="@id/homePage"
@@ -269,11 +394,19 @@
     <fragment
         android:id="@+id/downloadedNotes"
         android:name="com.example.twowaits.homePages.DownloadedNotes"
-        android:label="DownloadedNotes" />
+        android:label="DownloadedNotes">
+        <action
+            android:id="@+id/action_downloadedNotes_to_PDFViewer"
+            app:destination="@id/PDFViewer"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/feedback2"
         android:name="com.example.twowaits.homePages.navdrawerPages.Feedback"
-        android:label="Feedback" >
+        android:label="Feedback">
         <action
             android:id="@+id/action_feedback2_to_homePage"
             app:destination="@id/homePage"
@@ -285,7 +418,7 @@
     <fragment
         android:id="@+id/privacyPolicy2"
         android:name="com.example.twowaits.homePages.navdrawerPages.PrivacyPolicy"
-        android:label="PrivacyPolicy" >
+        android:label="PrivacyPolicy">
         <action
             android:id="@+id/action_privacyPolicy2_to_homePage"
             app:destination="@id/homePage"
@@ -297,7 +430,7 @@
     <fragment
         android:id="@+id/uploadNotes2"
         android:name="com.example.twowaits.homePages.UploadNotes"
-        android:label="UploadNotes" >
+        android:label="UploadNotes">
         <action
             android:id="@+id/action_uploadNotes2_to_explore"
             app:destination="@id/explore"
@@ -310,4 +443,42 @@
         android:id="@+id/showSearchQuestions"
         android:name="com.example.twowaits.homePages.ShowSearchQuestions"
         android:label="ShowSearchQuestions" />
+    <fragment
+        android:id="@+id/videoPlayer2"
+        android:name="com.example.twowaits.homePages.VideoPlayer"
+        android:label="VideoPlayer">
+        <action
+            android:id="@+id/action_videoPlayer2_to_homePage"
+            app:destination="@id/homePage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_videoPlayer2_to_profile"
+            app:destination="@id/profile"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_videoPlayer2_to_downloads"
+            app:destination="@id/downloads"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/uploadLecture"
+        android:name="com.example.twowaits.homePages.UploadLecture"
+        android:label="UploadLecture">
+        <action
+            android:id="@+id/action_uploadLecture_to_explore"
+            app:destination="@id/explore"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
 </navigation>

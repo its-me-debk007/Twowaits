@@ -9,7 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.twowaits.CompanionObjects
+import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.databinding.QuizResultBinding
 import com.example.twowaits.viewmodels.quizViewModels.QuizViewModel
@@ -27,19 +27,19 @@ class QuizResult : Fragment() {
         _binding = QuizResultBinding.inflate(inflater, container, false)
         val viewModel = ViewModelProvider(this)[QuizViewModel::class.java]
 
-        viewModel.viewScore(AttemptQuizBody(CompanionObjects.QUIZ_ID))
-        viewModel.viewScoreLiveData.observe(viewLifecycleOwner, {
-            CompanionObjects.CURRENT_QUESTION = 0
+        viewModel.viewScore(AttemptQuizBody(Data.QUIZ_ID))
+        viewModel.viewScoreLiveData.observe(viewLifecycleOwner) {
+            Data.CURRENT_QUESTION = 0
             binding.attemptedQuestions.text = it.attempted.toString()
             binding.correctQuestions.text = it.correct.toString()
             binding.wrongQuestions.text = it.wrong.toString()
             binding.totalScore.text = it.total_score
             binding.noOfQuestions.text = it.total_questions.toString()
             binding.title.text = it.title
-        })
-        viewModel.errorViewScoreLiveData.observe(viewLifecycleOwner, {
+        }
+        viewModel.errorViewScoreLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        })
+        }
 
         return binding.root
     }

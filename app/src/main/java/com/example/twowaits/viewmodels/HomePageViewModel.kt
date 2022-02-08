@@ -6,11 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.twowaits.apiCalls.authApiCalls.SendOtpResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.QnAResponseItem
+import com.example.twowaits.apiCalls.dashboardApiCalls.RecentLecturesResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.RecentNotesResponse
 import com.example.twowaits.apiCalls.dashboardApiCalls.RecentQuizzesResponse
 import com.example.twowaits.homePages.UploadNoteBody
 import com.example.twowaits.homePages.UploadNotePartialBody
 import com.example.twowaits.homePages.navdrawerPages.ChangePasswordBody
+import com.example.twowaits.homePages.navdrawerPages.Feedbackbody
 import com.example.twowaits.repository.dashboardRepositories.HomePageRepository
 import com.example.twowaits.repository.dashboardRepositories.ProfileRepository
 import com.example.twowaits.repository.dashboardRepositories.questionsAnswersRepositories.QnARepository
@@ -29,6 +31,10 @@ class HomePageViewModel: ViewModel() {
     lateinit var uploadPDF: MutableLiveData<String>
     lateinit var getSearchQnAData: MutableLiveData<List<QnAResponseItem>>
     lateinit var errorGetSearchQnAData: MutableLiveData<String>
+    lateinit var feedbackData: MutableLiveData<String>
+    lateinit var recentLecturesLiveData: LiveData<List<RecentLecturesResponse>>
+    lateinit var errorRecentLecturesLiveData: LiveData<String>
+    lateinit var uploadLectureData: MutableLiveData<String>
     var isClicked = false
 
     fun getQnA() {
@@ -52,6 +58,13 @@ class HomePageViewModel: ViewModel() {
         errorRecentNotesLiveData = repository.errorRecentNotesLiveData
     }
 
+    fun recentLectures(){
+        val repository = HomePageRepository()
+        repository.recentLectures()
+        recentLecturesLiveData = repository.recentLecturesLiveData
+        errorRecentLecturesLiveData = repository.errorRecentLecturesLiveData
+    }
+
     fun changePassword(changePasswordBody: ChangePasswordBody){
         val repository = HomePageRepository()
         repository.changePassword(changePasswordBody)
@@ -59,10 +72,22 @@ class HomePageViewModel: ViewModel() {
         errorChangePasswordData = repository.errorChangePasswordData
     }
 
+    fun feedback(feedbackbody: Feedbackbody){
+        val repository = HomePageRepository()
+        repository.feedback(feedbackbody)
+        feedbackData = repository.feedbackData
+    }
+
     fun uploadNote(uri: Uri, uploadPartialNoteBody: UploadNotePartialBody){
         val repository = HomePageRepository()
         repository.uploadNote(uri, uploadPartialNoteBody)
         uploadPDF = repository.uploadPDF
+    }
+
+    fun uploadLecture(title: String, description: String, uri: Uri){
+        val repository = HomePageRepository()
+        repository.uploadLecture(title, description, uri)
+        uploadLectureData = repository.uploadLectureData
     }
 
     fun searchQnA(search: String){

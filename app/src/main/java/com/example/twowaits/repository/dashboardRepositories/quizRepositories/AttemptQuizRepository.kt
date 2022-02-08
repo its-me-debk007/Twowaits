@@ -2,6 +2,7 @@ package com.example.twowaits.repository.dashboardRepositories.quizRepositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.twowaits.Data
 import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.*
 import com.example.twowaits.homePages.quiz.AttemptQuizBody
@@ -42,6 +43,13 @@ class AttemptQuizRepository {
                 response.isSuccessful -> {
                     getQuizDataMutableLiveData.postValue(response.body())
                 }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        getQuizData(attemptQuizBody)
+                    else
+                        errorGetQuizData.postValue("Some error has occurred!\nPlease try again")
+                }
                 else -> {
                     errorGetQuizData.postValue("Error code is ${response.code()}\n${response.message()}")
                 }
@@ -59,6 +67,13 @@ class AttemptQuizRepository {
                 response.code() == 201 -> {
                     attemptQuizData.postValue(response.body())
                 }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        attemptQuiz(attemptQuizBody)
+                    else
+                        errorAttemptQuizData.postValue("Some error has occurred!\nPlease try again")
+                }
                 else -> {
                     errorAttemptQuizData.postValue("Error code is ${response.code()}\n${response.message()}")
                 }
@@ -73,6 +88,13 @@ class AttemptQuizRepository {
                 response.isSuccessful -> {
                     registerResponseData.postValue(response.body())
                 }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        registerResponse(registerResponseBody)
+                    else
+                        errorRegisterResponseData.postValue("Some error has occurred!\nPlease try again")
+                }
                 else -> {
                     errorRegisterResponseData.postValue("Error code is ${response.code()}\n${response.message()}")
                 }
@@ -86,6 +108,13 @@ class AttemptQuizRepository {
             when {
                 response.isSuccessful -> {
                     viewScoreData.postValue(response.body())
+                }
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success")
+                        viewScore(attemptQuizBody)
+                    else
+                        errorViewScoreData.postValue("Some error has occurred!\nPlease try again")
                 }
                 else -> {
                     errorViewScoreData.postValue("Error code is ${response.code()}\n${response.message()}")

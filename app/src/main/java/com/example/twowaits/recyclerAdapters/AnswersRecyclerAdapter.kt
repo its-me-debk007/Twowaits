@@ -10,10 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.borjabravo.readmoretextview.ReadMoreTextView
-import com.example.twowaits.CompanionObjects
+import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
-import com.example.twowaits.apiCalls.dashboardApiCalls.QnAResponseItem
 
 class AnswersRecyclerAdapter(private val answers: List<Answer>, private val listener: AnswerItemClicked) :
     RecyclerView.Adapter<AnswersRecyclerAdapter.AnswersViewHolder>() {
@@ -62,7 +61,7 @@ class AnswersRecyclerAdapter(private val answers: List<Answer>, private val list
         val minutes = answers[position].answered.subSequence(14, 16)
 
         holder.apply {
-            answerDetails.text = "Answered at ${CompanionObjects.properTimeFormat(
+            answerDetails.text = "Answered at ${Data.properTimeFormat(
                 monthNumber.toString(),
                 day.toString(),
                 hours.toString(),

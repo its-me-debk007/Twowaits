@@ -12,14 +12,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
-import com.example.twowaits.CompanionObjects
+import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
 import com.example.twowaits.databinding.CreateAnswerBinding
-import com.example.twowaits.databinding.HomePageBinding
 import com.example.twowaits.databinding.ShowSearchQuestionsBinding
 import com.example.twowaits.homePages.questionsAnswers.BookmarkQuestionBody
 import com.example.twowaits.homePages.questionsAnswers.CreateAnswerBody
@@ -46,8 +44,8 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
         _binding = ShowSearchQuestionsBinding.inflate(inflater, container, false)
         val viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
 
-        if (CompanionObjects.Q_SEARCHED != null) {
-                viewModel.searchQnA(CompanionObjects.Q_SEARCHED!!)
+        if (Data.Q_SEARCHED != null) {
+                viewModel.searchQnA(Data.Q_SEARCHED!!)
             viewModel.getSearchQnAData.observe(viewLifecycleOwner, {
                 binding.QnARecyclerView.adapter = QuestionsAnswersRecyclerAdapter(it.size, it, this)
                 binding.QnARecyclerView.layoutManager = object : LinearLayoutManager(context) {

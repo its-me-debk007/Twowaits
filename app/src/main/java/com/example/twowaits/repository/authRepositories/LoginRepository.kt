@@ -1,9 +1,7 @@
 package com.example.twowaits.repository.authRepositories
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.twowaits.CompanionObjects
 import com.example.twowaits.apiCalls.authApiCalls.LoginResponse
 import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.apiCalls.authApiCalls.GettingTokensResponse
@@ -12,9 +10,6 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 @DelicateCoroutinesApi
 class LoginRepository {
