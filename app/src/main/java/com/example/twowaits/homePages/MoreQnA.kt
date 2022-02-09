@@ -45,15 +45,17 @@ class MoreQnA: Fragment(), ItemClicked {
         _binding = MoreQNABinding.inflate(inflater, container, false)
         val viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
         viewModel.getQnA()
-        viewModel.getQnALiveData.observe(viewLifecycleOwner, {
-            binding.moreQnA.adapter = QuestionsAnswersRecyclerAdapter(it.size, it, this)
+        viewModel.getQnALiveData.observe(viewLifecycleOwner) {
+            binding.moreQnA.adapter = QuestionsAnswersRecyclerAdapter(
+                "MORE_QnA", it.toMutableList(), this
+            )
             binding.moreQnA.layoutManager = object : LinearLayoutManager(context) {
                 override fun canScrollVertically(): Boolean = false
             }
-        })
-        viewModel.errorGetQnALiveData.observe(viewLifecycleOwner, {
+        }
+        viewModel.errorGetQnALiveData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        })
+        }
 
         binding.swipeToRefresh.setOnRefreshListener {
             Handler(Looper.getMainLooper()).postDelayed({

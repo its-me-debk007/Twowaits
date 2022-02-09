@@ -62,9 +62,9 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
         viewModel.recentLectures()
         viewModel.recentLecturesLiveData.observe(viewLifecycleOwner) {
             binding.TopLecturesRecyclerView.adapter =
-                RecentLecturesRecyclerAdapter("HomePage", it.size, it, this)
+                RecentLecturesRecyclerAdapter("HOME", it.size, it, this)
             binding.TopLecturesRecyclerView.layoutManager = object:
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) {
+                LinearLayoutManager(context, HORIZONTAL, false) {
                 override fun canScrollVertically(): Boolean = false
                 }
         }
@@ -75,9 +75,9 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
         viewModel.recentNotes()
         viewModel.recentNotesLiveData.observe(viewLifecycleOwner) {
             binding.recentNotesRecyclerView.adapter =
-                RecentNotesRecyclerAdapter("HomePage", it, this)
+                RecentNotesRecyclerAdapter("HOME", it.toMutableList(), this)
             binding.recentNotesRecyclerView.layoutManager = object:
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) {
+                LinearLayoutManager(context, HORIZONTAL, false) {
                 override fun canScrollVertically(): Boolean  = false
                 }
         }
@@ -89,7 +89,7 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
         viewModel.recentQuizzesLiveData.observe(viewLifecycleOwner) {
             binding.QuizzesRecyclerView.adapter = QuizzesRecyclerAdapter(it.size, it, this)
             binding.QuizzesRecyclerView.layoutManager = object:
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false){
+                LinearLayoutManager(context, HORIZONTAL, false){
                 override fun canScrollVertically(): Boolean = false
                 }
         }
@@ -99,7 +99,8 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
 
         viewModel.getQnA()
         viewModel.getQnALiveData.observe(viewLifecycleOwner) {
-            binding.QnARecyclerView.adapter = QuestionsAnswersRecyclerAdapter(it.size, it, this)
+            binding.QnARecyclerView.adapter = QuestionsAnswersRecyclerAdapter("HOME",
+                it.toMutableList(), this)
             binding.QnARecyclerView.layoutManager = object : LinearLayoutManager(context) {
                 override fun canScrollVertically(): Boolean = false
             }
@@ -117,7 +118,7 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
 
         binding.StudentSuggestionRecyclerView.adapter = StudentsSuggestionRecyclerAdapter()
         binding.StudentSuggestionRecyclerView.layoutManager = object:
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) {
+            LinearLayoutManager(context, HORIZONTAL, false) {
             override fun canScrollVertically(): Boolean = false
             }
 

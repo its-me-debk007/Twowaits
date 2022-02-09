@@ -21,7 +21,7 @@ class RecentLecturesRecyclerAdapter(
     RecyclerView.Adapter<RecentLecturesRecyclerAdapter.TopLecturesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopLecturesViewHolder {
-        val view: View = if (adapter == "HomePage")
+        val view: View = if (adapter == "HOME")
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.wishlist_card_view, parent, false)
         else

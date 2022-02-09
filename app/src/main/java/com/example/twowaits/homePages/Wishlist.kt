@@ -2,7 +2,6 @@ package com.example.twowaits.homePages
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +33,7 @@ class Wishlist : Fragment(), WishlistLectureClicked {
 
         viewModel.getWishlist()
         viewModel.getWishlistData.observe(viewLifecycleOwner) {
-            binding.WishlistRecyclerView.adapter = WishlistRecyclerAdapter(it, this)
+            binding.WishlistRecyclerView.adapter = WishlistRecyclerAdapter(it.toMutableList(), this)
             binding.WishlistRecyclerView.layoutManager = object : LinearLayoutManager(context) {
                 override fun canScrollVertically(): Boolean = false
             }
@@ -69,14 +68,5 @@ class Wishlist : Fragment(), WishlistLectureClicked {
                     Toast.LENGTH_SHORT
                 ).show()
         }
-        viewModel.getWishlist()
-        viewModel.getWishlistData.observe(viewLifecycleOwner) {
-            binding.WishlistRecyclerView.adapter = WishlistRecyclerAdapter(it, this)
-            Log.e("aaaa", "Updated")
-        }
-        viewModel.errorGetWishlistData.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        }
-
     }
 }

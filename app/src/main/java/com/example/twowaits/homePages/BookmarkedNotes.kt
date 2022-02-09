@@ -2,7 +2,6 @@ package com.example.twowaits.homePages
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,7 @@ import com.example.twowaits.viewmodels.questionsAnswersViewModel.QuestionsAnswer
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class BookmarkedNotes: Fragment(), NotesClicked {
+class BookmarkedNotes : Fragment(), NotesClicked {
     private var _binding: BookmarkedNotesBinding? = null
     private val binding get() = _binding!!
 
@@ -32,7 +31,8 @@ class BookmarkedNotes: Fragment(), NotesClicked {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         viewModel.getBookmarkedNotes()
         viewModel.bookmarkedNotesData.observe(viewLifecycleOwner) {
-            binding.BookmarkedNotesRecyclerView.adapter = RecentNotesRecyclerAdapter("BookmarkedNotes", it, this)
+            binding.BookmarkedNotesRecyclerView.adapter =
+                RecentNotesRecyclerAdapter("BOOKMARK", it.toMutableList(), this)
             binding.BookmarkedNotesRecyclerView.layoutManager =
                 object : LinearLayoutManager(context) {
                     override fun canScrollVertically(): Boolean = false
@@ -54,7 +54,7 @@ class BookmarkedNotes: Fragment(), NotesClicked {
         Data.NOTE_NAME = noteName
         Data.PDF_URI = pdfUri
         Data.PREVIOUS_PAGE = "BOOKMARK"
-        findNavController().navigate(R.id.action_homePage_to_PDFViewer)
+        findNavController().navigate(R.id.action_library_to_PDFViewer)
     }
 
     override fun onBookmarkNotesClicked(noteId: Int) {
@@ -67,11 +67,6 @@ class BookmarkedNotes: Fragment(), NotesClicked {
                     "$it\nPlease try again after refreshing the page",
                     Toast.LENGTH_SHORT
                 ).show()
-        }
-        viewModel.getBookmarkedNotes()
-        viewModel.bookmarkedNotesData.observe(viewLifecycleOwner) {
-            binding.BookmarkedNotesRecyclerView.adapter = RecentNotesRecyclerAdapter("BookmarkedNotes", it, this)
-            Log.e("aaaa", "updated")
         }
     }
 }

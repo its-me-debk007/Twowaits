@@ -14,7 +14,7 @@ import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.WishlistResponse
 
 class WishlistRecyclerAdapter(
-    private val lectures: List<WishlistResponse>,
+    private val lectures: MutableList<WishlistResponse>,
     private val listener: WishlistLectureClicked
 ) : RecyclerView.Adapter<WishlistRecyclerAdapter.WishlistViewHolder>() {
     override fun onCreateViewHolder(
@@ -34,6 +34,11 @@ class WishlistRecyclerAdapter(
             nameOfLecture.text = lectures[position].title
             lectureDetails.text = lectures[position].description
             creator.text = ""
+            bookmark.setOnClickListener {
+                listener.onWishlistBtnClicked(lectures[absoluteAdapterPosition].id)
+                lectures.removeAt(absoluteAdapterPosition)
+                notifyItemRemoved(absoluteAdapterPosition)
+            }
         }
     }
 
@@ -56,9 +61,7 @@ class WishlistRecyclerAdapter(
                     lectures[absoluteAdapterPosition].title
                 )
             }
-            bookmark.setOnClickListener {
-                listener.onWishlistBtnClicked(lectures[absoluteAdapterPosition].id)
-            }
+            bookmark.isChecked = true
         }
     }
 }

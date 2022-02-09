@@ -106,7 +106,7 @@ class HomeActivity : AppCompatActivity() {
         dialog = Dialog(this)
         dialog.setContentView(NoInternetDialogBinding.inflate(layoutInflater).root)
         dialog.setCancelable(false)
-        isConnectedToInternet()
+//        isConnectedToInternet()
         Data.removeActionBarLiveData.observe(this) {
             if (it) supportActionBar?.hide() else supportActionBar?.show()
         }

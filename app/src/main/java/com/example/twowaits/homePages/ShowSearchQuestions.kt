@@ -45,16 +45,17 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
         val viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
 
         if (Data.Q_SEARCHED != null) {
-                viewModel.searchQnA(Data.Q_SEARCHED!!)
-            viewModel.getSearchQnAData.observe(viewLifecycleOwner, {
-                binding.QnARecyclerView.adapter = QuestionsAnswersRecyclerAdapter(it.size, it, this)
+            viewModel.searchQnA(Data.Q_SEARCHED!!)
+            viewModel.getSearchQnAData.observe(viewLifecycleOwner) {
+                binding.QnARecyclerView.adapter = QuestionsAnswersRecyclerAdapter("SEARCH",
+                    it.toMutableList(), this)
                 binding.QnARecyclerView.layoutManager = object : LinearLayoutManager(context) {
                     override fun canScrollVertically(): Boolean = false
                 }
-            })
-            viewModel.errorGetSearchQnAData.observe(viewLifecycleOwner, {
+            }
+            viewModel.errorGetSearchQnAData.observe(viewLifecycleOwner) {
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            })
+            }
         }
         binding.searchButton.setOnClickListener {
             if (binding.searchQ.text.toString().trim().isEmpty()) {
@@ -62,15 +63,16 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
                 return@setOnClickListener
             }
             viewModel.searchQnA(binding.searchQ.text.toString().trim())
-            viewModel.getSearchQnAData.observe(viewLifecycleOwner, {
-                binding.QnARecyclerView.adapter = QuestionsAnswersRecyclerAdapter(it.size, it, this)
+            viewModel.getSearchQnAData.observe(viewLifecycleOwner) {
+                binding.QnARecyclerView.adapter = QuestionsAnswersRecyclerAdapter("SEARCH",
+                    it.toMutableList(), this)
                 binding.QnARecyclerView.layoutManager = object : LinearLayoutManager(context) {
                     override fun canScrollVertically(): Boolean = false
                 }
-            })
-            viewModel.errorGetSearchQnAData.observe(viewLifecycleOwner, {
+            }
+            viewModel.errorGetSearchQnAData.observe(viewLifecycleOwner) {
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            })
+            }
         }
 
         return binding.root
@@ -88,12 +90,9 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
     override fun likeBtnClicked(question_id: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         viewModel.likeAnswer(LikeAnswerBody(question_id))
-//        viewModel.likeAnswerLiveData.observe(viewLifecycleOwner, {
-
-//        })
-        viewModel.errorLikeAnswerLiveData.observe(viewLifecycleOwner, {
+        viewModel.errorLikeAnswerLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        })
+        }
     }
 
     override fun commentBtnClicked(): Boolean {
@@ -104,12 +103,9 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
     override fun bookmarkBtnClicked(question_id: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         viewModel.bookmarkQuestion(BookmarkQuestionBody(question_id))
-//        viewModel.bookmarkQuestionLiveData.observe(viewLifecycleOwner, {
-
-//        })
-        viewModel.errorBookmarkQuestionLiveData.observe(viewLifecycleOwner, {
+        viewModel.errorBookmarkQuestionLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        })
+        }
     }
 
     override fun shareBtnClicked(question: String, answersList: List<Answer>) {
@@ -145,15 +141,17 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
                 question_id)
             )
             dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.VISIBLE
-            viewModel.createAnswerData.observe(viewLifecycleOwner, {
+            viewModel.createAnswerData.observe(viewLifecycleOwner) {
                 if (it == "success") {
-                    Toast.makeText(context, "Added your answer successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Added your answer successfully", Toast.LENGTH_SHORT)
+                        .show()
                     dialog.cancel()
                 } else {
-                    dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.GONE
+                    dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
+                        View.GONE
                     Toast.makeText(context, "Please try again!\n$it", Toast.LENGTH_SHORT).show()
                 }
-            })
+            }
         }
     }
 
@@ -175,15 +173,17 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
                 CreateCommentBody(answer_id, dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim())
             )
             dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.VISIBLE
-            viewModel.createCommentData.observe(viewLifecycleOwner, {
+            viewModel.createCommentData.observe(viewLifecycleOwner) {
                 if (it == "success") {
-                    Toast.makeText(context, "Added your comment successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Added your comment successfully", Toast.LENGTH_SHORT)
+                        .show()
                     dialog.cancel()
                 } else {
-                    dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.GONE
+                    dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
+                        View.GONE
                     Toast.makeText(context, "Please try again!\n$it", Toast.LENGTH_SHORT).show()
                 }
-            })
+            }
         }
     }
 }
