@@ -11,7 +11,10 @@ import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
 import com.example.twowaits.apiCalls.dashboardApiCalls.QnAResponseItem
 
-class QuestionsAnswersRecyclerAdapter (private val size: Int, private val questionsAndAnswers: List<QnAResponseItem>, private val listener: ItemClicked):
+class QuestionsAnswersRecyclerAdapter (
+    private val adapter: String,
+    private val questionsAndAnswers: MutableList<QnAResponseItem>,
+    private val listener: ItemClicked):
         RecyclerView.Adapter<QuestionsAnswersRecyclerAdapter.QnA_ViewHolder>(), AnswerItemClicked {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QnA_ViewHolder {
@@ -22,13 +25,20 @@ class QuestionsAnswersRecyclerAdapter (private val size: Int, private val questi
     override fun onBindViewHolder(holder: QnA_ViewHolder, position: Int) {
         holder.apply {
             question.text = questionsAndAnswers[position].question
-            bookmarkBtn.isChecked = questionsAndAnswers[position].bookmarked_by_user == "True"
             answersRecyclerView.adapter = AnswersRecyclerAdapter(questionsAndAnswers[position].answer, this@QuestionsAnswersRecyclerAdapter)
+            bookmarkBtn.isChecked = questionsAndAnswers[position].bookmarked_by_user == "True"
+            if (adapter == "BOOKMARK") {
+                bookmarkBtn.setOnClickListener {
+                    listener.bookmarkBtnClicked(questionsAndAnswers[absoluteAdapterPosition].question_id)
+                    questionsAndAnswers.removeAt(absoluteAdapterPosition)
+                    notifyItemRemoved(absoluteAdapterPosition)
+                }
+            }
         }
     }
 
     override fun getItemCount(): Int {
-        return size
+        return questionsAndAnswers.size
     }
 
     inner class QnA_ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){  //Nested Class
@@ -42,14 +52,15 @@ class QuestionsAnswersRecyclerAdapter (private val size: Int, private val questi
                 listener.onQuestionClicked(question.text.toString())
             }
             bookmarkBtn.setOnClickListener {
-                listener.bookmarkBtnClicked(questionsAndAnswers[adapterPosition].question_id)
+                listener.bookmarkBtnClicked(questionsAndAnswers[absoluteAdapterPosition].question_id)
             }
             shareBtn.setOnClickListener {
-                listener.shareBtnClicked(questionsAndAnswers[adapterPosition].question,
-                    questionsAndAnswers[adapterPosition].answer)
+                listener.shareBtnClicked(questionsAndAnswers[absoluteAdapterPosition].question,
+                    questionsAndAnswers[absoluteAdapterPosition].answer)
             }
             addAnswer.setOnClickListener {
-                listener.addAnswerClicked(questionsAndAnswers[adapterPosition].question, questionsAndAnswers[adapterPosition].question_id)
+                listener.addAnswerClicked(questionsAndAnswers[absoluteAdapterPosition].question,
+                    questionsAndAnswers[absoluteAdapterPosition].question_id)
             }
         }
     }

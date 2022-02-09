@@ -30,7 +30,6 @@ class PDFViewer : Fragment() {
     private var _binding: PdfViewerBinding? = null
     private val binding get() = _binding!!
 
-    @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,7 +49,7 @@ class PDFViewer : Fragment() {
         var downloadId: Long = -1
 
         binding.downloadBtn.setOnClickListener {
-            checkPermission()
+            if (checkPermission()) Toast.makeText(context, "Downloading", Toast.LENGTH_SHORT).show()
             val request = DownloadManager.Request(Data.PDF_URI)
             request.apply {
                 setTitle(Data.NOTE_NAME)
@@ -82,7 +81,8 @@ class PDFViewer : Fragment() {
             if (!Environment.isExternalStorageManager()) {
                 requestPermission()
                 return false
-            } else {
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (ActivityCompat.checkSelfPermission(
                     requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
                     PackageManager.PERMISSION_GRANTED) {
@@ -90,7 +90,6 @@ class PDFViewer : Fragment() {
                     return false
                 }
             }
-        }
         return true
     }
 

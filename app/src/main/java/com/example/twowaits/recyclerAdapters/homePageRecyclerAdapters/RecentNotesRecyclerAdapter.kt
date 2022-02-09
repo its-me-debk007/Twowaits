@@ -15,7 +15,7 @@ import com.example.twowaits.apiCalls.dashboardApiCalls.RecentNotesResponse
 
 class RecentNotesRecyclerAdapter(
     private val adapter: String,
-    private val notes: List<RecentNotesResponse>,
+    private val notes: MutableList<RecentNotesResponse>,
     private val listener: NotesClicked
 ) :
     RecyclerView.Adapter<RecentNotesRecyclerAdapter.RecentNotesViewHolder>() {
@@ -40,7 +40,7 @@ class RecentNotesRecyclerAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecentNotesViewHolder {
-        val view: View = if (adapter == "HomePage")
+        val view: View = if (adapter == "HOME")
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.bookmarked_notes_card_view, parent, false)
         else
@@ -53,6 +53,13 @@ class RecentNotesRecyclerAdapter(
         holder.apply {
             subjectName.text = notes[position].title
             bookmark.isChecked = notes[position].bookmarked_by_user == "True"
+            if (adapter == "BOOKMARK") {
+                bookmark.setOnClickListener {
+                    listener.onBookmarkNotesClicked(notes[absoluteAdapterPosition].id)
+                    notes.removeAt(absoluteAdapterPosition)
+                    notifyDataSetChanged()
+                }
+            }
             noteDetails.text = notes[position].description
             try {
                 moreNoteDetails.text = "By " + notes[position].author_id.student.name

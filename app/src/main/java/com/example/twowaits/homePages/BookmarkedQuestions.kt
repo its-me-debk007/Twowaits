@@ -44,7 +44,9 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
         viewModel.getYourBookmarkedQ()
         viewModel.getBookmarkedQLiveData.observe(viewLifecycleOwner) {
             binding.BookmarkedQuestionsRecyclerView.adapter =
-                QuestionsAnswersRecyclerAdapter(it.size, it, this)
+                QuestionsAnswersRecyclerAdapter(
+                    "BOOKMARK", it.toMutableList(), this
+                )
             binding.BookmarkedQuestionsRecyclerView.layoutManager =
                 object : LinearLayoutManager(context) {
                     override fun canScrollVertically(): Boolean = false
@@ -69,12 +71,9 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
     override fun likeBtnClicked(question_id: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         viewModel.likeAnswer(LikeAnswerBody(question_id))
-//        viewModel.likeAnswerLiveData.observe(viewLifecycleOwner, {
-
-//        })
-        viewModel.errorLikeAnswerLiveData.observe(viewLifecycleOwner, {
+        viewModel.errorLikeAnswerLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        })
+        }
     }
 
     override fun commentBtnClicked(): Boolean {
@@ -85,12 +84,9 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
     override fun bookmarkBtnClicked(question_id: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         viewModel.bookmarkQuestion(BookmarkQuestionBody(question_id))
-        viewModel.bookmarkQuestionLiveData.observe(viewLifecycleOwner, {
-//            QuestionsAnswersRecyclerAdapter().notifyDataSetChanged()
-        })
-        viewModel.errorBookmarkQuestionLiveData.observe(viewLifecycleOwner, {
+        viewModel.errorBookmarkQuestionLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        })
+        }
     }
 
     override fun shareBtnClicked(question: String, answersList: List<Answer>) {
@@ -131,7 +127,7 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
                 )
             )
             dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.VISIBLE
-            viewModel.createAnswerData.observe(viewLifecycleOwner, {
+            viewModel.createAnswerData.observe(viewLifecycleOwner) {
                 if (it == "success") {
                     Toast.makeText(context, "Added your answer successfully", Toast.LENGTH_SHORT)
                         .show()
@@ -141,7 +137,7 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
                         View.GONE
                     Toast.makeText(context, "Please try again!\n$it", Toast.LENGTH_SHORT).show()
                 }
-            })
+            }
         }
     }
 
@@ -169,7 +165,7 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
                 )
             )
             dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.VISIBLE
-            viewModel.createCommentData.observe(viewLifecycleOwner, {
+            viewModel.createCommentData.observe(viewLifecycleOwner) {
                 if (it == "success") {
                     Toast.makeText(context, "Added your comment successfully", Toast.LENGTH_SHORT)
                         .show()
@@ -179,7 +175,7 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
                         View.GONE
                     Toast.makeText(context, "Please try again!\n$it", Toast.LENGTH_SHORT).show()
                 }
-            })
+            }
         }
     }
 }
