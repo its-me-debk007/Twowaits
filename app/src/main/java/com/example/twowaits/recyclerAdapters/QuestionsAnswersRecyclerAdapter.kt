@@ -27,6 +27,7 @@ class QuestionsAnswersRecyclerAdapter (
             question.text = questionsAndAnswers[position].question
             answersRecyclerView.adapter = AnswersRecyclerAdapter(questionsAndAnswers[position].answer, this@QuestionsAnswersRecyclerAdapter)
             answersRecyclerView.isNestedScrollingEnabled = false
+            answersRecyclerView.isNestedScrollingEnabled = false
             bookmarkBtn.isChecked = questionsAndAnswers[position].bookmarked_by_user == "True"
             if (adapter == "BOOKMARK") {
                 bookmarkBtn.setOnClickListener {
@@ -74,8 +75,8 @@ class QuestionsAnswersRecyclerAdapter (
         return listener.commentBtnClicked()
     }
 
-    override fun addCommentClicked(answer: String, answer_id: Int) {
-        listener.addCommentClicked(answer, answer_id)
+    override fun addCommentClicked(answer: String, answer_id: Int, position: Int) {
+        listener.addCommentClicked(answer, answer_id, position)
     }
 }
 
@@ -86,5 +87,5 @@ interface ItemClicked {
     fun bookmarkBtnClicked(question_id: Int)
     fun shareBtnClicked(question: String, answersList: List<Answer>)
     fun addAnswerClicked(question: String, question_id: Int, position: Int)
-    fun addCommentClicked(answer: String, answer_id: Int)
+    fun addCommentClicked(answer: String, answer_id: Int, position: Int)
 }

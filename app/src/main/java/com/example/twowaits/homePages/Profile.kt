@@ -2,7 +2,9 @@ package com.example.twowaits.homePages
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -23,7 +25,6 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.PleaseWaitDialogBinding
 import com.example.twowaits.databinding.ProfileBinding
 import com.example.twowaits.viewmodels.ProfileDetailsViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.razorpay.Checkout
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -41,12 +42,18 @@ class Profile : Fragment() {
     ): View {
         _binding = ProfileBinding.inflate(inflater, container, false)
         val viewModel = ViewModelProvider(this)[ProfileDetailsViewModel::class.java]
+        var price: Int
+        var imgUri: Uri? = null
 
         binding.swipeToRefresh.setOnRefreshListener {
             Handler(Looper.getMainLooper()).postDelayed({
                 findNavController().navigate(R.id.action_profile_self)
             }, 440)
         }
+
+        price = 99
+        binding.cardView.strokeColor = Color.parseColor("#804D37")
+        binding.cardView.strokeWidth = 6
 
         if (Data.USER == "FACULTY") {
             viewModel.profileDetailsFaculty()
@@ -92,35 +99,39 @@ class Profile : Fragment() {
         val chooseImage = registerForActivityResult(
             ActivityResultContracts.GetContent()
         ) {
-            val dialog = Dialog(requireContext())
-            dialog.setContentView(PleaseWaitDialogBinding.inflate(layoutInflater).root)
-            dialog.setCancelable(false)
-            dialog.show()
-            if (dialog.window != null)
-                dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
+            imgUri = it
+            if (imgUri != null) {
+                val dialog = Dialog(requireContext())
+                dialog.setContentView(PleaseWaitDialogBinding.inflate(layoutInflater).root)
+                dialog.setCancelable(false)
+                dialog.show()
+                if (dialog.window != null)
+                    dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
 
-            viewModel.uploadProfilePic(it, account_id)
-            viewModel.uploadImageLiveData.observe(viewLifecycleOwner) { message ->
-                if (message.substring(0, 8) == "Uploaded") {
-                    val uri = message.substring(8)
-                    viewModel.updateProfileDetails(UpdateProfileDetailsBody(name, uri))
-                    viewModel.updateProfileDetailsLiveData.observe(viewLifecycleOwner) {
-                        Toast.makeText(context, "Successfully uploaded", Toast.LENGTH_SHORT).show()
+                viewModel.uploadProfilePic(imgUri!!, account_id)
+                viewModel.uploadImageLiveData.observe(viewLifecycleOwner) { message ->
+                    if (message.substring(0, 8) == "Uploaded") {
+                        val uri = message.substring(8)
+                        viewModel.updateProfileDetails(UpdateProfileDetailsBody(name, uri))
+                        viewModel.updateProfileDetailsLiveData.observe(viewLifecycleOwner) {
+                            Toast.makeText(context, "Successfully uploaded", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        viewModel.errorUpdateProfileDetailsLiveData.observe(
+                            viewLifecycleOwner
+                        ) { errorMessage ->
+                            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                        }
+                        binding.ProfilePic.setImageURI(imgUri!!)
+                        dialog.hide()
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "$message\nPlease select the image again",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        dialog.hide()
                     }
-                    viewModel.errorUpdateProfileDetailsLiveData.observe(
-                        viewLifecycleOwner
-                    ) { errorMessage ->
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-                    }
-                    binding.ProfilePic.setImageURI(it)
-                    dialog.hide()
-                } else {
-                    Toast.makeText(
-                        context,
-                        "$message\nPlease select the image again",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    dialog.hide()
                 }
             }
         }
@@ -129,11 +140,37 @@ class Profile : Fragment() {
             chooseImage.launch("image/*")
         }
 
+        binding.cardView.setOnClickListener {
+            price = 99
+            binding.cardView.strokeColor = Color.parseColor("#804D37")
+            binding.cardView.strokeWidth = 6
+            binding.cardView.cardElevation = 15F
+            binding.cardView2.strokeWidth = 0
+            binding.cardView2.cardElevation = 0F
+        }
+        binding.cardView2.setOnClickListener {
+            price = 199
+            binding.cardView2.strokeColor = Color.parseColor("#804D37")
+            binding.cardView2.strokeWidth = 6
+            binding.cardView2.cardElevation = 15F
+            binding.cardView.strokeWidth = 0
+            binding.cardView.cardElevation = 0F
+        }
+
         Checkout.preload(context)
         binding.BuyNowBtn.setOnClickListener {
-            val intent = Intent(activity, PaymentActivity::class.java)
-            intent.putExtra("name", name)
-            startActivity(intent)
+            try {
+                val intent = Intent(activity, PaymentActivity::class.java)
+                intent.putExtra("name", name)
+                intent.putExtra("price", price)
+                startActivity(intent)
+            } catch (e: Exception) {
+                Toast.makeText(
+                    context,
+                    "Some error has occurred\nPlease try again!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         val viewPagerAdapter = ProfileViewPagerAdapter(childFragmentManager, lifecycle)

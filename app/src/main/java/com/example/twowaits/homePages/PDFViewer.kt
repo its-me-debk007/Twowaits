@@ -89,8 +89,7 @@ class PDFViewer : Fragment() {
                 }
             }
         }
-        activity?.registerReceiver(
-            broadcastReceiver,
+        activity?.registerReceiver(broadcastReceiver,
             IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         return binding.root

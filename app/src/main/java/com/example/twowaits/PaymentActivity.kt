@@ -20,7 +20,8 @@ class PaymentActivity : AppCompatActivity(), PaymentResultListener {
         binding = ActivityPaymentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        savePayment(199)
+        val price = intent.getStringExtra("price")!!.toInt()
+        savePayment(price)
     }
 
     private fun savePayment(amount: Int) {

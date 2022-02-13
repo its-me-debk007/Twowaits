@@ -37,6 +37,7 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
     private var _binding: ShowSearchQuestionsBinding? = null
     private val binding get() = _binding!!
     private var isClicked = false
+    private lateinit var adapter: QuestionsAnswersRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,8 +49,14 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
         if (Data.Q_SEARCHED != null) {
             viewModel.searchQnA(Data.Q_SEARCHED!!)
             viewModel.getSearchQnAData.observe(viewLifecycleOwner) {
-                binding.QnARecyclerView.adapter = QuestionsAnswersRecyclerAdapter("SEARCH",
+                if (it.isEmpty()) {
+                    binding.QnARecyclerView.visibility = View.GONE
+                    binding.emptyAnimation.visibility = View.VISIBLE
+                    binding.text.visibility = View.VISIBLE
+                }
+                adapter = QuestionsAnswersRecyclerAdapter("SEARCH",
                     it.toMutableList(), this)
+                binding.QnARecyclerView.adapter = adapter
                 binding.QnARecyclerView.layoutManager = object : LinearLayoutManager(context) {
                     override fun canScrollVertically(): Boolean = false
                 }
@@ -65,6 +72,11 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
             }
             viewModel.searchQnA(binding.searchQ.text.toString().trim())
             viewModel.getSearchQnAData.observe(viewLifecycleOwner) {
+                if (it.isEmpty()) {
+                    binding.QnARecyclerView.visibility = View.GONE
+                    binding.emptyAnimation.visibility = View.VISIBLE
+                    binding.text.visibility = View.VISIBLE
+                }
                 binding.QnARecyclerView.adapter = QuestionsAnswersRecyclerAdapter("SEARCH",
                     it.toMutableList(), this)
                 binding.QnARecyclerView.layoutManager = object : LinearLayoutManager(context) {
@@ -147,6 +159,7 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
                     Toast.makeText(context, "Added your answer successfully", Toast.LENGTH_SHORT)
                         .show()
                     dialog.cancel()
+                    updateRecyclerView(position)
                 } else {
                     dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
                         View.GONE
@@ -156,7 +169,21 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
         }
     }
 
-    override fun addCommentClicked(answer: String, answer_id: Int) {
+    private fun updateRecyclerView(position: Int) {
+        val homePageViewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
+        homePageViewModel.getQnA()
+        homePageViewModel.getQnALiveData.observe(viewLifecycleOwner) { qAndA ->
+            adapter = QuestionsAnswersRecyclerAdapter("SEARCH",
+                qAndA.toMutableList(), this)
+            binding.QnARecyclerView.adapter = adapter
+            adapter.notifyItemInserted(position)
+        }
+        homePageViewModel.errorGetQnALiveData.observe(viewLifecycleOwner) { errorMsg ->
+            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun addCommentClicked(answer: String, answer_id: Int, position: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         val dialog = Dialog(requireContext())
         dialog.setContentView(CreateCommentBinding.inflate(layoutInflater).root)
@@ -179,6 +206,7 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
                     Toast.makeText(context, "Added your comment successfully", Toast.LENGTH_SHORT)
                         .show()
                     dialog.cancel()
+                    updateRecyclerView(position)
                 } else {
                     dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
                         View.GONE

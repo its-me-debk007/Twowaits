@@ -4,10 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.ToggleButton
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -16,7 +14,10 @@ import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
 
-class AnswersRecyclerAdapter(private val answers: List<Answer>, private val listener: AnswerItemClicked) :
+class AnswersRecyclerAdapter(
+    private val answers: List<Answer>,
+    private val listener: AnswerItemClicked
+) :
     RecyclerView.Adapter<AnswersRecyclerAdapter.AnswersViewHolder>() {
     inner class AnswersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val answerer: TextView = itemView.findViewById(R.id.Answerer)
@@ -33,7 +34,8 @@ class AnswersRecyclerAdapter(private val answers: List<Answer>, private val list
         init {
             likeBtn.setOnClickListener {
                 listener.likeBtnClicked(answers[absoluteAdapterPosition].answer_id)
-                if (likeBtn.isChecked) likesCount.text = (likesCount.text.toString().toInt() + 1).toString()
+                if (likeBtn.isChecked) likesCount.text =
+                    (likesCount.text.toString().toInt() + 1).toString()
                 else likesCount.text = (likesCount.text.toString().toInt() - 1).toString()
             }
             commentBtn.setOnClickListener {
@@ -46,7 +48,10 @@ class AnswersRecyclerAdapter(private val answers: List<Answer>, private val list
                 }
             }
             addComment.setOnClickListener {
-                listener.addCommentClicked(answers[absoluteAdapterPosition].answer, answers[absoluteAdapterPosition].answer_id)
+                listener.addCommentClicked(
+                    answers[absoluteAdapterPosition].answer,
+                    answers[absoluteAdapterPosition].answer_id, absoluteAdapterPosition
+                )
             }
         }
     }
@@ -64,15 +69,13 @@ class AnswersRecyclerAdapter(private val answers: List<Answer>, private val list
 
         holder.apply {
             answerDetails.text = "Answered at ${Data.properTimeFormat(
-                monthNumber.toString(),
-                day.toString(),
-                hours.toString(),
-                minutes.toString())}"
+                    monthNumber.toString(), day.toString(), hours.toString(), minutes.toString())}"
             likesCount.text = answers[position].likes.toString()
             commentsCount.text = answers[position].comment.size.toString()
             answer.text = answers[position].answer
             likeBtn.isChecked = answers[position].liked_by_user == "True"
             commentsRecyclerView.adapter = CommentsRecyclerAdapter(answers[position].comment)
+            commentsRecyclerView.isNestedScrollingEnabled = false
             commentsRecyclerView.isNestedScrollingEnabled = false
             try {
                 answerer.text = answers[position].author_id.student.name
@@ -97,8 +100,9 @@ class AnswersRecyclerAdapter(private val answers: List<Answer>, private val list
         return answers.size
     }
 }
+
 interface AnswerItemClicked {
     fun likeBtnClicked(question_id: Int)
     fun commentBtnClicked(): Boolean
-    fun addCommentClicked(answer: String, answer_id: Int)
+    fun addCommentClicked(answer: String, answer_id: Int, position: Int)
 }
