@@ -45,6 +45,8 @@ class PDFViewer : Fragment() {
         if (Data.PREVIOUS_PAGE == "DOWNLOADS") {
             binding.downloadBtn.visibility = View.INVISIBLE
             binding.pdf.fromFile(Data.DOWNLOADED_NOTE).load()
+        } else {
+            binding.pdf.fromUri(Data.PDF_URI).load()
         }
 //        if (Data.PREVIOUS_PAGE == "DOWNLOADS") {
 //            binding.downloadBtn.hide()
