@@ -38,6 +38,7 @@ class MoreQnA: Fragment(), ItemClicked {
     private var _binding: MoreQNABinding? = null
     private val binding get() = _binding!!
     private var isClicked = false
+    private lateinit var adapter: QuestionsAnswersRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,9 +48,13 @@ class MoreQnA: Fragment(), ItemClicked {
         val viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
         viewModel.getQnA()
         viewModel.getQnALiveData.observe(viewLifecycleOwner) {
-            binding.moreQnA.adapter = QuestionsAnswersRecyclerAdapter(
-                "MORE_QnA", it.toMutableList(), this
-            )
+            if (it.isEmpty()) {
+                binding.moreQnA.visibility = View.GONE
+                binding.emptyAnimation.visibility = View.VISIBLE
+                binding.text.visibility = View.VISIBLE
+            }
+            adapter = QuestionsAnswersRecyclerAdapter("MORE_QnA", it.toMutableList(), this)
+            binding.moreQnA.adapter = adapter
             binding.moreQnA.layoutManager = object : LinearLayoutManager(context) {
                 override fun canScrollVertically(): Boolean = false
             }
@@ -79,12 +84,9 @@ class MoreQnA: Fragment(), ItemClicked {
     override fun likeBtnClicked(question_id: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         viewModel.likeAnswer(LikeAnswerBody(question_id))
-//        viewModel.likeAnswerLiveData.observe(viewLifecycleOwner, {
-
-//        })
-        viewModel.errorLikeAnswerLiveData.observe(viewLifecycleOwner, {
+        viewModel.errorLikeAnswerLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        })
+        }
     }
 
     override fun commentBtnClicked(): Boolean {
@@ -134,6 +136,7 @@ class MoreQnA: Fragment(), ItemClicked {
                     Toast.makeText(context, "Added your answer successfully", Toast.LENGTH_SHORT)
                         .show()
                     dialog.cancel()
+                    updateRecyclerView(position)
                 } else {
                     dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
                         View.GONE
@@ -143,7 +146,7 @@ class MoreQnA: Fragment(), ItemClicked {
         }
     }
 
-    override fun addCommentClicked(answer: String, answer_id: Int) {
+    override fun addCommentClicked(answer: String, answer_id: Int, position: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         val dialog = Dialog(requireContext())
         dialog.setContentView(CreateCommentBinding.inflate(layoutInflater).root)
@@ -161,15 +164,32 @@ class MoreQnA: Fragment(), ItemClicked {
                 CreateCommentBody(answer_id, dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim())
             )
             dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.VISIBLE
-            viewModel.createCommentData.observe(viewLifecycleOwner, {
+            viewModel.createCommentData.observe(viewLifecycleOwner) {
                 if (it == "success") {
-                    Toast.makeText(context, "Added your comment successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Added your comment successfully", Toast.LENGTH_SHORT)
+                        .show()
                     dialog.cancel()
+                    updateRecyclerView(position)
                 } else {
-                    dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.GONE
+                    dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
+                        View.GONE
                     Toast.makeText(context, "Please try again!\n$it", Toast.LENGTH_SHORT).show()
                 }
-            })
+            }
+        }
+    }
+
+    private fun updateRecyclerView(position: Int) {
+        val homePageViewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
+        homePageViewModel.getQnA()
+        homePageViewModel.getQnALiveData.observe(viewLifecycleOwner) { qAndA ->
+            adapter = QuestionsAnswersRecyclerAdapter("MORE_QnA",
+                qAndA.toMutableList(), this)
+            binding.moreQnA.adapter = adapter
+            adapter.notifyItemInserted(position)
+        }
+        homePageViewModel.errorGetQnALiveData.observe(viewLifecycleOwner) { errorMsg ->
+            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
         }
     }
 }

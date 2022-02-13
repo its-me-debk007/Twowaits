@@ -25,6 +25,7 @@ import com.example.twowaits.homePages.questionsAnswers.CreateCommentBody
 import com.example.twowaits.homePages.questionsAnswers.LikeAnswerBody
 import com.example.twowaits.recyclerAdapters.ItemClicked
 import com.example.twowaits.recyclerAdapters.QuestionsAnswersRecyclerAdapter
+import com.example.twowaits.viewmodels.HomePageViewModel
 import com.example.twowaits.viewmodels.questionsAnswersViewModel.QuestionsAnswersViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -35,6 +36,7 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
     private var isClicked = false
     private var _binding: BookmarkedQuestionsBinding? = null
     private val binding get() = _binding!!
+    private lateinit var adapter: QuestionsAnswersRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,10 +46,13 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         viewModel.getYourBookmarkedQ()
         viewModel.getBookmarkedQLiveData.observe(viewLifecycleOwner) {
-            binding.BookmarkedQuestionsRecyclerView.adapter =
-                QuestionsAnswersRecyclerAdapter(
-                    "BOOKMARK", it.toMutableList(), this
-                )
+            if (it.isEmpty()) {
+                binding.BookmarkedQuestionsRecyclerView.visibility = View.GONE
+                binding.emptyAnimation.visibility = View.VISIBLE
+                binding.text.visibility = View.VISIBLE
+            }
+            adapter = QuestionsAnswersRecyclerAdapter("BOOKMARK", it.toMutableList(), this)
+            binding.BookmarkedQuestionsRecyclerView.adapter = adapter
             binding.BookmarkedQuestionsRecyclerView.layoutManager =
                 object : LinearLayoutManager(context) {
                     override fun canScrollVertically(): Boolean = false
@@ -133,6 +138,7 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
                     Toast.makeText(context, "Added your answer successfully", Toast.LENGTH_SHORT)
                         .show()
                     dialog.cancel()
+                    updateRecyclerView(position)
                 } else {
                     dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
                         View.GONE
@@ -142,7 +148,21 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
         }
     }
 
-    override fun addCommentClicked(answer: String, answer_id: Int) {
+    private fun updateRecyclerView(position: Int) {
+        val homePageViewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
+        homePageViewModel.getQnA()
+        homePageViewModel.getQnALiveData.observe(viewLifecycleOwner) { qAndA ->
+            adapter = QuestionsAnswersRecyclerAdapter("BOOKMARK",
+                qAndA.toMutableList(), this)
+            binding.BookmarkedQuestionsRecyclerView.adapter = adapter
+            adapter.notifyItemInserted(position)
+        }
+        homePageViewModel.errorGetQnALiveData.observe(viewLifecycleOwner) { errorMsg ->
+            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun addCommentClicked(answer: String, answer_id: Int, position: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         val dialog = Dialog(requireContext())
         dialog.setContentView(CreateCommentBinding.inflate(layoutInflater).root)
@@ -171,6 +191,7 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
                     Toast.makeText(context, "Added your comment successfully", Toast.LENGTH_SHORT)
                         .show()
                     dialog.cancel()
+                    updateRecyclerView(position)
                 } else {
                     dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
                         View.GONE

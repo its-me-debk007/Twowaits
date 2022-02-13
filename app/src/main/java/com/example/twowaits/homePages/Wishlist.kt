@@ -33,6 +33,11 @@ class Wishlist : Fragment(), WishlistLectureClicked {
 
         viewModel.getWishlist()
         viewModel.getWishlistData.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                binding.WishlistRecyclerView.visibility = View.GONE
+                binding.emptyAnimation.visibility = View.VISIBLE
+                binding.text.visibility = View.VISIBLE
+            }
             binding.WishlistRecyclerView.adapter = WishlistRecyclerAdapter(it.toMutableList(), this)
             binding.WishlistRecyclerView.layoutManager = object : LinearLayoutManager(context) {
                 override fun canScrollVertically(): Boolean = false

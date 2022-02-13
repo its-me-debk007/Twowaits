@@ -45,7 +45,6 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent.setEventListener
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
-
 @DelicateCoroutinesApi
 class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClicked {
     private var _binding: HomePageBinding? = null
@@ -272,7 +271,7 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
                     Toast.makeText(context, "Added your answer successfully", Toast.LENGTH_SHORT)
                         .show()
                     dialog.cancel()
-                    adapter.notifyItemInserted(position)
+                    updateRecyclerView(position)
                 } else {
                     dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
                         View.GONE
@@ -282,7 +281,7 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
         }
     }
 
-    override fun addCommentClicked(answer: String, answer_id: Int) {
+    override fun addCommentClicked(answer: String, answer_id: Int, position: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         val dialog = Dialog(requireContext())
         dialog.setContentView(CreateCommentBinding.inflate(layoutInflater).root)
@@ -311,12 +310,27 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
                     Toast.makeText(context, "Added your comment successfully", Toast.LENGTH_SHORT)
                         .show()
                     dialog.cancel()
+                    updateRecyclerView(position)
                 } else {
                     dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
                         View.GONE
                     Toast.makeText(context, "Please try again!\n$it", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun updateRecyclerView(position: Int) {
+        val homePageViewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
+        homePageViewModel.getQnA()
+        homePageViewModel.getQnALiveData.observe(viewLifecycleOwner) { qAndA ->
+            adapter = QuestionsAnswersRecyclerAdapter("HOME",
+                qAndA.toMutableList(), this)
+            binding.QnARecyclerView.adapter = adapter
+            adapter.notifyItemInserted(position)
+        }
+        homePageViewModel.errorGetQnALiveData.observe(viewLifecycleOwner) { errorMsg ->
+            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -31,6 +31,11 @@ class BookmarkedNotes : Fragment(), NotesClicked {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         viewModel.getBookmarkedNotes()
         viewModel.bookmarkedNotesData.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                binding.BookmarkedNotesRecyclerView.visibility = View.GONE
+                binding.emptyAnimation.visibility = View.VISIBLE
+                binding.text.visibility = View.VISIBLE
+            }
             binding.BookmarkedNotesRecyclerView.adapter =
                 RecentNotesRecyclerAdapter("BOOKMARK", it.toMutableList(), this)
             binding.BookmarkedNotesRecyclerView.layoutManager =
