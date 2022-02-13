@@ -62,7 +62,10 @@ class VideoPlayer : Fragment() {
         }
 
         binding.downloadBtn.setOnClickListener {
-            checkPermission()
+            if (checkPermission()) {
+                Toast.makeText(context, "Downloading", Toast.LENGTH_SHORT).show()
+                binding.downloadBtn.isEnabled = false
+            }
             val request = DownloadManager.Request(Data.VIDEO_URI)
             request.apply {
                 setTitle(Data.LECTURE_NAME)
@@ -80,6 +83,7 @@ class VideoPlayer : Fragment() {
                 val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
                 if (id == downloadId) {
                     Toast.makeText(context, "Download complete", Toast.LENGTH_SHORT).show()
+                    binding.downloadBtn.isEnabled = true
                 }
             }
         }
@@ -105,16 +109,21 @@ class VideoPlayer : Fragment() {
         })
     }
 
-    private fun checkPermission() {
+    private fun checkPermission(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (!Environment.isExternalStorageManager())
+            if (!Environment.isExternalStorageManager()) {
                 requestPermission()
-        }
-        else {
-            if (ActivityCompat.checkSelfPermission(requireActivity(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                return false
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(
+                    requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED) {
                 requestPermission()
+                return false
+            }
         }
+        return true
     }
 
     private fun requestPermission() {

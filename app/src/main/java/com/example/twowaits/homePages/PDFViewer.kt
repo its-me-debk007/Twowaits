@@ -13,10 +13,12 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -24,7 +26,6 @@ import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.databinding.PdfViewerBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.lang.Exception
 
 class PDFViewer : Fragment() {
     private var _binding: PdfViewerBinding? = null
@@ -36,42 +37,59 @@ class PDFViewer : Fragment() {
     ): View {
         _binding = PdfViewerBinding.inflate(inflater, container, false)
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        var downloadId: Long = -1
+        val bottomNavigationView =
+            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView?.visibility = View.GONE
         Data.removeActionBarLiveData.postValue(true)
-
         if (Data.PREVIOUS_PAGE == "DOWNLOADS") {
-            binding.downloadBtn.hide()
+            binding.downloadBtn.visibility = View.INVISIBLE
             binding.pdf.fromFile(Data.DOWNLOADED_NOTE).load()
-        } else {
-            binding.pdf.fromUri(Data.PDF_URI)
         }
-        var downloadId: Long = -1
+//        if (Data.PREVIOUS_PAGE == "DOWNLOADS") {
+//            binding.downloadBtn.hide()
+////            binding.pdf.fromFile(Data.DOWNLOADED_NOTE).load()
+//        } else {
+//            binding.webview?.webViewClient = WebViewClient()
+//            if (binding.webview == null) Log.e("ssss", "Null exception")
+////            binding.webview?.addView(binding.webview?.zoomIn())
+//            binding.webview?.settings?.javaScriptEnabled = true
+//            binding.webview?.loadUrl("http://docs.google.com/gview?embedded=true&url=http://www.pdf995.com/samples/pdf.pdf")
+//        }
 
         binding.downloadBtn.setOnClickListener {
-            if (checkPermission()) Toast.makeText(context, "Downloading", Toast.LENGTH_SHORT).show()
+            if (checkPermission()) {
+                Toast.makeText(context, "Downloading", Toast.LENGTH_SHORT).show()
+                binding.downloadBtn.isEnabled = false
+            } else return@setOnClickListener
             val request = DownloadManager.Request(Data.PDF_URI)
             request.apply {
                 setTitle(Data.NOTE_NAME)
                 setDescription("Downloading...")
                 setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                 setMimeType("application/pdf")
-                setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Educool Downloads/Notes/${Data.NOTE_NAME}.pdf")
+                setDestinationInExternalPublicDir(
+                    Environment.DIRECTORY_DOWNLOADS,
+                    "Educool Downloads/Notes/${Data.NOTE_NAME}.pdf")
                 setAllowedOverRoaming(true)
                 setAllowedOverMetered(true)
             }
-            val downloadManager = activity?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadManager =
+                activity?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             downloadId = downloadManager.enqueue(request)
         }
-        val broadcastReceiver = object: BroadcastReceiver() {
+        val broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
                 if (id == downloadId) {
                     Toast.makeText(context, "Download complete", Toast.LENGTH_SHORT).show()
+                    binding.downloadBtn.isEnabled = true
                 }
             }
         }
-        activity?.registerReceiver(broadcastReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        activity?.registerReceiver(
+            broadcastReceiver,
+            IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         return binding.root
     }
@@ -83,13 +101,15 @@ class PDFViewer : Fragment() {
                 return false
             }
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (ActivityCompat.checkSelfPermission(
-                    requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-                    PackageManager.PERMISSION_GRANTED) {
-                    requestPermission()
-                    return false
-                }
+            if (ActivityCompat.checkSelfPermission(
+                    requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) !=
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermission()
+                return false
             }
+        }
         return true
     }
 
@@ -123,7 +143,11 @@ class PDFViewer : Fragment() {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Log.d("StoragePermission", "granted")
             } else {
-                Toast.makeText(context, "Permission denied\nSorry, the file can't be downloaded", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Permission denied\nSorry, the file can't be downloaded",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -138,7 +162,8 @@ class PDFViewer : Fragment() {
                     "HOME" -> findNavController().navigate(R.id.action_PDFViewer_to_homePage)
                 }
                 Data.removeActionBarLiveData.postValue(false)
-                val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                val bottomNavigationView =
+                    activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
                 bottomNavigationView?.visibility = View.VISIBLE
             }
         })
