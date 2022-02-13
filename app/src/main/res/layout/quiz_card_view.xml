@@ -40,6 +40,10 @@
                 android:layout_marginStart="6dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="6dp"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:fontFamily="@font/roboto_medium"
                 android:text="COA Complete course Quiz"
                 android:textColor="#000000"
@@ -80,16 +84,21 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="20dp"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Quiz by Vishal Sir"
                 android:textColor="#303030"
                 android:textSize="11sp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:freezesText="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/NoOfQuestions" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

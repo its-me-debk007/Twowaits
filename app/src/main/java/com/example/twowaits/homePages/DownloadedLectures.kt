@@ -24,32 +24,30 @@ class DownloadedLectures: Fragment(), DownloadedLectureClicked {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = DownloadedLecturesBinding.inflate(inflater, container, false)
-
-        val downloadedFilesList = mutableListOf<DownloadedNotesDataClass>()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)/* write for else condition too*/ {
-            val downloadsFolder = File(
-                "${Environment.getStorageDirectory()}/emulated/0/Download/Educool Downloads",
-                "Lectures")
-            if (downloadsFolder.exists()) {
-                val downloadedLecturesList = downloadsFolder.listFiles()
-                for (file in downloadedLecturesList) {
-                    downloadedFilesList.add(
-                        DownloadedNotesDataClass(
-                            file.nameWithoutExtension, "description",
-                            "author"
-                        )
-                    )
-                }
-            }
-        }
+        val downloadedFilesList = findDownloadedLectures()
         binding.DownloadedLecturesRecyclerView.adapter = DownloadedLecturesRecyclerAdapter(downloadedFilesList, this)
         binding.DownloadedLecturesRecyclerView.layoutManager = object : LinearLayoutManager(context) {
             override fun canScrollVertically(): Boolean = false
         }
-
         return binding.root
+    }
+
+    private fun findDownloadedLectures(): MutableList<DownloadedNotesDataClass> {
+        val downloadedFilesList = mutableListOf<DownloadedNotesDataClass>()
+        val downloadsFolder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            File("${Environment.getStorageDirectory()}/emulated/0/Download/Educool Downloads/", "Lectures")
+        else File("${Environment.getExternalStorageDirectory()}/Download/Educool Downloads/", "Lectures")
+        if (downloadsFolder.exists()) {
+            val downloadedLecturesList = downloadsFolder.listFiles()
+            for (file in downloadedLecturesList) {
+                downloadedFilesList.add(DownloadedNotesDataClass(
+                    file.nameWithoutExtension, "description",
+                    "author"))
+            }
+        }
+        return downloadedFilesList
     }
 
     override fun onDestroy() {
@@ -58,11 +56,10 @@ class DownloadedLectures: Fragment(), DownloadedLectureClicked {
     }
 
     override fun onDownloadedLectureClicked(downloadedLectureName: String) {
-        val file: File
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            file = File("${Environment.getStorageDirectory()}/emulated/0/Download/Educool Downloads/Lectures/${downloadedLectureName}")
-            Data.DOWNLOADED_LECTURE = file
-        }// Write for else condition too
+        val file = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) File("${Environment.getStorageDirectory()}/emulated/0/Download/Educool Downloads/Lectures/${downloadedLectureName}")
+            else File("${Environment.getExternalStorageDirectory()}/Download/Educool Downloads/Lectures/${downloadedLectureName}")
+
+        Data.DOWNLOADED_LECTURE = file
         Data.PREV_PAGE_FOR_PLAYER = "DOWNLOADS"
         findNavController().navigate(R.id.action_downloads_to_videoPlayer2)
     }

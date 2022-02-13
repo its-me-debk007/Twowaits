@@ -27,6 +27,7 @@ import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.AddToWishlistBody
 import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
 import com.example.twowaits.databinding.CreateAnswerBinding
+import com.example.twowaits.databinding.CreateCommentBinding
 import com.example.twowaits.databinding.HomePageBinding
 import com.example.twowaits.homePages.questionsAnswers.BookmarkQuestionBody
 import com.example.twowaits.homePages.questionsAnswers.CreateAnswerBody
@@ -50,6 +51,7 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
     private var _binding: HomePageBinding? = null
     private val binding get() = _binding!!
     private var isClicked = false
+    private lateinit var adapter: QuestionsAnswersRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -99,8 +101,9 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
 
         viewModel.getQnA()
         viewModel.getQnALiveData.observe(viewLifecycleOwner) {
-            binding.QnARecyclerView.adapter = QuestionsAnswersRecyclerAdapter("HOME",
+            adapter = QuestionsAnswersRecyclerAdapter("HOME",
                 it.toMutableList(), this)
+            binding.QnARecyclerView.adapter = adapter
             binding.QnARecyclerView.layoutManager = object : LinearLayoutManager(context) {
                 override fun canScrollVertically(): Boolean = false
             }
@@ -234,13 +237,13 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
             }
             answerFormat += commentFormat
         }
-        val format = "Q) $question\n\n$answerFormat"
+        val format = "Q) $question\n\n$answerFormat".trim()
         shareIntent.putExtra(Intent.EXTRA_TEXT, format)
         val chooser = Intent.createChooser(shareIntent, "Share this QnA using...")
         startActivity(chooser)
     }
 
-    override fun addAnswerClicked(question: String, question_id: Int) {
+    override fun addAnswerClicked(question: String, question_id: Int, position: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         val dialog = Dialog(requireContext())
         dialog.setContentView(CreateAnswerBinding.inflate(layoutInflater).root)
@@ -269,6 +272,7 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
                     Toast.makeText(context, "Added your answer successfully", Toast.LENGTH_SHORT)
                         .show()
                     dialog.cancel()
+                    adapter.notifyItemInserted(position)
                 } else {
                     dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
                         View.GONE
@@ -281,7 +285,7 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
     override fun addCommentClicked(answer: String, answer_id: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         val dialog = Dialog(requireContext())
-        dialog.setContentView(CreateAnswerBinding.inflate(layoutInflater).root)
+        dialog.setContentView(CreateCommentBinding.inflate(layoutInflater).root)
         dialog.show()
         if (dialog.window != null)
             dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
@@ -336,9 +340,9 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
         findNavController().navigate(R.id.action_homePage_to_PDFViewer)
     }
 
-    override fun onBookmarkNotesClicked(note_id: Int) {
+    override fun onBookmarkNotesClicked(noteId: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
-        viewModel.bookmarkNote(BookmarkNoteBody(note_id))
+        viewModel.bookmarkNote(BookmarkNoteBody(noteId))
         viewModel.bookmarkNoteData.observe(viewLifecycleOwner) {
             if (it != "success")
                 Toast.makeText(
@@ -356,9 +360,9 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
         findNavController().navigate(R.id.action_homePage_to_videoPlayer2)
     }
 
-    override fun onWishlistBtnClicked(lecture_id: Int) {
+    override fun onWishlistBtnClicked(lectureId: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
-        viewModel.addToWishlist(AddToWishlistBody(lecture_id))
+        viewModel.addToWishlist(AddToWishlistBody(lectureId))
         viewModel.addToWishlistData.observe(viewLifecycleOwner) {
             if (it != "success")
                 Toast.makeText(

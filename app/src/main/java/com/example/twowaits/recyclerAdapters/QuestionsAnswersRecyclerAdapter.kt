@@ -26,6 +26,7 @@ class QuestionsAnswersRecyclerAdapter (
         holder.apply {
             question.text = questionsAndAnswers[position].question
             answersRecyclerView.adapter = AnswersRecyclerAdapter(questionsAndAnswers[position].answer, this@QuestionsAnswersRecyclerAdapter)
+            answersRecyclerView.isNestedScrollingEnabled = false
             bookmarkBtn.isChecked = questionsAndAnswers[position].bookmarked_by_user == "True"
             if (adapter == "BOOKMARK") {
                 bookmarkBtn.setOnClickListener {
@@ -41,7 +42,7 @@ class QuestionsAnswersRecyclerAdapter (
         return questionsAndAnswers.size
     }
 
-    inner class QnA_ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){  //Nested Class
+    inner class QnA_ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val question: TextView = itemView.findViewById(R.id.Question)
         val answersRecyclerView: RecyclerView = itemView.findViewById(R.id.answersRecyclerView)
         val bookmarkBtn: ToggleButton = itemView.findViewById(R.id.bookmarkBtn)
@@ -60,7 +61,7 @@ class QuestionsAnswersRecyclerAdapter (
             }
             addAnswer.setOnClickListener {
                 listener.addAnswerClicked(questionsAndAnswers[absoluteAdapterPosition].question,
-                    questionsAndAnswers[absoluteAdapterPosition].question_id)
+                    questionsAndAnswers[absoluteAdapterPosition].question_id, absoluteAdapterPosition)
             }
         }
     }
@@ -84,6 +85,6 @@ interface ItemClicked {
     fun commentBtnClicked(): Boolean
     fun bookmarkBtnClicked(question_id: Int)
     fun shareBtnClicked(question: String, answersList: List<Answer>)
-    fun addAnswerClicked(question: String, question_id: Int)
+    fun addAnswerClicked(question: String, question_id: Int, position: Int)
     fun addCommentClicked(answer: String, answer_id: Int)
 }

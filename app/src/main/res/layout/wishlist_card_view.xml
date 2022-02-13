@@ -38,6 +38,13 @@
                     android:text="45 mins : 11357 views"
                     android:textColor="#656565"
                     android:textSize="10sp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:freezesText="true"
+                    android:singleLine="true"
+                    android:scrollHorizontally="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
                     app:layout_constraintStart_toEndOf="@+id/LectureImg"
                     app:layout_constraintTop_toBottomOf="@+id/NameOfLecture" />
 
@@ -61,6 +68,12 @@
                     android:text="(Hindi) Unit 1 of Data Structure"
                     android:textColor="#000000"
                     android:textSize="12sp"
+                    android:scrollHorizontally="true"
+                    android:ellipsize="marquee"
+                    android:lines="1"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:marqueeRepeatLimit="marquee_forever"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/LectureImg"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -75,6 +88,13 @@
                     android:text="By Sachin Sir"
                     android:textColor="#656565"
                     android:textSize="10sp"
+                    android:lines="1"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:freezesText="true"
+                    android:scrollHorizontally="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
                     app:layout_constraintStart_toEndOf="@+id/LectureImg"
                     app:layout_constraintTop_toBottomOf="@+id/LectureDetails" />
 

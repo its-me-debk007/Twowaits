@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.ToggleButton
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -30,7 +32,7 @@ class AnswersRecyclerAdapter(private val answers: List<Answer>, private val list
 
         init {
             likeBtn.setOnClickListener {
-                listener.likeBtnClicked(answers[adapterPosition].answer_id)
+                listener.likeBtnClicked(answers[absoluteAdapterPosition].answer_id)
                 if (likeBtn.isChecked) likesCount.text = (likesCount.text.toString().toInt() + 1).toString()
                 else likesCount.text = (likesCount.text.toString().toInt() - 1).toString()
             }
@@ -44,7 +46,7 @@ class AnswersRecyclerAdapter(private val answers: List<Answer>, private val list
                 }
             }
             addComment.setOnClickListener {
-                listener.addCommentClicked(answers[adapterPosition].answer, answers[adapterPosition].answer_id)
+                listener.addCommentClicked(answers[absoluteAdapterPosition].answer, answers[absoluteAdapterPosition].answer_id)
             }
         }
     }
@@ -71,6 +73,7 @@ class AnswersRecyclerAdapter(private val answers: List<Answer>, private val list
             answer.text = answers[position].answer
             likeBtn.isChecked = answers[position].liked_by_user == "True"
             commentsRecyclerView.adapter = CommentsRecyclerAdapter(answers[position].comment)
+            commentsRecyclerView.isNestedScrollingEnabled = false
             try {
                 answerer.text = answers[position].author_id.student.name
                 answererProfilePic.load(answers[position].author_id.student.profile_pic) {

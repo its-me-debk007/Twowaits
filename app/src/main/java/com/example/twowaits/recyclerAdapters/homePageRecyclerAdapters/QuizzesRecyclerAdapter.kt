@@ -22,9 +22,10 @@ class QuizzesRecyclerAdapter(
         val quizCreator: TextView = itemView.findViewById(R.id.QuizCreator)
         val quizImg: ImageView = itemView.findViewById(R.id.QuizImg)
         val noOfQuestions: TextView = itemView.findViewById(R.id.NoOfQuestions)
+
         init {
             itemView.setOnClickListener {
-                listener.onQuizClicked(quizzes[adapterPosition].quiz_id)
+                listener.onQuizClicked(quizzes[absoluteAdapterPosition].quiz_id)
             }
         }
     }
@@ -37,6 +38,8 @@ class QuizzesRecyclerAdapter(
 
     override fun onBindViewHolder(holder: QuizzesViewHolder, position: Int) {
         holder.apply {
+            quizTopic.isSelected = true
+            quizCreator.isSelected = true
             quizTopic.text = quizzes[position].title
             noOfQuestions.text = quizzes[position].no_of_question.toString()
             if (quizzes[position].author_id.faculty != null) {
@@ -51,7 +54,7 @@ class QuizzesRecyclerAdapter(
     }
 
     override fun getItemCount(): Int {
-            return size
+        return size
     }
 }
 

@@ -27,23 +27,7 @@ class DownloadedNotes: Fragment(), DownloadedNoteClicked {
         savedInstanceState: Bundle?
     ): View {
         _binding = DownloadedNotesBinding.inflate(inflater, container, false)
-        val downloadedFilesList = mutableListOf<DownloadedNotesDataClass>()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)/* write for else condition too*/ {
-            val downloadsFolder = File(
-                "${Environment.getStorageDirectory()}/emulated/0/Download/Educool Downloads",
-                "Notes")
-            if (downloadsFolder.exists()) {
-                val downloadedNotesList = downloadsFolder.listFiles()
-                for (file in downloadedNotesList) {
-                    downloadedFilesList.add(
-                        DownloadedNotesDataClass(
-                            file.nameWithoutExtension, "description",
-                            "author"
-                        )
-                    )
-                }
-            }
-        }
+        val downloadedFilesList = findDownloadedNotes()
         binding.DownloadedNotesRecyclerView.adapter = DownloadedNotesRecyclerAdapter(downloadedFilesList, this)
         binding.DownloadedNotesRecyclerView.layoutManager = object : LinearLayoutManager(context) {
             override fun canScrollVertically(): Boolean = false
@@ -52,17 +36,35 @@ class DownloadedNotes: Fragment(), DownloadedNoteClicked {
         return binding.root
     }
 
+    private fun findDownloadedNotes(): MutableList<DownloadedNotesDataClass> {
+        val downloadedFilesList = mutableListOf<DownloadedNotesDataClass>()
+        val downloadsFolder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            File("${Environment.getStorageDirectory()}/emulated/0/Download/Educool Downloads/",
+                "Notes")
+        else
+            File("${Environment.getExternalStorageDirectory()}/Download/Educool Downloads/",
+                "Notes")
+        if (downloadsFolder.exists()) {
+            val downloadedNotesList = downloadsFolder.listFiles()
+            Log.e("eeee", downloadedNotesList.size.toString())
+            for (file in downloadedNotesList) {
+                downloadedFilesList.add(DownloadedNotesDataClass(
+                    file.nameWithoutExtension, "description", "author"))
+            }
+        }
+        return downloadedFilesList
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 
     override fun onDownloadedNoteClicked(downloadedNoteName: String) {
-        val file: File
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            file = File("${Environment.getStorageDirectory()}/emulated/0/Download/Educool Downloads/Notes/${downloadedNoteName}")
-            Data.DOWNLOADED_NOTE = file
-        }// Write for else condition too
+        val file = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) File(
+            "${Environment.getStorageDirectory()}/emulated/0/Download/Educool Downloads/Notes/${downloadedNoteName}")
+            else File("${Environment.getExternalStorageDirectory()}/Download/Educool Downloads/Notes/${downloadedNoteName}")
+        Data.DOWNLOADED_NOTE = file
         Data.PREVIOUS_PAGE = "DOWNLOADS"
         findNavController().navigate(R.id.action_downloads_to_PDFViewer)
     }

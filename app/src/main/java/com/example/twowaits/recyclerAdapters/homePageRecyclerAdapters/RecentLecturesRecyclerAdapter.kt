@@ -32,6 +32,9 @@ class RecentLecturesRecyclerAdapter(
 
     override fun onBindViewHolder(holder: TopLecturesViewHolder, position: Int) {
         holder.apply {
+            nameOfLecture.isSelected = true
+            lectureDetails.isSelected = true
+            creator.isSelected = true
             nameOfLecture.text = lectures[position].title
             lectureDetails.text = lectures[position].description
             bookmark.isChecked = lectures[position].wishlisted_by_user == "True"
@@ -60,6 +63,9 @@ class RecentLecturesRecyclerAdapter(
         val wishlistCardView: CardView = itemView.findViewById(R.id.wishlistCardView)
 
         init {
+            nameOfLecture.isSelected = true
+            lectureDetails.isSelected = true
+            creator.isSelected = true
             wishlistCardView.setOnClickListener {
                 listener.onLectureClicked(lectures[absoluteAdapterPosition].video_firebase.toUri(),
                 lectures[absoluteAdapterPosition].title)

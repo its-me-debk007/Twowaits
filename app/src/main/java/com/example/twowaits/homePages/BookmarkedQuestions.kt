@@ -18,6 +18,7 @@ import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
 import com.example.twowaits.databinding.BookmarkedQuestionsBinding
 import com.example.twowaits.databinding.CreateAnswerBinding
+import com.example.twowaits.databinding.CreateCommentBinding
 import com.example.twowaits.homePages.questionsAnswers.BookmarkQuestionBody
 import com.example.twowaits.homePages.questionsAnswers.CreateAnswerBody
 import com.example.twowaits.homePages.questionsAnswers.CreateCommentBody
@@ -103,7 +104,7 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
         startActivity(chooser)
     }
 
-    override fun addAnswerClicked(question: String, question_id: Int) {
+    override fun addAnswerClicked(question: String, question_id: Int, position: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         val dialog = Dialog(requireContext())
         dialog.setContentView(CreateAnswerBinding.inflate(layoutInflater).root)
@@ -144,7 +145,7 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
     override fun addCommentClicked(answer: String, answer_id: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         val dialog = Dialog(requireContext())
-        dialog.setContentView(CreateAnswerBinding.inflate(layoutInflater).root)
+        dialog.setContentView(CreateCommentBinding.inflate(layoutInflater).root)
         dialog.show()
         if (dialog.window != null)
             dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
