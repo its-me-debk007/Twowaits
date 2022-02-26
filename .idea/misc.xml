@@ -35,7 +35,7 @@
         <entry key="..\:/Twowaits/app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/activity_main.xml" value="0.17777777777777778" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/activity_payment.xml" value="0.2484375" />
-        <entry key="..\:/Twowaits/app/src/main/res/layout/add_questions.xml" value="0.5329608938547487" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/add_questions.xml" value="0.264" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/answers.xml" value="0.3972602739726027" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/ask.xml" value="0.2640625" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/ask_question.xml" value="0.2484375" />
@@ -55,6 +55,7 @@
         <entry key="..\:/Twowaits/app/src/main/res/layout/create_password.xml" value="0.264" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/create_question.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/create_quiz.xml" value="0.43415637860082307" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/detailed_quiz_result.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/downloaded_lectures.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/downloaded_notes.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/downloads.xml" value="0.264" />

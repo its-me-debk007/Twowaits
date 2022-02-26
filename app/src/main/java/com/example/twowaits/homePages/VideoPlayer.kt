@@ -13,14 +13,14 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.Data
@@ -30,28 +30,33 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.DelicateCoroutinesApi
-import java.lang.Exception
 
 @DelicateCoroutinesApi
 class VideoPlayer : Fragment() {
-    private var _binding: VideoPlayerBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: VideoPlayerBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = VideoPlayerBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = VideoPlayerBinding.bind(view)
         var downloadId: Long = -1
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.hide()
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        activity?.window?.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
+        val bottomNavigationView =
+            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView?.visibility = View.GONE
-        Data.removeActionBarLiveData.postValue(true)
+        val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
+        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
         if (Data.PREV_PAGE_FOR_PLAYER == "DOWNLOADS")
             binding.downloadBtn.hide()
 
-        val uri = if (Data.PREV_PAGE_FOR_PLAYER == "DOWNLOADS") Data.DOWNLOADED_LECTURE.path.toUri() else Data.VIDEO_URI
+        val uri =
+            if (Data.PREV_PAGE_FOR_PLAYER == "DOWNLOADS") Data.DOWNLOADED_LECTURE.path.toUri() else Data.VIDEO_URI
         val exoPlayer = ExoPlayer.Builder(requireContext()).build()
         binding.videoPlayer.player = exoPlayer
         val mediaItem = MediaItem.fromUri(uri)
@@ -71,14 +76,18 @@ class VideoPlayer : Fragment() {
                 setTitle(Data.LECTURE_NAME)
                 setDescription("Downloading...")
                 setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Educool Downloads/Lectures/${Data.LECTURE_NAME}.mp4")
+                setDestinationInExternalPublicDir(
+                    Environment.DIRECTORY_DOWNLOADS,
+                    "Educool Downloads/Lectures/${Data.LECTURE_NAME}.mp4"
+                )
                 setAllowedOverRoaming(true)
                 setAllowedOverMetered(true)
             }
-            val downloadManager = activity?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadManager =
+                activity?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             downloadId = downloadManager.enqueue(request)
         }
-        val broadcastReceiver = object: BroadcastReceiver() {
+        val broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
                 if (id == downloadId) {
@@ -87,9 +96,10 @@ class VideoPlayer : Fragment() {
                 }
             }
         }
-        activity?.registerReceiver(broadcastReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-
-        return binding.root
+        activity?.registerReceiver(
+            broadcastReceiver,
+            IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,10 +111,14 @@ class VideoPlayer : Fragment() {
                     "PROFILE" -> findNavController().navigate(R.id.action_videoPlayer2_to_profile)
                     "HOME" -> findNavController().navigate(R.id.action_videoPlayer2_to_homePage)
                 }
-                Data.removeActionBarLiveData.postValue(false)
                 activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                val bottomNavigationView =
+                    activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
                 bottomNavigationView?.visibility = View.VISIBLE
+                val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
+                drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                val actionBar = (activity as AppCompatActivity).supportActionBar
+                actionBar?.show()
             }
         })
     }
@@ -117,8 +131,10 @@ class VideoPlayer : Fragment() {
             }
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(
-                    requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-                PackageManager.PERMISSION_GRANTED) {
+                    requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) !=
+                PackageManager.PERMISSION_GRANTED
+            ) {
                 requestPermission()
                 return false
             }
@@ -156,14 +172,12 @@ class VideoPlayer : Fragment() {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Log.d("storagePermission", "granted")
             } else {
-                Toast.makeText(context, "Permission denied\nSorry, the file can't be downloaded", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Permission denied\nSorry, the file can't be downloaded",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        _binding = null
     }
 }

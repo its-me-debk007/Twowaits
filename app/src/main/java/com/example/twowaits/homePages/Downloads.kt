@@ -1,5 +1,6 @@
 package com.example.twowaits.homePages
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,22 +14,18 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.DownloadsBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
-class Downloads : Fragment() {
-    private var _binding: DownloadsBinding? = null
-    private val binding get() = _binding!!
+class Downloads : Fragment(R.layout.downloads) {
+    private lateinit var binding: DownloadsBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = DownloadsBinding.inflate(inflater, container, false)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = DownloadsBinding.bind(view)
+        binding.swipeToRefresh.setColorSchemeColors(Color.parseColor("#804D37"))
         binding.swipeToRefresh.setOnRefreshListener {
             Handler(Looper.getMainLooper()).postDelayed({
                 findNavController().navigate(R.id.action_downloads_self)
             }, 440)
         }
-
         val viewPagerAdapter = DownloadsViewPagerAdapter(childFragmentManager, lifecycle)
         binding.viewPager2.adapter = viewPagerAdapter
         TabLayoutMediator(binding.TabLayout, binding.viewPager2){tab, position ->
@@ -37,8 +34,6 @@ class Downloads : Fragment() {
                 1 -> tab.text = "Lectures"
             }
         }.attach()
-
-        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,10 +43,5 @@ class Downloads : Fragment() {
                 findNavController().navigate(R.id.action_downloads_to_homePage)
             }
         })
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

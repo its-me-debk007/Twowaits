@@ -7,6 +7,7 @@ import com.example.twowaits.apiCalls.RetrofitClient
 import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.*
 import com.example.twowaits.homePages.quiz.AttemptQuizBody
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -36,8 +37,11 @@ class AttemptQuizRepository {
     private val errorViewScoreData = MutableLiveData<String>()
     val errorViewScoreLiveData: LiveData<String> = errorViewScoreData
 
-    fun getQuizData(attemptQuizBody: AttemptQuizBody){
-        GlobalScope.launch {
+    val detailedQuizScoreData = MutableLiveData<DetailedQuizResultResponse>()
+    val errorDetailedQuizScoreData = MutableLiveData<String>()
+
+    fun getQuizData(attemptQuizBody: AttemptQuizBody) {
+        GlobalScope.launch(Dispatchers.IO) {
             val response = RetrofitClient.getInstance().getQuizData(attemptQuizBody)
             when {
                 response.isSuccessful -> {
@@ -57,8 +61,8 @@ class AttemptQuizRepository {
         }
     }
 
-    fun attemptQuiz(attemptQuizBody: AttemptQuizBody){
-        GlobalScope.launch {
+    fun attemptQuiz(attemptQuizBody: AttemptQuizBody) {
+        GlobalScope.launch(Dispatchers.IO) {
             val response = RetrofitClient.getInstance().attemptQuiz(attemptQuizBody)
             when {
                 response.code() == 208 -> {
@@ -81,8 +85,8 @@ class AttemptQuizRepository {
         }
     }
 
-    fun registerResponse(registerResponseBody: RegisterResponseBody){
-        GlobalScope.launch {
+    fun registerResponse(registerResponseBody: RegisterResponseBody) {
+        GlobalScope.launch(Dispatchers.IO) {
             val response = RetrofitClient.getInstance().registerResponse(registerResponseBody)
             when {
                 response.isSuccessful -> {
@@ -102,8 +106,8 @@ class AttemptQuizRepository {
         }
     }
 
-    fun viewScore(attemptQuizBody: AttemptQuizBody){
-        GlobalScope.launch {
+    fun viewScore(attemptQuizBody: AttemptQuizBody) {
+        GlobalScope.launch(Dispatchers.IO) {
             val response = RetrofitClient.getInstance().viewScore(attemptQuizBody)
             when {
                 response.isSuccessful -> {
@@ -117,8 +121,23 @@ class AttemptQuizRepository {
                         errorViewScoreData.postValue("Some error has occurred!\nPlease try again")
                 }
                 else -> {
-                    errorViewScoreData.postValue("Error code is ${response.code()}\n${response.message()}")
+                    errorViewScoreData.postValue("${response.message()}/nPlease try again")
                 }
+            }
+        }
+    }
+
+    fun detailedQuizResult(id: Int) {
+        GlobalScope.launch(Dispatchers.IO) {
+            val response = RetrofitClient.getInstance().detailedQuizResult(id)
+            when {
+                response.isSuccessful -> detailedQuizScoreData.postValue(response.body())
+                response.code() == 400 -> {
+                    val result = Data().getNewAccessToken()
+                    if (result == "success") detailedQuizResult(id)
+                    else errorDetailedQuizScoreData.postValue("Some error has occurred!\nPlease try again")
+                }
+                else -> errorDetailedQuizScoreData.postValue("${response.message()}/nPlease try again")
             }
         }
     }

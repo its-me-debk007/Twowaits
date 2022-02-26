@@ -49,11 +49,7 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
         if (Data.Q_SEARCHED != null) {
             viewModel.searchQnA(Data.Q_SEARCHED!!)
             viewModel.getSearchQnAData.observe(viewLifecycleOwner) {
-                if (it.isEmpty()) {
-                    binding.QnARecyclerView.visibility = View.GONE
-                    binding.emptyAnimation.visibility = View.VISIBLE
-                    binding.text.visibility = View.VISIBLE
-                }
+                if (it.isEmpty()) noItems()
                 adapter = QuestionsAnswersRecyclerAdapter("SEARCH",
                     it.toMutableList(), this)
                 binding.QnARecyclerView.adapter = adapter
@@ -214,5 +210,11 @@ class ShowSearchQuestions: Fragment(), ItemClicked {
                 }
             }
         }
+    }
+
+    override fun noItems() {
+        binding.QnARecyclerView.visibility = View.GONE
+        binding.emptyAnimation.visibility = View.VISIBLE
+        binding.text.visibility = View.VISIBLE
     }
 }

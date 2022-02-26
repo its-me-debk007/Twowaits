@@ -31,7 +31,7 @@ class QuestionsAnswersViewModel: ViewModel() {
     lateinit var bookmarkedNotesData: MutableLiveData<List<RecentNotesResponse>>
     lateinit var errorBookmarkedNotesData: MutableLiveData<String>
     lateinit var addToWishlistData: MutableLiveData<String>
-    lateinit var getWishlistData: MutableLiveData<List<WishlistResponse>>
+    lateinit var getWishlistData: MutableLiveData<List<RecentLecturesResponse>>
     lateinit var errorGetWishlistData: MutableLiveData<String>
     var isClicked = false
 

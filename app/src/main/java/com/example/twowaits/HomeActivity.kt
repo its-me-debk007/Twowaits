@@ -2,12 +2,15 @@ package com.example.twowaits
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -28,7 +31,8 @@ import com.example.twowaits.viewmodels.ProfileDetailsViewModel
 import com.google.android.material.imageview.ShapeableImageView
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
-
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent.setEventListener
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
 @DelicateCoroutinesApi
 class HomeActivity : AppCompatActivity() {
@@ -50,7 +54,7 @@ class HomeActivity : AppCompatActivity() {
         toggle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.open, R.string.close)
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
+        isConnectedToInternet()
         getProfile()
         binding.navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -106,10 +110,12 @@ class HomeActivity : AppCompatActivity() {
         dialog = Dialog(this)
         dialog.setContentView(NoInternetDialogBinding.inflate(layoutInflater).root)
         dialog.setCancelable(false)
-//        isConnectedToInternet()
-        Data.removeActionBarLiveData.observe(this) {
-            if (it) supportActionBar?.hide() else supportActionBar?.show()
-        }
+
+        setEventListener(this,
+            KeyboardVisibilityEventListener {
+                if (it) binding.bottomNavigationView.visibility = View.GONE
+                else binding.bottomNavigationView.visibility = View.VISIBLE
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -188,5 +194,13 @@ class HomeActivity : AppCompatActivity() {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (currentFocus != null) {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+        }
+        return super.dispatchTouchEvent(ev)
     }
 }

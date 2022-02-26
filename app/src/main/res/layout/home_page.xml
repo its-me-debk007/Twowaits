@@ -208,13 +208,44 @@
         android:id="@+id/QnARecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="73dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/QnA"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/emptyAnimation"
+        android:layout_width="wrap_content"
+        android:layout_height="180dp"
+        android:visibility="gone"
         android:layout_marginTop="7dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/QnA" />
+        app:layout_constraintTop_toBottomOf="@+id/QnA"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="empty_state.json"
+        app:lottie_loop="true" />
 
     <TextView
+        android:id="@+id/text"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="You have no bookmarked notes!"
+        android:fontFamily="@font/gudea_regular"
+        android:textColor="#804D37"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emptyAnimation" />
+
+    <TextView
+        android:visibility="invisible"
         android:id="@+id/StudentsYouMightKnow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -228,6 +259,7 @@
         app:layout_constraintTop_toBottomOf="@+id/QnARecyclerView" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:visibility="gone"
         android:id="@+id/StudentSuggestionRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

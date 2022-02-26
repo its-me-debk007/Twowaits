@@ -46,11 +46,7 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         viewModel.getYourBookmarkedQ()
         viewModel.getBookmarkedQLiveData.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
-                binding.BookmarkedQuestionsRecyclerView.visibility = View.GONE
-                binding.emptyAnimation.visibility = View.VISIBLE
-                binding.text.visibility = View.VISIBLE
-            }
+            if (it.isEmpty()) noItems()
             adapter = QuestionsAnswersRecyclerAdapter("BOOKMARK", it.toMutableList(), this)
             binding.BookmarkedQuestionsRecyclerView.adapter = adapter
             binding.BookmarkedQuestionsRecyclerView.layoutManager =
@@ -199,5 +195,11 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
                 }
             }
         }
+    }
+
+    override fun noItems() {
+        binding.BookmarkedQuestionsRecyclerView.visibility = View.GONE
+        binding.emptyAnimation.visibility = View.VISIBLE
+        binding.text.visibility = View.VISIBLE
     }
 }

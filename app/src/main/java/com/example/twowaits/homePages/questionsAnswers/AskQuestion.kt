@@ -1,10 +1,10 @@
 package com.example.twowaits.homePages.questionsAnswers
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -14,39 +14,43 @@ import com.example.twowaits.viewmodels.questionsAnswersViewModel.QuestionsAnswer
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class AskQuestion: Fragment() {
-    private var _binding: AskQuestionBinding? = null
-    private val binding get() = _binding!!
+class AskQuestion : Fragment(R.layout.ask_question) {
+    private lateinit var binding: AskQuestionBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = AskQuestionBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = AskQuestionBinding.bind(view)
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.title = "Ask a Question"
 
         binding.askBtn.setOnClickListener {
-            if (binding.question.text.toString().trim().isEmpty()){
+            if (binding.question.text.toString().trim().isEmpty()) {
                 binding.questionLayout.helperText = "Please enter a question first"
             }
             binding.questionLayout.helperText = ""
             viewModel.askQuestion(AskQuestionBody(binding.question.text.toString()))
             binding.ProgressBar.visibility = View.VISIBLE
-            viewModel.askQuestionLiveData.observe(viewLifecycleOwner, {
+            viewModel.askQuestionLiveData.observe(viewLifecycleOwner) {
                 binding.question.text?.clear()
                 binding.ProgressBar.visibility = View.INVISIBLE
                 findNavController().navigate(R.id.action_askQuestion_to_explore)
-            })
-            viewModel.errorAskQuestionLiveData.observe(viewLifecycleOwner, {
+            }
+            viewModel.errorAskQuestionLiveData.observe(viewLifecycleOwner) {
                 binding.ProgressBar.visibility = View.INVISIBLE
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            })
+            }
         }
-        return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val actionBar = (activity as AppCompatActivity).supportActionBar
+                actionBar?.title = "EduCool"
+                findNavController().navigate(R.id.action_askQuestion_to_explore)
+            }
+        })
     }
 }

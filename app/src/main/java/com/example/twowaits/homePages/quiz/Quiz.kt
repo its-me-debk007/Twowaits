@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,7 @@ import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.RegisterResp
 import com.example.twowaits.databinding.PleaseWaitDialog2Binding
 import com.example.twowaits.databinding.QuizBinding
 import com.example.twowaits.viewmodels.quizViewModels.QuizViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
@@ -31,6 +33,12 @@ class Quiz : Fragment() {
     ): View {
         _binding = QuizBinding.inflate(inflater, container, false)
         val viewModel = ViewModelProvider(this)[QuizViewModel::class.java]
+        val bottomNavigationView =
+            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView?.visibility = View.GONE
+        val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
+        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
         var chosenOptionId = 0
         val attemptQuizBody = AttemptQuizBody(Data.QUIZ_ID)
 
@@ -69,18 +77,22 @@ class Quiz : Fragment() {
                     dialog.hide()
 
                     for (i in Data.QUIZ_DATA.question[Data.CURRENT_QUESTION].option.indices) {
-                        val optionText = Data.QUIZ_DATA.question[Data.CURRENT_QUESTION].option[i].option
+                        val optionText =
+                            Data.QUIZ_DATA.question[Data.CURRENT_QUESTION].option[i].option
                         when (i) {
                             0 -> {
                                 binding.option1.text = optionText
                                 binding.option1.visibility = View.VISIBLE
-                            } 1 -> {
+                            }
+                            1 -> {
                                 binding.option2.text = optionText
                                 binding.option2.visibility = View.VISIBLE
-                            } 2 -> {
+                            }
+                            2 -> {
                                 binding.option3.text = optionText
                                 binding.option3.visibility = View.VISIBLE
-                            } 3 -> {
+                            }
+                            3 -> {
                                 binding.option4.text = optionText
                                 binding.option4.visibility = View.VISIBLE
                             }

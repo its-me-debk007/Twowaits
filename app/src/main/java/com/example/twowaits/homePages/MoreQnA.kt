@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -29,30 +31,29 @@ import com.example.twowaits.recyclerAdapters.ItemClicked
 import com.example.twowaits.recyclerAdapters.QuestionsAnswersRecyclerAdapter
 import com.example.twowaits.viewmodels.HomePageViewModel
 import com.example.twowaits.viewmodels.questionsAnswersViewModel.QuestionsAnswersViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class MoreQnA: Fragment(), ItemClicked {
-    private var _binding: MoreQNABinding? = null
-    private val binding get() = _binding!!
+class MoreQnA: Fragment(R.layout.more_q_n_a), ItemClicked {
+    private lateinit var binding: MoreQNABinding
     private var isClicked = false
     private lateinit var adapter: QuestionsAnswersRecyclerAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = MoreQNABinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = MoreQNABinding.bind(view)
         val viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
+        val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView?.visibility = View.GONE
+        val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
+        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
         viewModel.getQnA()
         viewModel.getQnALiveData.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
-                binding.moreQnA.visibility = View.GONE
-                binding.emptyAnimation.visibility = View.VISIBLE
-                binding.text.visibility = View.VISIBLE
-            }
+            if (it.isEmpty()) noItems()
             adapter = QuestionsAnswersRecyclerAdapter("MORE_QnA", it.toMutableList(), this)
             binding.moreQnA.adapter = adapter
             binding.moreQnA.layoutManager = object : LinearLayoutManager(context) {
@@ -68,13 +69,18 @@ class MoreQnA: Fragment(), ItemClicked {
                 findNavController().navigate(R.id.action_moreQnA2_self)
             }, 440)
         }
-
-        return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                bottomNavigationView?.visibility = View.VISIBLE
+                val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
+                drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            }
+        })
     }
 
     override fun onQuestionClicked(question: String) {
@@ -177,6 +183,12 @@ class MoreQnA: Fragment(), ItemClicked {
                 }
             }
         }
+    }
+
+    override fun noItems() {
+        binding.moreQnA.visibility = View.GONE
+        binding.emptyAnimation.visibility = View.VISIBLE
+        binding.text.visibility = View.VISIBLE
     }
 
     private fun updateRecyclerView(position: Int) {

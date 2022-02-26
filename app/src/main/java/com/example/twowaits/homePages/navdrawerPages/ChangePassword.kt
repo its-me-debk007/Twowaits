@@ -103,7 +103,7 @@ class ChangePassword : Fragment() {
             )
             binding.btn.isEnabled = false
             binding.ProgressBar.visibility = View.VISIBLE
-            viewModel.changePasswordLiveData.observe(viewLifecycleOwner, {
+            viewModel.changePasswordLiveData.observe(viewLifecycleOwner) {
                 binding.btn.isEnabled = true
                 binding.ProgressBar.visibility = View.INVISIBLE
                 binding.oldPassword.text?.clear()
@@ -111,14 +111,15 @@ class ChangePassword : Fragment() {
                 binding.confirmPassword.text?.clear()
                 Toast.makeText(context, "New password set successfully", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_changePassword2_to_homePage)
-                val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                val bottomNavigationView =
+                    activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
                 bottomNavigationView?.visibility = View.VISIBLE
-            })
-            viewModel.errorChangePasswordData.observe(viewLifecycleOwner, {
+            }
+            viewModel.errorChangePasswordData.observe(viewLifecycleOwner) {
                 binding.btn.isEnabled = true
                 binding.ProgressBar.visibility = View.INVISIBLE
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            })
+            }
         }
 
         return binding.root

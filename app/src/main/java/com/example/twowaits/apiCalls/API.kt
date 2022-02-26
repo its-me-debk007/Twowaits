@@ -165,7 +165,7 @@ interface API {
     suspend fun getBookmarkedNotes(): Response<List<RecentNotesResponse>>
 
     @GET("lecture/your-wishlist/")
-    suspend fun getWishlist(): Response<List<WishlistResponse>>
+    suspend fun getWishlist(): Response<List<RecentLecturesResponse>>
 
     @GET("forum/your-bookmarked/")
     suspend fun getYourBookmarkedQ(): Response<List<QnAResponseItem>>
@@ -206,4 +206,7 @@ interface API {
     suspend fun feedback(
         @Body feedbackBody: Feedbackbody
     ): Response<FeedbackResponse>
+
+    @GET("quiz/results/view/{id}/")
+    suspend fun detailedQuizResult(@Path("id") id: Int): Response<DetailedQuizResultResponse>
 }

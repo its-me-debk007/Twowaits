@@ -3,6 +3,7 @@ package com.example.twowaits.homePages
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,28 +18,31 @@ import com.example.twowaits.recyclerAdapters.DownloadedLecturesRecyclerAdapter
 import com.example.twowaits.recyclerAdapters.DownloadedNotesRecyclerAdapter
 import java.io.File
 
-class DownloadedLectures: Fragment(), DownloadedLectureClicked {
-    private var _binding: DownloadedLecturesBinding? = null
-    private val binding get() = _binding!!
+class DownloadedLectures: Fragment(R.layout.downloaded_lectures), DownloadedLectureClicked {
+    private lateinit var binding: DownloadedLecturesBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = DownloadedLecturesBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = DownloadedLecturesBinding.bind(view)
         val downloadedFilesList = findDownloadedLectures()
-        binding.DownloadedLecturesRecyclerView.adapter = DownloadedLecturesRecyclerAdapter(downloadedFilesList, this)
-        binding.DownloadedLecturesRecyclerView.layoutManager = object : LinearLayoutManager(context) {
-            override fun canScrollVertically(): Boolean = false
+        if (downloadedFilesList.isEmpty()) {
+            binding.DownloadedLecturesRecyclerView.visibility = View.GONE
+            binding.emptyAnimation.visibility = View.VISIBLE
+            binding.text.visibility = View.VISIBLE
+        } else {
+            binding.DownloadedLecturesRecyclerView.adapter =
+                DownloadedLecturesRecyclerAdapter(downloadedFilesList, this)
+            binding.DownloadedLecturesRecyclerView.isNestedScrollingEnabled = false
         }
-        return binding.root
     }
 
     private fun findDownloadedLectures(): MutableList<DownloadedNotesDataClass> {
         val downloadedFilesList = mutableListOf<DownloadedNotesDataClass>()
         val downloadsFolder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
             File("${Environment.getStorageDirectory()}/emulated/0/Download/Educool Downloads/", "Lectures")
-        else File("${Environment.getExternalStorageDirectory()}/Download/Educool Downloads/", "Lectures")
+        else File("${Environment.DIRECTORY_DOWNLOADS}/Educool Downloads/", "Lectures")
+//        else File("${Environment.DIRECTORY_DOWNLOADS}/Educool Downloads/", "Lectures")
+        Log.e("eeee", downloadsFolder.absolutePath)
         if (downloadsFolder.exists()) {
             val downloadedLecturesList = downloadsFolder.listFiles()
             for (file in downloadedLecturesList) {
@@ -48,11 +52,6 @@ class DownloadedLectures: Fragment(), DownloadedLectureClicked {
             }
         }
         return downloadedFilesList
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     override fun onDownloadedLectureClicked(downloadedLectureName: String) {

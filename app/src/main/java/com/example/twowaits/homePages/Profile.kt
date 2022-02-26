@@ -4,13 +4,10 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,30 +27,27 @@ import com.razorpay.Checkout
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class Profile : Fragment() {
-    private var _binding: ProfileBinding? = null
-    private val binding get() = _binding!!
+class Profile : Fragment(R.layout.profile) {
+    private lateinit var binding: ProfileBinding
     lateinit var name: String
-    private var account_id = 0
+    private var accountId = 0
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = ProfileBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = ProfileBinding.bind(view)
         val viewModel = ViewModelProvider(this)[ProfileDetailsViewModel::class.java]
         var price: Int
-        var imgUri: Uri? = null
-
+        binding.swipeToRefresh.setColorSchemeColors(Color.parseColor("#804D37"))
         binding.swipeToRefresh.setOnRefreshListener {
             Handler(Looper.getMainLooper()).postDelayed({
                 findNavController().navigate(R.id.action_profile_self)
             }, 440)
         }
 
-        price = 99
-        binding.cardView.strokeColor = Color.parseColor("#804D37")
-        binding.cardView.strokeWidth = 6
+        price = 199
+        binding.cardView2.strokeColor = Color.parseColor("#804D37")
+        binding.cardView2.strokeWidth = 6
+        binding.cardView2.cardElevation = 30F
 
         if (Data.USER == "FACULTY") {
             viewModel.profileDetailsFaculty()
@@ -67,7 +61,7 @@ class Profile : Fragment() {
                     "F" -> "Ma'am"
                     else -> "Faculty"
                 }
-                account_id = it.faculty_account_id
+                accountId = it.faculty_account_id
                 binding.NameOfUser.text = it.name + " " + title
             }
             viewModel.errorFacultyLiveData.observe(viewLifecycleOwner) {
@@ -80,7 +74,7 @@ class Profile : Fragment() {
                     transformations(CircleCropTransformation())
                 }
                 name = it.name
-                account_id = it.student_account_id
+                accountId = it.student_account_id
                 binding.NameOfUser.text = it.name
                 it.year = when (it.year) {
                     "1" -> "1st Year"
@@ -99,8 +93,7 @@ class Profile : Fragment() {
         val chooseImage = registerForActivityResult(
             ActivityResultContracts.GetContent()
         ) {
-            imgUri = it
-            if (imgUri != null) {
+            if (it != null) {
                 val dialog = Dialog(requireContext())
                 dialog.setContentView(PleaseWaitDialogBinding.inflate(layoutInflater).root)
                 dialog.setCancelable(false)
@@ -108,7 +101,7 @@ class Profile : Fragment() {
                 if (dialog.window != null)
                     dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
 
-                viewModel.uploadProfilePic(imgUri!!, account_id)
+                viewModel.uploadProfilePic(it, accountId)
                 viewModel.uploadImageLiveData.observe(viewLifecycleOwner) { message ->
                     if (message.substring(0, 8) == "Uploaded") {
                         val uri = message.substring(8)
@@ -122,7 +115,7 @@ class Profile : Fragment() {
                         ) { errorMessage ->
                             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                         }
-                        binding.ProfilePic.setImageURI(imgUri!!)
+                        binding.ProfilePic.setImageURI(it)
                         dialog.hide()
                     } else {
                         Toast.makeText(
@@ -144,7 +137,7 @@ class Profile : Fragment() {
             price = 99
             binding.cardView.strokeColor = Color.parseColor("#804D37")
             binding.cardView.strokeWidth = 6
-            binding.cardView.cardElevation = 15F
+            binding.cardView.cardElevation = 30F
             binding.cardView2.strokeWidth = 0
             binding.cardView2.cardElevation = 0F
         }
@@ -152,7 +145,7 @@ class Profile : Fragment() {
             price = 199
             binding.cardView2.strokeColor = Color.parseColor("#804D37")
             binding.cardView2.strokeWidth = 6
-            binding.cardView2.cardElevation = 15F
+            binding.cardView2.cardElevation = 30F
             binding.cardView.strokeWidth = 0
             binding.cardView.cardElevation = 0F
         }
@@ -162,7 +155,7 @@ class Profile : Fragment() {
             try {
                 val intent = Intent(activity, PaymentActivity::class.java)
                 intent.putExtra("name", name)
-                intent.putExtra("price", price)
+                intent.putExtra("price", price.toString())
                 startActivity(intent)
             } catch (e: Exception) {
                 Toast.makeText(
@@ -181,8 +174,6 @@ class Profile : Fragment() {
                 1 -> tab.text = "Wishlist"
             }
         }.attach()
-
-        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -192,10 +183,5 @@ class Profile : Fragment() {
                 findNavController().navigate(R.id.action_profile_to_homePage)
             }
         })
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }
