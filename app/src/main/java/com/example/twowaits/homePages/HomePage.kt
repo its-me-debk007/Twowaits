@@ -4,14 +4,13 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
@@ -46,28 +45,28 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent.set
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
 @DelicateCoroutinesApi
-class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClicked {
-    private var _binding: HomePageBinding? = null
-    private val binding get() = _binding!!
+class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesClicked,
+    LecturesClicked {
+    private lateinit var binding: HomePageBinding
     private var isClicked = false
     private lateinit var adapter: QuestionsAnswersRecyclerAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = HomePageBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = HomePageBinding.bind(view)
+        binding.swipeToRefresh.setColorSchemeColors(Color.parseColor("#804D37"))
         val viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
-        val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        val bottomNavigationView =
+            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
         viewModel.recentLectures()
         viewModel.recentLecturesLiveData.observe(viewLifecycleOwner) {
             binding.TopLecturesRecyclerView.adapter =
-                RecentLecturesRecyclerAdapter("HOME", it.size, it, this)
-            binding.TopLecturesRecyclerView.layoutManager = object:
+                RecentLecturesRecyclerAdapter("HOME", it.size, it.toMutableList(), this)
+            binding.TopLecturesRecyclerView.layoutManager = object :
                 LinearLayoutManager(context, HORIZONTAL, false) {
                 override fun canScrollVertically(): Boolean = false
-                }
+            }
         }
         viewModel.errorRecentLecturesLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
@@ -77,10 +76,10 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
         viewModel.recentNotesLiveData.observe(viewLifecycleOwner) {
             binding.recentNotesRecyclerView.adapter =
                 RecentNotesRecyclerAdapter("HOME", it.toMutableList(), this)
-            binding.recentNotesRecyclerView.layoutManager = object:
+            binding.recentNotesRecyclerView.layoutManager = object :
                 LinearLayoutManager(context, HORIZONTAL, false) {
-                override fun canScrollVertically(): Boolean  = false
-                }
+                override fun canScrollVertically(): Boolean = false
+            }
         }
         viewModel.errorRecentNotesLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
@@ -89,10 +88,10 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
         viewModel.recentQuizzes()
         viewModel.recentQuizzesLiveData.observe(viewLifecycleOwner) {
             binding.QuizzesRecyclerView.adapter = QuizzesRecyclerAdapter(it.size, it, this)
-            binding.QuizzesRecyclerView.layoutManager = object:
-                LinearLayoutManager(context, HORIZONTAL, false){
+            binding.QuizzesRecyclerView.layoutManager = object :
+                LinearLayoutManager(context, HORIZONTAL, false) {
                 override fun canScrollVertically(): Boolean = false
-                }
+            }
         }
         viewModel.errorRecentQuizzesLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
@@ -100,8 +99,11 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
 
         viewModel.getQnA()
         viewModel.getQnALiveData.observe(viewLifecycleOwner) {
-            adapter = QuestionsAnswersRecyclerAdapter("HOME",
-                it.toMutableList(), this)
+            if (it.isEmpty()) noItems()
+            adapter = QuestionsAnswersRecyclerAdapter(
+                "HOME",
+                it.toMutableList(), this
+            )
             binding.QnARecyclerView.adapter = adapter
             binding.QnARecyclerView.layoutManager = object : LinearLayoutManager(context) {
                 override fun canScrollVertically(): Boolean = false
@@ -119,10 +121,10 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
         }
 
         binding.StudentSuggestionRecyclerView.adapter = StudentsSuggestionRecyclerAdapter()
-        binding.StudentSuggestionRecyclerView.layoutManager = object:
+        binding.StudentSuggestionRecyclerView.layoutManager = object :
             LinearLayoutManager(context, HORIZONTAL, false) {
             override fun canScrollVertically(): Boolean = false
-            }
+        }
 
         binding.swipeToRefresh.setOnRefreshListener {
             Handler(Looper.getMainLooper()).postDelayed({
@@ -158,13 +160,6 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
             Data.Q_SEARCHED = binding.searchQ.text.toString().trim()
             findNavController().navigate(R.id.action_homePage_to_showSearchQuestions)
         }
-
-        return binding.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     private fun showKeyboard(view: View) {
@@ -212,9 +207,6 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
     override fun bookmarkBtnClicked(question_id: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         viewModel.bookmarkQuestion(BookmarkQuestionBody(question_id))
-//        viewModel.bookmarkQuestionLiveData.observe(viewLifecycleOwner, {
-
-//        })
         viewModel.errorBookmarkQuestionLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
@@ -320,12 +312,20 @@ class HomePage: Fragment(), ItemClicked, QuizClicked, NotesClicked, LecturesClic
         }
     }
 
+    override fun noItems() {
+        binding.QnARecyclerView.visibility = View.GONE
+        binding.emptyAnimation.visibility = View.VISIBLE
+        binding.text.visibility = View.VISIBLE
+    }
+
     private fun updateRecyclerView(position: Int) {
         val homePageViewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
         homePageViewModel.getQnA()
         homePageViewModel.getQnALiveData.observe(viewLifecycleOwner) { qAndA ->
-            adapter = QuestionsAnswersRecyclerAdapter("HOME",
-                qAndA.toMutableList(), this)
+            adapter = QuestionsAnswersRecyclerAdapter(
+                "HOME",
+                qAndA.toMutableList(), this
+            )
             binding.QnARecyclerView.adapter = adapter
             adapter.notifyItemInserted(position)
         }

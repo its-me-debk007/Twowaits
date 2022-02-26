@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -12,6 +14,7 @@ import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.databinding.CreateQuizBinding
 import com.example.twowaits.viewmodels.quizViewModels.CreateQuizViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class CreateQuiz : Fragment() {
     private var _binding: CreateQuizBinding? = null
@@ -23,6 +26,10 @@ class CreateQuiz : Fragment() {
     ): View {
         _binding = CreateQuizBinding.inflate(inflater, container, false)
         val viewModel = ViewModelProvider(this)[CreateQuizViewModel::class.java]
+        val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView?.visibility = View.GONE
+        val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
+        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
         binding.CreateAndAddQuestions.setOnClickListener {
             binding.TitleOfQuiz.helperText = ""
@@ -94,6 +101,18 @@ class CreateQuiz : Fragment() {
             }
         }
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                bottomNavigationView?.visibility = View.VISIBLE
+                val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
+                drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            }
+        })
     }
 
     override fun onDestroy() {

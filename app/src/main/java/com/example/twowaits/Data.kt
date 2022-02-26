@@ -118,7 +118,6 @@ class Data : Application() {
         var TIME_LIMIT = 0
         val isSearchBarActiveLiveData = MutableLiveData<Boolean>()
         var Q_SEARCHED: String? = null
-        val removeActionBarLiveData = MutableLiveData<Boolean>()
     }
 
     fun getNewAccessToken(): String {

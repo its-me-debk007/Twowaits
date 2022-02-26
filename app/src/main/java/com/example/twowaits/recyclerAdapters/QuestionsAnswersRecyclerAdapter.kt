@@ -34,6 +34,7 @@ class QuestionsAnswersRecyclerAdapter (
                     listener.bookmarkBtnClicked(questionsAndAnswers[absoluteAdapterPosition].question_id)
                     questionsAndAnswers.removeAt(absoluteAdapterPosition)
                     notifyItemRemoved(absoluteAdapterPosition)
+                    if (questionsAndAnswers.size == 0) listener.noItems()
                 }
             }
         }
@@ -88,4 +89,5 @@ interface ItemClicked {
     fun shareBtnClicked(question: String, answersList: List<Answer>)
     fun addAnswerClicked(question: String, question_id: Int, position: Int)
     fun addCommentClicked(answer: String, answer_id: Int, position: Int)
+    fun noItems()
 }

@@ -2,57 +2,40 @@ package com.example.twowaits.homePages
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.AddToWishlistBody
 import com.example.twowaits.databinding.WishlistBinding
-import com.example.twowaits.recyclerAdapters.WishlistLectureClicked
-import com.example.twowaits.recyclerAdapters.WishlistRecyclerAdapter
+import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.LecturesClicked
+import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.RecentLecturesRecyclerAdapter
 import com.example.twowaits.viewmodels.questionsAnswersViewModel.QuestionsAnswersViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class Wishlist : Fragment(), WishlistLectureClicked {
-    private var _binding: WishlistBinding? = null
-    private val binding get() = _binding!!
+class Wishlist : Fragment(R.layout.wishlist), LecturesClicked {
+    private lateinit var binding: WishlistBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = WishlistBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = WishlistBinding.bind(view)
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
-
         viewModel.getWishlist()
         viewModel.getWishlistData.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
-                binding.WishlistRecyclerView.visibility = View.GONE
-                binding.emptyAnimation.visibility = View.VISIBLE
-                binding.text.visibility = View.VISIBLE
-            }
-            binding.WishlistRecyclerView.adapter = WishlistRecyclerAdapter(it.toMutableList(), this)
-            binding.WishlistRecyclerView.layoutManager = object : LinearLayoutManager(context) {
-                override fun canScrollVertically(): Boolean = false
-            }
+            if (it.isEmpty()) noItems()
+            binding.WishlistRecyclerView.adapter = RecentLecturesRecyclerAdapter(
+                "WISHLIST",
+                it.size, it.toMutableList(), this
+            )
+            binding.WishlistRecyclerView.isNestedScrollingEnabled = false
         }
         viewModel.errorGetWishlistData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
-
-        return binding.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     override fun onLectureClicked(videoUri: Uri, lectureName: String) {
@@ -62,9 +45,9 @@ class Wishlist : Fragment(), WishlistLectureClicked {
         findNavController().navigate(R.id.action_profile_to_videoPlayer2)
     }
 
-    override fun onWishlistBtnClicked(lecture_id: Int) {
+    override fun onWishlistBtnClicked(lectureId: Int) {
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
-        viewModel.addToWishlist(AddToWishlistBody(lecture_id))
+        viewModel.addToWishlist(AddToWishlistBody(lectureId))
         viewModel.addToWishlistData.observe(viewLifecycleOwner) {
             if (it != "success")
                 Toast.makeText(
@@ -73,5 +56,11 @@ class Wishlist : Fragment(), WishlistLectureClicked {
                     Toast.LENGTH_SHORT
                 ).show()
         }
+    }
+
+    override fun noItems() {
+        binding.WishlistRecyclerView.visibility = View.GONE
+        binding.emptyAnimation.visibility = View.VISIBLE
+        binding.text.visibility = View.VISIBLE
     }
 }

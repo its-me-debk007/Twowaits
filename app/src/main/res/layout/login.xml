@@ -84,7 +84,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
         app:passwordToggleEnabled="true"
-        app:helperTextTextColor="#ff0000">
+        app:helperTextTextColor="#ff0000"
+        app:passwordToggleTint="#A17A69">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/Password"

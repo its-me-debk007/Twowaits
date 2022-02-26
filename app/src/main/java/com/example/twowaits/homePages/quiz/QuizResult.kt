@@ -1,31 +1,34 @@
 package com.example.twowaits.homePages.quiz
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.databinding.QuizResultBinding
+import com.example.twowaits.recyclerAdapters.DetailedQuizResultRecyclerAdapter
 import com.example.twowaits.viewmodels.quizViewModels.QuizViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class QuizResult : Fragment() {
-    private var _binding: QuizResultBinding? = null
-    private val binding get() = _binding!!
+class QuizResult : Fragment(R.layout.quiz_result) {
+    private lateinit var binding: QuizResultBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = QuizResultBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = QuizResultBinding.bind(view)
         val viewModel = ViewModelProvider(this)[QuizViewModel::class.java]
+        val bottomNavigationView =
+            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView?.visibility = View.GONE
+        val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
+        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
         viewModel.viewScore(AttemptQuizBody(Data.QUIZ_ID))
         viewModel.viewScoreLiveData.observe(viewLifecycleOwner) {
@@ -41,7 +44,13 @@ class QuizResult : Fragment() {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
-        return binding.root
+        viewModel.detailedQuizResult(Data.QUIZ_ID)
+        viewModel.detailedQuizScoreData.observe(viewLifecycleOwner) {
+            binding.detailedResultRecyclerView.apply {
+                isNestedScrollingEnabled = false
+                adapter = DetailedQuizResultRecyclerAdapter(it.question)
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,12 +58,12 @@ class QuizResult : Fragment() {
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 findNavController().navigate(R.id.action_quizResult_to_homePage)
+                val bottomNavigationView =
+                    activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                bottomNavigationView?.visibility = View.VISIBLE
+                val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
+                drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
             }
         })
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

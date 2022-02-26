@@ -47,11 +47,7 @@ class YourQuestions : Fragment(), ItemClicked {
         val viewModel = ViewModelProvider(this)[YourQuestionsViewModel::class.java]
         viewModel.getYourQnA()
         viewModel.q_n_aLiveData.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
-                binding.YourQnARecyclerView.visibility = View.GONE
-                binding.emptyAnimation.visibility = View.VISIBLE
-                binding.text.visibility = View.VISIBLE
-            }
+            if (it.isEmpty()) noItems()
             adapter = QuestionsAnswersRecyclerAdapter(
                 "YOUR_Q", it.toMutableList(), this)
             binding.YourQnARecyclerView.adapter = adapter
@@ -175,6 +171,12 @@ class YourQuestions : Fragment(), ItemClicked {
                 }
             }
         }
+    }
+
+    override fun noItems() {
+        binding.YourQnARecyclerView.visibility = View.GONE
+        binding.emptyAnimation.visibility = View.VISIBLE
+        binding.text.visibility = View.VISIBLE
     }
 
     private fun updateRecyclerView(position: Int) {

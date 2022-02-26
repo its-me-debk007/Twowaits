@@ -12,20 +12,20 @@ import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.Comment
 
-class CommentsRecyclerAdapter(private val comments: List<Comment>): RecyclerView.Adapter<CommentsRecyclerAdapter.CommentsViewHolder>() {
-    inner class CommentsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+class CommentsRecyclerAdapter(private val comments: List<Comment>): RecyclerView.Adapter<CommentsRecyclerAdapter.ViewHolder>() {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val commentorProfilePic: ImageView = itemView.findViewById(R.id.commentorProfilePic)
         val commentorName: TextView = itemView.findViewById(R.id.commentorName)
         val commentText: TextView = itemView.findViewById(R.id.commentText)
         val commentedAt: TextView = itemView.findViewById(R.id.commentedAt)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.comments, parent, false)
-        return CommentsViewHolder(view)
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CommentsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val monthNumber = comments[position].commented.subSequence(5, 7)
         val day = comments[position].commented.subSequence(8, 10)
         val hours = comments[position].commented.subSequence(11, 13)

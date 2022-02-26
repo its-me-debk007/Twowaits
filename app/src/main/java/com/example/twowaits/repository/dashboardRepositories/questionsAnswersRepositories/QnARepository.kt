@@ -50,7 +50,7 @@ class QnARepository {
     val errorGetSearchQnAData = MutableLiveData<String>()
     val bookmarkedNotesData = MutableLiveData<List<RecentNotesResponse>>()
     val errorBookmarkedNotesData = MutableLiveData<String>()
-    val getWishlistData = MutableLiveData<List<WishlistResponse>>()
+    val getWishlistData = MutableLiveData<List<RecentLecturesResponse>>()
     val errorGetWishlistData = MutableLiveData<String>()
 
     fun getYourQnA() {

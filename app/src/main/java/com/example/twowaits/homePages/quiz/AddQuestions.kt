@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.databinding.AddQuestionsBinding
 import com.example.twowaits.viewmodels.quizViewModels.AddQuestionsViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
@@ -61,21 +63,20 @@ class AddQuestions : Fragment() {
                 }
                 2 -> {
                     var flag = false
-                    for (itr in options){
-                        if (binding.Option.text?.trim().toString() == itr.option){
+                    for (itr in options) {
+                        if (binding.Option.text?.trim().toString() == itr.option) {
                             flag = true
                             break
                         }
                     }
-                    if (flag){
+                    if (flag) {
                         Toast.makeText(
                             context,
                             "No two options must be same",
                             Toast.LENGTH_SHORT
                         ).show()
                         viewModel.optionCount--
-                    }
-                    else {
+                    } else {
                         binding.Option2.text = "(B) ${binding.Option.text?.trim().toString()}"
                         binding.Option2.visibility = View.VISIBLE
                         dropdownItems.add("(B) ${binding.Option.text?.trim().toString()}")
@@ -84,8 +85,8 @@ class AddQuestions : Fragment() {
                 }
                 3 -> {
                     var flag = false
-                    for (itr in options){
-                        if (binding.Option.text?.trim().toString() == itr.option){
+                    for (itr in options) {
+                        if (binding.Option.text?.trim().toString() == itr.option) {
                             flag = true
                             break
                         }
@@ -97,8 +98,7 @@ class AddQuestions : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                         viewModel.optionCount--
-                    }
-                    else {
+                    } else {
                         binding.Option3.text = "(C) ${binding.Option.text?.trim().toString()}"
                         binding.Option3.visibility = View.VISIBLE
                         dropdownItems.add("(C) ${binding.Option.text?.trim().toString()}")
@@ -107,8 +107,8 @@ class AddQuestions : Fragment() {
                 }
                 4 -> {
                     var flag = false
-                    for (itr in options){
-                        if (binding.Option.text?.trim().toString() == itr.option){
+                    for (itr in options) {
+                        if (binding.Option.text?.trim().toString() == itr.option) {
                             flag = true
                             break
                         }
@@ -120,8 +120,7 @@ class AddQuestions : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                         viewModel.optionCount--
-                    }
-                    else {
+                    } else {
                         binding.Option4.text = "(D) ${binding.Option.text?.trim().toString()}"
                         binding.Option4.visibility = View.VISIBLE
                         dropdownItems.add("(D) ${binding.Option.text?.trim().toString()}")
@@ -179,19 +178,14 @@ class AddQuestions : Fragment() {
                             "You have successfully created your quiz",
                             Toast.LENGTH_SHORT
                         ).show()
+                        val bottomNavigationView =
+                            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                        bottomNavigationView?.visibility = View.VISIBLE
+                        val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
+                        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                         findNavController().navigate(R.id.action_addQuestions_to_homePage)
                     } else
                         findNavController().navigate(R.id.action_addQuestions_to_addQuestions)
-//                    binding.QuestionForQuiz.text?.clear()
-//                    binding.Option.text?.clear()
-//                    binding.Option1.visibility = View.GONE
-//                    binding.Option2.visibility = View.GONE
-//                    binding.Option3.visibility = View.GONE
-//                    binding.Option4.visibility = View.GONE
-//                    binding.autoCompleteTextView.setText("Enter the correct answer of question")
-//                    viewModel.optionCount = 0
-//                    dropdownItems.clear()
-//                    options.clear()
                 }
                 viewModel.errorAddCorrectOptionLiveData.observe(
                     viewLifecycleOwner

@@ -57,7 +57,8 @@ class RecentNotesRecyclerAdapter(
                 bookmark.setOnClickListener {
                     listener.onBookmarkNotesClicked(notes[absoluteAdapterPosition].id)
                     notes.removeAt(absoluteAdapterPosition)
-                    notifyDataSetChanged()
+                    notifyItemRemoved(absoluteAdapterPosition)
+                    if (notes.size == 0) listener.noItems()
                 }
             }
             noteDetails.text = notes[position].description
@@ -81,4 +82,5 @@ class RecentNotesRecyclerAdapter(
 interface NotesClicked {
     fun onNotesClicked(pdfUri: Uri, noteName: String)
     fun onBookmarkNotesClicked(noteId: Int)
+    fun noItems()
 }

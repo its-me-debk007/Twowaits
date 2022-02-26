@@ -15,7 +15,7 @@ import com.example.twowaits.apiCalls.dashboardApiCalls.RecentLecturesResponse
 
 class RecentLecturesRecyclerAdapter(
     private val adapter: String, private val size: Int,
-    private val lectures: List<RecentLecturesResponse>,
+    private val lectures: MutableList<RecentLecturesResponse>,
     private val listener: LecturesClicked
 ) :
     RecyclerView.Adapter<RecentLecturesRecyclerAdapter.TopLecturesViewHolder>() {
@@ -45,6 +45,14 @@ class RecentLecturesRecyclerAdapter(
                     creator.text = "By " + lectures[position].author_id.faculty.name
                 } catch (e: Exception) {
                     creator.text = "By Anonymous"
+                }
+            }
+            if (adapter == "WISHLIST") {
+                bookmark.setOnClickListener {
+                    listener.onWishlistBtnClicked(lectures[absoluteAdapterPosition].id)
+                    lectures.removeAt(absoluteAdapterPosition)
+                    notifyItemRemoved(absoluteAdapterPosition)
+                    if (lectures.size == 0) listener.noItems()
                 }
             }
         }
@@ -80,4 +88,5 @@ class RecentLecturesRecyclerAdapter(
 interface LecturesClicked {
     fun onLectureClicked(videoUri: Uri, lectureName: String)
     fun onWishlistBtnClicked(lectureId: Int)
+    fun noItems()
 }

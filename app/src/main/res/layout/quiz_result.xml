@@ -150,5 +150,15 @@
         app:layout_constraintStart_toEndOf="@+id/wrong"
         app:layout_constraintTop_toBottomOf="@+id/correct" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/detailedResultRecyclerView"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wrong" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

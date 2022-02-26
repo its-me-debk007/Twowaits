@@ -19,7 +19,11 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.Data
@@ -27,37 +31,31 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.PdfViewerBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class PDFViewer : Fragment() {
-    private var _binding: PdfViewerBinding? = null
-    private val binding get() = _binding!!
+class PDFViewer : Fragment(R.layout.pdf_viewer) {
+    private lateinit var binding: PdfViewerBinding
+    private val askPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        if (!it) Toast.makeText(context, "Please give storage permission", Toast.LENGTH_SHORT).show()
+    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = PdfViewerBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = PdfViewerBinding.bind(view)
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.hide()
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         var downloadId: Long = -1
-        val bottomNavigationView =
-            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        val bottomNavigationView = activity?.findViewById<BottomNavigationView>(
+            R.id.bottomNavigationView)
         bottomNavigationView?.visibility = View.GONE
-        Data.removeActionBarLiveData.postValue(true)
+        val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
+        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
         if (Data.PREVIOUS_PAGE == "DOWNLOADS") {
             binding.downloadBtn.visibility = View.INVISIBLE
             binding.pdf.fromFile(Data.DOWNLOADED_NOTE).load()
         } else {
             binding.pdf.fromUri(Data.PDF_URI).load()
         }
-//        if (Data.PREVIOUS_PAGE == "DOWNLOADS") {
-//            binding.downloadBtn.hide()
-////            binding.pdf.fromFile(Data.DOWNLOADED_NOTE).load()
-//        } else {
-//            binding.webview?.webViewClient = WebViewClient()
-//            if (binding.webview == null) Log.e("ssss", "Null exception")
-////            binding.webview?.addView(binding.webview?.zoomIn())
-//            binding.webview?.settings?.javaScriptEnabled = true
-//            binding.webview?.loadUrl("http://docs.google.com/gview?embedded=true&url=http://www.pdf995.com/samples/pdf.pdf")
-//        }
 
         binding.downloadBtn.setOnClickListener {
             if (checkPermission()) {
@@ -91,8 +89,6 @@ class PDFViewer : Fragment() {
         }
         activity?.registerReceiver(broadcastReceiver,
             IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-
-        return binding.root
     }
 
     private fun checkPermission(): Boolean {
@@ -107,15 +103,15 @@ class PDFViewer : Fragment() {
                 ) !=
                 PackageManager.PERMISSION_GRANTED
             ) {
-                requestPermission()
+                askPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 return false
             }
         }
         return true
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
     private fun requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             try {
                 val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
                 intent.addCategory("android.intent.category.DEFAULT")
@@ -128,10 +124,6 @@ class PDFViewer : Fragment() {
                 intent.action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
                 startActivityForResult(intent, 0)
             }
-        } else {
-            val permissionArray = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            ActivityCompat.requestPermissions(requireActivity(), permissionArray, 0)
-        }
     }
 
     override fun onRequestPermissionsResult(
@@ -162,16 +154,14 @@ class PDFViewer : Fragment() {
                     "BOOKMARK" -> findNavController().navigate(R.id.action_PDFViewer_to_library)
                     "HOME" -> findNavController().navigate(R.id.action_PDFViewer_to_homePage)
                 }
-                Data.removeActionBarLiveData.postValue(false)
                 val bottomNavigationView =
                     activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
                 bottomNavigationView?.visibility = View.VISIBLE
+                val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
+                drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                val actionBar = (activity as AppCompatActivity).supportActionBar
+                actionBar?.show()
             }
         })
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }
