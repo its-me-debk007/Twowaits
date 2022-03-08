@@ -26,8 +26,7 @@ class Library : Fragment(R.layout.library) {
                 findNavController().navigate(R.id.action_library_self)
             }, 440)
         }
-        val viewPagerAdapter = LibraryViewPagerAdapter(childFragmentManager, lifecycle)
-        binding.LibraryViewPager.adapter = viewPagerAdapter
+        binding.LibraryViewPager.adapter = LibraryViewPagerAdapter(childFragmentManager, lifecycle)
         TabLayoutMediator(binding.TabLayout, binding.LibraryViewPager) { tab, position ->
             when (position) {
                 0 -> tab.text = "Q & A’s"
