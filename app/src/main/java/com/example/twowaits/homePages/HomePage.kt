@@ -38,6 +38,7 @@ import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.*
 import com.example.twowaits.viewmodels.HomePageViewModel
 import com.example.twowaits.viewmodels.questionsAnswersViewModel.QuestionsAnswersViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -182,7 +183,7 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
     }
 
     private fun exitConfirmation() {
-        AlertDialog.Builder(context)
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("Exit")
             .setMessage("Are you sure want to exit?")
             .setIcon(R.drawable.exit_warning)
@@ -191,7 +192,6 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
             }
             .setNegativeButton("No") { _, _ ->
             }
-            .create()
             .show()
     }
 

@@ -1,6 +1,5 @@
 package com.example.twowaits
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -28,6 +27,7 @@ import coil.transform.CircleCropTransformation
 import com.example.twowaits.databinding.ActivityHomeBinding
 import com.example.twowaits.databinding.NoInternetDialogBinding
 import com.example.twowaits.viewmodels.ProfileDetailsViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
@@ -46,7 +46,7 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.actionBar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
         navController = navHostFragment.navController
@@ -54,12 +54,14 @@ class HomeActivity : AppCompatActivity() {
         toggle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.open, R.string.close)
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+//        setupActionBarWithNavController(navController, binding.drawerLayout)
+        binding.actionBar.setupWithNavController(navController, binding.drawerLayout)
         isConnectedToInternet()
         getProfile()
         binding.navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.logout -> {
-                    AlertDialog.Builder(this)
+                    MaterialAlertDialogBuilder(this)
                         .setTitle("Exit")
                         .setMessage("Are you sure want to logout?")
                         .setIcon(R.drawable.exit_warning)
@@ -73,7 +75,6 @@ class HomeActivity : AppCompatActivity() {
                             finish()
                         }
                         .setNegativeButton("No") { _, _ -> }
-                        .create()
                         .show()
                 }
                 R.id.aboutEduCool -> {
