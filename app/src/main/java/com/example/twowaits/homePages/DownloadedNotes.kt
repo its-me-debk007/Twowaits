@@ -64,7 +64,7 @@ class DownloadedNotes : Fragment(R.layout.downloaded_notes), DownloadedNoteClick
         )
         else File("${Environment.getExternalStorageDirectory()}/Download/Educool Downloads/Notes/${downloadedNoteName}")
         Data.DOWNLOADED_NOTE = file
-        Data.PREVIOUS_PAGE = "DOWNLOADS"
-        findNavController().navigate(R.id.action_downloads_to_PDFViewer)
+        val action = DownloadedNotesDirections.actionDownloadedNotesToPDFViewer("BOOKMARK")
+        findNavController().navigate(action)
     }
 }

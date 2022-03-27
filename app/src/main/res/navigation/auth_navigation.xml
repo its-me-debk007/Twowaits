@@ -85,6 +85,9 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/otpVerification"
@@ -126,6 +129,15 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
+        <argument
+            android:name="userPassword"
+            app:argType="string" />
+        <argument
+            android:name="previousPage"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/verifyEmail"
@@ -169,7 +181,8 @@
     <fragment
         android:id="@+id/enterDetailsFaculty"
         android:name="com.example.twowaits.authPages.EnterDetailsFaculty"
-        android:label="EnterDetailsFaculty">
+        android:label="EnterDetailsFaculty"
+        tools:layout="@layout/enter_details_faculty">
         <action
             android:id="@+id/action_enterDetailsFaculty_to_chooseYourRole"
             app:destination="@id/chooseYourRole"
@@ -177,11 +190,15 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/enterDetailsStudent"
         android:name="com.example.twowaits.authPages.EnterDetailsStudent"
-        android:label="EnterDetailsStudent">
+        android:label="EnterDetailsStudent"
+        tools:layout="@layout/enter_details_student">
         <action
             android:id="@+id/action_enterDetailsStudent_to_chooseYourRole"
             app:destination="@id/chooseYourRole"
@@ -189,11 +206,15 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/chooseYourRole"
         android:name="com.example.twowaits.authPages.ChooseYourRole"
-        android:label="ChooseYourRole">
+        android:label="ChooseYourRole"
+        tools:layout="@layout/choose_your_role">
         <action
             android:id="@+id/action_chooseYourRole_to_enterDetailsFaculty"
             app:destination="@id/enterDetailsFaculty"
@@ -215,5 +236,11 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
+        <argument
+            android:name="userPassword"
+            app:argType="string" />
     </fragment>
 </navigation>

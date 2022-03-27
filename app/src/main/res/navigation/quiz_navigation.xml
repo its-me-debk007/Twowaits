@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/quiz_navigation"
+    app:startDestination="@id/createQuiz2">
+
+    <fragment
+        android:id="@+id/createQuiz2"
+        android:name="com.example.twowaits.homePages.quiz.CreateQuiz"
+        android:label="CreateQuiz" >
+        <action
+            android:id="@+id/action_createQuiz2_to_addQuestions2"
+            app:destination="@id/addQuestions2"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/addQuestions2"
+        android:name="com.example.twowaits.homePages.quiz.AddQuestions"
+        android:label="AddQuestions" >
+        <argument android:name="noOfQuestions"
+            app:argType="integer" />
+        <argument
+            android:name="quizId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_addQuestions2_self"
+            app:destination="@id/addQuestions2"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/quiz"
+        android:name="com.example.twowaits.homePages.quiz.Quiz"
+        android:label="Quiz" >
+        <action
+            android:id="@+id/action_quiz_to_quizResult"
+            app:destination="@id/quizResult"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_quiz_self"
+            app:destination="@id/quiz"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizResult"
+        android:name="com.example.twowaits.homePages.quiz.QuizResult"
+        android:label="QuizResult" >
+        <argument
+            android:name="quizId"
+            app:argType="integer" />
+    </fragment>
+</navigation>

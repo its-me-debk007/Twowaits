@@ -1,27 +1,21 @@
 package com.example.twowaits.homePages.quiz
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.databinding.AddQuestionsBinding
 import com.example.twowaits.viewmodels.quizViewModels.AddQuestionsViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
 class AddQuestions : Fragment() {
-    private var _binding: AddQuestionsBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: AddQuestionsBinding
     private val dropdownItems = mutableListOf<String>()
 
     override fun onResume() {
@@ -30,21 +24,17 @@ class AddQuestions : Fragment() {
         binding.autoCompleteTextView.setAdapter(arrayAdapter)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = AddQuestionsBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = AddQuestionsBinding.bind(view)
         val viewModel = ViewModelProvider(this)[AddQuestionsViewModel::class.java]
-        val data = mutableListOf<OptionsDataClass>()
         val options = mutableListOf<Option>()
+        var questionsLeft = AddQuestionsArgs.fromBundle(requireArguments()).noOfQuestions
+        val quizId = AddQuestionsArgs.fromBundle(requireArguments()).quizId
 
-        if (Data.QUESTIONS_LEFT == 1)
+        if (questionsLeft == 1)
             binding.CreateAndAddQuestions.text = "Finish"
 
-//        binding.OptionsRecyclerView.adapter = OptionsRecyclerAdapter()
-//        binding.OptionsRecyclerView.layoutManager = LinearLayoutManager(container?.context)
-//        OptionsRecyclerAdapter().submitList(data)
         binding.AddBtn.setOnClickListener {
             if (binding.Option.text.isNullOrEmpty()) {
                 binding.OptionsForQuestions.helperText = "Please enter an option"
@@ -52,8 +42,7 @@ class AddQuestions : Fragment() {
             }
             binding.OptionsForQuestions.helperText = ""
             viewModel.optionCount++
-//            optionsSerialNo.add("(${viewModel.optionCount})")
-//            options.add(binding.Option.text?.trim().toString())
+
             when (viewModel.optionCount) {
                 1 -> {
                     binding.Option1.text = "(A) ${binding.Option.text?.trim().toString()}"
@@ -129,10 +118,6 @@ class AddQuestions : Fragment() {
                 }
             }
             binding.Option.text?.clear()
-
-//            data.add(OptionsDataClass("(${viewModel.optionCount})", "${binding.Option.text?.trim()}"))
-//            Log.d("TAG", data[0].option)
-//            OptionsRecyclerAdapter().submitList(data)
         }
 
         binding.CreateAndAddQuestions.setOnClickListener {
@@ -152,7 +137,7 @@ class AddQuestions : Fragment() {
             }
 
             val createQuestionBody = CreateQuestionBody(
-                Data.QUIZ_ID,
+                quizId,
                 binding.QuestionForQuiz.text.toString(),
                 options
             )
@@ -171,21 +156,19 @@ class AddQuestions : Fragment() {
                 viewModel.addCorrectOption(addCorrectOptionBody)
 
                 viewModel.addCorrectOptionLiveData.observe(viewLifecycleOwner) {
-                    Data.QUESTIONS_LEFT--
-                    if (Data.QUESTIONS_LEFT == 0) {
+                    questionsLeft--
+                    if (questionsLeft == 0) {
                         Toast.makeText(
                             context,
                             "You have successfully created your quiz",
                             Toast.LENGTH_SHORT
                         ).show()
-                        val bottomNavigationView =
-                            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-                        bottomNavigationView?.visibility = View.VISIBLE
-                        val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
-                        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                        findNavController().navigate(R.id.action_addQuestions_to_homePage)
-                    } else
-                        findNavController().navigate(R.id.action_addQuestions_to_addQuestions)
+                        activity?.finish()
+                    } else {
+                        val action =
+                            AddQuestionsDirections.actionAddQuestions2Self(questionsLeft, quizId)
+                        findNavController().navigate(action)
+                    }
                 }
                 viewModel.errorAddCorrectOptionLiveData.observe(
                     viewLifecycleOwner
@@ -198,8 +181,6 @@ class AddQuestions : Fragment() {
                 Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
             }
         }
-
-        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -213,10 +194,5 @@ class AddQuestions : Fragment() {
                 ).show()
             }
         })
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

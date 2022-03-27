@@ -93,10 +93,9 @@ class Login : Fragment() {
                     }
                     Data.ACCESS_TOKEN = tokensResponse.access
                     Data.REFRESH_TOKEN = tokensResponse.refresh
-                    Data.USER_EMAIL = userEmail
                     val intent = Intent(activity, HomeActivity::class.java)
+                    intent.putExtra("userEmail", userEmail)
                     startActivity(intent)
-                    activity?.finish()
                 }
                 repository.errorData.observe(viewLifecycleOwner) {
                     Toast.makeText(context, "Token error\n$it", Toast.LENGTH_SHORT).show()

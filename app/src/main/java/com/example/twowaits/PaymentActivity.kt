@@ -19,7 +19,6 @@ class PaymentActivity : AppCompatActivity(), PaymentResultListener {
         super.onCreate(savedInstanceState)
         binding = ActivityPaymentBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.e("eeeeAfter", intent.getStringExtra("price").toString())
         val price = intent.getStringExtra("price")!!.toInt()
         savePayment(price)
     }

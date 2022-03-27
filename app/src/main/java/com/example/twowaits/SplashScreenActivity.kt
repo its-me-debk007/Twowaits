@@ -18,7 +18,6 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = SplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.hide()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         Data.dataStore = createDataStore(name = "AUTH")
         lifecycleScope.launch {
@@ -26,13 +25,12 @@ class SplashScreenActivity : AppCompatActivity() {
             val intent: Intent
             if (logInStatus?.get(0) == 'F' || logInStatus?.get(0) == 'S') {
                 intent = Intent(this@SplashScreenActivity, HomeActivity::class.java)
-                Data.ACCESS_TOKEN = Data.readData("accessToken").toString()
-                Data.REFRESH_TOKEN = Data.readData("refreshToken").toString()
-                Data.USER_EMAIL = Data.readData("email").toString()
-                Data.USER = logInStatus.toString()
+                    Data.ACCESS_TOKEN = Data.readData("accessToken").toString()
+                    Data.REFRESH_TOKEN = Data.readData("refreshToken").toString()
+                    Data.EMAIL = Data.readData("email").toString()
+                    Data.USER = logInStatus.toString()
             } else intent = Intent(this@SplashScreenActivity, AuthActivity::class.java)
             startActivity(intent)
-            finish()
         }
     }
 }

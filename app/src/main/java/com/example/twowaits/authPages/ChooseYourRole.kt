@@ -1,9 +1,8 @@
 package com.example.twowaits.authPages
 
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -17,57 +16,62 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 
 @DelicateCoroutinesApi
-class ChooseYourRole : Fragment() {
-    private var _binding: ChooseYourRoleBinding? = null
-    private val binding get() = _binding!!
+class ChooseYourRole : Fragment(R.layout.choose_your_role) {
+    private lateinit var binding: ChooseYourRoleBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = ChooseYourRoleBinding.inflate(inflater, container, false)
-
-        binding.student.setOnCheckedChangeListener { _, _ ->
-            val repository = LoginRepository()
-            repository.getAuthTokens(Data.EMAIL, Data.PASSWORD)
-            binding.ProgressBar.visibility = View.VISIBLE
-            repository.getTokenLiveData.observe(viewLifecycleOwner) { tokensResponse ->
-                lifecycleScope.launch {
-                    Data.saveData("log_in_status", "STUDENT")
-                    Data.saveData("accessToken", tokensResponse.access)
-                    Data.saveData("refreshToken", tokensResponse.refresh)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = ChooseYourRoleBinding.bind(view)
+        val userEmail = ChooseYourRoleArgs.fromBundle(requireArguments()).userEmail
+        val userPassword = ChooseYourRoleArgs.fromBundle(requireArguments()).userPassword
+        binding.apply {
+            student.setOnCheckedChangeListener { _, _ ->
+                val repository = LoginRepository()
+                repository.getAuthTokens(userEmail, userPassword)
+                Data.EMAIL = userEmail
+                ProgressBar.visibility = View.VISIBLE
+                repository.getTokenLiveData.observe(viewLifecycleOwner) { tokensResponse ->
+                    lifecycleScope.launch {
+                        Data.saveData("log_in_status", "STUDENT")
+                        Data.saveData("accessToken", tokensResponse.access)
+                        Data.saveData("refreshToken", tokensResponse.refresh)
+                    }
+                    Data.ACCESS_TOKEN = tokensResponse.access
+                    Data.REFRESH_TOKEN = tokensResponse.refresh
+                    val action =
+                        ChooseYourRoleDirections.actionChooseYourRoleToEnterDetailsStudent(userEmail)
+                    findNavController().navigate(action)
                 }
-                Data.ACCESS_TOKEN = tokensResponse.access
-                Data.REFRESH_TOKEN = tokensResponse.refresh
-                findNavController().navigate(R.id.action_chooseYourRole_to_enterDetailsStudent)
+                repository.errorData.observe(viewLifecycleOwner) {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                    Log.e("ffff", it)
+                }
+            }
+            teacher.setOnCheckedChangeListener { _, _ ->
+                val repository = LoginRepository()
+                repository.getAuthTokens(userEmail, userPassword)
+                ProgressBar.visibility = View.VISIBLE
+                repository.getTokenLiveData.observe(viewLifecycleOwner) { tokensResponse ->
+                    lifecycleScope.launch {
+                        Data.saveData("log_in_status", "FACULTY")
+                        Data.saveData("accessToken", tokensResponse.access)
+                        Data.saveData("refreshToken", tokensResponse.refresh)
+                    }
+                    Data.ACCESS_TOKEN = tokensResponse.access
+                    Data.REFRESH_TOKEN = tokensResponse.refresh
+                    teacher.isChecked = false
+                    student.isChecked = false
+                    ProgressBar.visibility = View.INVISIBLE
+                    val action =
+                        ChooseYourRoleDirections.actionChooseYourRoleToEnterDetailsFaculty(userEmail)
+                    findNavController().navigate(action)
+                }
+                repository.errorData.observe(viewLifecycleOwner) {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                    Log.e("ffff", it)
+                }
             }
         }
-        binding.teacher.setOnCheckedChangeListener { _, _ ->
-            val repository = LoginRepository()
-            repository.getAuthTokens(Data.EMAIL, Data.PASSWORD)
-            binding.ProgressBar.visibility = View.VISIBLE
-            repository.getTokenLiveData.observe(viewLifecycleOwner) { tokensResponse ->
-                lifecycleScope.launch {
-                    Data.saveData("log_in_status", "FACULTY")
-                    Data.saveData("accessToken", tokensResponse.access)
-                    Data.saveData("refreshToken", tokensResponse.refresh)
-                }
-                Data.ACCESS_TOKEN = tokensResponse.access
-                Data.REFRESH_TOKEN = tokensResponse.refresh
-                binding.teacher.isChecked = false
-                binding.student.isChecked = false
-                binding.ProgressBar.visibility = View.INVISIBLE
-                findNavController().navigate(R.id.action_chooseYourRole_to_enterDetailsFaculty)
-            }
-            repository.errorLiveData.observe(viewLifecycleOwner) {
-                Toast.makeText(context, it + "\nPlease choose your option again", Toast.LENGTH_LONG)
-                    .show()
-                binding.teacher.isChecked = false
-                binding.student.isChecked = false
-                binding.ProgressBar.visibility = View.INVISIBLE
-            }
-        }
-        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,10 +81,5 @@ class ChooseYourRole : Fragment() {
                 findNavController().navigate(R.id.action_chooseYourRole_to_otpVerification)
             }
         })
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

@@ -11,31 +11,11 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.PrivacyPolicyBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class PrivacyPolicy : Fragment() {
-    private var _binding: PrivacyPolicyBinding? = null
-    private val binding get() = _binding!!
+class PrivacyPolicy : Fragment(R.layout.privacy_policy) {
+    private lateinit var binding: PrivacyPolicyBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = PrivacyPolicyBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.action_privacyPolicy2_to_homePage)
-                val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-                bottomNavigationView?.visibility = View.VISIBLE
-            }
-        })
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = PrivacyPolicyBinding.bind(view)
     }
 }

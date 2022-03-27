@@ -36,6 +36,7 @@ class PDFViewer : Fragment(R.layout.pdf_viewer) {
     private val askPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         if (!it) Toast.makeText(context, "Please give storage permission", Toast.LENGTH_SHORT).show()
     }
+    private val previousPage = PDFViewerArgs.fromBundle(requireArguments()).previousPage
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,7 +51,7 @@ class PDFViewer : Fragment(R.layout.pdf_viewer) {
         val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
         drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
-        if (Data.PREVIOUS_PAGE == "DOWNLOADS") {
+        if (previousPage == "DOWNLOADS") {
             binding.downloadBtn.visibility = View.INVISIBLE
             binding.pdf.fromFile(Data.DOWNLOADED_NOTE).load()
         } else {
@@ -149,7 +150,7 @@ class PDFViewer : Fragment(R.layout.pdf_viewer) {
         super.onCreate(savedInstanceState)
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                when (Data.PREVIOUS_PAGE) {
+                when (previousPage) {
                     "DOWNLOADS" -> findNavController().navigate(R.id.action_PDFViewer_to_downloads)
                     "BOOKMARK" -> findNavController().navigate(R.id.action_PDFViewer_to_library)
                     "HOME" -> findNavController().navigate(R.id.action_PDFViewer_to_homePage)
