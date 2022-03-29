@@ -1,13 +1,14 @@
 package com.example.twowaits.homePages
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.example.twowaits.Data
+import com.example.twowaits.NoteLectureActivity
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.AddToWishlistBody
 import com.example.twowaits.databinding.WishlistBinding
@@ -40,9 +41,13 @@ class Wishlist : Fragment(R.layout.wishlist), LecturesClicked {
 
     override fun onLectureClicked(videoUri: Uri, lectureName: String) {
         Data.VIDEO_URI = videoUri
-        Data.PREV_PAGE_FOR_PLAYER = "PROFILE"
-        Data.LECTURE_NAME = lectureName
-        findNavController().navigate(R.id.action_profile_to_videoPlayer2)
+        val intent = Intent(context, NoteLectureActivity::class.java)
+        intent.apply {
+            intent.putExtra("PREVIOUS PAGE", "PROFILE")
+            intent.putExtra("PAGE TYPE", "LECTURE")
+            intent.putExtra("LECTURE NAME", lectureName)
+        }
+        startActivity(intent)
     }
 
     override fun onWishlistBtnClicked(lectureId: Int) {

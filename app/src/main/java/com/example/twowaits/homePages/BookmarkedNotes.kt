@@ -1,5 +1,6 @@
 package com.example.twowaits.homePages
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twowaits.Data
+import com.example.twowaits.NoteLectureActivity
+import com.example.twowaits.R
 import com.example.twowaits.databinding.BookmarkedNotesBinding
 import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.NotesClicked
 import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.RecentNotesRecyclerAdapter
@@ -16,7 +19,7 @@ import com.example.twowaits.viewmodels.questionsAnswersViewModel.QuestionsAnswer
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class BookmarkedNotes : Fragment(), NotesClicked {
+class BookmarkedNotes : Fragment(R.layout.bookmarked_notes), NotesClicked {
     private lateinit var binding: BookmarkedNotesBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,12 +42,14 @@ class BookmarkedNotes : Fragment(), NotesClicked {
     }
 
     override fun onNotesClicked(pdfUri: Uri, noteName: String) {
-        Data.NOTE_NAME = noteName
         Data.PDF_URI = pdfUri
-        val action = BookmarkedNotesDirections.actionBookmarkedNotesToPDFViewer(
-            "BOOKMARK"
-        )
-        findNavController().navigate(action)
+        val intent = Intent(context, NoteLectureActivity::class.java)
+        intent.apply {
+            intent.putExtra("PREVIOUS PAGE", "BOOKMARK")
+            intent.putExtra("PAGE TYPE", "NOTE")
+            intent.putExtra("NOTE NAME", noteName)
+        }
+        startActivity(intent)
     }
 
     override fun onBookmarkNotesClicked(noteId: Int) {

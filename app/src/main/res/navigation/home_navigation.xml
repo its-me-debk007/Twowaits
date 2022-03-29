@@ -21,23 +21,10 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            android:id="@+id/action_homePage_to_PDFViewer"
-            app:destination="@id/PDFViewer"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
+
         <action
             android:id="@+id/action_homePage_to_showSearchQuestions"
             app:destination="@id/showSearchQuestions"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            android:id="@+id/action_homePage_to_videoPlayer2"
-            app:destination="@id/videoPlayer2"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
@@ -65,13 +52,6 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_out_right"
             app:popExitAnim="@android:anim/slide_in_left" />
-        <action
-            android:id="@+id/action_profile_to_videoPlayer2"
-            app:destination="@id/videoPlayer2"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/explore"
@@ -143,13 +123,7 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            android:id="@+id/action_library_to_PDFViewer"
-            app:destination="@id/PDFViewer"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
+
     </fragment>
     <fragment
         android:id="@+id/downloads"
@@ -160,26 +134,13 @@
             android:id="@+id/action_downloads_self"
             app:destination="@id/downloads" />
         <action
-            android:id="@+id/action_downloads_to_PDFViewer"
-            app:destination="@id/PDFViewer"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
             android:id="@+id/action_downloads_to_homePage"
             app:destination="@id/homePage"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            android:id="@+id/action_downloads_to_videoPlayer2"
-            app:destination="@id/videoPlayer2"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
+
     </fragment>
     <fragment
         android:id="@+id/yourQuestions"
@@ -197,13 +158,6 @@
         android:id="@+id/bookmarkedNotes"
         android:name="com.example.twowaits.homePages.BookmarkedNotes"
         android:label="BookmarkedNotes">
-        <action
-            android:id="@+id/action_bookmarkedNotes_to_PDFViewer"
-            app:destination="@id/PDFViewer"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/wishlist"
@@ -249,35 +203,6 @@
             app:destination="@id/moreQnA2" />
     </fragment>
     <fragment
-        android:id="@+id/PDFViewer"
-        android:name="com.example.twowaits.homePages.PDFViewer"
-        android:label="PDFViewer">
-        <action
-            android:id="@+id/action_PDFViewer_to_downloads"
-            app:destination="@id/downloads"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            android:id="@+id/action_PDFViewer_to_library"
-            app:destination="@id/library"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            android:id="@+id/action_PDFViewer_to_homePage"
-            app:destination="@id/homePage"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <argument
-            android:name="previousPage"
-            app:argType="string" />
-    </fragment>
-    <fragment
         android:id="@+id/chatProfile"
         android:name="com.example.twowaits.homePages.chats.ChatProfile"
         android:label="ChatProfile" />
@@ -313,13 +238,6 @@
         android:id="@+id/downloadedNotes"
         android:name="com.example.twowaits.homePages.DownloadedNotes"
         android:label="DownloadedNotes">
-        <action
-            android:id="@+id/action_downloadedNotes_to_PDFViewer"
-            app:destination="@id/PDFViewer"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/feedback2"
@@ -361,32 +279,6 @@
         android:id="@+id/showSearchQuestions"
         android:name="com.example.twowaits.homePages.ShowSearchQuestions"
         android:label="ShowSearchQuestions" />
-    <fragment
-        android:id="@+id/videoPlayer2"
-        android:name="com.example.twowaits.homePages.VideoPlayer"
-        android:label="VideoPlayer">
-        <action
-            android:id="@+id/action_videoPlayer2_to_homePage"
-            app:destination="@id/homePage"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            android:id="@+id/action_videoPlayer2_to_profile"
-            app:destination="@id/profile"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            android:id="@+id/action_videoPlayer2_to_downloads"
-            app:destination="@id/downloads"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
-    </fragment>
     <fragment
         android:id="@+id/uploadLecture"
         android:name="com.example.twowaits.homePages.UploadLecture"

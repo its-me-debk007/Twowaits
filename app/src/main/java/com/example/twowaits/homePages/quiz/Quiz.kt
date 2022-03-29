@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -19,7 +20,7 @@ import com.example.twowaits.viewmodels.quizViewModels.QuizViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class Quiz : Fragment() {
+class Quiz : Fragment(R.layout.quiz) {
     private lateinit var binding: QuizBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,6 +30,8 @@ class Quiz : Fragment() {
         var chosenOptionId = 0
         val quizId = activity?.intent?.getIntExtra("Quiz ID", -1)
         val attemptQuizBody = AttemptQuizBody(quizId!!)
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.title = "Quiz"
 
         if (Data.CHOSEN_OPTION[Data.CURRENT_QUESTION] != null) {
             when (Data.CHOSEN_OPTION[Data.CURRENT_QUESTION]) {

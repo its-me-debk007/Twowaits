@@ -23,10 +23,6 @@ class AskActivity : AppCompatActivity() {
                     title = "Ask a Question"
                     AskQuestion()
                 }
-                "CreateQuiz" -> {
-                    title = "Create a Quiz"
-                    CreateQuiz()
-                }
                 "UploadNote" -> {
                     title = "Upload a Note"
                     UploadNotes()

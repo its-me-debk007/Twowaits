@@ -36,6 +36,7 @@
         <entry key="..\:/Twowaits/app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/activity_main.xml" value="0.17777777777777778" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/activity_nav_drawer.xml" value="0.35073529411764703" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/activity_note_lecture.xml" value="0.2390625" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/activity_payment.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/activity_quiz.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/add_questions.xml" value="0.264" />
@@ -70,6 +71,7 @@
         <entry key="..\:/Twowaits/app/src/main/res/layout/feedback.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/first_auth_page.xml" value="0.264" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_viewpager.xml" value="0.2484375" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_webview.xml" value="0.2390625" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/hamburger_menu_header.xml" value="0.536" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/home_page.xml" value="0.35073529411764703" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/home_page_shimmer_layout.xml" value="0.2484375" />

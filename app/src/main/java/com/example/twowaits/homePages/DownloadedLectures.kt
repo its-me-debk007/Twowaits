@@ -1,5 +1,6 @@
 package com.example.twowaits.homePages
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twowaits.Data
+import com.example.twowaits.NoteLectureActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.DownloadedLecturesBinding
 import com.example.twowaits.recyclerAdapters.DownloadedLectureClicked
@@ -59,7 +61,9 @@ class DownloadedLectures: Fragment(R.layout.downloaded_lectures), DownloadedLect
             else File("${Environment.getExternalStorageDirectory()}/Download/Educool Downloads/Lectures/${downloadedLectureName}")
 
         Data.DOWNLOADED_LECTURE = file
-        Data.PREV_PAGE_FOR_PLAYER = "DOWNLOADS"
-        findNavController().navigate(R.id.action_downloads_to_videoPlayer2)
+        val intent = Intent(context, NoteLectureActivity::class.java)
+        intent.putExtra("PREVIOUS PAGE", "DOWNLOADS")
+        intent.putExtra("PAGE TYPE", "LECTURE")
+        startActivity(intent)
     }
 }

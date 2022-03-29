@@ -21,6 +21,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.example.twowaits.Data
+import com.example.twowaits.NoteLectureActivity
 import com.example.twowaits.QuizActivity
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.AddToWishlistBody
@@ -349,10 +350,14 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
     }
 
     override fun onNotesClicked(pdfUri: Uri, noteName: String) {
-        Data.NOTE_NAME = noteName
         Data.PDF_URI = pdfUri
-        val action = HomePageDirections.actionHomePageToPDFViewer("HOME")
-        findNavController().navigate(action)
+        val intent = Intent(context, NoteLectureActivity::class.java)
+        intent.apply {
+            putExtra("PREVIOUS PAGE", "HOME")
+            putExtra("PAGE TYPE", "NOTE")
+            putExtra("NOTE NAME", noteName)
+        }
+        startActivity(intent)
     }
 
     override fun onBookmarkNotesClicked(noteId: Int) {
@@ -370,9 +375,13 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
 
     override fun onLectureClicked(videoUri: Uri, lectureName: String) {
         Data.VIDEO_URI = videoUri
-        Data.PREV_PAGE_FOR_PLAYER = "HOME"
-        Data.LECTURE_NAME = lectureName
-        findNavController().navigate(R.id.action_homePage_to_videoPlayer2)
+        val intent = Intent(context, NoteLectureActivity::class.java)
+        intent.apply {
+            intent.putExtra("PREVIOUS PAGE", "HOME")
+            intent.putExtra("PAGE TYPE", "LECTURE")
+            intent.putExtra("LECTURE NAME", lectureName)
+        }
+        startActivity(intent)
     }
 
     override fun onWishlistBtnClicked(lectureId: Int) {

@@ -3,6 +3,7 @@ package com.example.twowaits.homePages.quiz
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,6 +18,8 @@ class CreateQuiz : Fragment(R.layout.create_quiz) {
         super.onViewCreated(view, savedInstanceState)
         binding = CreateQuizBinding.bind(view)
         val viewModel = ViewModelProvider(this)[CreateQuizViewModel::class.java]
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.title = "Create a Quiz"
 
         binding.CreateAndAddQuestions.setOnClickListener {
             binding.TitleOfQuiz.helperText = ""

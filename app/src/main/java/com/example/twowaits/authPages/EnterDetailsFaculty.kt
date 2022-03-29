@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 @DelicateCoroutinesApi
-class EnterDetailsFaculty : Fragment() {
+class EnterDetailsFaculty : Fragment(R.layout.enter_details_faculty) {
     private lateinit var binding: EnterDetailsFacultyBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

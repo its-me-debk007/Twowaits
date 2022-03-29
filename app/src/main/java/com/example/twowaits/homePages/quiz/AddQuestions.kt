@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -14,7 +15,7 @@ import com.example.twowaits.viewmodels.quizViewModels.AddQuestionsViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class AddQuestions : Fragment() {
+class AddQuestions : Fragment(R.layout.add_questions) {
     private lateinit var binding: AddQuestionsBinding
     private val dropdownItems = mutableListOf<String>()
 
@@ -29,6 +30,8 @@ class AddQuestions : Fragment() {
         binding = AddQuestionsBinding.bind(view)
         val viewModel = ViewModelProvider(this)[AddQuestionsViewModel::class.java]
         val options = mutableListOf<Option>()
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.title = "Add Questions"
         var questionsLeft = AddQuestionsArgs.fromBundle(requireArguments()).noOfQuestions
         val quizId = AddQuestionsArgs.fromBundle(requireArguments()).quizId
 

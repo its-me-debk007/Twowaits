@@ -24,11 +24,12 @@ class ChooseYourRole : Fragment(R.layout.choose_your_role) {
         binding = ChooseYourRoleBinding.bind(view)
         val userEmail = ChooseYourRoleArgs.fromBundle(requireArguments()).userEmail
         val userPassword = ChooseYourRoleArgs.fromBundle(requireArguments()).userPassword
+        Data.EMAIL = userEmail
+
         binding.apply {
             student.setOnCheckedChangeListener { _, _ ->
                 val repository = LoginRepository()
                 repository.getAuthTokens(userEmail, userPassword)
-                Data.EMAIL = userEmail
                 ProgressBar.visibility = View.VISIBLE
                 repository.getTokenLiveData.observe(viewLifecycleOwner) { tokensResponse ->
                     lifecycleScope.launch {
