@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import coil.load
@@ -39,6 +40,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var dialog: Dialog
     private lateinit var toggle: ActionBarDrawerToggle
+    private val userEmail = Data.EMAIL
+    private val userType = Data.USER
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,11 +57,11 @@ class HomeActivity : AppCompatActivity() {
         toggle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.open, R.string.close)
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-//        setupActionBarWithNavController(navController, binding.drawerLayout)
-        binding.actionBar.setupWithNavController(navController, binding.drawerLayout)
         isConnectedToInternet()
         getProfile()
         binding.navigationView.setNavigationItemSelectedListener {
+            val intent = Intent(this, NavDrawerActivity::class.java)
+            binding.drawerLayout.closeDrawers()
             when (it.itemId) {
                 R.id.logout -> {
                     MaterialAlertDialogBuilder(this)
@@ -69,41 +72,26 @@ class HomeActivity : AppCompatActivity() {
                             lifecycleScope.launch {
                                 Data.saveData("log_in_status", "false")
                             }
-                            Data.ACCESS_TOKEN = null
-                            val intent = Intent(this, AuthActivity::class.java)
-                            startActivity(intent)
-                            finish()
+                            startActivity(Intent(this, AuthActivity::class.java))
                         }
                         .setNegativeButton("No") { _, _ -> }
                         .show()
                 }
                 R.id.aboutEduCool -> {
-                    val navController =
-                        Navigation.findNavController(this, R.id.fragmentContainerView2)
-                    navController.navigate(R.id.aboutEduCool)
-                    binding.bottomNavigationView.visibility = View.GONE
-                    binding.drawerLayout.closeDrawers()
+                    intent.putExtra("navDrawerFragment", "About us")
+                    startActivity(intent)
                 }
                 R.id.privacyPolicy2 -> {
-                    val navController =
-                        Navigation.findNavController(this, R.id.fragmentContainerView2)
-                    navController.navigate(R.id.privacyPolicy2)
-                    binding.bottomNavigationView.visibility = View.GONE
-                    binding.drawerLayout.closeDrawers()
+                    intent.putExtra("navDrawerFragment", "Privacy Policy")
+                    startActivity(intent)
                 }
                 R.id.changePassword2 -> {
-                    val navController =
-                        Navigation.findNavController(this, R.id.fragmentContainerView2)
-                    navController.navigate(R.id.changePassword2)
-                    binding.bottomNavigationView.visibility = View.GONE
-                    binding.drawerLayout.closeDrawers()
+                    intent.putExtra("navDrawerFragment", "Change Password")
+                    startActivity(intent)
                 }
                 R.id.feedback2 -> {
-                    val navController =
-                        Navigation.findNavController(this, R.id.fragmentContainerView2)
-                    navController.navigate(R.id.feedback2)
-                    binding.bottomNavigationView.visibility = View.GONE
-                    binding.drawerLayout.closeDrawers()
+                    intent.putExtra("navDrawerFragment", "Feedback")
+                    startActivity(intent)
                 }
             }
             true
@@ -166,7 +154,7 @@ class HomeActivity : AppCompatActivity() {
     private fun getProfile() {
         val viewModel = ViewModelProvider(this)[ProfileDetailsViewModel::class.java]
         val navHeader = binding.navigationView.getHeaderView(0)
-        if (Data.USER == "FACULTY") {
+        if (userType == "FACULTY") {
             viewModel.profileDetailsFaculty()
             viewModel.profileFacultyLiveData.observe(this) {
                 navHeader.findViewById<ShapeableImageView>(R.id.shapeableImageView)
@@ -174,8 +162,7 @@ class HomeActivity : AppCompatActivity() {
                         transformations(CircleCropTransformation())
                     }
                 navHeader.findViewById<TextView>(R.id.navHeaderName).text = it.name
-                navHeader.findViewById<TextView>(R.id.navHeaderEmail).text =
-                    Data.USER_EMAIL
+                navHeader.findViewById<TextView>(R.id.navHeaderEmail).text = userEmail
             }
             viewModel.errorFacultyLiveData.observe(this) {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
@@ -188,8 +175,7 @@ class HomeActivity : AppCompatActivity() {
                         transformations(CircleCropTransformation())
                     }
                 navHeader.findViewById<TextView>(R.id.navHeaderName).text = it.name
-                navHeader.findViewById<TextView>(R.id.navHeaderEmail).text =
-                    Data.USER_EMAIL
+                navHeader.findViewById<TextView>(R.id.navHeaderEmail).text = userEmail
             }
             viewModel.errorStudentLiveData.observe(this) {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()

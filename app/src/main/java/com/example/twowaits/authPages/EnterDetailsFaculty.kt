@@ -6,9 +6,7 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -28,22 +26,20 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 @DelicateCoroutinesApi
-class EnterDetailsFaculty : Fragment() {
-    private var _binding: EnterDetailsFacultyBinding? = null
-    private val binding get() = _binding!!
+class EnterDetailsFaculty : Fragment(R.layout.enter_details_faculty) {
+    private lateinit var binding: EnterDetailsFacultyBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = EnterDetailsFacultyBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = EnterDetailsFacultyBinding.bind(view)
         val viewModel = ViewModelProvider(this)[EnterDetailsViewModel::class.java]
         var imgUri: Uri? = null
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val datePicker = DatePickerDialog(requireContext(),
+        val datePicker = DatePickerDialog(
+            requireContext(),
             { _, year, month, dayOfMonth ->
                 binding.enterDate.text = String.format("%d-%d-%d", year, month + 1, dayOfMonth)
             }, year, month, day
@@ -99,23 +95,25 @@ class EnterDetailsFaculty : Fragment() {
                 binding.enterDate.text.toString().trim(),
                 binding.autoCompleteTextView.text.toString().trim()[0].toString(),
                 binding.enterYourName.text.toString().trim(),
-                imgUri!!)
+                imgUri!!
+            )
             viewModel.createFacultyProfileLiveData.observe(viewLifecycleOwner) {
                 if (it == "success") {
                     Data.USER = "FACULTY"
                     lifecycleScope.launch {
-                        Data.saveData("email", Data.USER_EMAIL)
+                        val userEmail = EnterDetailsFacultyArgs.fromBundle(
+                            requireArguments()
+                        ).userEmail
+                        Data.saveData("email", userEmail)
                     }
                     val intent = Intent(activity, HomeActivity::class.java)
                     startActivity(intent)
-                    activity?.finish()
                 } else {
                     Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                     dialog.hide()
                 }
             }
         }
-        return binding.root
     }
 
     override fun onResume() {
@@ -126,8 +124,13 @@ class EnterDetailsFaculty : Fragment() {
             R.layout.enter_details_dropdown_item,
             genderDropdownItems
         )
-        val departmentDropDownItems = listOf("CS", "CS&IT", "IT", "ME", "CE", "EE", "Humanities", "Others")
-        val departmentArrayAdapter = ArrayAdapter(requireContext(), R.layout.enter_details_dropdown_item, departmentDropDownItems)
+        val departmentDropDownItems =
+            listOf("CS", "CS&IT", "IT", "ME", "CE", "EE", "Humanities", "Others")
+        val departmentArrayAdapter = ArrayAdapter(
+            requireContext(),
+            R.layout.enter_details_dropdown_item,
+            departmentDropDownItems
+        )
         binding.autoCompleteTextView.setAdapter(genderArrayAdapter)
         binding.enterYourDepartment.setAdapter(departmentArrayAdapter)
     }
@@ -139,10 +142,5 @@ class EnterDetailsFaculty : Fragment() {
                 findNavController().navigate(R.id.action_enterDetailsFaculty_to_chooseYourRole)
             }
         })
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

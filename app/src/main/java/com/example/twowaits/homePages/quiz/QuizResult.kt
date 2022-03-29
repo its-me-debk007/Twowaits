@@ -30,7 +30,8 @@ class QuizResult : Fragment(R.layout.quiz_result) {
         val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
         drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
-        viewModel.viewScore(AttemptQuizBody(Data.QUIZ_ID))
+        val quizId = QuizResultArgs.fromBundle(requireArguments()).quizId
+        viewModel.viewScore(AttemptQuizBody(quizId))
         viewModel.viewScoreLiveData.observe(viewLifecycleOwner) {
             Data.CURRENT_QUESTION = 0
             binding.attemptedQuestions.text = it.attempted.toString()
@@ -44,7 +45,7 @@ class QuizResult : Fragment(R.layout.quiz_result) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.detailedQuizResult(Data.QUIZ_ID)
+        viewModel.detailedQuizResult(quizId)
         viewModel.detailedQuizScoreData.observe(viewLifecycleOwner) {
             binding.detailedResultRecyclerView.apply {
                 isNestedScrollingEnabled = false
@@ -57,12 +58,7 @@ class QuizResult : Fragment(R.layout.quiz_result) {
         super.onCreate(savedInstanceState)
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.action_quizResult_to_homePage)
-                val bottomNavigationView =
-                    activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-                bottomNavigationView?.visibility = View.VISIBLE
-                val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
-                drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                activity?.finish()
             }
         })
     }

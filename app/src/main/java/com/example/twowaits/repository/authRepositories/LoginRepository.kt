@@ -47,7 +47,6 @@ class LoginRepository {
             val response = RetrofitClient.getInstance().getAuthTokens(email, password)
             if (response.isSuccessful){
                 getTokenData.postValue(response.body())
-//                Log.d("TOKENS", CompanionObjects.readRefreshToken("refreshToken")!!)
             }
             else {
                 error.postValue("Error code is ${response.code()}\n${response.message()}")

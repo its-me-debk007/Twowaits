@@ -3,12 +3,10 @@ package com.example.twowaits.homePages.quiz
 import android.app.Dialog
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -19,28 +17,21 @@ import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.RegisterResp
 import com.example.twowaits.databinding.PleaseWaitDialog2Binding
 import com.example.twowaits.databinding.QuizBinding
 import com.example.twowaits.viewmodels.quizViewModels.QuizViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class Quiz : Fragment() {
-    private var _binding: QuizBinding? = null
-    private val binding get() = _binding!!
+class Quiz : Fragment(R.layout.quiz) {
+    private lateinit var binding: QuizBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = QuizBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = QuizBinding.bind(view)
         val viewModel = ViewModelProvider(this)[QuizViewModel::class.java]
-        val bottomNavigationView =
-            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView?.visibility = View.GONE
-        val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
-        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-
         var chosenOptionId = 0
-        val attemptQuizBody = AttemptQuizBody(Data.QUIZ_ID)
+        val quizId = activity?.intent?.getIntExtra("Quiz ID", -1)
+        val attemptQuizBody = AttemptQuizBody(quizId!!)
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.title = "Quiz"
 
         if (Data.CHOSEN_OPTION[Data.CURRENT_QUESTION] != null) {
             when (Data.CHOSEN_OPTION[Data.CURRENT_QUESTION]) {
@@ -53,7 +44,6 @@ class Quiz : Fragment() {
 
         if (Data.FIRST_TIME) {
             Data.FIRST_TIME = false
-
             val dialog = Dialog(requireContext())
             dialog.setContentView(PleaseWaitDialog2Binding.inflate(layoutInflater).root)
             dialog.setCancelable(false)
@@ -129,7 +119,9 @@ class Quiz : Fragment() {
                         dialog.hide()
                         Data.FIRST_TIME = true
                         Data.time = 0
-                        findNavController().navigate(R.id.action_quiz_to_quizResult)
+                        val action = QuizDirections.actionQuizToQuizResult(quizId)
+                        findNavController().navigate(action)
+
                     } else {
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                         dialog.hide()
@@ -223,7 +215,8 @@ class Quiz : Fragment() {
                     binding.NextBtn.isEnabled = true
                     binding.PreviousBtn.isEnabled = true
                     Data.time = 0
-                    findNavController().navigate(R.id.action_quiz_to_quizResult)
+                    val action = QuizDirections.actionQuizToQuizResult(quizId)
+                    findNavController().navigate(action)
                 }
                 viewModel.errorRegisterResponseLiveData.observe(viewLifecycleOwner) {
                     Toast.makeText(
@@ -237,7 +230,8 @@ class Quiz : Fragment() {
                     binding.NextBtn.isEnabled = true
                     binding.PreviousBtn.isEnabled = true
                     Data.time = 0
-                    findNavController().navigate(R.id.action_quiz_to_quizResult)
+                    val action = QuizDirections.actionQuizToQuizResult(quizId)
+                    findNavController().navigate(action)
                 }
             } else {
                 Data.FIRST_TIME = true
@@ -246,7 +240,8 @@ class Quiz : Fragment() {
                 binding.NextBtn.isEnabled = true
                 binding.PreviousBtn.isEnabled = true
                 Data.time = 0
-                findNavController().navigate(R.id.action_quiz_to_quizResult)
+                val action = QuizDirections.actionQuizToQuizResult(quizId)
+                findNavController().navigate(action)
             }
         }
 
@@ -295,7 +290,8 @@ class Quiz : Fragment() {
                         binding.PreviousBtn.isEnabled = true
                         Data.timerCountDownTimer.cancel()
                         Data.time = 0
-                        findNavController().navigate(R.id.action_quiz_to_quizResult)
+                        val action = QuizDirections.actionQuizToQuizResult(quizId)
+                        findNavController().navigate(action)
                     }
                     viewModel.errorRegisterResponseLiveData.observe(viewLifecycleOwner) {
                         Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
@@ -310,7 +306,8 @@ class Quiz : Fragment() {
                     binding.PreviousBtn.isEnabled = true
                     Data.timerCountDownTimer.cancel()
                     Data.time = 0
-                    findNavController().navigate(R.id.action_quiz_to_quizResult)
+                    val action = QuizDirections.actionQuizToQuizResult(quizId)
+                    findNavController().navigate(action)
                 }
             }
         }
@@ -351,13 +348,10 @@ class Quiz : Fragment() {
                 }
             }
         }
-
         binding.Clear.setOnClickListener {
             binding.radioGroup.clearCheck()
             Data.CHOSEN_OPTION.remove(Data.CURRENT_QUESTION)
         }
-
-        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -367,15 +361,9 @@ class Quiz : Fragment() {
                 Toast.makeText(
                     context,
                     "You cannot exit the quiz without submitting! Use next and previous buttons to navigate between questions",
-                    Toast.LENGTH_LONG
+                    Toast.LENGTH_SHORT
                 ).show()
             }
         })
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
 }

@@ -16,26 +16,18 @@ import java.io.File
 
 class Data : Application() {
     companion object {
-        lateinit var EMAIL: String
-        lateinit var PASSWORD: String
-        lateinit var PREVIOUS_PAGE: String
         lateinit var REFRESH_TOKEN: String
         var ACCESS_TOKEN: String? = null
-        var QUIZ_ID = 0
-        var QUESTIONS_LEFT = -1
+        lateinit var EMAIL: String
+        lateinit var USER: String
         var CURRENT_QUESTION = 0
         var FIRST_TIME = true
         lateinit var QUIZ_DATA: GetQuizDataResponse
         var QUIZ_RESULT_ID = 0
         var CHOSEN_OPTION: MutableMap<Int, Int> = mutableMapOf()
         lateinit var TITLE_OF_QUIZ: String
-        lateinit var USER: String
         var isSearchBarOpen = false
-        lateinit var USER_EMAIL: String
-        lateinit var PREV_PAGE_FOR_PLAYER: String
         lateinit var PDF_URI: Uri
-        lateinit var NOTE_NAME: String
-        lateinit var LECTURE_NAME: String
         lateinit var VIDEO_URI: Uri
         lateinit var DOWNLOADED_NOTE: File
         lateinit var DOWNLOADED_LECTURE: File
@@ -104,7 +96,6 @@ class Data : Application() {
         fun startTimer(time_limit: Int) {
             timerCountDownTimer = object : CountDownTimer((time_limit * 60 * 1000).toLong(), 1000) {
                 override fun onTick(millisUntilFinished: Long) {
-                    val timeLeft = millisUntilFinished / 1000
                     time++
                     timeLeftData.postValue(time)
                 }
@@ -121,7 +112,7 @@ class Data : Application() {
     }
 
     fun getNewAccessToken(): String {
-        var result = ""
+        val result: String
         val response = RetrofitClient.getInstance().getNewAccessToken(REFRESH_TOKEN).execute()
         if (response.isSuccessful) {
             ACCESS_TOKEN = response.body()?.access

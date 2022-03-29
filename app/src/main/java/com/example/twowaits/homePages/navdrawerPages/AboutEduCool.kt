@@ -11,31 +11,11 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.AboutEducoolBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class AboutEduCool : Fragment() {
-    private var _binding: AboutEducoolBinding? = null
-    private val binding get() = _binding!!
+class AboutEduCool : Fragment(R.layout.about_educool) {
+    private lateinit var binding: AboutEducoolBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = AboutEducoolBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.action_aboutEduCool_to_homePage)
-                val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-                bottomNavigationView?.visibility = View.VISIBLE
-            }
-        })
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = AboutEducoolBinding.bind(view)
     }
 }

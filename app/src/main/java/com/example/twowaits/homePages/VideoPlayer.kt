@@ -14,49 +14,32 @@ import android.os.Environment
 import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.example.twowaits.Data
 import com.example.twowaits.R
 import com.example.twowaits.databinding.VideoPlayerBinding
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class VideoPlayer : Fragment() {
+class VideoPlayer : Fragment(R.layout.video_player) {
     private lateinit var binding: VideoPlayerBinding
+    private val previousPage = activity?.intent?.getStringExtra("PREVIOUS PAGE")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = VideoPlayerBinding.bind(view)
         var downloadId: Long = -1
-        val actionBar = (activity as AppCompatActivity).supportActionBar
-        actionBar?.hide()
-        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        activity?.window?.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
-        val bottomNavigationView =
-            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView?.visibility = View.GONE
-        val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
-        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        val lectureName = activity?.intent?.getStringExtra("LECTURE NAME")
 
-        if (Data.PREV_PAGE_FOR_PLAYER == "DOWNLOADS")
+        if (previousPage == "DOWNLOADS")
             binding.downloadBtn.hide()
-
         val uri =
-            if (Data.PREV_PAGE_FOR_PLAYER == "DOWNLOADS") Data.DOWNLOADED_LECTURE.path.toUri() else Data.VIDEO_URI
+            if (previousPage == "DOWNLOADS") Data.DOWNLOADED_LECTURE.path.toUri() else Data.VIDEO_URI
         val exoPlayer = ExoPlayer.Builder(requireContext()).build()
         binding.videoPlayer.player = exoPlayer
         val mediaItem = MediaItem.fromUri(uri)
@@ -73,12 +56,12 @@ class VideoPlayer : Fragment() {
             }
             val request = DownloadManager.Request(Data.VIDEO_URI)
             request.apply {
-                setTitle(Data.LECTURE_NAME)
+                setTitle(lectureName)
                 setDescription("Downloading...")
                 setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                 setDestinationInExternalPublicDir(
                     Environment.DIRECTORY_DOWNLOADS,
-                    "Educool Downloads/Lectures/${Data.LECTURE_NAME}.mp4"
+                    "Educool Downloads/Lectures/${lectureName}.mp4"
                 )
                 setAllowedOverRoaming(true)
                 setAllowedOverMetered(true)
@@ -100,27 +83,6 @@ class VideoPlayer : Fragment() {
             broadcastReceiver,
             IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
         )
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                when (Data.PREV_PAGE_FOR_PLAYER) {
-                    "DOWNLOADS" -> findNavController().navigate(R.id.action_videoPlayer2_to_downloads)
-                    "PROFILE" -> findNavController().navigate(R.id.action_videoPlayer2_to_profile)
-                    "HOME" -> findNavController().navigate(R.id.action_videoPlayer2_to_homePage)
-                }
-                activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                val bottomNavigationView =
-                    activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-                bottomNavigationView?.visibility = View.VISIBLE
-                val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
-                drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                val actionBar = (activity as AppCompatActivity).supportActionBar
-                actionBar?.show()
-            }
-        })
     }
 
     private fun checkPermission(): Boolean {

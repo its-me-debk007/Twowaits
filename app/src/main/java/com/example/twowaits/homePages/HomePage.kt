@@ -1,6 +1,5 @@
 package com.example.twowaits.homePages
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
@@ -22,6 +21,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.example.twowaits.Data
+import com.example.twowaits.NoteLectureActivity
+import com.example.twowaits.QuizActivity
 import com.example.twowaits.R
 import com.example.twowaits.apiCalls.dashboardApiCalls.AddToWishlistBody
 import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
@@ -343,15 +344,20 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
     }
 
     override fun onQuizClicked(quiz_id: Int) {
-        findNavController().navigate(R.id.action_homePage_to_quiz)
-        Data.QUIZ_ID = quiz_id
+        val intent = Intent(context, QuizActivity::class.java)
+        intent.putExtra("Quiz ID", quiz_id)
+        startActivity(intent)
     }
 
     override fun onNotesClicked(pdfUri: Uri, noteName: String) {
-        Data.NOTE_NAME = noteName
         Data.PDF_URI = pdfUri
-        Data.PREVIOUS_PAGE = "HOME"
-        findNavController().navigate(R.id.action_homePage_to_PDFViewer)
+        val intent = Intent(context, NoteLectureActivity::class.java)
+        intent.apply {
+            putExtra("PREVIOUS PAGE", "HOME")
+            putExtra("PAGE TYPE", "NOTE")
+            putExtra("NOTE NAME", noteName)
+        }
+        startActivity(intent)
     }
 
     override fun onBookmarkNotesClicked(noteId: Int) {
@@ -369,9 +375,13 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
 
     override fun onLectureClicked(videoUri: Uri, lectureName: String) {
         Data.VIDEO_URI = videoUri
-        Data.PREV_PAGE_FOR_PLAYER = "HOME"
-        Data.LECTURE_NAME = lectureName
-        findNavController().navigate(R.id.action_homePage_to_videoPlayer2)
+        val intent = Intent(context, NoteLectureActivity::class.java)
+        intent.apply {
+            intent.putExtra("PREVIOUS PAGE", "HOME")
+            intent.putExtra("PAGE TYPE", "LECTURE")
+            intent.putExtra("LECTURE NAME", lectureName)
+        }
+        startActivity(intent)
     }
 
     override fun onWishlistBtnClicked(lectureId: Int) {

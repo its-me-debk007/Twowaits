@@ -16,15 +16,11 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
 class VerifyEmail : Fragment() {
-    private var _binding: VerifyEmailBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: VerifyEmailBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = VerifyEmailBinding.inflate(inflater, container, false)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = VerifyEmailBinding.bind(view)
         binding.verifyButton.setOnClickListener {
             val repository = SendOtpRepository()
             val userEmail = binding.emailForVerifying.text.toString().trim()
@@ -37,12 +33,12 @@ class VerifyEmail : Fragment() {
             binding.ProgressBar.visibility = View.VISIBLE
             repository.errorMutableLiveData.observe(viewLifecycleOwner) {
                 if (it == "success") {
-                    Data.EMAIL = userEmail
-                    Data.PREVIOUS_PAGE = "VerifyEmail"
                     binding.verifyButton.isEnabled = true
                     binding.ProgressBar.visibility = View.INVISIBLE
                     binding.emailForVerifying.text?.clear()
-                    findNavController().navigate(R.id.action_verifyEmail_to_otpVerification)
+                    val action = VerifyEmailDirections.actionVerifyEmailToOtpVerification(userEmail,
+                        "", "VerifyEmail")
+                    findNavController().navigate(action)
                 } else {
                     Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
                     binding.verifyButton.isEnabled = true
@@ -50,7 +46,6 @@ class VerifyEmail : Fragment() {
                 }
             }
         }
-        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,9 +55,5 @@ class VerifyEmail : Fragment() {
                 findNavController().navigate(R.id.action_verifyEmail_to_login)
             }
         })
-    }
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

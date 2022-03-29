@@ -27,10 +27,7 @@
             android:layout_height="50dp"
             android:backgroundTint="#B39283"
             android:elevation="8dp"
-            app:titleTextColor="@color/white"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:navigationIcon="@drawable/hamburger_menu_icon"
-            app:title="@string/app_name" />
+            app:navigationIcon="@drawable/hamburger_menu_icon" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -40,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,17 +48,18 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="52dp"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/nav_bar_border"
         app:itemIconTint="@color/navbar_icon_color"
-        app:itemTextColor="@color/navbar_icon_color"
         app:itemRippleColor="#B49385"
+        app:itemTextColor="@color/navbar_icon_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_menu"/>
+        app:menu="@menu/bottom_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
