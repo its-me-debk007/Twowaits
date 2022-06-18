@@ -1,20 +1,21 @@
 package com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.chatRecyclerAdapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.CircleCropTransformation
+import com.bumptech.glide.Glide
 import com.example.twowaits.R
-import com.example.twowaits.apiCalls.dashboardApiCalls.chatApiCalls.FetchConversationsMessagesResponse
+import com.example.twowaits.network.dashboardApiCalls.chatApiCalls.FetchConversationsMessagesResponse
 import com.google.android.material.imageview.ShapeableImageView
 
 class ChatProfilesRecyclerAdapter(
     private val chatProfiles: List<FetchConversationsMessagesResponse>,
     private val myContactId: Int,
-    private val listener: ChatProfileClicked
+    private val listener: ChatProfileClicked,
+    private val context: Context
 ) :
     RecyclerView.Adapter<ChatProfilesRecyclerAdapter.ChatProfilesViewHolder>() {
     inner class ChatProfilesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -38,9 +39,8 @@ class ChatProfilesRecyclerAdapter(
         holder.apply {
             val opponentPosition =
                 if (chatProfiles[position].participants[0].contact_id == myContactId) 1 else 0
-            profilePic.load(chatProfiles[position].participants[opponentPosition].contact_dp) {
-                transformations(CircleCropTransformation())
-            }
+            Glide.with(context).load(chatProfiles[position].participants[opponentPosition].contact_dp)
+                .into(profilePic)
             name.text = chatProfiles[position].participants[opponentPosition].contact_name
         }
     }

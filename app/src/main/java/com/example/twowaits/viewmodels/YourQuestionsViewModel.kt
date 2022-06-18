@@ -2,8 +2,8 @@ package com.example.twowaits.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.twowaits.apiCalls.dashboardApiCalls.QnAResponseItem
-import com.example.twowaits.repository.dashboardRepositories.questionsAnswersRepositories.QnARepository
+import com.example.twowaits.network.dashboardApiCalls.QnAResponseItem
+import com.example.twowaits.repositories.homeRepositories.questionsAnswersRepositories.QnARepository
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

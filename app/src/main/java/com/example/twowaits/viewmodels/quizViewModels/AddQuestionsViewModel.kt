@@ -2,11 +2,11 @@ package com.example.twowaits.viewmodels.quizViewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.AddCorrectOptionResponse
-import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.AddQuestionsResponse
+import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.AddCorrectOptionResponse
+import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.AddQuestionsResponse
 import com.example.twowaits.homePages.quiz.AddCorrectOptionBody
 import com.example.twowaits.homePages.quiz.CreateQuestionBody
-import com.example.twowaits.repository.dashboardRepositories.quizRepositories.AddQuizRepository
+import com.example.twowaits.repositories.homeRepositories.quizRepositories.AddQuizRepository
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

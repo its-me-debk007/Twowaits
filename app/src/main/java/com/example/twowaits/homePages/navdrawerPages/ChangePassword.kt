@@ -1,30 +1,22 @@
 package com.example.twowaits.homePages.navdrawerPages
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
 import com.example.twowaits.databinding.ChangePasswordBinding
 import com.example.twowaits.viewmodels.HomePageViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class ChangePassword : Fragment() {
-    private var _binding: ChangePasswordBinding? = null
-    private val binding get() = _binding!!
+class ChangePassword : Fragment(R.layout.change_password) {
+    private lateinit var binding: ChangePasswordBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = ChangePasswordBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = ChangePasswordBinding.bind(view)
         val viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
 
         binding.btn.setOnClickListener {
@@ -103,40 +95,15 @@ class ChangePassword : Fragment() {
             )
             binding.btn.isEnabled = false
             binding.ProgressBar.visibility = View.VISIBLE
-            viewModel.changePasswordLiveData.observe(viewLifecycleOwner, {
-                binding.btn.isEnabled = true
-                binding.ProgressBar.visibility = View.INVISIBLE
-                binding.oldPassword.text?.clear()
-                binding.enterPassword.text?.clear()
-                binding.confirmPassword.text?.clear()
+            viewModel.changePasswordLiveData.observe(viewLifecycleOwner) {
                 Toast.makeText(context, "New password set successfully", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_changePassword2_to_homePage)
-                val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-                bottomNavigationView?.visibility = View.VISIBLE
-            })
-            viewModel.errorChangePasswordData.observe(viewLifecycleOwner, {
+                activity?.finish()
+            }
+            viewModel.errorChangePasswordData.observe(viewLifecycleOwner) {
                 binding.btn.isEnabled = true
                 binding.ProgressBar.visibility = View.INVISIBLE
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            })
-        }
-
-        return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.action_changePassword2_to_homePage)
-                val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-                bottomNavigationView?.visibility = View.VISIBLE
             }
-        })
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+        }
     }
 }

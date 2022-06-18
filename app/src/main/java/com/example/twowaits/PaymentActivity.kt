@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.twowaits.databinding.ActivityPaymentBinding
+import com.example.twowaits.ui.activities.home.HomeActivity
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -19,22 +20,22 @@ class PaymentActivity : AppCompatActivity(), PaymentResultListener {
         super.onCreate(savedInstanceState)
         binding = ActivityPaymentBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        savePayment(199)
+        val price = intent.getStringExtra("price")!!.toInt()
+        savePayment(price)
     }
 
     private fun savePayment(amount: Int) {
         val checkout = Checkout()
         checkout.setKeyID("rzp_test_kvmNkn1kunrcHf")
         val name = intent.getStringExtra("name")
+        Log.e("eeeeName", name.toString())
         try {
             val options = JSONObject()
             options.apply {
                 put("name", name)
                 put("description", "Just complete a few steps")
-                put(
-                    "image",
-                    "https://firebasestorage.googleapis.com/v0/b/si-project-1640520939795.appspot.com/o/Group.jpg?alt=media&token=0bcc5e04-fe38-42d5-8879-897c2ab7e99e"
+                put("image",
+                "https://firebasestorage.googleapis.com/v0/b/si-project-1640520939795.appspot.com/o/Group.jpg?alt=media&token=0bcc5e04-fe38-42d5-8879-897c2ab7e99e"
                 )
                 put("theme.color", "#804D37")
                 put("currency", "INR")

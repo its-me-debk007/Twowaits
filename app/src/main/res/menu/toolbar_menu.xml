@@ -2,14 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="Search"
+    <item
         android:id="@+id/SearchIcon"
         android:icon="@drawable/search_icon"
-        app:showAsAction="always"/>
-<!--        app:actionViewClass="androidx.appcompat.widget.SearchView"-->
-<!--        app:showAsAction="ifRoom|collapseActionView"/>-->
-    <item android:title="Chat"
+        android:title="Search"
+        android:visible="false"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/chatList"
         android:icon="@drawable/chat_icon"
-        app:showAsAction="always"/>
+        android:title="Chat"
+        app:showAsAction="always" />
 </menu>

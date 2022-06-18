@@ -19,15 +19,12 @@ import com.example.twowaits.viewmodels.HomePageViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class UploadLecture: Fragment() {
-    private var _binding: UploadLectureBinding? = null
-    private val binding get() = _binding!!
+class UploadLecture: Fragment(R.layout.upload_lecture) {
+    private lateinit var binding: UploadLectureBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = UploadLectureBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = UploadLectureBinding.bind(view)
         val viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
         var videoUri: Uri? = null
         val chooseLecture = registerForActivityResult(
@@ -74,9 +71,7 @@ class UploadLecture: Fragment() {
             viewModel.uploadLectureData.observe(viewLifecycleOwner) { message ->
                 if (message == "success") {
                     Toast.makeText(context, "Successfully uploaded", Toast.LENGTH_SHORT).show()
-                    binding.upload.isEnabled = true
-                    dialog.hide()
-                    findNavController().navigate(R.id.action_uploadLecture_to_explore)
+                    activity?.finish()
                 } else {
                     Toast.makeText(
                         context,
@@ -88,12 +83,5 @@ class UploadLecture: Fragment() {
                 }
             }
         }
-
-        return binding.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

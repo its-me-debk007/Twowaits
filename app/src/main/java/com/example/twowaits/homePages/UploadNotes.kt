@@ -19,15 +19,12 @@ import com.example.twowaits.viewmodels.HomePageViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class UploadNotes : Fragment() {
-    private var _binding: UploadNotesBinding? = null
-    private val binding get() = _binding!!
+class UploadNotes : Fragment(R.layout.upload_notes) {
+    private lateinit var binding: UploadNotesBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = UploadNotesBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = UploadNotesBinding.bind(view)
         val viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
         var pdfUri: Uri? = null
         val choosePDF = registerForActivityResult(
@@ -69,13 +66,12 @@ class UploadNotes : Fragment() {
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
 
             viewModel.uploadNote(pdfUri!!,
-                UploadNotePartialBody(binding.description.text.toString().trim(), binding.title.text.toString().trim()))
+                UploadNotePartialBody(binding.description.text.toString().trim(),
+                    binding.title.text.toString().trim()))
             viewModel.uploadPDF.observe(viewLifecycleOwner) { message ->
                 if (message == "success") {
                     Toast.makeText(context, "Successfully uploaded", Toast.LENGTH_SHORT).show()
-                    binding.upload.isEnabled = true
-                    dialog.hide()
-                    findNavController().navigate(R.id.action_uploadNotes2_to_explore)
+                    activity?.finish()
                 } else {
                     Toast.makeText(
                         context,
@@ -87,12 +83,5 @@ class UploadNotes : Fragment() {
                 }
             }
         }
-
-        return binding.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

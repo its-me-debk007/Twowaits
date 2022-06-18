@@ -1,17 +1,15 @@
 package com.example.twowaits.homePages
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.twowaits.Data
+import com.example.twowaits.utils.Utils
+import com.example.twowaits.NoteLectureActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.BookmarkedNotesBinding
 import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.NotesClicked
@@ -20,19 +18,18 @@ import com.example.twowaits.viewmodels.questionsAnswersViewModel.QuestionsAnswer
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class BookmarkedNotes: Fragment(), NotesClicked {
-    private var _binding: BookmarkedNotesBinding? = null
-    private val binding get() = _binding!!
+class BookmarkedNotes : Fragment(R.layout.bookmarked_notes), NotesClicked {
+    private lateinit var binding: BookmarkedNotesBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = BookmarkedNotesBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = BookmarkedNotesBinding.bind(view)
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         viewModel.getBookmarkedNotes()
         viewModel.bookmarkedNotesData.observe(viewLifecycleOwner) {
-            binding.BookmarkedNotesRecyclerView.adapter = RecentNotesRecyclerAdapter("BookmarkedNotes", it, this)
+            if (it.isEmpty()) noItems()
+            binding.BookmarkedNotesRecyclerView.adapter =
+                RecentNotesRecyclerAdapter("BOOKMARK", it.toMutableList(), this)
             binding.BookmarkedNotesRecyclerView.layoutManager =
                 object : LinearLayoutManager(context) {
                     override fun canScrollVertically(): Boolean = false
@@ -41,20 +38,17 @@ class BookmarkedNotes: Fragment(), NotesClicked {
         viewModel.errorBookmarkedNotesData.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
-
-        return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
-    override fun onNotesClicked(pdfUri: Uri, noteName: String) {
-        Data.NOTE_NAME = noteName
-        Data.PDF_URI = pdfUri
-        Data.PREVIOUS_PAGE = "BOOKMARK"
-        findNavController().navigate(R.id.action_homePage_to_PDFViewer)
+    override fun onNotesClicked(pdfUri: String, noteName: String) {
+        Utils.PDF_URI = pdfUri
+        val intent = Intent(context, NoteLectureActivity::class.java)
+        intent.apply {
+            intent.putExtra("PREVIOUS PAGE", "BOOKMARK")
+            intent.putExtra("PAGE TYPE", "NOTE")
+            intent.putExtra("NOTE NAME", noteName)
+        }
+        startActivity(intent)
     }
 
     override fun onBookmarkNotesClicked(noteId: Int) {
@@ -68,10 +62,11 @@ class BookmarkedNotes: Fragment(), NotesClicked {
                     Toast.LENGTH_SHORT
                 ).show()
         }
-        viewModel.getBookmarkedNotes()
-        viewModel.bookmarkedNotesData.observe(viewLifecycleOwner) {
-            binding.BookmarkedNotesRecyclerView.adapter = RecentNotesRecyclerAdapter("BookmarkedNotes", it, this)
-            Log.e("aaaa", "updated")
-        }
+    }
+
+    override fun noItems() {
+        binding.BookmarkedNotesRecyclerView.visibility = View.GONE
+        binding.emptyAnimation.visibility = View.VISIBLE
+        binding.text.visibility = View.VISIBLE
     }
 }

@@ -7,7 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twowaits.R
-import com.example.twowaits.apiCalls.dashboardApiCalls.RecentQuizzesResponse
+import com.example.twowaits.network.dashboardApiCalls.RecentQuizzesResponse
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
 
 class QuizzesRecyclerAdapter(
     private val size: Int,
@@ -22,9 +24,12 @@ class QuizzesRecyclerAdapter(
         val quizCreator: TextView = itemView.findViewById(R.id.QuizCreator)
         val quizImg: ImageView = itemView.findViewById(R.id.QuizImg)
         val noOfQuestions: TextView = itemView.findViewById(R.id.NoOfQuestions)
+        val seeAll: MaterialButton = itemView.findViewById(R.id.seeAll)
+        val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
+
         init {
             itemView.setOnClickListener {
-                listener.onQuizClicked(quizzes[adapterPosition].quiz_id)
+                listener.onQuizClicked(quizzes[absoluteAdapterPosition].quiz_id)
             }
         }
     }
@@ -37,21 +42,28 @@ class QuizzesRecyclerAdapter(
 
     override fun onBindViewHolder(holder: QuizzesViewHolder, position: Int) {
         holder.apply {
-            quizTopic.text = quizzes[position].title
-            noOfQuestions.text = quizzes[position].no_of_question.toString()
-            if (quizzes[position].author_id.faculty != null) {
-                val nameOfTeacher = when (quizzes[position].author_id.faculty?.gender) {
-                    "M" -> "${quizzes[position].author_id.faculty?.name} Sir"
-                    "F" -> "${quizzes[position].author_id.faculty?.name} Ma'am"
-                    else -> "${quizzes[position].author_id.faculty?.name} Faculty"
-                }
-                quizCreator.text = "Quiz by $nameOfTeacher"
-            } else quizCreator.text = "Anonymous"
+            if (absoluteAdapterPosition == quizzes.size) {
+                seeAll.visibility = View.VISIBLE
+                cardView.visibility = View.INVISIBLE
+            } else {
+                quizTopic.isSelected = true
+                quizCreator.isSelected = true
+                quizTopic.text = quizzes[position].title
+                noOfQuestions.text = quizzes[position].no_of_question.toString()
+                if (quizzes[position].author_id.faculty != null) {
+                    val nameOfTeacher = when (quizzes[position].author_id.faculty?.gender) {
+                        "M" -> "${quizzes[position].author_id.faculty?.name} Sir"
+                        "F" -> "${quizzes[position].author_id.faculty?.name} Ma'am"
+                        else -> "${quizzes[position].author_id.faculty?.name} Faculty"
+                    }
+                    quizCreator.text = "Quiz by $nameOfTeacher"
+                } else quizCreator.text = "Anonymous"
+            }
         }
     }
 
     override fun getItemCount(): Int {
-            return size
+        return size + 1
     }
 }
 

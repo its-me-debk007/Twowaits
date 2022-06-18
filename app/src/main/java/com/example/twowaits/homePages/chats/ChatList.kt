@@ -32,7 +32,8 @@ class ChatList: Fragment(), ChatProfileClicked {
 
         viewModel.fetchConversationsMessages()
         viewModel.fetchLiveData.observe(viewLifecycleOwner) {
-            binding.chatProfilesRecyclerView.adapter = ChatProfilesRecyclerAdapter(it, 1, this)
+            binding.chatProfilesRecyclerView.adapter = ChatProfilesRecyclerAdapter(it,
+                1, this, requireContext())
             binding.chatProfilesRecyclerView.layoutManager = object : LinearLayoutManager(context) {
                 override fun canScrollVertically(): Boolean = false
             }

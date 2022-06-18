@@ -2,10 +2,9 @@ package com.example.twowaits.viewmodels.quizViewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.CreateQuizResponse
+import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.CreateQuizResponse
 import com.example.twowaits.homePages.quiz.CreateQuizBody
-import com.example.twowaits.repository.dashboardRepositories.quizRepositories.CreateQuizRepository
-import kotlinx.coroutines.DelicateCoroutinesApi
+import com.example.twowaits.repositories.homeRepositories.quizRepositories.CreateQuizRepository
 
 class CreateQuizViewModel: ViewModel() {
     lateinit var createQuizLiveData: LiveData<CreateQuizResponse>
