@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.airbnb.lottie.LottieAnimationView
 import com.example.twowaits.R
-import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
+import com.example.twowaits.network.dashboardApiCalls.Answer
 import com.example.twowaits.databinding.CreateAnswerBinding
 import com.example.twowaits.databinding.CreateCommentBinding
 import com.example.twowaits.databinding.YourQuestionsBinding
@@ -24,6 +24,7 @@ import com.example.twowaits.homePages.questionsAnswers.CreateCommentBody
 import com.example.twowaits.homePages.questionsAnswers.LikeAnswerBody
 import com.example.twowaits.recyclerAdapters.ItemClicked
 import com.example.twowaits.recyclerAdapters.QuestionsAnswersRecyclerAdapter
+import com.example.twowaits.sealedClasses.Response
 import com.example.twowaits.viewmodels.HomePageViewModel
 import com.example.twowaits.viewmodels.YourQuestionsViewModel
 import com.example.twowaits.viewmodels.questionsAnswersViewModel.QuestionsAnswersViewModel
@@ -49,7 +50,7 @@ class YourQuestions : Fragment(), ItemClicked {
         viewModel.q_n_aLiveData.observe(viewLifecycleOwner) {
             if (it.isEmpty()) noItems()
             adapter = QuestionsAnswersRecyclerAdapter(
-                "YOUR_Q", it.toMutableList(), this)
+                "YOUR_Q", it.toMutableList(), this, requireContext())
             binding.YourQnARecyclerView.adapter = adapter
         }
         viewModel.errorLiveData.observe(viewLifecycleOwner) {
@@ -182,14 +183,15 @@ class YourQuestions : Fragment(), ItemClicked {
     private fun updateRecyclerView(position: Int) {
         val homePageViewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
         homePageViewModel.getQnA()
-        homePageViewModel.getQnALiveData.observe(viewLifecycleOwner) { qAndA ->
-            adapter = QuestionsAnswersRecyclerAdapter("YOUR_Q",
-                qAndA.toMutableList(), this)
-            binding.YourQnARecyclerView.adapter = adapter
-            adapter.notifyItemInserted(position)
-        }
-        homePageViewModel.errorGetQnALiveData.observe(viewLifecycleOwner) { errorMsg ->
-            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
+        homePageViewModel.getQnALiveData.observe(viewLifecycleOwner) {
+            if (it is Response.Success) {
+                adapter = QuestionsAnswersRecyclerAdapter(
+                    "YOUR_Q",
+                    it.data!!.toMutableList(), this, requireContext()
+                )
+                binding.YourQnARecyclerView.adapter = adapter
+                adapter.notifyItemInserted(position)
+            }
         }
     }
 

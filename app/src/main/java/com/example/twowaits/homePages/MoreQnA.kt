@@ -2,25 +2,22 @@ package com.example.twowaits.homePages
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.example.twowaits.R
-import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
+import com.example.twowaits.network.dashboardApiCalls.Answer
 import com.example.twowaits.databinding.CreateAnswerBinding
 import com.example.twowaits.databinding.CreateCommentBinding
 import com.example.twowaits.databinding.MoreQNABinding
@@ -29,58 +26,47 @@ import com.example.twowaits.homePages.questionsAnswers.CreateCommentBody
 import com.example.twowaits.homePages.questionsAnswers.LikeAnswerBody
 import com.example.twowaits.recyclerAdapters.ItemClicked
 import com.example.twowaits.recyclerAdapters.QuestionsAnswersRecyclerAdapter
+import com.example.twowaits.sealedClasses.Response
 import com.example.twowaits.viewmodels.HomePageViewModel
 import com.example.twowaits.viewmodels.questionsAnswersViewModel.QuestionsAnswersViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class MoreQnA: Fragment(R.layout.more_q_n_a), ItemClicked {
+class MoreQnA : Fragment(R.layout.more_q_n_a), ItemClicked {
     private lateinit var binding: MoreQNABinding
-    private var isClicked = false
+    private var isCommentIconClicked = false
     private lateinit var adapter: QuestionsAnswersRecyclerAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = MoreQNABinding.bind(view)
+        binding.swipeToRefresh.setColorSchemeColors(Color.parseColor("#804D37"))
         val viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
-        val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView?.visibility = View.GONE
-        val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
-        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-
         viewModel.getQnA()
         viewModel.getQnALiveData.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) noItems()
-            adapter = QuestionsAnswersRecyclerAdapter("MORE_QnA", it.toMutableList(), this)
-            binding.moreQnA.adapter = adapter
-            binding.moreQnA.layoutManager = object : LinearLayoutManager(context) {
-                override fun canScrollVertically(): Boolean = false
+            if (it is Response.Success) {
+                if (it.data!!.isEmpty()) noItems()
+                adapter = QuestionsAnswersRecyclerAdapter(
+                    "MORE_QnA", it.data.toMutableList(),
+                    this, requireContext()
+                )
+                binding.moreQnA.adapter = adapter
+                binding.moreQnA.layoutManager = object : LinearLayoutManager(context) {
+                    override fun canScrollVertically(): Boolean = false
+                }
             }
-        }
-        viewModel.errorGetQnALiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            else Log.e("dddd", it.errorMessage!!)
         }
 
         binding.swipeToRefresh.setOnRefreshListener {
             Handler(Looper.getMainLooper()).postDelayed({
-                findNavController().navigate(R.id.action_moreQnA2_self)
+                activity?.supportFragmentManager?.beginTransaction()?.
+                detach(this)?.attach(this)?.commit()
             }, 440)
+            binding.swipeToRefresh.isRefreshing = false
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-                bottomNavigationView?.visibility = View.VISIBLE
-                val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.drawerLayout)
-                drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-            }
-        })
     }
 
     override fun onQuestionClicked(question: String) {
@@ -96,8 +82,8 @@ class MoreQnA: Fragment(R.layout.more_q_n_a), ItemClicked {
     }
 
     override fun commentBtnClicked(): Boolean {
-        isClicked = !isClicked
-        return isClicked
+        isCommentIconClicked = !isCommentIconClicked
+        return isCommentIconClicked
     }
 
     override fun bookmarkBtnClicked(question_id: Int) {
@@ -109,8 +95,8 @@ class MoreQnA: Fragment(R.layout.more_q_n_a), ItemClicked {
         shareIntent.type = "text/plain"
         var answerFormat = ""
         for (i in answersList.indices) {
-            answerFormat += "A${i+1}) ${answersList[i].answer_id}"
-            if (i != answersList.size-1) answerFormat += "\n\n"
+            answerFormat += "A${i + 1}) ${answersList[i].answer_id}"
+            if (i != answersList.size - 1) answerFormat += "\n\n"
         }
         val format = "Q) $question\n\n$answerFormat"
         shareIntent.putExtra(Intent.EXTRA_TEXT, format)
@@ -127,14 +113,19 @@ class MoreQnA: Fragment(R.layout.more_q_n_a), ItemClicked {
             dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
         dialog.findViewById<TextView>(R.id.particularQuestion).text = question
         dialog.findViewById<Button>(R.id.answerButton).setOnClickListener {
-            if (dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim().isEmpty()){
-                dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText = "Please enter your answer first"
+            if (dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim()
+                    .isEmpty()
+            ) {
+                dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText =
+                    "Please enter your answer first"
                 return@setOnClickListener
             }
             dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText = ""
             viewModel.createAnswer(
-                CreateAnswerBody(dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim(),
-                question_id)
+                CreateAnswerBody(
+                    dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim(),
+                    question_id
+                )
             )
             dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.VISIBLE
             viewModel.createAnswerData.observe(viewLifecycleOwner) {
@@ -161,13 +152,19 @@ class MoreQnA: Fragment(R.layout.more_q_n_a), ItemClicked {
             dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
         dialog.findViewById<TextView>(R.id.particularQuestion).text = answer
         dialog.findViewById<Button>(R.id.answerButton).setOnClickListener {
-            if (dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim().isEmpty()){
-                dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText = "Please enter your comment first"
+            if (dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim()
+                    .isEmpty()
+            ) {
+                dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText =
+                    "Please enter your comment first"
                 return@setOnClickListener
             }
             dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText = ""
             viewModel.createComment(
-                CreateCommentBody(answer_id, dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim())
+                CreateCommentBody(
+                    answer_id,
+                    dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim()
+                )
             )
             dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.VISIBLE
             viewModel.createCommentData.observe(viewLifecycleOwner) {
@@ -194,14 +191,15 @@ class MoreQnA: Fragment(R.layout.more_q_n_a), ItemClicked {
     private fun updateRecyclerView(position: Int) {
         val homePageViewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
         homePageViewModel.getQnA()
-        homePageViewModel.getQnALiveData.observe(viewLifecycleOwner) { qAndA ->
-            adapter = QuestionsAnswersRecyclerAdapter("MORE_QnA",
-                qAndA.toMutableList(), this)
-            binding.moreQnA.adapter = adapter
-            adapter.notifyItemInserted(position)
-        }
-        homePageViewModel.errorGetQnALiveData.observe(viewLifecycleOwner) { errorMsg ->
-            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
+        homePageViewModel.getQnALiveData.observe(viewLifecycleOwner) {
+            if (it is Response.Success) {
+                adapter = QuestionsAnswersRecyclerAdapter(
+                    "MORE_QnA",
+                    it.data!!.toMutableList(), this, requireContext()
+                )
+                binding.moreQnA.adapter = adapter
+                adapter.notifyItemInserted(position)
+            }
         }
     }
 }

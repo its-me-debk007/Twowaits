@@ -1,52 +1,36 @@
 package com.example.twowaits.recyclerAdapters
 
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.CircleCropTransformation
-import com.example.twowaits.Data
+import com.bumptech.glide.Glide
+import com.example.twowaits.utils.Utils
 import com.example.twowaits.R
-import com.example.twowaits.apiCalls.dashboardApiCalls.Comment
+import com.example.twowaits.network.dashboardApiCalls.Comment
+import com.example.twowaits.databinding.CommentsBinding
 
-class CommentsRecyclerAdapter(private val comments: List<Comment>): RecyclerView.Adapter<CommentsRecyclerAdapter.ViewHolder>() {
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val commentorProfilePic: ImageView = itemView.findViewById(R.id.commentorProfilePic)
-        val commentorName: TextView = itemView.findViewById(R.id.commentorName)
-        val commentText: TextView = itemView.findViewById(R.id.commentText)
-        val commentedAt: TextView = itemView.findViewById(R.id.commentedAt)
-    }
+class CommentsRecyclerAdapter(private val comments: List<Comment>, private val context: Context) :
+    RecyclerView.Adapter<CommentsRecyclerAdapter.ViewHolder>() {
+    inner class ViewHolder(val binding: CommentsBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.comments, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(CommentsBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val monthNumber = comments[position].commented.subSequence(5, 7)
-        val day = comments[position].commented.subSequence(8, 10)
-        val hours = comments[position].commented.subSequence(11, 13)
-        val minutes = comments[position].commented.subSequence(14, 16)
-        holder.apply {
-            commentedAt.text = "Commented at ${Data.properTimeFormat(
-                monthNumber.toString(),
-                day.toString(),
-                hours.toString(),
-                minutes.toString())}"
+        holder.binding.apply {
+            commentedAt.text = "Commented at ${Utils().formatTime(comments[position].commented)}"
             try {
                 commentorName.text = comments[position].author_id.student.name
-                commentorProfilePic.load(comments[position].author_id.student.profile_pic) {
-                    transformations(CircleCropTransformation())
-                }
+                Glide.with(context).load(comments[position].author_id.student.profile_pic_firebase)
+                    .into(commentorProfilePic)
             } catch (e: Exception) {
                 try {
                     commentorName.text = comments[position].author_id.faculty.name
-                    commentorProfilePic.load(comments[position].author_id.faculty.profile_pic) {
-                        transformations(CircleCropTransformation())
-                    }
+                    Glide.with(context).load(comments[position].author_id.faculty.profile_pic_firebase)
+                        .into(commentorProfilePic)
                 } catch (e: Exception) {
                     commentorName.text = "Anonymous"
                     commentorProfilePic.setImageResource(R.drawable.profile_pic_default)

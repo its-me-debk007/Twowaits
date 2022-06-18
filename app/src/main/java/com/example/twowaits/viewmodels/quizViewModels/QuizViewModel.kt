@@ -3,9 +3,9 @@ package com.example.twowaits.viewmodels.quizViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.*
+import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.*
 import com.example.twowaits.homePages.quiz.AttemptQuizBody
-import com.example.twowaits.repository.dashboardRepositories.quizRepositories.AttemptQuizRepository
+import com.example.twowaits.repositories.homeRepositories.quizRepositories.AttemptQuizRepository
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

@@ -1,17 +1,15 @@
 package com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ToggleButton
-import androidx.cardview.widget.CardView
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twowaits.R
-import com.example.twowaits.apiCalls.dashboardApiCalls.RecentNotesResponse
+import com.example.twowaits.network.dashboardApiCalls.RecentNotesResponse
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
 
 class RecentNotesRecyclerAdapter(
     private val adapter: String,
@@ -24,16 +22,18 @@ class RecentNotesRecyclerAdapter(
         val subjectName: TextView = itemView.findViewById(R.id.SubjectName)
         val noteDetails: TextView = itemView.findViewById(R.id.NoteDetails)
         val moreNoteDetails: TextView = itemView.findViewById(R.id.MoreNoteDetails)
-        val notesImg: ImageView = itemView.findViewById(R.id.NotesImg)
         val bookmark: ToggleButton = itemView.findViewById(R.id.Bookmark)
-        val cardView: CardView = itemView.findViewById(R.id.cardView)
+        val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
+        val seeAll: MaterialButton = itemView.findViewById(R.id.seeAll)
 
         init {
             cardView.setOnClickListener {
-                listener.onNotesClicked(notes[absoluteAdapterPosition].file_obj_firebase.toUri(),
-                notes[absoluteAdapterPosition].title)
+                listener.onNotesClicked(
+                    notes[absoluteAdapterPosition].file_obj_firebase,
+                    notes[absoluteAdapterPosition].title
+                )
             }
-            bookmark.setOnClickListener{
+            bookmark.setOnClickListener {
                 listener.onBookmarkNotesClicked(notes[absoluteAdapterPosition].id)
             }
         }
@@ -51,36 +51,41 @@ class RecentNotesRecyclerAdapter(
 
     override fun onBindViewHolder(holder: RecentNotesViewHolder, position: Int) {
         holder.apply {
-            subjectName.text = notes[position].title
-            bookmark.isChecked = notes[position].bookmarked_by_user == "True"
-            if (adapter == "BOOKMARK") {
-                bookmark.setOnClickListener {
-                    listener.onBookmarkNotesClicked(notes[absoluteAdapterPosition].id)
-                    notes.removeAt(absoluteAdapterPosition)
-                    notifyItemRemoved(absoluteAdapterPosition)
-                    if (notes.size == 0) listener.noItems()
+            if (absoluteAdapterPosition == notes.size) {
+                seeAll.visibility = View.VISIBLE
+                cardView.visibility = View.GONE
+            } else {
+                subjectName.text = notes[position].title
+                bookmark.isChecked = notes[position].bookmarked_by_user == "True"
+                if (adapter == "BOOKMARK") {
+                    bookmark.setOnClickListener {
+                        listener.onBookmarkNotesClicked(notes[absoluteAdapterPosition].id)
+                        notes.removeAt(absoluteAdapterPosition)
+                        notifyItemRemoved(absoluteAdapterPosition)
+                        if (notes.size == 0) listener.noItems()
+                    }
                 }
-            }
-            noteDetails.text = notes[position].description
-            try {
-                moreNoteDetails.text = "By " + notes[position].author_id.student.name
-            } catch (e: Exception) {
+                noteDetails.text = notes[position].description
                 try {
-                    moreNoteDetails.text = "By " + notes[position].author_id.faculty.name
+                    moreNoteDetails.text = "By " + notes[position].author_id.student.name
                 } catch (e: Exception) {
-                    moreNoteDetails.text = "By Anonymous"
+                    try {
+                        moreNoteDetails.text = "By " + notes[position].author_id.faculty.name
+                    } catch (e: Exception) {
+                        moreNoteDetails.text = "By Anonymous"
+                    }
                 }
             }
         }
     }
 
     override fun getItemCount(): Int {
-        return notes.size
+        return notes.size + 1
     }
 }
 
 interface NotesClicked {
-    fun onNotesClicked(pdfUri: Uri, noteName: String)
+    fun onNotesClicked(pdfUri: String, noteName: String)
     fun onBookmarkNotesClicked(noteId: Int)
     fun noItems()
 }

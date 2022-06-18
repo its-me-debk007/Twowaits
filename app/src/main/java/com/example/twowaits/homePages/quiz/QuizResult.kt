@@ -7,8 +7,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import com.example.twowaits.Data
+import com.example.twowaits.utils.Utils
 import com.example.twowaits.R
 import com.example.twowaits.databinding.QuizResultBinding
 import com.example.twowaits.recyclerAdapters.DetailedQuizResultRecyclerAdapter
@@ -33,7 +32,7 @@ class QuizResult : Fragment(R.layout.quiz_result) {
         val quizId = QuizResultArgs.fromBundle(requireArguments()).quizId
         viewModel.viewScore(AttemptQuizBody(quizId))
         viewModel.viewScoreLiveData.observe(viewLifecycleOwner) {
-            Data.CURRENT_QUESTION = 0
+            Utils.CURRENT_QUESTION = 0
             binding.attemptedQuestions.text = it.attempted.toString()
             binding.correctQuestions.text = it.correct.toString()
             binding.wrongQuestions.text = it.wrong.toString()

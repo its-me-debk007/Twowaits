@@ -19,7 +19,7 @@
 <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <TextView
-        android:id="@+id/Question"
+        android:id="@+id/question"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -29,7 +29,7 @@
         android:text="Difference between microprocessor and microcontroller in details?"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/Share"
+        app:layout_constraintEnd_toStartOf="@+id/shareBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,7 +65,7 @@
         app:srcCompat="@drawable/bookmarks_icon" />
 
     <ImageView
-        android:id="@+id/Share"
+        android:id="@+id/shareBtn"
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_marginTop="9dp"
@@ -85,5 +85,5 @@
         android:textColor="#A17A69"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Question" />
+        app:layout_constraintTop_toBottomOf="@+id/question" />
 </androidx.constraintlayout.widget.ConstraintLayout>

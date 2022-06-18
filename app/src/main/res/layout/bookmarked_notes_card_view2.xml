@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -29,27 +28,27 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/NoteDetails"
+                    android:id="@+id/noteDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="11dp"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:fontFamily="@font/roboto_regular"
+                    android:freezesText="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
                     android:text="About trees and graphs"
                     android:textColor="#656565"
                     android:textSize="10sp"
-                    android:singleLine="true"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:freezesText="true"
-                    android:scrollHorizontally="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit="marquee_forever"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/NotesImg"
-                    app:layout_constraintTop_toBottomOf="@+id/SubjectName" />
+                    app:layout_constraintTop_toBottomOf="@+id/subjectName" />
 
                 <ImageView
-                    android:id="@+id/NotesImg"
+                    android:id="@+id/notesImg"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
@@ -58,49 +57,50 @@
                     app:srcCompat="@drawable/notes" />
 
                 <TextView
-                    android:id="@+id/SubjectName"
+                    android:id="@+id/subjectName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="7dp"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:fontFamily="@font/roboto_medium"
+                    android:freezesText="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
                     android:text="Discrete Structures &amp; Theory of Logic"
                     android:textColor="#000000"
                     android:textSize="12sp"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:freezesText="true"
-                    android:lines="1"
-                    android:scrollHorizontally="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit="marquee_forever"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/NotesImg"
+                    app:layout_constraintHorizontal_bias="0.666"
+                    app:layout_constraintStart_toEndOf="@+id/notesImg"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/MoreNoteDetails"
+                    android:id="@+id/moreNoteDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:fontFamily="@font/roboto_regular"
+                    android:freezesText="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
                     android:text="By Vishal Sir"
                     android:textColor="#656565"
                     android:textSize="10sp"
-                    android:lines="1"
-                    android:scrollHorizontally="true"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:freezesText="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit="marquee_forever"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/NotesImg"
-                    app:layout_constraintTop_toBottomOf="@+id/NoteDetails" />
+                    app:layout_constraintStart_toEndOf="@+id/notesImg"
+                    app:layout_constraintTop_toBottomOf="@+id/noteDetails" />
 
                 <ToggleButton
-                    android:id="@+id/Bookmark"
+                    android:id="@+id/bookmark"
                     android:layout_width="11dp"
                     android:layout_height="16dp"
                     android:layout_marginTop="8dp"
@@ -111,7 +111,7 @@
                     android:textOn=""
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/MoreNoteDetails"
+                    app:layout_constraintTop_toBottomOf="@+id/moreNoteDetails"
                     app:srcCompat="@drawable/bookmarks_icon" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

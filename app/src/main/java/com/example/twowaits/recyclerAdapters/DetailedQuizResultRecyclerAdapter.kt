@@ -4,7 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.twowaits.apiCalls.dashboardApiCalls.quizApiCalls.QuestionXX
+import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.QuestionXX
 import com.example.twowaits.databinding.DetailedQuizResultBinding
 
 class DetailedQuizResultRecyclerAdapter(val result: List<QuestionXX>) :
@@ -15,11 +15,7 @@ class DetailedQuizResultRecyclerAdapter(val result: List<QuestionXX>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            DetailedQuizResultBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+            DetailedQuizResultBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 

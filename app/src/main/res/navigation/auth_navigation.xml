@@ -6,9 +6,9 @@
     app:startDestination="@id/firstAuthPage">
     <fragment
         android:id="@+id/login"
-        android:name="com.example.twowaits.authPages.Login"
+        android:name="com.example.twowaits.ui.fragments.auth.LoginFragment"
         android:label="login"
-        tools:layout="@layout/login">
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_login3_to_signUp"
             app:destination="@id/signUp"
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUp"
-        android:name="com.example.twowaits.authPages.SignUp"
+        android:name="com.example.twowaits.ui.fragments.auth.SignUp"
         android:label="sign_up"
         tools:layout="@layout/sign_up">
         <action
@@ -68,7 +68,7 @@
     </fragment>
     <fragment
         android:id="@+id/createPassword2"
-        android:name="com.example.twowaits.authPages.CreatePassword"
+        android:name="com.example.twowaits.ui.fragments.auth.CreatePassword"
         android:label="create_password"
         tools:layout="@layout/create_password">
         <action
@@ -91,7 +91,7 @@
     </fragment>
     <fragment
         android:id="@+id/otpVerification"
-        android:name="com.example.twowaits.authPages.OtpVerification"
+        android:name="com.example.twowaits.ui.fragments.auth.OtpVerification"
         android:label="otp_verification"
         tools:layout="@layout/otp_verification">
         <action
@@ -141,7 +141,7 @@
     </fragment>
     <fragment
         android:id="@+id/verifyEmail"
-        android:name="com.example.twowaits.authPages.VerifyEmail"
+        android:name="com.example.twowaits.ui.fragments.auth.ForgotPasswordFragment"
         android:label="verify_email"
         tools:layout="@layout/verify_email">
         <action
@@ -161,7 +161,7 @@
     </fragment>
     <fragment
         android:id="@+id/firstAuthPage"
-        android:name="com.example.twowaits.authPages.FirstAuthPage"
+        android:name="com.example.twowaits.ui.fragments.auth.FirstPageFragment"
         android:label="FirstAuthPage">
         <action
             android:id="@+id/action_firstAuthPage_to_login"
@@ -180,7 +180,7 @@
     </fragment>
     <fragment
         android:id="@+id/enterDetailsFaculty"
-        android:name="com.example.twowaits.authPages.EnterDetailsFaculty"
+        android:name="com.example.twowaits.ui.fragments.auth.EnterDetailsFaculty"
         android:label="EnterDetailsFaculty"
         tools:layout="@layout/enter_details_faculty">
         <action
@@ -196,7 +196,7 @@
     </fragment>
     <fragment
         android:id="@+id/enterDetailsStudent"
-        android:name="com.example.twowaits.authPages.EnterDetailsStudent"
+        android:name="com.example.twowaits.ui.fragments.auth.EnterDetailsStudent"
         android:label="EnterDetailsStudent"
         tools:layout="@layout/enter_details_student">
         <action
@@ -212,7 +212,7 @@
     </fragment>
     <fragment
         android:id="@+id/chooseYourRole"
-        android:name="com.example.twowaits.authPages.ChooseYourRole"
+        android:name="com.example.twowaits.ui.fragments.auth.ChooseYourRole"
         android:label="ChooseYourRole"
         tools:layout="@layout/choose_your_role">
         <action

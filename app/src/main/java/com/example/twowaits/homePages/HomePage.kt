@@ -1,31 +1,28 @@
 package com.example.twowaits.homePages
 
 import android.app.Dialog
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
-import com.example.twowaits.Data
 import com.example.twowaits.NoteLectureActivity
-import com.example.twowaits.QuizActivity
 import com.example.twowaits.R
-import com.example.twowaits.apiCalls.dashboardApiCalls.AddToWishlistBody
-import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
 import com.example.twowaits.databinding.CreateAnswerBinding
 import com.example.twowaits.databinding.CreateCommentBinding
 import com.example.twowaits.databinding.HomePageBinding
@@ -33,9 +30,15 @@ import com.example.twowaits.homePages.questionsAnswers.BookmarkQuestionBody
 import com.example.twowaits.homePages.questionsAnswers.CreateAnswerBody
 import com.example.twowaits.homePages.questionsAnswers.CreateCommentBody
 import com.example.twowaits.homePages.questionsAnswers.LikeAnswerBody
+import com.example.twowaits.network.dashboardApiCalls.AddToWishlistBody
+import com.example.twowaits.network.dashboardApiCalls.Answer
 import com.example.twowaits.recyclerAdapters.ItemClicked
 import com.example.twowaits.recyclerAdapters.QuestionsAnswersRecyclerAdapter
 import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.*
+import com.example.twowaits.sealedClasses.Response
+import com.example.twowaits.ui.activities.home.AskActivity
+import com.example.twowaits.ui.activities.home.QuizActivity
+import com.example.twowaits.utils.Utils
 import com.example.twowaits.viewmodels.HomePageViewModel
 import com.example.twowaits.viewmodels.questionsAnswersViewModel.QuestionsAnswersViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -50,76 +53,81 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventList
 class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesClicked,
     LecturesClicked {
     private lateinit var binding: HomePageBinding
-    private var isClicked = false
     private lateinit var adapter: QuestionsAnswersRecyclerAdapter
+    private val viewModel by lazy { ViewModelProvider(this)[HomePageViewModel::class.java] }
+    private val bottomNavigationView by lazy {
+        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+    }
+    private var isCommentIconClicked = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = HomePageBinding.bind(view)
         binding.swipeToRefresh.setColorSchemeColors(Color.parseColor("#804D37"))
-        val viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
-        val bottomNavigationView =
-            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        activity?.invalidateOptionsMenu()
+//        binding.shimmer.startShimmer()
 
         viewModel.recentLectures()
         viewModel.recentLecturesLiveData.observe(viewLifecycleOwner) {
-            binding.TopLecturesRecyclerView.adapter =
-                RecentLecturesRecyclerAdapter("HOME", it.size, it.toMutableList(), this)
-            binding.TopLecturesRecyclerView.layoutManager = object :
-                LinearLayoutManager(context, HORIZONTAL, false) {
-                override fun canScrollVertically(): Boolean = false
-            }
-        }
-        viewModel.errorRecentLecturesLiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            if (it is Response.Success) {
+                binding.TopLecturesRecyclerView.adapter =
+                    RecentLecturesRecyclerAdapter(
+                        "HOME",
+                        it.data!!.size,
+                        it.data.toMutableList(),
+                        this
+                    )
+                binding.TopLecturesRecyclerView.layoutManager = object :
+                    LinearLayoutManager(context, HORIZONTAL, false) {
+                    override fun canScrollVertically(): Boolean = false
+                }
+            } else Log.e("dddd", it.errorMessage!!)
         }
 
         viewModel.recentNotes()
         viewModel.recentNotesLiveData.observe(viewLifecycleOwner) {
-            binding.recentNotesRecyclerView.adapter =
-                RecentNotesRecyclerAdapter("HOME", it.toMutableList(), this)
-            binding.recentNotesRecyclerView.layoutManager = object :
-                LinearLayoutManager(context, HORIZONTAL, false) {
-                override fun canScrollVertically(): Boolean = false
-            }
-        }
-        viewModel.errorRecentNotesLiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            if (it is Response.Success) {
+                binding.recentNotesRecyclerView.adapter =
+                    RecentNotesRecyclerAdapter("HOME", it.data!!.toMutableList(), this)
+                binding.recentNotesRecyclerView.layoutManager = object :
+                    LinearLayoutManager(context, HORIZONTAL, false) {
+                    override fun canScrollVertically(): Boolean = false
+                }
+            } else Log.e("dddd", it.errorMessage!!)
         }
 
         viewModel.recentQuizzes()
         viewModel.recentQuizzesLiveData.observe(viewLifecycleOwner) {
-            binding.QuizzesRecyclerView.adapter = QuizzesRecyclerAdapter(it.size, it, this)
-            binding.QuizzesRecyclerView.layoutManager = object :
-                LinearLayoutManager(context, HORIZONTAL, false) {
-                override fun canScrollVertically(): Boolean = false
-            }
-        }
-        viewModel.errorRecentQuizzesLiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            if (it is Response.Success) {
+                binding.QuizzesRecyclerView.adapter =
+                    QuizzesRecyclerAdapter(it.data!!.size, it.data, this)
+                binding.QuizzesRecyclerView.layoutManager = object :
+                    LinearLayoutManager(context, HORIZONTAL, false) {
+                    override fun canScrollVertically(): Boolean = false
+                }
+            } else Log.e("dddd", it.errorMessage!!)
         }
 
         viewModel.getQnA()
         viewModel.getQnALiveData.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) noItems()
-            adapter = QuestionsAnswersRecyclerAdapter(
-                "HOME",
-                it.toMutableList(), this
-            )
-            binding.QnARecyclerView.adapter = adapter
-            binding.QnARecyclerView.layoutManager = object : LinearLayoutManager(context) {
-                override fun canScrollVertically(): Boolean = false
-            }
-        }
-        viewModel.errorGetQnALiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            if (it is Response.Success) {
+                if (it.data!!.isEmpty()) noItems()
+                adapter = QuestionsAnswersRecyclerAdapter(
+                    "HOME", it.data.toMutableList(),
+                    this@HomePage, requireContext()
+                )
+                binding.QnARecyclerView.adapter = adapter
+                binding.QnARecyclerView.layoutManager = object : LinearLayoutManager(context) {
+                    override fun canScrollVertically(): Boolean = false
+                }
+            } else Log.e("dddd", it.errorMessage!!)
         }
 
         binding.QnA.setOnClickListener {
-            findNavController().navigate(R.id.action_homePage_to_moreQnA2)
+            goToMoreQnA()
         }
         binding.arrow.setOnClickListener {
-            findNavController().navigate(R.id.action_homePage_to_moreQnA2)
+            goToMoreQnA()
         }
 
         binding.StudentSuggestionRecyclerView.adapter = StudentsSuggestionRecyclerAdapter()
@@ -130,7 +138,6 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
 
         binding.swipeToRefresh.setOnRefreshListener {
             Handler(Looper.getMainLooper()).postDelayed({
-                Data.isSearchBarActiveLiveData.postValue(false)
                 findNavController().navigate(R.id.action_homePage_self)
             }, 440)
         }
@@ -138,44 +145,37 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
             KeyboardVisibilityEventListener {
                 if (!it) bottomNavigationView?.visibility = View.VISIBLE
             })
-        Data.isSearchBarActiveLiveData.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.searchQ.error = null
-                binding.textInputLayout.visibility = View.VISIBLE
-                binding.searchButton.visibility = View.VISIBLE
-                binding.searchQ.requestFocus()
-                showKeyboard(binding.searchQ)
-                bottomNavigationView?.visibility = View.GONE
-            } else {
-                binding.textInputLayout.visibility = View.GONE
-                binding.searchButton.visibility = View.GONE
-                hideKeyboard(requireView())
-                bottomNavigationView?.visibility = View.VISIBLE
-            }
-        }
 
+        binding.searchQ.setOnEditorActionListener { _, _, _ ->
+            searchQ()
+            true
+        }
         binding.searchButton.setOnClickListener {
-            if (binding.searchQ.text.toString().trim().isEmpty()) {
-                binding.searchQ.error = "Please enter a question in order to search"
-                return@setOnClickListener
-            }
-            Data.Q_SEARCHED = binding.searchQ.text.toString().trim()
-            findNavController().navigate(R.id.action_homePage_to_showSearchQuestions)
+            if (searchQ() == -1) return@setOnClickListener
         }
     }
 
-    private fun showKeyboard(view: View) {
-        val imm = activity?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+    private fun goToMoreQnA() {
+        val intent = Intent(context, AskActivity::class.java)
+        intent.putExtra("askActivityFragment", "MoreQnA")
+        startActivity(intent)
     }
 
-    private fun hideKeyboard(view: View) {
-        val imm = activity?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    private fun searchQ(): Int {
+        if (binding.searchQ.text.toString().trim().isEmpty()) {
+            binding.searchQ.error = "Please enter a question in order to search"
+            return -1
+        }
+        val intent = Intent(context, AskActivity::class.java)
+        intent.putExtra("askActivityFragment", "ShowSearchQ")
+        intent.putExtra("qSearched", binding.searchQ.text.toString().trim())
+        startActivity(intent)
+        return 0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 exitConfirmation()
@@ -185,14 +185,15 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
 
     private fun exitConfirmation() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Exit")
-            .setMessage("Are you sure want to exit?")
+            .setTitle(R.string.exit)
+            .setMessage(R.string.exitConfirmation)
             .setIcon(R.drawable.exit_warning)
-            .setPositiveButton("Yes") { _, _ ->
-                activity?.finish()
+            .setPositiveButton("YES") { _, _ ->
+                activity?.finishAffinity()
             }
-            .setNegativeButton("No") { _, _ ->
+            .setNegativeButton("NO") { _, _ ->
             }
+            .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.exit_dialog))
             .show()
     }
 
@@ -201,8 +202,8 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
     }
 
     override fun commentBtnClicked(): Boolean {
-        isClicked = !isClicked
-        return isClicked
+        isCommentIconClicked = !isCommentIconClicked
+        return isCommentIconClicked
     }
 
     override fun bookmarkBtnClicked(question_id: Int) {
@@ -322,16 +323,15 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
     private fun updateRecyclerView(position: Int) {
         val homePageViewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
         homePageViewModel.getQnA()
-        homePageViewModel.getQnALiveData.observe(viewLifecycleOwner) { qAndA ->
-            adapter = QuestionsAnswersRecyclerAdapter(
-                "HOME",
-                qAndA.toMutableList(), this
-            )
-            binding.QnARecyclerView.adapter = adapter
-            adapter.notifyItemInserted(position)
-        }
-        homePageViewModel.errorGetQnALiveData.observe(viewLifecycleOwner) { errorMsg ->
-            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
+        homePageViewModel.getQnALiveData.observe(viewLifecycleOwner) {
+            if (it is Response.Success) {
+                adapter = QuestionsAnswersRecyclerAdapter(
+                    "HOME",
+                    it.data!!.toMutableList(), this, requireContext()
+                )
+                binding.QnARecyclerView.adapter = adapter
+                adapter.notifyItemInserted(position)
+            } else Log.e("dddd", it.errorMessage!!)
         }
     }
 
@@ -349,8 +349,8 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
         startActivity(intent)
     }
 
-    override fun onNotesClicked(pdfUri: Uri, noteName: String) {
-        Data.PDF_URI = pdfUri
+    override fun onNotesClicked(pdfUri: String, noteName: String) {
+        Utils.PDF_URI = pdfUri
         val intent = Intent(context, NoteLectureActivity::class.java)
         intent.apply {
             putExtra("PREVIOUS PAGE", "HOME")
@@ -373,13 +373,12 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
         }
     }
 
-    override fun onLectureClicked(videoUri: Uri, lectureName: String) {
-        Data.VIDEO_URI = videoUri
-        val intent = Intent(context, NoteLectureActivity::class.java)
-        intent.apply {
-            intent.putExtra("PREVIOUS PAGE", "HOME")
-            intent.putExtra("PAGE TYPE", "LECTURE")
-            intent.putExtra("LECTURE NAME", lectureName)
+    override fun onLectureClicked(videoUri: String, lectureName: String) {
+        Utils.VIDEO_URI = videoUri
+        val intent = Intent(context, NoteLectureActivity::class.java).apply {
+            putExtra("PREVIOUS PAGE", "HOME")
+            putExtra("PAGE TYPE", "LECTURE")
+            putExtra("LECTURE NAME", lectureName)
         }
         startActivity(intent)
     }
@@ -395,5 +394,19 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
                     Toast.LENGTH_SHORT
                 ).show()
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.SearchIcon).isVisible = true
+        super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.SearchIcon) {
+            val intent = Intent(context, AskActivity::class.java)
+            intent.putExtra("askActivityFragment", "ShowSearchQ")
+            startActivity(intent)
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

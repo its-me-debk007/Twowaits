@@ -1,10 +1,9 @@
 package com.example.twowaits.viewmodels
 
 import android.net.Uri
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.twowaits.repository.authRepositories.CreateProfileRepository
+import com.example.twowaits.repositories.authRepositories.CreateProfileRepository
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

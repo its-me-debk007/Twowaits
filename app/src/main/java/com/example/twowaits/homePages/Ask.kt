@@ -6,9 +6,9 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.twowaits.AskActivity
-import com.example.twowaits.Data
-import com.example.twowaits.QuizActivity
+import com.example.twowaits.ui.activities.home.AskActivity
+import com.example.twowaits.utils.Utils
+import com.example.twowaits.ui.activities.home.QuizActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.AskBinding
 
@@ -19,7 +19,7 @@ class Ask : Fragment(R.layout.ask) {
         super.onViewCreated(view, savedInstanceState)
         binding = AskBinding.bind(view)
         val intent = Intent(context, AskActivity::class.java)
-        if (Data.USER == "STUDENT") {
+        if (Utils.USER == "STUDENT") {
             binding.createQuiz.visibility = View.GONE
             binding.uploadLectureVideo.visibility = View.GONE
         }

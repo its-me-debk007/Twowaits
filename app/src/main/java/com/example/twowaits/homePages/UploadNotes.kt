@@ -66,7 +66,8 @@ class UploadNotes : Fragment(R.layout.upload_notes) {
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
 
             viewModel.uploadNote(pdfUri!!,
-                UploadNotePartialBody(binding.description.text.toString().trim(), binding.title.text.toString().trim()))
+                UploadNotePartialBody(binding.description.text.toString().trim(),
+                    binding.title.text.toString().trim()))
             viewModel.uploadPDF.observe(viewLifecycleOwner) { message ->
                 if (message == "success") {
                     Toast.makeText(context, "Successfully uploaded", Toast.LENGTH_SHORT).show()

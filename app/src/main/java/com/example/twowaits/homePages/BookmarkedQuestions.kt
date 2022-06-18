@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.example.twowaits.R
-import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
+import com.example.twowaits.network.dashboardApiCalls.Answer
 import com.example.twowaits.databinding.BookmarkedQuestionsBinding
 import com.example.twowaits.databinding.CreateAnswerBinding
 import com.example.twowaits.databinding.CreateCommentBinding
@@ -25,6 +26,7 @@ import com.example.twowaits.homePages.questionsAnswers.CreateCommentBody
 import com.example.twowaits.homePages.questionsAnswers.LikeAnswerBody
 import com.example.twowaits.recyclerAdapters.ItemClicked
 import com.example.twowaits.recyclerAdapters.QuestionsAnswersRecyclerAdapter
+import com.example.twowaits.sealedClasses.Response
 import com.example.twowaits.viewmodels.HomePageViewModel
 import com.example.twowaits.viewmodels.questionsAnswersViewModel.QuestionsAnswersViewModel
 import com.google.android.material.textfield.TextInputEditText
@@ -47,7 +49,8 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
         viewModel.getYourBookmarkedQ()
         viewModel.getBookmarkedQLiveData.observe(viewLifecycleOwner) {
             if (it.isEmpty()) noItems()
-            adapter = QuestionsAnswersRecyclerAdapter("BOOKMARK", it.toMutableList(), this)
+            adapter = QuestionsAnswersRecyclerAdapter("BOOKMARK", it.toMutableList(),
+                this, requireContext())
             binding.BookmarkedQuestionsRecyclerView.adapter = adapter
             binding.BookmarkedQuestionsRecyclerView.layoutManager =
                 object : LinearLayoutManager(context) {
@@ -147,14 +150,16 @@ class BookmarkedQuestions : Fragment(), ItemClicked {
     private fun updateRecyclerView(position: Int) {
         val homePageViewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
         homePageViewModel.getQnA()
-        homePageViewModel.getQnALiveData.observe(viewLifecycleOwner) { qAndA ->
-            adapter = QuestionsAnswersRecyclerAdapter("BOOKMARK",
-                qAndA.toMutableList(), this)
-            binding.BookmarkedQuestionsRecyclerView.adapter = adapter
-            adapter.notifyItemInserted(position)
-        }
-        homePageViewModel.errorGetQnALiveData.observe(viewLifecycleOwner) { errorMsg ->
-            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
+        homePageViewModel.getQnALiveData.observe(viewLifecycleOwner) {
+            if (it is Response.Success) {
+                adapter = QuestionsAnswersRecyclerAdapter(
+                    "BOOKMARK",
+                    it.data!!.toMutableList(), this, requireContext()
+                )
+                binding.BookmarkedQuestionsRecyclerView.adapter = adapter
+                adapter.notifyItemInserted(position)
+            }
+            else Log.e("dddd", it.errorMessage!!)
         }
     }
 

@@ -3,14 +3,13 @@ package com.example.twowaits.viewmodels.questionsAnswersViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.twowaits.apiCalls.dashboardApiCalls.*
-import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.AskQuestionResponse
-import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.BookmarkQuestionResponse
-import com.example.twowaits.apiCalls.dashboardApiCalls.questionsAnswersApiCalls.LikeAnswerResponse
+import com.example.twowaits.network.dashboardApiCalls.*
+import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.AskQuestionResponse
+import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.BookmarkQuestionResponse
+import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.LikeAnswerResponse
 import com.example.twowaits.homePages.BookmarkNoteBody
-import com.example.twowaits.homePages.Wishlist
 import com.example.twowaits.homePages.questionsAnswers.*
-import com.example.twowaits.repository.dashboardRepositories.questionsAnswersRepositories.QnARepository
+import com.example.twowaits.repositories.homeRepositories.questionsAnswersRepositories.QnARepository
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

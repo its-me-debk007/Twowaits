@@ -7,9 +7,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.twowaits.Data
+import com.example.twowaits.utils.Utils
 import com.example.twowaits.NoteLectureActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.BookmarkedNotesBinding
@@ -41,8 +40,8 @@ class BookmarkedNotes : Fragment(R.layout.bookmarked_notes), NotesClicked {
         }
     }
 
-    override fun onNotesClicked(pdfUri: Uri, noteName: String) {
-        Data.PDF_URI = pdfUri
+    override fun onNotesClicked(pdfUri: String, noteName: String) {
+        Utils.PDF_URI = pdfUri
         val intent = Intent(context, NoteLectureActivity::class.java)
         intent.apply {
             intent.putExtra("PREVIOUS PAGE", "BOOKMARK")

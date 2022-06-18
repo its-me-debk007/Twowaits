@@ -1,42 +1,33 @@
 package com.example.twowaits.recyclerAdapters
 
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
-import com.example.twowaits.R
-import com.example.twowaits.apiCalls.dashboardApiCalls.Answer
-import com.example.twowaits.apiCalls.dashboardApiCalls.QnAResponseItem
+import com.example.twowaits.databinding.QNABinding
+import com.example.twowaits.network.dashboardApiCalls.Answer
+import com.example.twowaits.network.dashboardApiCalls.QnAResponseItem
 
-class QuestionsAnswersRecyclerAdapter (
+class QuestionsAnswersRecyclerAdapter(
     private val adapter: String,
     private val questionsAndAnswers: MutableList<QnAResponseItem>,
-    private val listener: ItemClicked):
-        RecyclerView.Adapter<QuestionsAnswersRecyclerAdapter.QnA_ViewHolder>(), AnswerItemClicked {
+    private val listener: ItemClicked,
+    private val context: Context
+) :
+    RecyclerView.Adapter<QuestionsAnswersRecyclerAdapter.ViewHolder>(), AnswerItemClicked {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QnA_ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.q_n_a, parent, false)
-        return QnA_ViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(QNABinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun onBindViewHolder(holder: QnA_ViewHolder, position: Int) {
-        holder.apply {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.binding.apply {
             question.text = questionsAndAnswers[position].question
-            answersRecyclerView.adapter = AnswersRecyclerAdapter(questionsAndAnswers[position].answer, this@QuestionsAnswersRecyclerAdapter)
+            answersRecyclerView.adapter = AnswersRecyclerAdapter(questionsAndAnswers[position].answer,
+                this@QuestionsAnswersRecyclerAdapter, context)
             answersRecyclerView.isNestedScrollingEnabled = false
             answersRecyclerView.isNestedScrollingEnabled = false
             bookmarkBtn.isChecked = questionsAndAnswers[position].bookmarked_by_user == "True"
-            if (adapter == "BOOKMARK") {
-                bookmarkBtn.setOnClickListener {
-                    listener.bookmarkBtnClicked(questionsAndAnswers[absoluteAdapterPosition].question_id)
-                    questionsAndAnswers.removeAt(absoluteAdapterPosition)
-                    notifyItemRemoved(absoluteAdapterPosition)
-                    if (questionsAndAnswers.size == 0) listener.noItems()
-                }
-            }
         }
     }
 
@@ -44,26 +35,39 @@ class QuestionsAnswersRecyclerAdapter (
         return questionsAndAnswers.size
     }
 
-    inner class QnA_ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val question: TextView = itemView.findViewById(R.id.Question)
-        val answersRecyclerView: RecyclerView = itemView.findViewById(R.id.answersRecyclerView)
-        val bookmarkBtn: ToggleButton = itemView.findViewById(R.id.bookmarkBtn)
-        val shareBtn: ImageView = itemView.findViewById(R.id.Share)
-        val addAnswer: TextView = itemView.findViewById(R.id.addAnswer)
+    inner class ViewHolder(val binding: QNABinding) : RecyclerView.ViewHolder(binding.root) {
         init {
-            question.setOnClickListener {
-                listener.onQuestionClicked(question.text.toString())
-            }
-            bookmarkBtn.setOnClickListener {
-                listener.bookmarkBtnClicked(questionsAndAnswers[absoluteAdapterPosition].question_id)
-            }
-            shareBtn.setOnClickListener {
-                listener.shareBtnClicked(questionsAndAnswers[absoluteAdapterPosition].question,
-                    questionsAndAnswers[absoluteAdapterPosition].answer)
-            }
-            addAnswer.setOnClickListener {
-                listener.addAnswerClicked(questionsAndAnswers[absoluteAdapterPosition].question,
-                    questionsAndAnswers[absoluteAdapterPosition].question_id, absoluteAdapterPosition)
+            binding.apply {
+                question.setOnClickListener {
+                    listener.onQuestionClicked(question.text.toString())
+                }
+
+                bookmarkBtn.setOnClickListener {
+                    listener.bookmarkBtnClicked(questionsAndAnswers[absoluteAdapterPosition].question_id)
+                }
+
+                shareBtn.setOnClickListener {
+                    listener.shareBtnClicked(
+                        questionsAndAnswers[absoluteAdapterPosition].question,
+                        questionsAndAnswers[absoluteAdapterPosition].answer
+                    )
+                }
+
+                addAnswer.setOnClickListener {
+                    listener.addAnswerClicked(
+                        questionsAndAnswers[absoluteAdapterPosition].question,
+                        questionsAndAnswers[absoluteAdapterPosition].question_id,
+                        absoluteAdapterPosition
+                    )
+                }
+                if (adapter == "BOOKMARK") {
+                    bookmarkBtn.setOnClickListener {
+                        listener.bookmarkBtnClicked(questionsAndAnswers[absoluteAdapterPosition].question_id)
+                        questionsAndAnswers.removeAt(absoluteAdapterPosition)
+                        notifyItemRemoved(absoluteAdapterPosition)
+                        if (questionsAndAnswers.size == 0) listener.noItems()
+                    }
+                }
             }
         }
     }

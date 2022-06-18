@@ -3,11 +3,10 @@ package com.example.twowaits.viewmodels
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.twowaits.apiCalls.dashboardApiCalls.FacultyProfileDetailsResponse
-import com.example.twowaits.apiCalls.dashboardApiCalls.StudentProfileDetailsResponse
-import com.example.twowaits.homePages.Profile
+import com.example.twowaits.network.dashboardApiCalls.FacultyProfileDetailsResponse
+import com.example.twowaits.network.dashboardApiCalls.StudentProfileDetailsResponse
 import com.example.twowaits.homePages.UpdateProfileDetailsBody
-import com.example.twowaits.repository.dashboardRepositories.ProfileRepository
+import com.example.twowaits.repositories.homeRepositories.ProfileRepository
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

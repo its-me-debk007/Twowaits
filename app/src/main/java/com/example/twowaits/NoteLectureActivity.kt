@@ -17,7 +17,7 @@ class NoteLectureActivity : AppCompatActivity() {
         binding.apply {
             val fragment = when {
                 intent.getStringExtra("PAGE TYPE") == "NOTE" &&
-                        intent.getStringExtra("PREVIOUS PAGE") != "DOWNLOADS" -> WebViewPDFViewer()
+                        intent.getStringExtra("PREVIOUS PAGE") != "DOWNLOADS" -> PDFViewer()
 
                 intent.getStringExtra("PAGE TYPE") == "NOTE" -> PDFViewer()
 

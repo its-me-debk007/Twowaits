@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/Answerer"
+        android:id="@+id/answerer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -14,11 +14,11 @@
         android:text="Karan Goel"
         android:textColor="#000000"
         android:textSize="13sp"
-        app:layout_constraintStart_toEndOf="@+id/AnswererProfilePic"
+        app:layout_constraintStart_toEndOf="@+id/answererProfilePic"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/AnswererProfilePic"
+        android:id="@+id/answererProfilePic"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="24dp"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/AnswerDetails"
+        android:id="@+id/answerDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -35,11 +35,11 @@
         android:text="Answered at 1:45 pm, 21 Dec"
         android:textColor="#A17A69"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/AnswererProfilePic"
-        app:layout_constraintTop_toBottomOf="@+id/Answerer" />
+        app:layout_constraintStart_toEndOf="@+id/answererProfilePic"
+        app:layout_constraintTop_toBottomOf="@+id/answerer" />
 
     <com.borjabravo.readmoretextview.ReadMoreTextView
-        android:id="@+id/Answer"
+        android:id="@+id/answer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -48,16 +48,16 @@
         android:fontFamily="@font/roboto_regular"
         android:text="@string/sample_long_text"
         android:textColor="#525252"
-        app:trimCollapsedText="Show Less"
         app:colorClickableText="#804D37"
-        app:trimMode="trimModeLength"
-        app:trimLength="143"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AnswerDetails" />
+        app:layout_constraintTop_toBottomOf="@+id/answerDetails"
+        app:trimCollapsedText="Show Less"
+        app:trimLength="143"
+        app:trimMode="trimModeLength" />
 
     <ToggleButton
-        android:id="@+id/Like"
+        android:id="@+id/likeBtn"
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_marginStart="24dp"
@@ -66,10 +66,10 @@
         android:textOff=""
         android:textOn=""
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Answer" />
+        app:layout_constraintTop_toBottomOf="@+id/answer" />
 
     <TextView
-        android:id="@+id/LikeCount"
+        android:id="@+id/likesCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -78,21 +78,21 @@
         android:text="243"
         android:textColor="#263238"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/Like"
-        app:layout_constraintTop_toBottomOf="@+id/Answer" />
+        app:layout_constraintStart_toEndOf="@+id/likeBtn"
+        app:layout_constraintTop_toBottomOf="@+id/answer" />
 
     <ImageView
-        android:id="@+id/Comment"
+        android:id="@+id/commentIcon"
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/LikeCount"
-        app:layout_constraintTop_toBottomOf="@+id/Answer"
+        app:layout_constraintStart_toEndOf="@+id/likesCount"
+        app:layout_constraintTop_toBottomOf="@+id/answer"
         app:srcCompat="@drawable/comment_icon" />
 
     <TextView
-        android:id="@+id/CommentCount"
+        android:id="@+id/commentsCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -101,8 +101,8 @@
         android:text="43"
         android:textColor="#263238"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/Comment"
-        app:layout_constraintTop_toBottomOf="@+id/Answer" />
+        app:layout_constraintStart_toEndOf="@+id/commentIcon"
+        app:layout_constraintTop_toBottomOf="@+id/answer" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/commentsRecyclerView"
@@ -129,6 +129,6 @@
         android:textSize="13sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Comment" />
+        app:layout_constraintTop_toBottomOf="@+id/commentIcon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
