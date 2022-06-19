@@ -33,14 +33,13 @@ class AddQuizRepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        createQuestion(createQuestionBody)
-                    else
-                        errorAddQuestionsMutableLiveData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") createQuestion(createQuestionBody)
+//                    else
+//                        errorAddQuestionsMutableLiveData.postValue("Some error has occurred!\nPlease try again")
+                    createQuestion(createQuestionBody)
                 }
-                else -> {
+                else ->
                     errorAddQuestionsMutableLiveData.postValue("Error code is ${response.code()}")
-                }
             }
         }
     }
@@ -54,14 +53,13 @@ class AddQuizRepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        addCorrectOption(addCorrectOptionBody)
-                    else
-                        errorAddCorrectOptionMutableLiveData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") addCorrectOption(addCorrectOptionBody)
+//                    else
+//                        errorAddCorrectOptionMutableLiveData.postValue("Some error has occurred!\nPlease try again")
+                    addCorrectOption(addCorrectOptionBody)
                 }
-                else -> {
+                else ->
                     errorAddCorrectOptionMutableLiveData.postValue("Error code is ${response.code()}\n${response.message()}")
-                }
             }
         }
     }

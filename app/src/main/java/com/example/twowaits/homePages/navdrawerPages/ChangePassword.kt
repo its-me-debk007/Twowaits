@@ -6,17 +6,16 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.twowaits.R
-import com.example.twowaits.databinding.ChangePasswordBinding
+import com.example.twowaits.databinding.FragmentChangePasswordBinding
+import com.example.twowaits.sealedClasses.Response
 import com.example.twowaits.viewmodels.HomePageViewModel
-import kotlinx.coroutines.DelicateCoroutinesApi
 
-@DelicateCoroutinesApi
-class ChangePassword : Fragment(R.layout.change_password) {
-    private lateinit var binding: ChangePasswordBinding
+class ChangePassword : Fragment(R.layout.fragment_change_password) {
+    private lateinit var binding: FragmentChangePasswordBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = ChangePasswordBinding.bind(view)
+        binding = FragmentChangePasswordBinding.bind(view)
         val viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
 
         binding.btn.setOnClickListener {
@@ -96,13 +95,15 @@ class ChangePassword : Fragment(R.layout.change_password) {
             binding.btn.isEnabled = false
             binding.ProgressBar.visibility = View.VISIBLE
             viewModel.changePasswordLiveData.observe(viewLifecycleOwner) {
-                Toast.makeText(context, "New password set successfully", Toast.LENGTH_SHORT).show()
-                activity?.finish()
-            }
-            viewModel.errorChangePasswordData.observe(viewLifecycleOwner) {
-                binding.btn.isEnabled = true
-                binding.ProgressBar.visibility = View.INVISIBLE
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                if (it is Response.Success) {
+                    Toast.makeText(context, "New password set successfully", Toast.LENGTH_SHORT)
+                        .show()
+                    activity?.finish()
+                } else {
+                    binding.btn.isEnabled = true
+                    binding.ProgressBar.visibility = View.INVISIBLE
+                    Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

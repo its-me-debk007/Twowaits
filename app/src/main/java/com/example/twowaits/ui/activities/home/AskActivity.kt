@@ -6,6 +6,9 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.ActivityAskBinding
 import com.example.twowaits.homePages.*
 import com.example.twowaits.homePages.questionsAnswers.AskQuestion
+import com.example.twowaits.ui.fragments.home.ShowSearchQuestions
+import com.example.twowaits.ui.fragments.home.UploadLecture
+import com.example.twowaits.ui.fragments.home.UploadNotes
 
 class AskActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAskBinding

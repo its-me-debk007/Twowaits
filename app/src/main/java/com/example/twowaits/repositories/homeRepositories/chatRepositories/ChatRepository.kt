@@ -25,10 +25,9 @@ class ChatRepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        fetchConversationsMessages()
-                    else
-                        errorData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") fetchConversationsMessages()
+//                    else errorData.postValue("Some error has occurred!\nPlease try again")
+                    fetchConversationsMessages()
                 }
                 else -> {
                     errorData.postValue("${response.message()}\nPlease try again")

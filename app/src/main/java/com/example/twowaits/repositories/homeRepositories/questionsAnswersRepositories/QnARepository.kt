@@ -65,14 +65,13 @@ class QnARepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        getYourQnA()
-                    else
-                        errorMutableLiveData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") getYourQnA()
+//                    else
+//                        errorMutableLiveData.postValue("Some error has occurred!\nPlease try again")
+                    getYourQnA()
                 }
-                else -> {
+                else ->
                     errorMutableLiveData.postValue("${response.message()}\nPlease try again")
-                }
             }
         }
     }
@@ -93,8 +92,9 @@ class QnARepository {
                     response.code() == 400 -> {
                         val result = Utils().getNewAccessToken()
                         Log.e("dddd", "token expire")
-                        if (result == "success") getQnA()
-                        else liveData.postValue(Response.Error("Some error has occurred!\nPlease try again"))
+//                        if (result == "success") getQnA()
+//                        else liveData.postValue(Response.Error("Some error has occurred!\nPlease try again"))
+                        getQnA()
                     }
 
                     else -> liveData.postValue(Response.Error(response.message() + "\nPlease try again"))
@@ -117,14 +117,13 @@ class QnARepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        askQuestion(askQuestionBody)
-                    else
-                        errorAskQuestionData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") askQuestion(askQuestionBody)
+//                    else
+//                        errorAskQuestionData.postValue("Some error has occurred!\nPlease try again")
+                    askQuestion(askQuestionBody)
                 }
-                else -> {
+                else ->
                     errorAskQuestionData.postValue("${response.code()}\nPlease try again")
-                }
             }
         }
     }
@@ -138,14 +137,13 @@ class QnARepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        likeAnswer(likeAnswerBody)
-                    else
-                        errorLikeAnswerData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") likeAnswer(likeAnswerBody)
+//                    else
+//                        errorLikeAnswerData.postValue("Some error has occurred!\nPlease try again")
+                    likeAnswer(likeAnswerBody)
                 }
-                else -> {
+                else ->
                     errorLikeAnswerData.postValue("${response.message()}\nPlease refresh the page")
-                }
             }
         }
     }
@@ -159,14 +157,13 @@ class QnARepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        bookmarkQuestion(bookmarkQuestionBody)
-                    else
-                        errorBookmarkQuestionData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") bookmarkQuestion(bookmarkQuestionBody)
+//                    else
+//                        errorBookmarkQuestionData.postValue("Some error has occurred!\nPlease try again")
+                    bookmarkQuestion(bookmarkQuestionBody)
                 }
-                else -> {
+                else ->
                     errorBookmarkQuestionData.postValue("${response.message()}\nPlease refresh the page")
-                }
             }
         }
     }
@@ -180,10 +177,10 @@ class QnARepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        bookmarkNote(bookmarkNoteBody)
-                    else
-                        bookmarkNoteData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") bookmarkNote(bookmarkNoteBody)
+//                    else
+//                        bookmarkNoteData.postValue("Some error has occurred!\nPlease try again")
+                    bookmarkNote(bookmarkNoteBody)
                 }
                 else -> {
                     bookmarkNoteData.postValue("${response.message()}\nPlease refresh the page")
@@ -201,14 +198,13 @@ class QnARepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        addToWishlist(addToWishlistBody)
-                    else
-                        addToWishlistData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") addToWishlist(addToWishlistBody)
+//                    else
+//                        addToWishlistData.postValue("Some error has occurred!\nPlease try again")
+                    addToWishlist(addToWishlistBody)
                 }
-                else -> {
+                else ->
                     addToWishlistData.postValue("${response.message()}\nPlease refresh the page")
-                }
             }
         }
     }
@@ -222,14 +218,13 @@ class QnARepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        getYourBookmarkedQ()
-                    else
-                        errorGetBookmarkedQData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") getYourBookmarkedQ()
+//                    else
+//                        errorGetBookmarkedQData.postValue("Some error has occurred!\nPlease try again")
+                    getYourBookmarkedQ()
                 }
-                else -> {
+                else ->
                     errorGetBookmarkedQData.postValue("${response.message()}\nPlease refresh the page")
-                }
             }
         }
     }
@@ -243,14 +238,13 @@ class QnARepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        getBookmarkedNotes()
-                    else
-                        errorBookmarkedNotesData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") getBookmarkedNotes()
+//                    else
+//                        errorBookmarkedNotesData.postValue("Some error has occurred!\nPlease try again")
+                    getBookmarkedNotes()
                 }
-                else -> {
+                else ->
                     errorBookmarkedNotesData.postValue("${response.message()}\nPlease refresh the page")
-                }
             }
         }
     }
@@ -264,14 +258,13 @@ class QnARepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        createAnswer(createAnswerBody)
-                    else
-                        createAnswerData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") createAnswer(createAnswerBody)
+//                    else
+//                        createAnswerData.postValue("Some error has occurred!\nPlease try again")
+                    createAnswer(createAnswerBody)
                 }
-                else -> {
+                else ->
                     createAnswerData.postValue("Error code is ${response.code()}\n${response.message()}")
-                }
             }
         }
     }
@@ -280,19 +273,16 @@ class QnARepository {
         GlobalScope.launch {
             val response = ServiceBuilder.getInstance().createComment(createCommentBody)
             when {
-                response.isSuccessful -> {
-                    createCommentData.postValue("success")
-                }
+                response.isSuccessful -> createCommentData.postValue("success")
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        createComment(createCommentBody)
-                    else
-                        createCommentData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") createComment(createCommentBody)
+//                    else
+//                        createCommentData.postValue("Some error has occurred!\nPlease try again")
+                    createComment(createCommentBody)
                 }
-                else -> {
+                else ->
                     createCommentData.postValue("Error code is ${response.code()}\n${response.message()}")
-                }
             }
         }
     }
@@ -306,10 +296,10 @@ class QnARepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        searchQnA(search)
-                    else
-                        errorGetSearchQnAData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") searchQnA(search)
+//                    else
+//                        errorGetSearchQnAData.postValue("Some error has occurred!\nPlease try again")
+                    searchQnA(search)
                 }
                 else -> {
                     errorGetSearchQnAData.postValue("${response.message()}\n" +
@@ -328,14 +318,13 @@ class QnARepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        getWishlist()
-                    else
-                        errorGetWishlistData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") getWishlist()
+//                    else
+//                        errorGetWishlistData.postValue("Some error has occurred!\nPlease try again")
+                    getWishlist()
                 }
-                else -> {
+                else ->
                     errorGetWishlistData.postValue("${response.message()}\nPlease refresh the page")
-                }
             }
         }
     }

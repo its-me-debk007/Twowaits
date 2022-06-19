@@ -1,30 +1,28 @@
-package com.example.twowaits.homePages
+package com.example.twowaits.ui.fragments.home
 
 import android.app.Dialog
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
+import com.example.twowaits.databinding.FragmentUploadNoteBinding
 import com.example.twowaits.databinding.PleaseWaitDialogBinding
-import com.example.twowaits.databinding.UploadNotesBinding
+import com.example.twowaits.models.home.UploadNotePartialBody
 import com.example.twowaits.viewmodels.HomePageViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
-class UploadNotes : Fragment(R.layout.upload_notes) {
-    private lateinit var binding: UploadNotesBinding
+class UploadNotes : Fragment(R.layout.fragment_upload_note) {
+    private lateinit var binding: FragmentUploadNoteBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = UploadNotesBinding.bind(view)
+        binding = FragmentUploadNoteBinding.bind(view)
         val viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
         var pdfUri: Uri? = null
         val choosePDF = registerForActivityResult(
@@ -65,9 +63,13 @@ class UploadNotes : Fragment(R.layout.upload_notes) {
             if (dialog.window != null)
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
 
-            viewModel.uploadNote(pdfUri!!,
-                UploadNotePartialBody(binding.description.text.toString().trim(),
-                    binding.title.text.toString().trim()))
+            viewModel.uploadNote(
+                pdfUri!!,
+                UploadNotePartialBody(
+                    binding.description.text.toString().trim(),
+                    binding.title.text.toString().trim()
+                )
+            )
             viewModel.uploadPDF.observe(viewLifecycleOwner) { message ->
                 if (message == "success") {
                     Toast.makeText(context, "Successfully uploaded", Toast.LENGTH_SHORT).show()

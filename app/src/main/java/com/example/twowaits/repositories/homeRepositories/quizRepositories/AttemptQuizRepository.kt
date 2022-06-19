@@ -49,10 +49,10 @@ class AttemptQuizRepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        getQuizData(attemptQuizBody)
-                    else
-                        errorGetQuizData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") getQuizData(attemptQuizBody)
+//                    else
+//                        errorGetQuizData.postValue("Some error has occurred!\nPlease try again")
+                    getQuizData(attemptQuizBody)
                 }
                 else -> {
                     errorGetQuizData.postValue("Error code is ${response.code()}\n${response.message()}")
@@ -73,10 +73,10 @@ class AttemptQuizRepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        attemptQuiz(attemptQuizBody)
-                    else
-                        errorAttemptQuizData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") attemptQuiz(attemptQuizBody)
+//                    else
+//                        errorAttemptQuizData.postValue("Some error has occurred!\nPlease try again")
+                    attemptQuiz(attemptQuizBody)
                 }
                 else -> {
                     errorAttemptQuizData.postValue("Error code is ${response.code()}\n${response.message()}")
@@ -94,10 +94,10 @@ class AttemptQuizRepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        registerResponse(registerResponseBody)
-                    else
-                        errorRegisterResponseData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") registerResponse(registerResponseBody)
+//                    else
+//                        errorRegisterResponseData.postValue("Some error has occurred!\nPlease try again")
+                    registerResponse(registerResponseBody)
                 }
                 else -> {
                     errorRegisterResponseData.postValue("Error code is ${response.code()}\n${response.message()}")
@@ -115,10 +115,10 @@ class AttemptQuizRepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success")
-                        viewScore(attemptQuizBody)
-                    else
-                        errorViewScoreData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") viewScore(attemptQuizBody)
+//                    else
+//                        errorViewScoreData.postValue("Some error has occurred!\nPlease try again")
+                    viewScore(attemptQuizBody)
                 }
                 else -> {
                     errorViewScoreData.postValue("${response.message()}/nPlease try again")
@@ -134,8 +134,9 @@ class AttemptQuizRepository {
                 response.isSuccessful -> detailedQuizScoreData.postValue(response.body())
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success") detailedQuizResult(id)
-                    else errorDetailedQuizScoreData.postValue("Some error has occurred!\nPlease try again")
+//                    if (result == "success") detailedQuizResult(id)
+//                    else errorDetailedQuizScoreData.postValue("Some error has occurred!\nPlease try again")
+                    detailedQuizResult(id)
                 }
                 else -> errorDetailedQuizScoreData.postValue("${response.message()}/nPlease try again")
             }

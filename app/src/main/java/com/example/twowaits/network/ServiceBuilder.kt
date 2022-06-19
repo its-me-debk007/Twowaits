@@ -1,42 +1,36 @@
 package com.example.twowaits.network
 
 import com.example.twowaits.utils.Utils
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 object ServiceBuilder {
-    private const val baseURL = "http://3.110.33.189/"
+    private const val BASE_URL = "http://3.110.33.189/"
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(MoshiConverterFactory.create())
 
     fun getInstance(): ApiInterface {
-
-        val tokenInterceptor = Interceptor { chain ->
-            var request = chain.request()
-            request = request.newBuilder()
-                .addHeader("Authorization", "Bearer ${Utils.ACCESS_TOKEN}")
-                .build()
-            chain.proceed(request)
-        }
-
         if (Utils.ACCESS_TOKEN != null) {
             val tokenClient = OkHttpClient.Builder()
-                .addInterceptor(tokenInterceptor)
+                .addInterceptor { chain ->
+                    val request = chain.request()
+                        .newBuilder()
+                        .addHeader("Authorization", "Bearer ${Utils.ACCESS_TOKEN}")
+                        .build()
+                    chain.proceed(request)
+                }
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build()
 
-            return Retrofit.Builder()
-                .baseUrl(baseURL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(tokenClient)
+            return retrofit.client(tokenClient)
                 .build()
                 .create(ApiInterface::class.java)
+
         } else {
-            return Retrofit.Builder()
-                .baseUrl(baseURL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+            return retrofit.build()
                 .create(ApiInterface::class.java)
         }
     }

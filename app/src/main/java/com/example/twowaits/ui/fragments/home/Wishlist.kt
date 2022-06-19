@@ -1,4 +1,4 @@
-package com.example.twowaits.homePages
+package com.example.twowaits.ui.fragments.home
 
 import android.content.Intent
 import android.os.Bundle

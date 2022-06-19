@@ -16,8 +16,12 @@
         <entry key="..\:/Twowaits/app/src/main/res/drawable/comment_icon.xml" value="0.3927083333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/drawable/comment_icon_active.xml" value="0.3927083333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/drawable/download_icon.xml" value="0.254" />
+        <entry key="..\:/Twowaits/app/src/main/res/drawable/enlarged_plus_icon.xml" value="0.1085" />
         <entry key="..\:/Twowaits/app/src/main/res/drawable/enter_details_border.xml" value="0.26458333333333334" />
         <entry key="..\:/Twowaits/app/src/main/res/drawable/exit_dialog.xml" value="0.2155" />
+        <entry key="..\:/Twowaits/app/src/main/res/drawable/ic_educool.xml" value="0.2425" />
+        <entry key="..\:/Twowaits/app/src/main/res/drawable/ic_logo.xml" value="0.2425" />
+        <entry key="..\:/Twowaits/app/src/main/res/drawable/ic_studying_lady.xml" value="0.2425" />
         <entry key="..\:/Twowaits/app/src/main/res/drawable/like_button_state.xml" value="0.3927083333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/drawable/like_icon.xml" value="0.3927083333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/drawable/login_border.xml" value="0.24895833333333334" />
@@ -54,7 +58,7 @@
         <entry key="..\:/Twowaits/app/src/main/res/layout/ask_question.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/bookmarked_notes.xml" value="0.30913978494623656" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/bookmarked_notes_card_view.xml" value="0.536" />
-        <entry key="..\:/Twowaits/app/src/main/res/layout/bookmarked_notes_card_view2.xml" value="0.536" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/bookmarked_notes_card_view2.xml" value="0.18620689655172415" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/bookmarked_questions.xml" value="0.2" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/card_view.xml" value="0.536" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/change_password.xml" value="0.2484375" />
@@ -82,7 +86,8 @@
         <entry key="..\:/Twowaits/app/src/main/res/layout/feedback.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/first_auth_page.xml" value="0.264" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_first_page.xml" value="0.2" />
-        <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_login.xml" value="0.23645833333333333" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_login.xml" value="0.33456153279292555" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_upload_note.xml" value="0.4" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_viewpager.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_webview.xml" value="0.2390625" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/hamburger_menu_header.xml" value="0.2" />
@@ -100,9 +105,9 @@
         <entry key="..\:/Twowaits/app/src/main/res/layout/please_wait_dialog.xml" value="0.264" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/please_wait_dialog2.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/privacy_policy.xml" value="0.4" />
-        <entry key="..\:/Twowaits/app/src/main/res/layout/profile.xml" value="0.4" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/profile.xml" value="0.264" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/profile_shimmer_layout.xml" value="0.4" />
-        <entry key="..\:/Twowaits/app/src/main/res/layout/q_n_a.xml" value="0.3765625" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/q_n_a.xml" value="0.511578947368421" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/questions_and_answers.xml" value="0.2640625" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/quiz.xml" value="0.38671875" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/quiz_card_view.xml" value="0.4897119341563786" />
@@ -112,7 +117,7 @@
         <entry key="..\:/Twowaits/app/src/main/res/layout/show_search_questions.xml" value="0.4823529411764706" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/sign_up.xml" value="0.44305019305019305" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/splash_screen.xml" value="0.17777777777777778" />
-        <entry key="..\:/Twowaits/app/src/main/res/layout/student_suggestion.xml" value="0.72" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/student_suggestion.xml" value="0.6893617021276596" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/upload_lecture.xml" value="0.19166666666666668" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/upload_notes.xml" value="0.4" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/user_details.xml" value="0.4" />

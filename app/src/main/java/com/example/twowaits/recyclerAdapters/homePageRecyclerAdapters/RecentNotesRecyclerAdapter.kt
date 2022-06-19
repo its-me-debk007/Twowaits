@@ -19,10 +19,10 @@ class RecentNotesRecyclerAdapter(
     RecyclerView.Adapter<RecentNotesRecyclerAdapter.RecentNotesViewHolder>() {
 
     inner class RecentNotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val subjectName: TextView = itemView.findViewById(R.id.SubjectName)
-        val noteDetails: TextView = itemView.findViewById(R.id.NoteDetails)
-        val moreNoteDetails: TextView = itemView.findViewById(R.id.MoreNoteDetails)
-        val bookmark: ToggleButton = itemView.findViewById(R.id.Bookmark)
+        val subjectName: TextView = itemView.findViewById(R.id.subjectName)
+        val noteDetails: TextView = itemView.findViewById(R.id.noteDetails)
+        val moreNoteDetails: TextView = itemView.findViewById(R.id.moreNoteDetails)
+        val bookmark: ToggleButton = itemView.findViewById(R.id.bookmark)
         val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
         val seeAll: MaterialButton = itemView.findViewById(R.id.seeAll)
 

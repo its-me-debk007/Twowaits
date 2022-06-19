@@ -61,6 +61,12 @@ class HomeActivity : AppCompatActivity() {
             setContentView(NoInternetDialogBinding.inflate(layoutInflater).root)
             setCancelable(false)
         }
+
+        Utils().saveAccessTokenLiveData.observe(this) {
+            lifecycleScope.launch {
+                dataStore.saveTokens("accessToken", it)
+            }
+        }
     }
 
     private fun navDrawerItemClicks() {
@@ -69,20 +75,21 @@ class HomeActivity : AppCompatActivity() {
             binding.drawerLayout.closeDrawers()
             when (it.itemId) {
                 R.id.logout -> {
-                    MaterialAlertDialogBuilder(this)
-                        .setTitle("Exit")
-                        .setMessage("Are you sure want to logout?")
-                        .setIcon(R.drawable.exit_warning)
-                        .setPositiveButton("Yes") { _, _ ->
-                            lifecycleScope.launch {
-                                dataStore.saveLoginData("")
+                        MaterialAlertDialogBuilder(this)
+                            .setTitle(R.string.logout)
+                            .setMessage(R.string.logoutConfirmation)
+                            .setIcon(R.drawable.exit_warning)
+                            .setPositiveButton("Logout") { _, _ ->
+                                lifecycleScope.launch {
+                                    dataStore.saveLoginData("")
+                                }
+                                Utils.ACCESS_TOKEN = null
+                                startActivity(Intent(this, AuthActivity::class.java))
+                                finish()
                             }
-                            Utils.ACCESS_TOKEN = null
-                            startActivity(Intent(this, AuthActivity::class.java))
-                            finish()
-                        }
-                        .setNegativeButton("No") { _, _ -> }
-                        .show()
+                            .setNegativeButton("Cancel") { _, _ -> }
+                            .setBackground(ContextCompat.getDrawable(this, R.drawable.exit_dialog))
+                            .show()
                 }
                 R.id.aboutEduCool ->
                     intent.putExtra("navDrawerFragment", "About us")

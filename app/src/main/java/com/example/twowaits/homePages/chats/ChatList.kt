@@ -54,7 +54,7 @@ class ChatList: Fragment(), ChatProfileClicked {
                 val actionBar = activity?.findViewById<MaterialToolbar>(R.id.actionBar)
                 val menu = actionBar?.menu
                 val item = menu?.findItem(R.id.chatList)
-                item?.icon = ContextCompat.getDrawable(requireContext(), R.drawable.chat_icon)
+                item?.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_chat)
             }
         })
     }

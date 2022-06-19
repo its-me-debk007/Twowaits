@@ -2,14 +2,14 @@ package com.example.twowaits.ui.activities.auth
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.twowaits.databinding.ActivityMainBinding
+import com.example.twowaits.databinding.ActivityAuthBinding
 
 class AuthActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityAuthBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 

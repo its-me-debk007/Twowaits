@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/homePage"
-        android:name="com.example.twowaits.homePages.HomePage"
+        android:name="com.example.twowaits.homePages.HomeFragment"
         android:label="home_page"
-        tools:layout="@layout/home_page">
+        tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/action_homePage_self"

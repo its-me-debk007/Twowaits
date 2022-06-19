@@ -12,8 +12,11 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
 import com.example.twowaits.ui.activities.home.AskActivity
 import com.example.twowaits.utils.Utils
@@ -23,6 +26,10 @@ import com.example.twowaits.network.dashboardApiCalls.FacultyProfileDetailsRespo
 import com.example.twowaits.network.dashboardApiCalls.StudentProfileDetailsResponse
 import com.example.twowaits.databinding.PleaseWaitDialogBinding
 import com.example.twowaits.databinding.ProfileBinding
+import com.example.twowaits.models.home.UpdateProfileDetailsBody
+import com.example.twowaits.sealedClasses.Response
+import com.example.twowaits.ui.fragments.home.Wishlist
+import com.example.twowaits.ui.fragments.home.YourQuestions
 import com.example.twowaits.viewmodels.ProfileDetailsViewModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.tabs.TabLayoutMediator
@@ -32,6 +39,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 @DelicateCoroutinesApi
 class Profile : Fragment(R.layout.profile) {
     private lateinit var binding: ProfileBinding
+    private val viewModel by lazy { ViewModelProvider(this)[ProfileDetailsViewModel::class.java] }
     lateinit var name: String
     private var accountId = 0
     private lateinit var profileDetailsStudent: StudentProfileDetailsResponse
@@ -40,7 +48,6 @@ class Profile : Fragment(R.layout.profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = ProfileBinding.bind(view)
-        val viewModel = ViewModelProvider(this)[ProfileDetailsViewModel::class.java]
         var price: Int
 
         binding.swipeToRefresh.setColorSchemeColors(Color.parseColor("#804D37"))
@@ -58,21 +65,24 @@ class Profile : Fragment(R.layout.profile) {
         if (Utils.USER == "FACULTY") {
             viewModel.profileDetailsFaculty()
             viewModel.profileFacultyLiveData.observe(viewLifecycleOwner) {
-                profileDetailsFaculty = it
-                Glide.with(requireActivity()).load(it.profile_pic_firebase).into(binding.ProfilePic)
-                name = it.name
-                val title: String = when (it.gender) {
-                    "M" -> "SIR"
-                    "F" -> "MA'AM"
-                    else -> "FACULTY"
+                if (it is Response.Success) {
+                    profileDetailsFaculty = it.data!!
+                    Glide.with(requireActivity())
+                        .load(it.data.profile_pic_firebase)
+                        .placeholder(R.drawable.enter_details_profile_pic)
+                        .into(binding.ProfilePic)
+                    name = it.data.name
+                    val title: String = when (it.data.gender) {
+                        "M" -> "SIR"
+                        "F" -> "MA'AM"
+                        else -> "FACULTY"
+                    }
+                    binding.CollegeOfUser.text = it.data.college
+                    binding.DetailsOfUser.text = it.data.department
+                    accountId = it.data.faculty_account_id
+                    binding.NameOfUser.text = it.data.name + " " + title
                 }
-                binding.CollegeOfUser.text = it.college
-                binding.DetailsOfUser.text = it.department
-                accountId = it.faculty_account_id
-                binding.NameOfUser.text = it.name + " " + title
-            }
-            viewModel.errorFacultyLiveData.observe(viewLifecycleOwner) {
-                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+                else Toast.makeText(activity, it.errorMessage, Toast.LENGTH_SHORT).show()
             }
         } else {
             viewModel.profileDetailsStudent()
@@ -99,7 +109,7 @@ class Profile : Fragment(R.layout.profile) {
         val chooseImage = registerForActivityResult(
             ActivityResultContracts.GetContent()
         ) {
-            if (it != null) {
+            it?.let {
                 val dialog = Dialog(requireContext())
                 dialog.setContentView(PleaseWaitDialogBinding.inflate(layoutInflater).root)
                 dialog.setCancelable(false)
@@ -138,11 +148,12 @@ class Profile : Fragment(R.layout.profile) {
         binding.AddPicBtn.setOnClickListener { chooseImage.launch("image/*") }
 
         binding.editProfile.setOnClickListener {
-            val intent = Intent(context, AskActivity::class.java)
-            intent.putExtra("askActivityFragment", Utils.USER)
-            if (Utils.USER == "FACULTY") intent.putExtra("profileDetails", profileDetailsFaculty)
-            else intent.putExtra("profileDetails", profileDetailsStudent)
-            startActivity(intent)
+            Intent(context, AskActivity::class.java).apply {
+                putExtra("askActivityFragment", Utils.USER)
+                if (Utils.USER == "FACULTY") putExtra("profileDetails", profileDetailsFaculty)
+                else putExtra("profileDetails", profileDetailsStudent)
+                startActivity(this)
+            }
         }
 
         binding.cardView.setOnClickListener {
@@ -195,5 +206,18 @@ class Profile : Fragment(R.layout.profile) {
                 findNavController().navigate(R.id.action_profile_to_homePage)
             }
         })
+    }
+}
+
+class ProfileViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle): FragmentStateAdapter(fragmentManager, lifecycle) {
+    override fun getItemCount(): Int {
+        return 2
+    }
+
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
+            0 -> YourQuestions()
+            else -> Wishlist()
+        }
     }
 }

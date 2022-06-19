@@ -4,13 +4,13 @@
 
     <item
         android:id="@+id/SearchIcon"
-        android:icon="@drawable/search_icon"
+        android:icon="@drawable/ic_search"
         android:title="Search"
         android:visible="false"
         app:showAsAction="always" />
     <item
         android:id="@+id/chatList"
-        android:icon="@drawable/chat_icon"
+        android:icon="@drawable/ic_chat"
         android:title="Chat"
         app:showAsAction="always" />
 </menu>

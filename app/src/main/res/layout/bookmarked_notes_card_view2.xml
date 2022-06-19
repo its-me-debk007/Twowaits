@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                     android:textColor="#656565"
                     android:textSize="10sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/NotesImg"
+                    app:layout_constraintStart_toEndOf="@+id/notesImg"
                     app:layout_constraintTop_toBottomOf="@+id/subjectName" />
 
                 <ImageView
@@ -115,7 +115,25 @@
                     app:srcCompat="@drawable/bookmarks_icon" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/seeAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="#A17A69"
+            android:fontFamily="@font/roboto_regular"
+            android:text="See All"
+            android:textSize="16sp"
+            app:elevation="6dp"
+            android:visibility="invisible"
+            app:cornerRadius="31dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

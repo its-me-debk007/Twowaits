@@ -129,7 +129,7 @@
             app:layout_constraintTop_toBottomOf="@+id/forgotPassword" />
 
         <TextView
-            android:id="@+id/OrLine"
+            android:id="@+id/orLine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="197dp"
@@ -143,61 +143,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logIn" />
 
-        <ImageView
+        <View
             android:id="@+id/imageView5"
             android:layout_width="0dp"
-            android:layout_height="10dp"
+            android:layout_height="1dp"
             android:layout_marginStart="6dp"
-            android:layout_marginTop="30dp"
             android:layout_marginEnd="35dp"
+            android:background="#BDBDBD"
+            app:layout_constraintBottom_toBottomOf="@+id/orLine"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/OrLine"
-            app:layout_constraintTop_toBottomOf="@+id/logIn"
-            app:srcCompat="@drawable/auth_horizontal_line" />
+            app:layout_constraintStart_toEndOf="@+id/orLine"
+            app:layout_constraintTop_toTopOf="@+id/orLine" />
 
-        <ImageView
+        <View
             android:layout_width="0dp"
-            android:layout_height="10dp"
+            android:layout_height="1dp"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="30dp"
             android:layout_marginEnd="6dp"
+            android:background="#BDBDBD"
+            app:layout_constraintBottom_toBottomOf="@+id/orLine"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/OrLine"
+            app:layout_constraintEnd_toStartOf="@+id/orLine"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logIn"
-            app:srcCompat="@drawable/auth_horizontal_line" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/SignInWithGoogleConstraintLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView5">
-
-            <TextView
-                android:id="@+id/sign_in_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Sign In using Google"
-                android:textColor="#020100"
-                android:textSize="17sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toStartOf="@+id/sign_in_button"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/google" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="@+id/orLine" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -206,7 +174,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/SignInWithGoogleConstraintLayout">
+            app:layout_constraintTop_toBottomOf="@+id/orLine">
 
             <TextView
                 android:id="@+id/simpleText"

@@ -26,17 +26,20 @@
                 android:backgroundTint="#B39283"
                 android:elevation="8dp"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
-                app:navigationIcon="@drawable/hamburger_menu_icon" >
+                app:navigationIcon="@drawable/ic_hamburger" >
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/imageView6"
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/logo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_educool" />
+                        android:text="EduCool"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textSize="24sp"
+                        android:textColor="#FFF0E9"/>
 
                 </LinearLayout>
             </com.google.android.material.appbar.MaterialToolbar>

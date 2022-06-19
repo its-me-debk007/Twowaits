@@ -11,12 +11,11 @@ import com.example.twowaits.network.dashboardApiCalls.QnAResponseItem
 import com.example.twowaits.network.dashboardApiCalls.RecentLecturesResponse
 import com.example.twowaits.network.dashboardApiCalls.RecentNotesResponse
 import com.example.twowaits.network.dashboardApiCalls.RecentQuizzesResponse
-import com.example.twowaits.homePages.UploadNotePartialBody
+import com.example.twowaits.models.home.UploadNotePartialBody
 import com.example.twowaits.homePages.navdrawerPages.ChangePasswordBody
 import com.example.twowaits.homePages.navdrawerPages.Feedbackbody
 import com.example.twowaits.repositories.homeRepositories.HomePageRepository
 import com.example.twowaits.repositories.homeRepositories.questionsAnswersRepositories.QnARepository
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 
 class HomePageViewModel : ViewModel() {
@@ -24,9 +23,8 @@ class HomePageViewModel : ViewModel() {
     lateinit var recentNotesLiveData: LiveData<Response<List<RecentNotesResponse>>>
     lateinit var recentQuizzesLiveData: LiveData<Response<List<RecentQuizzesResponse>>>
     lateinit var getQnALiveData: LiveData<Response<List<QnAResponseItem>>>
+    lateinit var changePasswordLiveData: LiveData<Response<SendOtpResponse>>
 
-    lateinit var changePasswordLiveData: LiveData<SendOtpResponse>
-    lateinit var errorChangePasswordData: LiveData<String>
     lateinit var uploadPDF: MutableLiveData<String>
     lateinit var getSearchQnAData: MutableLiveData<List<QnAResponseItem>>
     lateinit var errorGetSearchQnAData: MutableLiveData<String>
@@ -50,11 +48,8 @@ class HomePageViewModel : ViewModel() {
         recentLecturesLiveData = HomePageRepository().recentLectures()
     }
 
-    fun changePassword(changePasswordBody: ChangePasswordBody) {
-        val repository = HomePageRepository()
-        repository.changePassword(changePasswordBody)
-        changePasswordLiveData = repository.changePasswordLiveData
-        errorChangePasswordData = repository.errorChangePasswordData
+    fun changePassword(changePasswordBody: ChangePasswordBody) = viewModelScope.launch{
+        changePasswordLiveData = HomePageRepository().changePassword(changePasswordBody)
     }
 
     fun feedback(feedbackBody: Feedbackbody) {

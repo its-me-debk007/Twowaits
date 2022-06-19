@@ -1,4 +1,4 @@
-package com.example.twowaits.homePages
+package com.example.twowaits.models.home
 
 data class UploadNoteBody(
     val description: String,

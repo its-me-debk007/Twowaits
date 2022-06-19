@@ -28,7 +28,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/NoteDetails"
+                    android:id="@+id/noteDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
@@ -44,7 +44,7 @@
                     android:textColor="#656565"
                     android:textSize="10sp"
                     app:layout_constraintStart_toEndOf="@+id/NotesImg"
-                    app:layout_constraintTop_toBottomOf="@+id/SubjectName" />
+                    app:layout_constraintTop_toBottomOf="@+id/subjectName" />
 
                 <ImageView
                     android:id="@+id/NotesImg"
@@ -56,7 +56,7 @@
                     app:srcCompat="@drawable/notes" />
 
                 <TextView
-                    android:id="@+id/SubjectName"
+                    android:id="@+id/subjectName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
@@ -77,7 +77,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/MoreNoteDetails"
+                    android:id="@+id/moreNoteDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
@@ -94,10 +94,10 @@
                     android:textColor="#656565"
                     android:textSize="10sp"
                     app:layout_constraintStart_toEndOf="@+id/NotesImg"
-                    app:layout_constraintTop_toBottomOf="@+id/NoteDetails" />
+                    app:layout_constraintTop_toBottomOf="@+id/noteDetails" />
 
                 <ToggleButton
-                    android:id="@+id/Bookmark"
+                    android:id="@+id/bookmark"
                     android:layout_width="11dp"
                     android:layout_height="16dp"
                     android:layout_marginTop="8dp"
@@ -108,7 +108,7 @@
                     android:textOn=""
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/MoreNoteDetails"
+                    app:layout_constraintTop_toBottomOf="@+id/moreNoteDetails"
                     app:srcCompat="@drawable/bookmarks_icon" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

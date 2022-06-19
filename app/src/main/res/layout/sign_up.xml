@@ -112,7 +112,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
         <TextView
-            android:id="@+id/OrLine"
+            android:id="@+id/orLine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="197dp"
@@ -126,29 +126,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/SignUpButton" />
 
-        <ImageView
+        <View
             android:id="@+id/imageView5"
             android:layout_width="0dp"
-            android:layout_height="10dp"
+            android:layout_height="1dp"
             android:layout_marginStart="6dp"
-            android:layout_marginTop="30dp"
             android:layout_marginEnd="35dp"
+            android:background="#BDBDBD"
+            app:layout_constraintBottom_toBottomOf="@+id/orLine"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/OrLine"
-            app:layout_constraintTop_toBottomOf="@+id/SignUpButton"
-            app:srcCompat="@drawable/auth_horizontal_line" />
+            app:layout_constraintStart_toEndOf="@+id/orLine"
+            app:layout_constraintTop_toTopOf="@+id/orLine" />
 
-        <ImageView
+        <View
             android:layout_width="0dp"
-            android:layout_height="10dp"
+            android:layout_height="1dp"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="30dp"
             android:layout_marginEnd="6dp"
+            android:background="#BDBDBD"
+            app:layout_constraintBottom_toBottomOf="@+id/orLine"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/OrLine"
+            app:layout_constraintEnd_toStartOf="@+id/orLine"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/SignUpButton"
-            app:srcCompat="@drawable/auth_horizontal_line" />
+            app:layout_constraintTop_toTopOf="@+id/orLine" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"

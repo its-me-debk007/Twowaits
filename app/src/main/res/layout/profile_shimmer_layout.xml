@@ -26,17 +26,16 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/profile_constraint_layout_design">
+                android:layout_height="wrap_content">
 
-                <ImageView
+                <View
                     android:id="@+id/HorizontalLine"
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"
+                    android:layout_height="1dp"
+                    android:background="#E6DEDA"
                     android:layout_marginStart="19dp"
                     android:layout_marginTop="7dp"
                     android:layout_marginEnd="19dp"
-                    android:src="@drawable/profile_page_horizontal_line"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/NameOfUser" />

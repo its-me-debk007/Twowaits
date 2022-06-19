@@ -8,9 +8,9 @@ import com.example.twowaits.ui.fragments.auth.CreateFacultyProfileBody
 import com.example.twowaits.ui.fragments.auth.CreateStudentProfileBody
 import com.example.twowaits.ui.fragments.auth.VerifyOtpBody
 import com.example.twowaits.homePages.BookmarkNoteBody
-import com.example.twowaits.homePages.UpdateProfileDetailsBody
-import com.example.twowaits.homePages.UploadLectureBody
-import com.example.twowaits.homePages.UploadNoteBody
+import com.example.twowaits.models.home.UpdateProfileDetailsBody
+import com.example.twowaits.models.home.UploadLectureBody
+import com.example.twowaits.models.home.UploadNoteBody
 import com.example.twowaits.homePages.navdrawerPages.ChangePasswordBody
 import com.example.twowaits.homePages.navdrawerPages.Feedbackbody
 import com.example.twowaits.homePages.questionsAnswers.*
@@ -40,9 +40,9 @@ interface ApiInterface {
 
     @FormUrlEncoded
     @POST("account/token/refresh/")
-    fun getNewAccessToken(
+    suspend fun getNewAccessToken(
         @Field("refresh") refresh: String
-    ): Call<GetNewAccessTokenResponse>
+    ): Response<GetNewAccessTokenResponse>
 
     @FormUrlEncoded
     @POST("account/send-otp/")
@@ -68,7 +68,7 @@ interface ApiInterface {
     ): Call<VerifyOtpResponse>
 
     @GET("profile/")
-    suspend fun profileDetailsFaculty(): Response<FacultyProfileDetailsResponse>
+    fun profileDetailsFaculty(): Call<FacultyProfileDetailsResponse>
 
     @GET("profile/")
     suspend fun profileDetailsStudent(): Response<StudentProfileDetailsResponse>
@@ -186,9 +186,9 @@ interface ApiInterface {
     suspend fun fetchConversationsMessages(): Response<List<FetchConversationsMessagesResponse>>
 
     @POST("account/change-password/")
-    suspend fun changePassword(
+    fun changePassword(
         @Body changePasswordBody: ChangePasswordBody
-    ): Response<SendOtpResponse>
+    ): Call<SendOtpResponse>
 
     @GET("forum/")
     suspend fun searchQnA(

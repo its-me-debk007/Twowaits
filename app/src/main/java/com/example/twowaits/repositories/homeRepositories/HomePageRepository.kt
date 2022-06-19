@@ -11,9 +11,9 @@ import com.example.twowaits.models.auth.SendOtpResponse
 import com.example.twowaits.network.dashboardApiCalls.RecentLecturesResponse
 import com.example.twowaits.network.dashboardApiCalls.RecentNotesResponse
 import com.example.twowaits.network.dashboardApiCalls.RecentQuizzesResponse
-import com.example.twowaits.homePages.UploadLectureBody
-import com.example.twowaits.homePages.UploadNoteBody
-import com.example.twowaits.homePages.UploadNotePartialBody
+import com.example.twowaits.models.home.UploadLectureBody
+import com.example.twowaits.models.home.UploadNoteBody
+import com.example.twowaits.models.home.UploadNotePartialBody
 import com.example.twowaits.homePages.navdrawerPages.ChangePasswordBody
 import com.example.twowaits.homePages.navdrawerPages.Feedbackbody
 import com.google.firebase.ktx.Firebase
@@ -30,10 +30,6 @@ import kotlin.random.Random
 
 @DelicateCoroutinesApi
 class HomePageRepository {
-    private val recentQuizzesData = MutableLiveData<List<RecentQuizzesResponse>>()
-    val recentQuizzesLiveData: LiveData<List<RecentQuizzesResponse>> = recentQuizzesData
-    private val errorRecentQuizzesData = MutableLiveData<String>()
-    val errorRecentQuizzesLiveData: LiveData<String> = errorRecentQuizzesData
     private val changePasswordData = MutableLiveData<SendOtpResponse>()
     val changePasswordLiveData: LiveData<SendOtpResponse> = changePasswordData
     private val errorChangePassword = MutableLiveData<String>()
@@ -43,26 +39,6 @@ class HomePageRepository {
     val uploadLectureData = MutableLiveData<String>()
 
     fun recentQuizzes(): MutableLiveData<Response<List<RecentQuizzesResponse>>> {
-//        GlobalScope.launch(Dispatchers.IO) {
-//            val response = ServiceBuilder.getInstance().recentQuizzes()
-//            when {
-//                response.isSuccessful -> {
-//                    recentQuizzesData.postValue(response.body())
-//                }
-//                response.code() == 400 -> {
-//                    val result = Utils().getNewAccessToken()
-//                    if (result == "success") {
-//                        recentQuizzes()
-//                    } else {
-//                        errorRecentQuizzesData.postValue("Some error has occurred!\nPlease try again")
-//                    }
-//                }
-//                else -> {
-//                    errorRecentQuizzesData.postValue("${response.message()}\nPlease try again")
-//                }
-//            }
-//        }
-
         val liveData = MutableLiveData<Response<List<RecentQuizzesResponse>>>()
         val call = ServiceBuilder.getInstance().recentQuizzes()
 
@@ -77,9 +53,9 @@ class HomePageRepository {
 
                     response.code() == 400 -> {
                         val result = Utils().getNewAccessToken()
-                        Log.e("dddd", "token expire")
-                        if (result == "success") recentQuizzes()
-                        else liveData.postValue(Response.Error("Some error has occurred!\nPlease try again"))
+//                        if (result == "success") recentQuizzes()
+//                        else liveData.postValue(Response.Error("Some error has occurred!\nPlease try again"))
+                        recentQuizzes()
                     }
 
                     else -> liveData.postValue(Response.Error(response.message() + "\nPlease try again"))
@@ -109,8 +85,9 @@ class HomePageRepository {
                     response.code() == 400 -> {
                         val result = Utils().getNewAccessToken()
                         Log.e("dddd", "token expire")
-                        if (result == "success") recentLectures()
-                        else liveData.postValue(Response.Error("Some error has occurred!\nPlease try again"))
+//                        if (result == "success") recentNotes()
+//                        else liveData.postValue(Response.Error("Some error has occurred!\nPlease try again"))
+                        recentNotes()
                     }
 
                     else -> liveData.postValue(Response.Error(response.message() + "\nPlease try again"))
@@ -139,8 +116,9 @@ class HomePageRepository {
                     response.code() == 400 -> {
                         val result = Utils().getNewAccessToken()
                         Log.e("dddd", "token expire")
-                        if (result == "success") recentLectures()
-                        else liveData.postValue(Response.Error("Some error has occurred!\nPlease try again"))
+//                        if (result == "success") recentLectures()
+//                        else liveData.postValue(Response.Error("Some error has occurred!\nPlease try again"))
+                        recentLectures()
                     }
 
                     else -> liveData.postValue(Response.Error(response.message() + "\nPlease try again"))
@@ -154,33 +132,35 @@ class HomePageRepository {
         return liveData
     }
 
-    fun changePassword(changePasswordBody: ChangePasswordBody) {
-        try {
-            GlobalScope.launch(Dispatchers.IO) {
-                val response = ServiceBuilder.getInstance().changePassword(changePasswordBody)
+    fun changePassword(changePasswordBody: ChangePasswordBody): MutableLiveData<Response<SendOtpResponse>> {
+        val liveData = MutableLiveData<Response<SendOtpResponse>>()
+        val call = ServiceBuilder.getInstance().changePassword(changePasswordBody)
+        call.enqueue(object : Callback<SendOtpResponse> {
+            override fun onResponse(
+                call: Call<SendOtpResponse>,
+                response: retrofit2.Response<SendOtpResponse>
+            ) {
                 when {
-                    response.isSuccessful -> {
-                        changePasswordData.postValue(response.body())
-                    }
-                    response.code() == 405 -> {
-                        errorChangePassword.postValue("Invalid old password")
-                    }
+                    response.isSuccessful ->
+                        liveData.postValue(Response.Success(response.body()))
+
                     response.code() == 400 -> {
                         val result = Utils().getNewAccessToken()
-                        if (result == "success") changePassword(changePasswordBody)
-                        else errorChangePassword.postValue("Some error has occurred!\nPlease try again")
+                        Log.e("dddd", "token expire")
+//                        if (result == "success") changePassword(changePasswordBody)
+//                        else liveData.postValue(Response.Error("Some error has occurred!\nPlease try again"))
+                        changePassword(changePasswordBody)
                     }
-                    else -> {
-                        errorChangePassword.postValue(
-                            "${response.message()}\n" +
-                                    "Please try again"
-                        )
-                    }
+
+                    else -> liveData.postValue(Response.Error(response.message() + "\nPlease try again"))
                 }
             }
-        } catch (e: Exception) {
 
-        }
+            override fun onFailure(call: Call<SendOtpResponse>, t: Throwable) {
+                liveData.postValue(Response.Error(t.message + "\nPlease try again"))
+            }
+        })
+        return liveData
     }
 
     fun feedback(feedbackBody: Feedbackbody) {
@@ -192,11 +172,9 @@ class HomePageRepository {
                 }
                 response.code() == 400 -> {
                     val result = Utils().getNewAccessToken()
-                    if (result == "success") {
-                        feedback(feedbackBody)
-                    } else {
-                        feedbackData.postValue("Some error has occurred!\nPlease try again")
-                    }
+//                    if (result == "success") feedback(feedbackBody)
+//                    else feedbackData.postValue("Some error has occurred!\nPlease try again")
+                    feedback(feedbackBody)
                 }
                 else -> {
                     feedbackData.postValue("${response.message()}\nPlease try again")
@@ -226,11 +204,9 @@ class HomePageRepository {
                                 }
                                 response.code() == 400 -> {
                                     val result = Utils().getNewAccessToken()
-                                    if (result == "success") {
-                                        uploadNote(uri, uploadPartialNoteBody)
-                                    } else {
-                                        uploadPDF.postValue("Some error has occurred!\nPlease try again")
-                                    }
+//                                    if (result == "success") uploadNote(uri, uploadPartialNoteBody)
+//                                    else uploadPDF.postValue("Some error has occurred!\nPlease try again")
+                                    uploadNote(uri, uploadPartialNoteBody)
                                 }
                                 else -> {
                                     uploadPDF.postValue(
@@ -268,11 +244,9 @@ class HomePageRepository {
                                 }
                                 response.code() == 400 -> {
                                     val result = Utils().getNewAccessToken()
-                                    if (result == "success") {
-                                        uploadLecture(title, description, uri)
-                                    } else {
-                                        uploadLectureData.postValue("Some error has occurred!\nPlease try again")
-                                    }
+//                                    if (result == "success") uploadLecture(title, description, uri)
+//                                    else uploadLectureData.postValue("Some error has occurred!\nPlease try again")
+                                    uploadLecture(title, description, uri)
                                 }
                                 else -> {
                                     uploadLectureData.postValue(

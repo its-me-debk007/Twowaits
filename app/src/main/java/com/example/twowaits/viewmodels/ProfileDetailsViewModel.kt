@@ -3,34 +3,31 @@ package com.example.twowaits.viewmodels
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.twowaits.network.dashboardApiCalls.FacultyProfileDetailsResponse
 import com.example.twowaits.network.dashboardApiCalls.StudentProfileDetailsResponse
-import com.example.twowaits.homePages.UpdateProfileDetailsBody
+import com.example.twowaits.models.home.UpdateProfileDetailsBody
 import com.example.twowaits.repositories.homeRepositories.ProfileRepository
+import com.example.twowaits.sealedClasses.Response
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.launch
 
 @DelicateCoroutinesApi
 class ProfileDetailsViewModel : ViewModel() {
 
-    lateinit var profileFacultyLiveData: LiveData<FacultyProfileDetailsResponse>
-    lateinit var errorFacultyLiveData: LiveData<String>
+    lateinit var profileFacultyLiveData: LiveData<Response<FacultyProfileDetailsResponse>>
 
     lateinit var profileStudentLiveData: LiveData<StudentProfileDetailsResponse>
     lateinit var errorStudentLiveData: LiveData<String>
 
-    lateinit var saveRefreshTokenMutableLiveData: LiveData<String>
     lateinit var uploadImageLiveData: LiveData<String>
 
     lateinit var updateProfileDetailsLiveData: LiveData<StudentProfileDetailsResponse>
     lateinit var errorUpdateProfileDetailsLiveData: LiveData<String>
 
-    lateinit var uriLiveData: LiveData<String>
 
-    fun profileDetailsFaculty() {
-        val repository = ProfileRepository()
-        repository.profileDetailsFaculty()
-        profileFacultyLiveData = repository.profileFacultyLiveData
-        errorFacultyLiveData = repository.errorFacultyLiveData
+    fun profileDetailsFaculty() = viewModelScope.launch{
+        profileFacultyLiveData = ProfileRepository().profileDetailsFaculty()
     }
 
     fun profileDetailsStudent() {

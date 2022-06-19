@@ -1,13 +1,11 @@
 package com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ToggleButton
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twowaits.R
 import com.example.twowaits.network.dashboardApiCalls.RecentLecturesResponse
@@ -73,7 +71,7 @@ class RecentLecturesRecyclerAdapter(
         val lectureDetails: TextView = itemView.findViewById(R.id.LectureDetails)
         val creator: TextView = itemView.findViewById(R.id.Creator)
         val lectureImg: ImageView = itemView.findViewById(R.id.LectureImg)
-        val bookmark: ToggleButton = itemView.findViewById(R.id.Bookmark)
+        val bookmark: ToggleButton = itemView.findViewById(R.id.bookmark)
         val wishlistCardView: MaterialCardView = itemView.findViewById(R.id.wishlistCardView)
         val seeAll: MaterialButton = itemView.findViewById(R.id.seeAll)
 

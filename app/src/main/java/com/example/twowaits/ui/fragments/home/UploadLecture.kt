@@ -1,17 +1,14 @@
-package com.example.twowaits.homePages
+package com.example.twowaits.ui.fragments.home
 
 import android.app.Dialog
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
 import com.example.twowaits.databinding.PleaseWaitDialogBinding
 import com.example.twowaits.databinding.UploadLectureBinding

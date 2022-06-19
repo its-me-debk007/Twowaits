@@ -29,10 +29,10 @@ class CreateQuizRepository {
                         }
                         response.code() == 400 -> {
                             val result = Utils().getNewAccessToken()
-                            if (result == "success")
-                                createQuiz(createQuizBody)
-                            else
-                                errorMutableLiveData.postValue("Some error has occurred!\nPlease try again")
+//                            if (result == "success") createQuiz(createQuizBody)
+//                            else
+//                                errorMutableLiveData.postValue("Some error has occurred!\nPlease try again")
+                            createQuiz(createQuizBody)
                         }
                         else -> {
                             errorMutableLiveData.postValue(

@@ -45,7 +45,7 @@
             app:fabSize="mini"
             app:layout_constraintStart_toStartOf="@+id/ProfilePic"
             app:layout_constraintTop_toTopOf="@+id/ProfilePic"
-            app:srcCompat="@drawable/plus_icon" />
+            app:srcCompat="@drawable/ic_plus" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ProfilePic"

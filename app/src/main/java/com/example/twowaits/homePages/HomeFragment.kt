@@ -25,7 +25,7 @@ import com.example.twowaits.NoteLectureActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.CreateAnswerBinding
 import com.example.twowaits.databinding.CreateCommentBinding
-import com.example.twowaits.databinding.HomePageBinding
+import com.example.twowaits.databinding.FragmentHomeBinding
 import com.example.twowaits.homePages.questionsAnswers.BookmarkQuestionBody
 import com.example.twowaits.homePages.questionsAnswers.CreateAnswerBody
 import com.example.twowaits.homePages.questionsAnswers.CreateCommentBody
@@ -50,9 +50,9 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent.set
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
 @DelicateCoroutinesApi
-class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesClicked,
+class HomeFragment : Fragment(R.layout.fragment_home), ItemClicked, QuizClicked, NotesClicked,
     LecturesClicked {
-    private lateinit var binding: HomePageBinding
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: QuestionsAnswersRecyclerAdapter
     private val viewModel by lazy { ViewModelProvider(this)[HomePageViewModel::class.java] }
     private val bottomNavigationView by lazy {
@@ -62,7 +62,7 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = HomePageBinding.bind(view)
+        binding = FragmentHomeBinding.bind(view)
         binding.swipeToRefresh.setColorSchemeColors(Color.parseColor("#804D37"))
         activity?.invalidateOptionsMenu()
 //        binding.shimmer.startShimmer()
@@ -114,7 +114,7 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
                 if (it.data!!.isEmpty()) noItems()
                 adapter = QuestionsAnswersRecyclerAdapter(
                     "HOME", it.data.toMutableList(),
-                    this@HomePage, requireContext()
+                    this@HomeFragment, requireContext()
                 )
                 binding.QnARecyclerView.adapter = adapter
                 binding.QnARecyclerView.layoutManager = object : LinearLayoutManager(context) {
@@ -191,8 +191,7 @@ class HomePage : Fragment(R.layout.home_page), ItemClicked, QuizClicked, NotesCl
             .setPositiveButton("YES") { _, _ ->
                 activity?.finishAffinity()
             }
-            .setNegativeButton("NO") { _, _ ->
-            }
+            .setNegativeButton("NO") { _, _ -> }
             .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.exit_dialog))
             .show()
     }

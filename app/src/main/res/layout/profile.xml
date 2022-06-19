@@ -48,17 +48,16 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/constraintLayout3"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/profile_constraint_layout_design">
+                        android:layout_height="wrap_content">
 
-                        <ImageView
+                        <View
                             android:id="@+id/HorizontalLine"
                             android:layout_width="match_parent"
-                            android:layout_height="10dp"
+                            android:layout_height="1dp"
+                            android:background="#E6DEDA"
                             android:layout_marginStart="19dp"
                             android:layout_marginTop="7dp"
                             android:layout_marginEnd="19dp"
-                            android:src="@drawable/profile_page_horizontal_line"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/NameOfUser" />
@@ -102,7 +101,7 @@
                             app:fabSize="mini"
                             app:layout_constraintStart_toStartOf="@+id/ProfilePic"
                             app:layout_constraintTop_toTopOf="@+id/ProfilePic"
-                            app:srcCompat="@drawable/plus_icon" />
+                            app:srcCompat="@drawable/ic_plus" />
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
                             android:id="@+id/editProfile"
@@ -120,6 +119,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/ProfilePic"
                             android:layout_width="113dp"
+                            app:srcCompat="@drawable/enter_details_profile_pic"
                             android:layout_height="111dp"
                             android:layout_marginTop="16dp"
                             android:scaleType="centerCrop"
@@ -135,7 +135,7 @@
                             android:layout_marginTop="11dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text=""
-                            android:textColor="#000000"
+                            android:textColor="@color/black"
                             android:textSize="18sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -161,36 +161,34 @@
                     android:id="@+id/PremiumBadgeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Premium Badge"
                     android:textColor="#606060"
                     android:textSize="12sp"
                     app:layout_constraintStart_toEndOf="@+id/imageView3"
+                    app:layout_constraintStart_toStartOf="@+id/TwoWaitsPremium"
                     app:layout_constraintTop_toBottomOf="@+id/TwoWaitsPremium" />
 
                 <TextView
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
                     android:layout_marginTop="2dp"
                     android:text="Priority in free video lectures and unlimited\ndownloads."
                     android:textColor="#606060"
                     android:textSize="12sp"
                     app:layout_constraintStart_toEndOf="@+id/imageView3"
+                    app:layout_constraintStart_toStartOf="@+id/TwoWaitsPremium"
                     app:layout_constraintTop_toBottomOf="@+id/PremiumBadgeText" />
 
                 <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="12dp"
                     app:layout_constraintEnd_toStartOf="@+id/TwoWaitsPremium"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ProfileCardView"
                     app:srcCompat="@drawable/premium_ribbon" />
 

@@ -4,8 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.twowaits.databinding.ActivityNoteLectureBinding
 import com.example.twowaits.homePages.PDFViewer
-import com.example.twowaits.homePages.VideoPlayer
-import com.example.twowaits.homePages.WebViewPDFViewer
+import com.example.twowaits.ui.fragments.home.VideoPlayer
 
 class NoteLectureActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNoteLectureBinding

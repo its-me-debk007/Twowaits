@@ -1,9 +1,7 @@
 package com.example.twowaits.utils
 
 import android.content.Context
-import android.net.Uri
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -13,12 +11,11 @@ import androidx.lifecycle.MutableLiveData
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.example.twowaits.network.ServiceBuilder
-import com.example.twowaits.network.dashboardApiCalls.GetNewAccessTokenResponse
 import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.GetQuizDataResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -63,7 +60,7 @@ class Utils {
     fun formatTime(date: String): String {
         val str = date.substring(0, 19)
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.UK)
-        val time = sdf.parse(str).toString()
+        val time = sdf.parse(str)!!.toString()
 
         val day = time.substring(8, 10)
         val month = time.substring(4, 7)
@@ -81,33 +78,37 @@ class Utils {
         return "$hours:$minutes $meridian, $day $month"
     }
 
-    var result = ""
-    fun getNewAccessToken(): String {
-        val call = ServiceBuilder.getInstance().getNewAccessToken(REFRESH_TOKEN!!)
-        call.enqueue(object : Callback<GetNewAccessTokenResponse> {
-                override fun onResponse(
-                    call: Call<GetNewAccessTokenResponse>,
-                    response: Response<GetNewAccessTokenResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        ACCESS_TOKEN = response.body()?.access
-                        result = "success"
-                    }
-                    else result = "failure"
-                }
+    val saveAccessTokenLiveData = MutableLiveData<String>()
+    fun getNewAccessToken() {
+        try {
+            GlobalScope.launch {
+                val response = ServiceBuilder.getInstance().getNewAccessToken(REFRESH_TOKEN!!)
+                ACCESS_TOKEN = response.body()?.access
+                saveAccessTokenLiveData.postValue(ACCESS_TOKEN)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
-                override fun onFailure(call: Call<GetNewAccessTokenResponse>, t: Throwable) {
-                    result = "failure"
-                }
+//        call.execute(object : Callback<GetNewAccessTokenResponse> {
+//                override fun onResponse(
+//                    call: Call<GetNewAccessTokenResponse>,
+//                    response: Response<GetNewAccessTokenResponse>
+//                ) {
+//                    if (response.isSuccessful) {
+//                        ACCESS_TOKEN = response.body()?.access
+//                        result = "success"
+//                    }
+//                    else result = "failure"
+//                }
+//
+//                override fun onFailure(call: Call<GetNewAccessTokenResponse>, t: Throwable) {
+//                    result = "failure"
+//                }
+//
+//            })
 
-            })
-
-        return result
-    }
-
-    fun showKeyboard(view: View, activity: FragmentActivity?) {
-        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+//        return result
     }
 
     fun hideKeyboard(view: View, activity: FragmentActivity?) {
@@ -115,7 +116,7 @@ class Utils {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun downloadImg(context: Context, imgUrl: String, dirPath: String, imgName: String){
+    fun downloadImg(context: Context, imgUrl: String, dirPath: String, imgName: String) {
         PRDownloader.initialize(context)
 
         PRDownloader.download(imgUrl, dirPath, imgName)

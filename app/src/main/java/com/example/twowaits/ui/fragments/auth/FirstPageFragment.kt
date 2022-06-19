@@ -3,6 +3,7 @@ package com.example.twowaits.ui.fragments.auth
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
@@ -29,14 +30,21 @@ class FirstPageFragment : Fragment(R.layout.fragment_first_page) {
         super.onCreate(savedInstanceState)
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Exit")
-                    .setMessage("Are you sure you want to exit?")
-                    .setIcon(R.drawable.exit_warning)
-                    .setPositiveButton("Yes") { _, _ -> activity?.finishAffinity() }
-                    .setNegativeButton("No") { _, _ -> }
-                    .show()
+                exitConfirmation()
             }
         })
+    }
+
+    private fun exitConfirmation() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.exit)
+            .setMessage(R.string.exitConfirmation)
+            .setIcon(R.drawable.exit_warning)
+            .setPositiveButton("YES") { _, _ ->
+                activity?.finishAffinity()
+            }
+            .setNegativeButton("NO") { _, _ -> }
+            .setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.exit_dialog))
+            .show()
     }
 }

@@ -38,7 +38,7 @@
         app:layout_constraintStart_toEndOf="@+id/answererProfilePic"
         app:layout_constraintTop_toBottomOf="@+id/answerer" />
 
-    <com.borjabravo.readmoretextview.ReadMoreTextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/answer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,13 +48,9 @@
         android:fontFamily="@font/roboto_regular"
         android:text="@string/sample_long_text"
         android:textColor="#525252"
-        app:colorClickableText="#804D37"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/answerDetails"
-        app:trimCollapsedText="Show Less"
-        app:trimLength="143"
-        app:trimMode="trimModeLength" />
+        app:layout_constraintTop_toBottomOf="@+id/answerDetails" />
 
     <ToggleButton
         android:id="@+id/likeBtn"
@@ -89,7 +85,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toEndOf="@+id/likesCount"
         app:layout_constraintTop_toBottomOf="@+id/answer"
-        app:srcCompat="@drawable/comment_icon" />
+        app:srcCompat="@drawable/ic_comment" />
 
     <TextView
         android:id="@+id/commentsCount"
