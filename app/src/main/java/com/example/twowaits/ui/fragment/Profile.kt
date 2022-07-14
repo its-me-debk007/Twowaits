@@ -1,9 +1,7 @@
 package com.example.twowaits.homePages
 
-import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -18,18 +16,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
-import com.example.twowaits.ui.activity.home.AskActivity
-import com.example.twowaits.utils.Utils
 import com.example.twowaits.PaymentActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.FragmentProfileBinding
 import com.example.twowaits.network.dashboardApiCalls.FacultyProfileDetailsResponse
 import com.example.twowaits.network.dashboardApiCalls.StudentProfileDetailsResponse
-import com.example.twowaits.databinding.PleaseWaitDialogBinding
-import com.example.twowaits.model.home.UpdateProfileDetailsBody
 import com.example.twowaits.sealedClass.Response
+import com.example.twowaits.ui.activity.home.AskActivity
 import com.example.twowaits.ui.fragment.home.Wishlist
 import com.example.twowaits.ui.fragment.home.YourQuestions
+import com.example.twowaits.utils.Utils
 import com.example.twowaits.viewmodel.ProfileDetailsViewModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.tabs.TabLayoutMediator
@@ -82,8 +78,7 @@ class Profile : Fragment(R.layout.fragment_profile) {
                     binding.DetailsOfUser.text = it.data.department
                     accountId = it.data.faculty_account_id
                     binding.NameOfUser.text = it.data.name + " " + title
-                }
-                else Toast.makeText(activity, it.errorMessage, Toast.LENGTH_SHORT).show()
+                } else Toast.makeText(activity, it.errorMessage, Toast.LENGTH_SHORT).show()
             }
         } else {
             viewModel.profileDetailsStudent()
@@ -111,37 +106,29 @@ class Profile : Fragment(R.layout.fragment_profile) {
             ActivityResultContracts.GetContent()
         ) {
             it?.let {
-                val dialog = Dialog(requireContext())
-                dialog.setContentView(PleaseWaitDialogBinding.inflate(layoutInflater).root)
-                dialog.setCancelable(false)
-                dialog.show()
-                if (dialog.window != null)
-                    dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
-
+                binding.profileProgressBar.show()
+                binding.ProfilePic.alpha = 0.2f
                 viewModel.uploadProfilePic(it, accountId)
                 viewModel.uploadImageLiveData.observe(viewLifecycleOwner) { message ->
                     if (message.substring(0, 8) == "Uploaded") {
                         val uri = message.substring(8)
-                        viewModel.updateProfileDetails(UpdateProfileDetailsBody(name, uri))
-                        viewModel.updateProfileDetailsLiveData.observe(viewLifecycleOwner) {
-                            Toast.makeText(context, "Successfully uploaded", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                        viewModel.errorUpdateProfileDetailsLiveData.observe(
-                            viewLifecycleOwner
-                        ) { errorMessage ->
-                            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                        viewModel.updateProfileDetails(name, uri)
+                        viewModel.updateProfileLiveData.observe(viewLifecycleOwner) { response ->
+                            Toast.makeText(
+                                context,
+                                if (response is Response.Success) "Successfully uploaded"
+                                else response.errorMessage,
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                         binding.ProfilePic.setImageURI(it)
-                        dialog.hide()
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "$message\nPlease select the image again",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        dialog.hide()
-                    }
+                    } else Toast.makeText(
+                        context, "$message\nPlease try again",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    binding.profileProgressBar.hide()
+                    binding.ProfilePic.alpha = 1f
                 }
             }
         }
@@ -215,7 +202,8 @@ class Profile : Fragment(R.layout.fragment_profile) {
     }
 }
 
-class ProfileViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle): FragmentStateAdapter(fragmentManager, lifecycle) {
+class ProfileViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
+    FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
         return 2
     }
