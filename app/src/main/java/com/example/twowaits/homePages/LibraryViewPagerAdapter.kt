@@ -4,6 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.twowaits.ui.fragment.home.library.BookmarkedNotes
+import com.example.twowaits.ui.fragment.home.library.BookmarkedQuestions
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

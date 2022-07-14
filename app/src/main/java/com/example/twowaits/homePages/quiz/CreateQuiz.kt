@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
 import com.example.twowaits.databinding.CreateQuizBinding
-import com.example.twowaits.viewmodels.quizViewModels.CreateQuizViewModel
+import com.example.twowaits.viewmodel.quizViewModel.CreateQuizViewModel
 
 class CreateQuiz : Fragment(R.layout.create_quiz) {
     private lateinit var binding: CreateQuizBinding
@@ -54,7 +54,8 @@ class CreateQuiz : Fragment(R.layout.create_quiz) {
             viewModel.createQuiz(createQuizBody)
             viewModel.createQuizLiveData.observe(viewLifecycleOwner) {
                 val action = CreateQuizDirections.actionCreateQuiz2ToAddQuestions2(
-                    noOfQuestion, it.quiz_id)
+                    noOfQuestion, it.quiz_id
+                )
                 findNavController().navigate(action)
             }
             viewModel.errorLiveData.observe(viewLifecycleOwner) {
@@ -70,7 +71,8 @@ class CreateQuiz : Fragment(R.layout.create_quiz) {
         }
         binding.SubtractNoOfQuestions.setOnClickListener {
             if (!binding.NoOfQuestions.text.isNullOrEmpty() &&
-                binding.NoOfQuestions.text.toString().toInt() > 0) {
+                binding.NoOfQuestions.text.toString().toInt() > 1
+            ) {
                 var noOfQuestions = binding.NoOfQuestions.text.toString().toInt()
                 binding.NoOfQuestions.setText((--noOfQuestions).toString())
             }
@@ -83,8 +85,8 @@ class CreateQuiz : Fragment(R.layout.create_quiz) {
             }
         }
         binding.SubtractDuration.setOnClickListener {
-            if (!binding.Duration.text.isNullOrEmpty() && binding.Duration.text.toString()
-                    .toInt() > 0
+            if (!binding.Duration.text.isNullOrEmpty() &&
+                binding.Duration.text.toString().toInt() > 1
             ) {
                 var duration = binding.Duration.text.toString().toInt()
                 binding.Duration.setText((--duration).toString())

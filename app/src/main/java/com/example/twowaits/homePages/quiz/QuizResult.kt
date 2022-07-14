@@ -11,7 +11,7 @@ import com.example.twowaits.utils.Utils
 import com.example.twowaits.R
 import com.example.twowaits.databinding.QuizResultBinding
 import com.example.twowaits.recyclerAdapters.DetailedQuizResultRecyclerAdapter
-import com.example.twowaits.viewmodels.quizViewModels.QuizViewModel
+import com.example.twowaits.viewmodel.quizViewModel.QuizViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.DelicateCoroutinesApi
 

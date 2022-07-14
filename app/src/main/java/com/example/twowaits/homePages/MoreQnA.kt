@@ -26,9 +26,9 @@ import com.example.twowaits.homePages.questionsAnswers.CreateCommentBody
 import com.example.twowaits.homePages.questionsAnswers.LikeAnswerBody
 import com.example.twowaits.recyclerAdapters.ItemClicked
 import com.example.twowaits.recyclerAdapters.QuestionsAnswersRecyclerAdapter
-import com.example.twowaits.sealedClasses.Response
-import com.example.twowaits.viewmodels.HomePageViewModel
-import com.example.twowaits.viewmodels.questionsAnswersViewModel.QuestionsAnswersViewModel
+import com.example.twowaits.sealedClass.Response
+import com.example.twowaits.viewmodel.HomePageViewModel
+import com.example.twowaits.viewmodel.questionsAnswersViewModel.QuestionsAnswersViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.DelicateCoroutinesApi

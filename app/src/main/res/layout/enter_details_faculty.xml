@@ -73,24 +73,21 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/enterName"
+            style="@style/textInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="19dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#FF0000"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name">
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            app:passwordToggleEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/enterYourName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/enter_details_border"
                 android:fontFamily="@font/reemkufi_regular"
                 android:hint="Enter Your Name"
                 android:imeOptions="actionNext"
@@ -116,24 +113,21 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/enterCollege"
+            style="@style/textInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="19dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#FF0000"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/college">
+            app:layout_constraintTop_toBottomOf="@+id/college"
+            app:passwordToggleEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/enterYourCollege"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/enter_details_border"
                 android:fontFamily="@font/reemkufi_regular"
                 android:hint="Enter Your present college name"
                 android:imeOptions="actionNext"
@@ -169,15 +163,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/genderTextInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            style="@style/dropdownStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
             android:layout_marginEnd="15dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#FF0000"
-            app:hintEnabled="false"
+            app:boxStrokeColor="@color/light_brown"
             app:layout_constraintEnd_toStartOf="@+id/centerPoint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/gender">
@@ -198,7 +189,7 @@
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/dob"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -210,7 +201,7 @@
             app:layout_constraintStart_toEndOf="@+id/centerPoint"
             app:layout_constraintTop_toBottomOf="@+id/enterCollege" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/enterDate"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -246,16 +237,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/enterDepartment"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            style="@style/dropdownStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="19dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#FF0000"
-            app:hintEnabled="false"
+            app:boxStrokeColor="@color/light_brown"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/department">

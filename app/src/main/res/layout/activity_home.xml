@@ -9,24 +9,25 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.activities.home.HomeActivity">
+        tools:context=".ui.activity.home.HomeActivity">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
+            android:id="@+id/ActivityHomeAppBarLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:elevation="4dp"
+            android:transitionName="shared_element"
             app:liftOnScroll="true">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/actionBar"
+                android:id="@+id/activityHomeActionBar"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#B39283"
                 android:elevation="8dp"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
-                app:navigationIcon="@drawable/ic_hamburger" >
+                app:navigationIcon="@drawable/ic_hamburger">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -36,10 +37,10 @@
                         android:id="@+id/logo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="EduCool"
                         android:fontFamily="@font/poppins_bold"
-                        android:textSize="24sp"
-                        android:textColor="#FFF0E9"/>
+                        android:text="EduCool"
+                        android:textColor="#FFF0E9"
+                        android:textSize="24sp" />
 
                 </LinearLayout>
             </com.google.android.material.appbar.MaterialToolbar>
@@ -50,9 +51,9 @@
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView2"
             android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_marginBottom="73dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="73dp"
             app:defaultNavHost="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:navGraph="@navigation/home_navigation" />
@@ -61,12 +62,12 @@
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="53dp"
-            app:elevation="0dp"
             android:layout_gravity="bottom"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/nav_bar_border"
+            app:elevation="0dp"
             app:itemIconTint="@color/navbar_icon_color"
             app:itemRippleColor="#B49385"
             app:itemTextColor="@color/navbar_icon_color"

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homePage"
-        android:name="com.example.twowaits.homePages.HomeFragment"
+        android:name="com.example.twowaits.ui.fragment.HomeFragment"
         android:label="home_page"
         tools:layout="@layout/fragment_home">
 
@@ -20,7 +20,7 @@
         android:id="@+id/profile"
         android:name="com.example.twowaits.homePages.Profile"
         android:label="profile"
-        tools:layout="@layout/profile">
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profile_self"
             app:destination="@id/profile" />
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/explore"
-        android:name="com.example.twowaits.homePages.Ask"
+        android:name="com.example.twowaits.ui.fragment.home.ask.Ask"
         android:label="explore"
         tools:layout="@layout/ask">
         <action
@@ -47,9 +47,9 @@
     </fragment>
     <fragment
         android:id="@+id/library"
-        android:name="com.example.twowaits.homePages.Library"
+        android:name="com.example.twowaits.ui.fragment.home.library.Library"
         android:label="library"
-        tools:layout="@layout/library">
+        tools:layout="@layout/fragment_library">
         <action
             android:id="@+id/action_library_self"
             app:destination="@id/library" />
@@ -64,9 +64,9 @@
     </fragment>
     <fragment
         android:id="@+id/downloads"
-        android:name="com.example.twowaits.homePages.downloads.Downloads"
+        android:name="com.example.twowaits.ui.fragment.downloads.Downloads"
         android:label="downloads"
-        tools:layout="@layout/downloads">
+        tools:layout="@layout/fragment_downloads">
         <action
             android:id="@+id/action_downloads_self"
             app:destination="@id/downloads" />

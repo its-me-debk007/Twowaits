@@ -16,7 +16,7 @@ import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.OptionXX
 import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.RegisterResponseBody
 import com.example.twowaits.databinding.PleaseWaitDialog2Binding
 import com.example.twowaits.databinding.QuizBinding
-import com.example.twowaits.viewmodels.quizViewModels.QuizViewModel
+import com.example.twowaits.viewmodel.quizViewModel.QuizViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

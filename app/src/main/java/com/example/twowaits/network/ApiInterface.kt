@@ -4,21 +4,21 @@ import com.example.twowaits.network.dashboardApiCalls.*
 import com.example.twowaits.network.dashboardApiCalls.chatApiCalls.FetchConversationsMessagesResponse
 import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.*
 import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.*
-import com.example.twowaits.ui.fragments.auth.CreateFacultyProfileBody
-import com.example.twowaits.ui.fragments.auth.CreateStudentProfileBody
-import com.example.twowaits.ui.fragments.auth.VerifyOtpBody
-import com.example.twowaits.homePages.BookmarkNoteBody
-import com.example.twowaits.models.home.UpdateProfileDetailsBody
-import com.example.twowaits.models.home.UploadLectureBody
-import com.example.twowaits.models.home.UploadNoteBody
-import com.example.twowaits.homePages.navdrawerPages.ChangePasswordBody
-import com.example.twowaits.homePages.navdrawerPages.Feedbackbody
+import com.example.twowaits.ui.fragment.auth.CreateFacultyProfileBody
+import com.example.twowaits.ui.fragment.auth.CreateStudentProfileBody
+import com.example.twowaits.ui.fragment.auth.VerifyOtpBody
+import com.example.twowaits.model.BookmarkNoteBody
+import com.example.twowaits.model.home.UpdateProfileDetailsBody
+import com.example.twowaits.model.home.UploadLectureBody
+import com.example.twowaits.model.home.UploadNoteBody
+import com.example.twowaits.ui.fragment.navDrawer.ChangePasswordBody
+import com.example.twowaits.ui.fragment.navDrawer.Feedbackbody
 import com.example.twowaits.homePages.questionsAnswers.*
 import com.example.twowaits.homePages.quiz.AddCorrectOptionBody
 import com.example.twowaits.homePages.quiz.AttemptQuizBody
 import com.example.twowaits.homePages.quiz.CreateQuestionBody
 import com.example.twowaits.homePages.quiz.CreateQuizBody
-import com.example.twowaits.models.auth.*
+import com.example.twowaits.model.auth.*
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -40,7 +40,7 @@ interface ApiInterface {
 
     @FormUrlEncoded
     @POST("account/token/refresh/")
-    suspend fun getNewAccessToken(
+    suspend fun generateNewToken(
         @Field("refresh") refresh: String
     ): Response<GetNewAccessTokenResponse>
 

@@ -31,9 +31,9 @@ class RecentLecturesRecyclerAdapter(
 
     override fun onBindViewHolder(holder: TopLecturesViewHolder, position: Int) {
         holder.apply {
-            if (absoluteAdapterPosition == lectures.size) {
+            if (absoluteAdapterPosition == lectures.size && adapter == "HOME") {
                 seeAll.visibility = View.VISIBLE
-                wishlistCardView.visibility = View.INVISIBLE
+                wishlistCardView.visibility = View.GONE
             } else {
                 nameOfLecture.isSelected = true
                 lectureDetails.isSelected = true
@@ -67,7 +67,7 @@ class RecentLecturesRecyclerAdapter(
     }
 
     inner class TopLecturesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nameOfLecture: TextView = itemView.findViewById<TextView>(R.id.NameOfLecture)
+        val nameOfLecture: TextView = itemView.findViewById(R.id.NameOfLecture)
         val lectureDetails: TextView = itemView.findViewById(R.id.LectureDetails)
         val creator: TextView = itemView.findViewById(R.id.Creator)
         val lectureImg: ImageView = itemView.findViewById(R.id.LectureImg)

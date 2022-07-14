@@ -52,8 +52,10 @@ class RecentNotesRecyclerAdapter(
     override fun onBindViewHolder(holder: RecentNotesViewHolder, position: Int) {
         holder.apply {
             if (absoluteAdapterPosition == notes.size) {
-                seeAll.visibility = View.VISIBLE
-                cardView.visibility = View.GONE
+                if (adapter == "HOME") {
+                    seeAll.visibility = View.VISIBLE
+                    cardView.visibility = View.GONE
+                }
             } else {
                 subjectName.text = notes[position].title
                 bookmark.isChecked = notes[position].bookmarked_by_user == "True"
@@ -79,9 +81,7 @@ class RecentNotesRecyclerAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return notes.size + 1
-    }
+    override fun getItemCount() = notes.size + 1
 }
 
 interface NotesClicked {

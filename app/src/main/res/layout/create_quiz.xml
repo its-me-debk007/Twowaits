@@ -45,7 +45,6 @@
             app:boxStrokeWidthFocused="0dp"
             app:helperTextTextColor="#ff0000"
             app:hintEnabled="false"
-            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/SubHeading1">
@@ -58,8 +57,9 @@
                 android:fontFamily="@font/reemkufi_regular"
                 android:hint="Enter the title of quiz"
                 android:imeOptions="actionNext"
-                android:maxLength="20"
+                android:maxLength="30"
                 android:paddingTop="13dp"
+                android:singleLine="true"
                 android:paddingBottom="12dp"
                 android:textColor="#B89A8D"
                 android:textColorHint="#B89A8D"

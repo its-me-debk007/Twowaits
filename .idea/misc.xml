@@ -55,7 +55,7 @@
         <entry key="..\:/Twowaits/app/src/main/res/layout/add_questions.xml" value="0.264" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/answers.xml" value="0.3972602739726027" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/ask.xml" value="0.2640625" />
-        <entry key="..\:/Twowaits/app/src/main/res/layout/ask_question.xml" value="0.2484375" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/ask_question.xml" value="0.4" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/bookmarked_notes.xml" value="0.30913978494623656" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/bookmarked_notes_card_view.xml" value="0.536" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/bookmarked_notes_card_view2.xml" value="0.18620689655172415" />
@@ -79,14 +79,23 @@
         <entry key="..\:/Twowaits/app/src/main/res/layout/dropdown_item.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/edit_profile.xml" value="0.2390625" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/enter_details_dropdown_item.xml" value="0.2484375" />
-        <entry key="..\:/Twowaits/app/src/main/res/layout/enter_details_faculty.xml" value="0.4" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/enter_details_faculty.xml" value="0.2525027808676307" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/enter_details_student.xml" value="0.4" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/exit_dialog.xml" value="0.2390625" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/explore.xml" value="0.22864583333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/feedback.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/first_auth_page.xml" value="0.264" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_change_password.xml" value="0.4160839160839161" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_downloads.xml" value="0.23282051282051283" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_feedback.xml" value="0.23645833333333333" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_first_page.xml" value="0.2" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_home.xml" value="0.23645833333333333" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_library.xml" value="0.23282051282051283" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_login.xml" value="0.33456153279292555" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_otp_verification.xml" value="0.23645833333333333" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_pdf_viewer.xml" value="0.23541666666666666" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_profile.xml" value="0.23645833333333333" />
+        <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_sign_up.xml" value="0.3338192419825073" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_upload_note.xml" value="0.4" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_viewpager.xml" value="0.2484375" />
         <entry key="..\:/Twowaits/app/src/main/res/layout/fragment_webview.xml" value="0.2390625" />

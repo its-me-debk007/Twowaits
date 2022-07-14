@@ -1,7 +1,9 @@
 package com.example.twowaits.utils
 
+import android.app.Application
 import android.content.Context
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -12,14 +14,12 @@ import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.example.twowaits.network.ServiceBuilder
 import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.GetQuizDataResponse
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.File
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Utils {
+class Utils : Application() {
     companion object {
         var ACCESS_TOKEN: String? = null
         var REFRESH_TOKEN: String? = null
@@ -78,37 +78,36 @@ class Utils {
         return "$hours:$minutes $meridian, $day $month"
     }
 
-    val saveAccessTokenLiveData = MutableLiveData<String>()
+//    val saveAccessTokenLiveData = MutableLiveData<String>()
+//    fun () {
+//        val call = ServiceBuilder.getInstance().getNewAccessToken(REFRESH_TOKEN!!)
+//        call.enqueue(object : Callback<GetNewAccessTokenResponse> {
+//            override fun onResponse(
+//                call: Call<GetNewAccessTokenResponse>,
+//                response: Response<GetNewAccessTokenResponse>
+//            ) {
+//                if (response.isSuccessful) {
+//                    ACCESS_TOKEN = response.body()?.access
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<GetNewAccessTokenResponse>, t: Throwable) {
+//            }
+//        })
+//    }
+
     fun getNewAccessToken() {
-        try {
-            GlobalScope.launch {
-                val response = ServiceBuilder.getInstance().getNewAccessToken(REFRESH_TOKEN!!)
+        runBlocking {
+            try {
+                val response = ServiceBuilder.getInstance()
+                    .generateNewToken(REFRESH_TOKEN!!)
                 ACCESS_TOKEN = response.body()?.access
-                saveAccessTokenLiveData.postValue(ACCESS_TOKEN)
+                Datastore(applicationContext).saveAccessToken(ACCESS_TOKEN!!)
+                Log.e("dddd", "New token:-\n$ACCESS_TOKEN")
+            } catch (e: Exception) {
+                Log.e("dddd", e.message.toString())
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
-
-//        call.execute(object : Callback<GetNewAccessTokenResponse> {
-//                override fun onResponse(
-//                    call: Call<GetNewAccessTokenResponse>,
-//                    response: Response<GetNewAccessTokenResponse>
-//                ) {
-//                    if (response.isSuccessful) {
-//                        ACCESS_TOKEN = response.body()?.access
-//                        result = "success"
-//                    }
-//                    else result = "failure"
-//                }
-//
-//                override fun onFailure(call: Call<GetNewAccessTokenResponse>, t: Throwable) {
-//                    result = "failure"
-//                }
-//
-//            })
-
-//        return result
     }
 
     fun hideKeyboard(view: View, activity: FragmentActivity?) {

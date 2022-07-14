@@ -118,15 +118,20 @@
             android:id="@+id/seeAll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             android:backgroundTint="#A17A69"
             android:fontFamily="@font/roboto_regular"
             android:text="See All"
-            android:textAllCaps="false"
             android:textSize="16sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/wishlistCardView"
-            app:layout_constraintEnd_toEndOf="@+id/wishlistCardView"
-            app:layout_constraintStart_toStartOf="@+id/wishlistCardView"
-            app:layout_constraintTop_toTopOf="@+id/wishlistCardView" />
+            android:visibility="invisible"
+            app:cornerRadius="31dp"
+            app:elevation="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

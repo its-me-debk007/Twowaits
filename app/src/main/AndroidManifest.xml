@@ -20,20 +20,20 @@
             android:name=".NoteLectureActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.home.QuizActivity"
+            android:name=".ui.activity.home.QuizActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.home.AskActivity"
+            android:name=".ui.activity.home.AskActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.home.NavDrawerActivity"
+            android:name=".ui.activity.home.NavDrawerActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.home.HomeActivity"
+            android:name=".ui.activity.home.HomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="true">
             <intent-filter>
@@ -41,7 +41,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.home.SplashScreenActivity"
+            android:name=".ui.activity.home.SplashScreenActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="true"
             android:noHistory="true">
@@ -53,7 +53,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.auth.AuthActivity"
+            android:name=".ui.activity.auth.AuthActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="true" />
 

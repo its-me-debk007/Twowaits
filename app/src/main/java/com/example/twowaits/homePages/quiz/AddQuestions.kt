@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
 import com.example.twowaits.databinding.AddQuestionsBinding
-import com.example.twowaits.viewmodels.quizViewModels.AddQuestionsViewModel
+import com.example.twowaits.viewmodel.quizViewModel.AddQuestionsViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

@@ -10,4 +10,5 @@
     <string name="logoutConfirmation"><font size="17" face="sans_serif" color="#000000">Are you sure want to logout?</font></string>
     <string name="exit"><font size="18" face="sans_serif"><b>Exit</b></font></string>
     <string name="logout"><font size="18" face="sans_serif"><b>Logout</b></font></string>
+    <string name="your_downloads">Your Downloads</string>
 </resources>

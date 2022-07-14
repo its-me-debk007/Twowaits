@@ -73,24 +73,21 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/enterName"
+            style="@style/textInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="19dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#FF0000"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name">
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            app:passwordToggleEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/enterYourName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/enter_details_border"
                 android:fontFamily="@font/reemkufi_regular"
                 android:hint="Enter Your Name"
                 android:imeOptions="actionNext"
@@ -116,16 +113,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/enterBranch"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            style="@style/dropdownStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="19dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#FF0000"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/branch">
@@ -159,15 +152,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/genderTextInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            style="@style/dropdownStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
             android:layout_marginEnd="15dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#FF0000"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toStartOf="@+id/centerPoint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/gender">
@@ -236,15 +225,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/enterCollege"
+            style="@style/textInputLayoutStyle"
+            app:passwordToggleEnabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="19dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#FF0000"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/collegeName">
@@ -279,15 +266,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/courseTextInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            style="@style/dropdownStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
             android:layout_marginEnd="15dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#FF0000"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toStartOf="@+id/centerPoint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/course">
@@ -321,16 +304,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/yearTextInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            style="@style/dropdownStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="19dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#FF0000"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/centerPoint"
             app:layout_constraintTop_toBottomOf="@+id/year">

@@ -10,4 +10,7 @@
     <color name="twoWaitsThemeColor">#B39283</color>
     <color name="shimmer_color">#BFBDBD</color>
     <color name="nav_bar_color">#E4D6D0</color>
+    <color name="heading_brown">#6B3B25</color>
+    <color name="light_brown">#804D37</color>
+    <color name="edittext_text_color">#A17867</color>
 </resources>
