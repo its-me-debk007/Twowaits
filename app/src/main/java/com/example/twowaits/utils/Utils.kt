@@ -14,6 +14,7 @@ import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.example.twowaits.network.ServiceBuilder
 import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.GetQuizDataResponse
+import com.example.twowaits.ui.activity.home.HomeActivity
 import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.text.SimpleDateFormat
@@ -35,66 +36,7 @@ class Utils : Application() {
         lateinit var VIDEO_URI: String
         lateinit var DOWNLOADED_NOTE: File
         lateinit var DOWNLOADED_LECTURE: File
-        lateinit var timerCountDownTimer: CountDownTimer
-        private val timeLeftData = MutableLiveData<Int>()
-        val timeLeftLiveData: LiveData<Int> = timeLeftData
-
-        private val timeFinishedData = MutableLiveData<Boolean>()
-        val timeFinishedLiveData: LiveData<Boolean> = timeFinishedData
-
-        var time = 0
-        fun startTimer(time_limit: Int) {
-            timerCountDownTimer = object : CountDownTimer((time_limit * 60 * 1000).toLong(), 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                    time++
-                    timeLeftData.postValue(time)
-                }
-
-                override fun onFinish() {
-                    timeFinishedData.postValue(false)
-                }
-            }.start()
-        }
     }
-
-    fun formatTime(date: String): String {
-        val str = date.substring(0, 19)
-        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.UK)
-        val time = sdf.parse(str)!!.toString()
-
-        val day = time.substring(8, 10)
-        val month = time.substring(4, 7)
-        val tmp = time.substring(11, 13).toInt()
-        val meridian: String
-        val hours = if (tmp > 12) {
-            meridian = "pm"
-            tmp - 12
-        } else {
-            meridian = "am"
-            tmp
-        }
-        val minutes = time.substring(14, 16)
-
-        return "$hours:$minutes $meridian, $day $month"
-    }
-
-//    val saveAccessTokenLiveData = MutableLiveData<String>()
-//    fun () {
-//        val call = ServiceBuilder.getInstance().getNewAccessToken(REFRESH_TOKEN!!)
-//        call.enqueue(object : Callback<GetNewAccessTokenResponse> {
-//            override fun onResponse(
-//                call: Call<GetNewAccessTokenResponse>,
-//                response: Response<GetNewAccessTokenResponse>
-//            ) {
-//                if (response.isSuccessful) {
-//                    ACCESS_TOKEN = response.body()?.access
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<GetNewAccessTokenResponse>, t: Throwable) {
-//            }
-//        })
-//    }
 
     fun getNewAccessToken() {
         runBlocking {
@@ -102,30 +44,44 @@ class Utils : Application() {
                 val response = ServiceBuilder.getInstance()
                     .generateNewToken(REFRESH_TOKEN!!)
                 ACCESS_TOKEN = response.body()?.access
-                Datastore(applicationContext).saveAccessToken(ACCESS_TOKEN!!)
-                Log.e("dddd", "New token:-\n$ACCESS_TOKEN")
+                Datastore(HomeActivity()).saveAccessToken(ACCESS_TOKEN!!)
             } catch (e: Exception) {
-                Log.e("dddd", e.message.toString())
+                Log.e("GENERATING NEW TOKEN ERROR", e.message.toString())
             }
         }
     }
+}
 
-    fun hideKeyboard(view: View, activity: FragmentActivity?) {
-        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
+fun formatTime(date: String): String {
+    val str = date.substring(0, 19)
+    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.UK)
+    val time = sdf.parse(str)!!.toString()
+
+    val day = time.substring(8, 10)
+    val month = time.substring(4, 7)
+    val tmp = time.substring(11, 13).toInt()
+    val meridian: String
+    val hours = if (tmp > 12) {
+        meridian = "pm"
+        tmp - 12
+    } else {
+        meridian = "am"
+        tmp
     }
+    val minutes = time.substring(14, 16)
 
-    fun downloadImg(context: Context, imgUrl: String, dirPath: String, imgName: String) {
-        PRDownloader.initialize(context)
+    return "$hours:$minutes $meridian, $day $month"
+}
 
-        PRDownloader.download(imgUrl, dirPath, imgName)
-            .build()
-            .start(object : OnDownloadListener {
-                override fun onDownloadComplete() {
-                    Toast.makeText(context, "Downloaded successfully", Toast.LENGTH_SHORT).show()
-                }
+fun downloadImg(context: Context, imgUrl: String, dirPath: String, imgName: String) {
+    PRDownloader.initialize(context)
 
-                override fun onError(p0: com.downloader.Error?) {}
-            })
-    }
+    PRDownloader.download(imgUrl, dirPath, imgName).build()
+        .start(object : OnDownloadListener {
+            override fun onDownloadComplete() {
+                Toast.makeText(context, "Downloaded successfully", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onError(p0: com.downloader.Error?) {}
+        })
 }

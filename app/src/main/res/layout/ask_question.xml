@@ -54,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/reemkufi_regular"
                 android:hint="Enter your Question"
+                android:inputType="text"
                 android:maxLength="50"
                 android:maxLines="4"
                 android:paddingVertical="9dp"

@@ -42,6 +42,7 @@ import com.example.twowaits.viewmodel.HomePageViewModel
 import com.example.twowaits.viewmodel.questionsAnswersViewModel.QuestionsAnswersViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.transition.platform.MaterialFadeThrough
@@ -218,7 +219,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), ItemClicked, QuizClicked,
         if (dialog.window != null)
             dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
         dialog.findViewById<TextView>(R.id.particularQuestion).text = question
-        dialog.findViewById<Button>(R.id.answerButton).setOnClickListener {
+        val btn = dialog.findViewById<Button>(R.id.answerButton)
+        btn.setOnClickListener {
             if (dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim()
                     .isEmpty()
             ) {
@@ -233,7 +235,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), ItemClicked, QuizClicked,
                     question_id
                 )
             )
-            dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.VISIBLE
+            dialog.findViewById<CircularProgressIndicator>(R.id.progressBar).show()
+            btn.text = ""
             viewModel.createAnswerData.observe(viewLifecycleOwner) {
                 if (it == "success") {
                     Toast.makeText(context, "Added your answer successfully", Toast.LENGTH_SHORT)

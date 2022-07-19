@@ -1,31 +1,37 @@
-package com.example.twowaits.homePages
+package com.example.twowaits.ui.fragment.editProfile
 
 import android.app.DatePickerDialog
-import android.app.Dialog
-import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.twowaits.R
-import com.example.twowaits.network.dashboardApiCalls.StudentProfileDetailsResponse
 import com.example.twowaits.databinding.EnterDetailsStudentBinding
-import com.example.twowaits.databinding.PleaseWaitDialog2Binding
+import com.example.twowaits.model.ProfileDetailsExcludingId
+import com.example.twowaits.network.dashboardApiCalls.StudentProfileDetailsResponse
+import com.example.twowaits.viewmodel.ProfileViewModel
 import java.util.*
 
 class EditProfileStudent : Fragment(R.layout.enter_details_student) {
     private lateinit var binding: EnterDetailsStudentBinding
+    private val viewModel by lazy { ViewModelProvider(this)[ProfileViewModel::class.java] }
+    private lateinit var data: StudentProfileDetailsResponse
+    private var imgUri: Uri? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = EnterDetailsStudentBinding.bind(view)
-        binding.apply {
-            val profileDetails = activity?.intent?.extras?.get("profileDetails") as
-                    StudentProfileDetailsResponse
-            profileDetails.apply {
-                Glide.with(requireContext()).load(profile_pic_firebase).into(ProfilePic)
+        binding = EnterDetailsStudentBinding.bind(view).apply {
+            (activity?.intent?.extras?.get("profileDetails") as
+                    StudentProfileDetailsResponse).apply {
+                data = this
+                Glide.with(requireContext())
+                    .load(profile_pic_firebase)
+                    .into(ProfilePic)
                 enterYourName.setText(name)
                 autoCompleteTextView3.setText(branch)
                 autoCompleteTextView.setText(
@@ -55,38 +61,26 @@ class EditProfileStudent : Fragment(R.layout.enter_details_student) {
 
             val chooseImage = registerForActivityResult(ActivityResultContracts.GetContent()) {
                 ProfilePic.setImageURI(it)
-//                imgUri = it
+                imgUri = it
             }
             binding.AddPicBtn.setOnClickListener { chooseImage.launch("image/*") }
 
             binding.submitBtn.setOnClickListener {
                 checkValidation()
 
-                val dialog = Dialog(requireContext())
-                dialog.setContentView(PleaseWaitDialog2Binding.inflate(layoutInflater).root)
-                dialog.setCancelable(false)
-                dialog.show()
-                if (dialog.window != null)
-                    dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
-
-//                viewModel.createStudentProfileDetails(
-//                    enterYourName.text.toString().trim(),
-//                    enterYourCollege.text.toString().trim(),
-//                    autoCompleteTextView2.text.toString().trim(),
-//                    autoCompleteTextView3.text.toString().trim(),
-//                    autoCompleteTextView4.text.toString().trim(),
-//                    autoCompleteTextView.text.toString().trim()[0].toString(),
-//                    enterDate.text.toString().trim(),
-//                    imgUri!!
-//                )
-//                viewModel.createStudentProfileLiveData.observe(viewLifecycleOwner) {
-//                    if (it == "success") {
-//                        activity?.finish()
-//                    } else {
-//                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-//                        dialog.hide()
-//                    }
-//                }
+                imgUri?.let {
+                    viewModel.uploadPicFirebase(it, data.student_account_id)
+                    viewModel.firebaseLiveData.observe(viewLifecycleOwner) { message ->
+                        if (message.substring(0, 8) == "Uploaded") {
+                            val uri = message.substring(8)
+                            updateProfile(uri)
+                        } else Toast.makeText(context,
+                            "$message\nPlease try again",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                } ?: updateProfile(data.profile_pic_firebase)
             }
         }
     }
@@ -134,6 +128,31 @@ class EditProfileStudent : Fragment(R.layout.enter_details_student) {
 
         if (flag) return true
         return false
+    }
+
+    private fun updateProfile(uri: String) {
+        binding.apply {
+            viewModel.updateProfile(
+                ProfileDetailsExcludingId(
+                    enterYourName.text?.trim().toString(),
+                    enterYourCollege.text?.trim().toString(),
+                    gender = autoCompleteTextView.text.toString(),
+                    dob = enterDate.text.toString(),
+                    profile_pic_firebase = uri,
+                    course = autoCompleteTextView2.text.toString(),
+                    year = autoCompleteTextView4.text.toString(),
+                    branch = autoCompleteTextView3.text.toString()
+                )
+            )
+            viewModel.updateProfileLiveData.observe(viewLifecycleOwner) {
+                Toast.makeText(
+                    context, if (it == "success") "Updated successfully" else it,
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                if (it == "success") activity?.finish()
+            }
+        }
     }
 
     override fun onResume() {

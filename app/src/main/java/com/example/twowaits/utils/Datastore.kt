@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 
-val Context.datastore by preferencesDataStore("TWO_WAITS")
+val Context.datastore by preferencesDataStore("EDUCOOL")
 
 class Datastore(val context: Context) {
     companion object {

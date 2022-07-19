@@ -10,12 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.twowaits.utils.Utils
 import com.example.twowaits.R
-import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.OptionXX
-import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.RegisterResponseBody
 import com.example.twowaits.databinding.PleaseWaitDialog2Binding
 import com.example.twowaits.databinding.QuizBinding
+import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.OptionXX
+import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.RegisterResponseBody
+import com.example.twowaits.utils.*
 import com.example.twowaits.viewmodel.quizViewModel.QuizViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
@@ -28,7 +28,7 @@ class Quiz : Fragment(R.layout.quiz) {
         binding = QuizBinding.bind(view)
         val viewModel = ViewModelProvider(this)[QuizViewModel::class.java]
         var chosenOptionId = 0
-        var TIMELIMIT = 0
+        var timeLimit = 0
         val quizId = activity?.intent?.getIntExtra("Quiz ID", -1)
         val attemptQuizBody = AttemptQuizBody(quizId!!)
         val actionBar = (activity as AppCompatActivity).supportActionBar
@@ -55,10 +55,10 @@ class Quiz : Fragment(R.layout.quiz) {
             viewModel.getQuizData(attemptQuizBody)
             viewModel.getQuizLiveData.observe(viewLifecycleOwner) {
                 Utils.QUIZ_DATA = it
-                TIMELIMIT = it.time_limit
+                timeLimit = it.time_limit
                 viewModel.attemptQuiz(attemptQuizBody)
                 viewModel.attemptQuizLiveData.observe(viewLifecycleOwner) { response ->
-                    Utils.startTimer(it.time_limit)
+                    it.time_limit.startTimer()
                     Utils.QUIZ_RESULT_ID = response.quiz_result_id
                     Utils.TITLE_OF_QUIZ = it.title
                     binding.Title.text = Utils.TITLE_OF_QUIZ
@@ -119,7 +119,7 @@ class Quiz : Fragment(R.layout.quiz) {
                     if (errorMessage == "Quiz already attempted") {
                         dialog.hide()
                         Utils.FIRST_TIME = true
-                        Utils.time = 0
+                        time = 0
                         val action = QuizDirections.actionQuizToQuizResult(quizId)
                         findNavController().navigate(action)
 
@@ -193,15 +193,15 @@ class Quiz : Fragment(R.layout.quiz) {
             }
         }
 
-        Utils.timeLeftLiveData.observe(viewLifecycleOwner) {
-            val timeLimit =
-                if (TIMELIMIT == 1) "${TIMELIMIT} min" else "${TIMELIMIT} mins"
-            val min = if (it / 60 == 1) "${it / 60} min" else "${it / 60} mins"
+        timeLeftLiveData.observe(viewLifecycleOwner) {
+            val limit =
+                if (timeLimit == 1) "$timeLimit min" else "$timeLimit min(s)"
+            val min = if (it / 60 == 1) "${it / 60} min" else "${it / 60} min(s)"
             val sec = if (it % 60 == 1) "${it % 60} second" else "${it % 60} seconds"
 
-            binding.TimeLeft.text = "You have spent $min $sec out of ${timeLimit}"
+            binding.TimeLeft.text = "You have spent $min $sec out of $limit"
         }
-        Utils.timeFinishedLiveData.observe(viewLifecycleOwner) {
+        timeFinishedLiveData.observe(viewLifecycleOwner) {
             if (chosenOptionId != 0) {
                 val registerResponseBody = RegisterResponseBody(
                     Utils.QUIZ_RESULT_ID,
@@ -215,14 +215,14 @@ class Quiz : Fragment(R.layout.quiz) {
                     Utils.CHOSEN_OPTION.clear()
                     binding.NextBtn.isEnabled = true
                     binding.PreviousBtn.isEnabled = true
-                    Utils.time = 0
+                    time = 0
                     val action = QuizDirections.actionQuizToQuizResult(quizId)
                     findNavController().navigate(action)
                 }
                 viewModel.errorRegisterResponseLiveData.observe(viewLifecycleOwner) {
                     Toast.makeText(
                         context,
-                        it + "\nSorry! We were unable to evaluate this question",
+                        "$it\nSorry! We were unable to evaluate this question",
                         Toast.LENGTH_SHORT
                     ).show()
                     Utils.FIRST_TIME = true
@@ -230,7 +230,7 @@ class Quiz : Fragment(R.layout.quiz) {
                     Utils.CHOSEN_OPTION.clear()
                     binding.NextBtn.isEnabled = true
                     binding.PreviousBtn.isEnabled = true
-                    Utils.time = 0
+                    time = 0
                     val action = QuizDirections.actionQuizToQuizResult(quizId)
                     findNavController().navigate(action)
                 }
@@ -240,7 +240,7 @@ class Quiz : Fragment(R.layout.quiz) {
                 Utils.CHOSEN_OPTION.clear()
                 binding.NextBtn.isEnabled = true
                 binding.PreviousBtn.isEnabled = true
-                Utils.time = 0
+                time = 0
                 val action = QuizDirections.actionQuizToQuizResult(quizId)
                 findNavController().navigate(action)
             }
@@ -289,8 +289,8 @@ class Quiz : Fragment(R.layout.quiz) {
                         Utils.CHOSEN_OPTION.clear()
                         binding.NextBtn.isEnabled = true
                         binding.PreviousBtn.isEnabled = true
-                        Utils.timerCountDownTimer.cancel()
-                        Utils.time = 0
+                        timerCountDownTimer.cancel()
+                        time = 0
                         val action = QuizDirections.actionQuizToQuizResult(quizId)
                         findNavController().navigate(action)
                     }
@@ -305,8 +305,8 @@ class Quiz : Fragment(R.layout.quiz) {
                     Utils.CHOSEN_OPTION.clear()
                     binding.NextBtn.isEnabled = true
                     binding.PreviousBtn.isEnabled = true
-                    Utils.timerCountDownTimer.cancel()
-                    Utils.time = 0
+                    timerCountDownTimer.cancel()
+                    time = 0
                     val action = QuizDirections.actionQuizToQuizResult(quizId)
                     findNavController().navigate(action)
                 }

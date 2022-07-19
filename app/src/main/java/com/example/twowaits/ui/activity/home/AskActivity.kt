@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.ActivityAskBinding
-import com.example.twowaits.homePages.EditProfileFaculty
-import com.example.twowaits.homePages.EditProfileStudent
+import com.example.twowaits.ui.fragment.editProfile.EditProfileFaculty
+import com.example.twowaits.ui.fragment.editProfile.EditProfileStudent
 import com.example.twowaits.homePages.MoreQnA
 import com.example.twowaits.homePages.questionsAnswers.AskQuestion
 import com.example.twowaits.ui.fragment.home.ShowSearchQuestions

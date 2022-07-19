@@ -26,7 +26,7 @@ import com.example.twowaits.ui.activity.home.AskActivity
 import com.example.twowaits.ui.fragment.home.Wishlist
 import com.example.twowaits.ui.fragment.home.YourQuestions
 import com.example.twowaits.utils.Utils
-import com.example.twowaits.viewmodel.ProfileDetailsViewModel
+import com.example.twowaits.viewmodel.ProfileViewModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.platform.MaterialFadeThrough
@@ -36,8 +36,8 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 @DelicateCoroutinesApi
 class Profile : Fragment(R.layout.fragment_profile) {
     private lateinit var binding: FragmentProfileBinding
-    private val viewModel by lazy { ViewModelProvider(this)[ProfileDetailsViewModel::class.java] }
-    lateinit var name: String
+    private val viewModel by lazy { ViewModelProvider(this)[ProfileViewModel::class.java] }
+    private lateinit var userName: String
     private var accountId = 0
     private lateinit var profileDetailsStudent: StudentProfileDetailsResponse
     private lateinit var profileDetailsFaculty: FacultyProfileDetailsResponse
@@ -59,73 +59,75 @@ class Profile : Fragment(R.layout.fragment_profile) {
         binding.cardView2.strokeWidth = 6
         binding.cardView2.cardElevation = 30F
 
-        if (Utils.USER == "FACULTY") {
-            viewModel.profileDetailsFaculty()
-            viewModel.profileFacultyLiveData.observe(viewLifecycleOwner) {
-                if (it is Response.Success) {
-                    profileDetailsFaculty = it.data!!
+        viewModel.getProfile()
+        viewModel.profileLiveData.observe(viewLifecycleOwner) {
+            if (it is Response.Success) {
+                it.data!!.apply {
                     Glide.with(requireActivity())
-                        .load(it.data.profile_pic_firebase)
+                        .load(profile_pic_firebase)
                         .placeholder(R.drawable.enter_details_profile_pic)
                         .into(binding.ProfilePic)
-                    name = it.data.name
-                    val title: String = when (it.data.gender) {
-                        "M" -> "SIR"
-                        "F" -> "MA'AM"
-                        else -> "FACULTY"
+
+                    userName = name
+                    val nameWithTitle = faculty_account_id?.let { _ ->
+                        "$name " + when (gender) {
+                            "M" -> "SIR"
+                            "F" -> "MA'AM"
+                            else -> "FACULTY"
+                        }
+                    } ?: name
+                    binding.NameOfUser.text = nameWithTitle
+                    binding.CollegeOfUser.text = college
+                    binding.DetailsOfUser.text =
+                        department ?: "$year | $course | $branch"
+                    accountId = faculty_account_id ?: student_account_id!!
+
+                    faculty_account_id?.let { _ ->
+                        profileDetailsFaculty = FacultyProfileDetailsResponse(
+                            department!!,
+                            faculty_account_id,
+                            name,
+                            profile_pic,
+                            dob,
+                            college,
+                            gender,
+                            profile_pic_firebase
+                        )
+                    } ?: run {
+                        profileDetailsStudent = StudentProfileDetailsResponse(
+                            branch!!,
+                            college,
+                            course!!,
+                            name,
+                            profile_pic,
+                            student_account_id!!,
+                            year!!,
+                            null,
+                            gender,
+                            dob,
+                            profile_pic_firebase!!
+                        )
                     }
-                    binding.CollegeOfUser.text = it.data.college
-                    binding.DetailsOfUser.text = it.data.department
-                    accountId = it.data.faculty_account_id
-                    binding.NameOfUser.text = it.data.name + " " + title
-                } else Toast.makeText(activity, it.errorMessage, Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            viewModel.profileDetailsStudent()
-            viewModel.profileStudentLiveData.observe(viewLifecycleOwner) {
-                profileDetailsStudent = it
-                Glide.with(requireActivity()).load(it.profile_pic_firebase).into(binding.ProfilePic)
-                name = it.name
-                accountId = it.student_account_id
-                binding.NameOfUser.text = it.name
-                it.year = when (it.year) {
-                    "1" -> "1st Year"
-                    "2" -> "2nd Year"
-                    "3" -> "3rd Year"
-                    else -> "4th Year"
                 }
-                binding.DetailsOfUser.text = "${it.year} | ${it.course} | ${it.branch}"
-                binding.CollegeOfUser.text = it.college
-            }
-            viewModel.errorStudentLiveData.observe(viewLifecycleOwner) {
-                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
             }
         }
 
-        val chooseImage = registerForActivityResult(
-            ActivityResultContracts.GetContent()
-        ) {
+        val chooseImage = registerForActivityResult(ActivityResultContracts.GetContent()) {
             it?.let {
                 binding.profileProgressBar.show()
                 binding.ProfilePic.alpha = 0.2f
-                viewModel.uploadProfilePic(it, accountId)
-                viewModel.uploadImageLiveData.observe(viewLifecycleOwner) { message ->
+                viewModel.uploadPicFirebase(it, accountId)
+                viewModel.firebaseLiveData.observe(viewLifecycleOwner) { message ->
                     if (message.substring(0, 8) == "Uploaded") {
                         val uri = message.substring(8)
-                        viewModel.updateProfileDetails(name, uri)
-                        viewModel.updateProfileLiveData.observe(viewLifecycleOwner) { response ->
-                            Toast.makeText(
-                                context,
-                                if (response is Response.Success) "Successfully uploaded"
-                                else response.errorMessage,
-                                Toast.LENGTH_SHORT
-                            ).show()
+                        viewModel.updateProfilePic(userName, uri)
+                        viewModel.updateProfilePicLiveData.observe(viewLifecycleOwner) { response ->
+                            if (response != "success")
+                                Toast.makeText(context, response, Toast.LENGTH_SHORT).show()
+                            binding.ProfilePic.setImageURI(it)
                         }
-                        binding.ProfilePic.setImageURI(it)
-                    } else Toast.makeText(
-                        context, "$message\nPlease try again",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    } else Toast.makeText(context, "$message\nPlease try again", Toast.LENGTH_SHORT)
+                        .show()
 
                     binding.profileProgressBar.hide()
                     binding.ProfilePic.alpha = 1f
@@ -157,7 +159,7 @@ class Profile : Fragment(R.layout.fragment_profile) {
         binding.BuyNowBtn.setOnClickListener {
             try {
                 val intent = Intent(activity, PaymentActivity::class.java)
-                intent.putExtra("name", name)
+                intent.putExtra("name", userName)
                 intent.putExtra("price", price.toString())
                 startActivity(intent)
             } catch (e: Exception) {

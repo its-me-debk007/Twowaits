@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
 import com.example.twowaits.databinding.VerifyEmailBinding
 import com.example.twowaits.repository.authRepository.SendOtpRepository
+import com.example.twowaits.utils.isValidEmail
 
 class ForgotPasswordFragment : Fragment(R.layout.verify_email) {
     private lateinit var binding: VerifyEmailBinding
@@ -19,7 +20,7 @@ class ForgotPasswordFragment : Fragment(R.layout.verify_email) {
         binding.verifyButton.setOnClickListener {
             val repository = SendOtpRepository()
             val userEmail = binding.emailForVerifying.text.toString().trim()
-            if (!LoginFragment().isValidEmail(userEmail)) {
+            if (!userEmail.isValidEmail()) {
                 binding.emailForVerifying.error = "Please enter a valid email"
                 return@setOnClickListener
             }

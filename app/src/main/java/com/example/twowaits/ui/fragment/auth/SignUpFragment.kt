@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
 import com.example.twowaits.databinding.FragmentSignUpBinding
 import com.example.twowaits.repository.authRepository.SignUpRepository
+import com.example.twowaits.utils.isValidEmail
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
@@ -27,7 +28,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
             hideKeyboard(requireView())
             val userEmail = binding.EnterEmail.text.toString().trim()
 
-            if (!LoginFragment().isValidEmail(userEmail)) {
+            if (!userEmail.isValidEmail()) {
                 binding.EnterEmail.error = "Please enter a valid email!"
                 return@setOnClickListener
             }

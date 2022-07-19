@@ -4,76 +4,49 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.twowaits.model.home.UpdateProfileDetailsBody
+import com.example.twowaits.model.ProfileDetails
+import com.example.twowaits.model.ProfileDetailsExcludingId
+import com.example.twowaits.model.home.UpdateProfilePic
 import com.example.twowaits.network.ServiceBuilder
-import com.example.twowaits.network.dashboardApiCalls.FacultyProfileDetailsResponse
-import com.example.twowaits.network.dashboardApiCalls.StudentProfileDetailsResponse
 import com.example.twowaits.sealedClass.Response
 import com.example.twowaits.utils.Utils
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 
 class ProfileRepository {
-    private val profileStudentMutableLiveData = MutableLiveData<StudentProfileDetailsResponse>()
-    val profileStudentLiveData: LiveData<StudentProfileDetailsResponse> =
-        profileStudentMutableLiveData
-    private val errorStudentMutableLiveData = MutableLiveData<String>()
-    val errorStudentLiveData: LiveData<String> = errorStudentMutableLiveData
     private val uploadImageMutableLiveData = MutableLiveData<String>()
-    val uploadImageLiveData: LiveData<String> = uploadImageMutableLiveData
+    val firebaseLiveData: LiveData<String> = uploadImageMutableLiveData
 
-    val profileDetailsFacultyLiveData = MutableLiveData<Response<FacultyProfileDetailsResponse>>()
-
-    fun profileDetailsFaculty(): MutableLiveData<Response<FacultyProfileDetailsResponse>> {
-        ServiceBuilder.getInstance().profileDetailsFaculty()
-            .enqueue(object : Callback<FacultyProfileDetailsResponse> {
+    private val profileLiveData = MutableLiveData<Response<ProfileDetails>>()
+    fun getProfile(): MutableLiveData<Response<ProfileDetails>> {
+        ServiceBuilder.getInstance().getProfile()
+            .enqueue(object : Callback<ProfileDetails> {
                 override fun onResponse(
-                    call: Call<FacultyProfileDetailsResponse>,
-                    response: retrofit2.Response<FacultyProfileDetailsResponse>
+                    call: Call<ProfileDetails>,
+                    response: retrofit2.Response<ProfileDetails>
                 ) {
                     when {
-                        response.isSuccessful ->
-                            profileDetailsFacultyLiveData.postValue(Response.Success(response.body()))
-
+                        response.isSuccessful -> {
+                            profileLiveData.postValue(Response.Success(response.body()))
+                        }
                         response.code() == 400 -> {
                             Utils().getNewAccessToken()
-                            profileDetailsFaculty()
+                            getProfile()
                         }
-
-                        else -> profileDetailsFacultyLiveData.postValue(Response.Error(response.message() + "\nPlease try again"))
+                        else -> profileLiveData.postValue(Response.Error("Error code is ${response.code()}"))
                     }
                 }
 
-                override fun onFailure(call: Call<FacultyProfileDetailsResponse>, t: Throwable) {
-                    profileDetailsFacultyLiveData.postValue(Response.Error(t.message + "\nPlease try again"))
+                override fun onFailure(call: Call<ProfileDetails>, t: Throwable) {
+                    profileLiveData.postValue(Response.Error(t.message!!))
                 }
             })
-        return profileDetailsFacultyLiveData
+        return profileLiveData
     }
 
-    fun profileDetailsStudent() {
-        GlobalScope.launch(Dispatchers.IO) {
-            val response = ServiceBuilder.getInstance().profileDetailsStudent()
-            when {
-                response.isSuccessful -> {
-                    profileStudentMutableLiveData.postValue(response.body())
-                }
-                response.code() == 400 -> {
-                    Utils().getNewAccessToken()
-                    profileDetailsStudent()
-                }
-                else -> errorStudentMutableLiveData.postValue("Error code is ${response.code()}")
-            }
-        }
-    }
-
-    fun uploadProfilePic(uri: Uri, student_account_id: Int) {
+    fun uploadPicFirebase(uri: Uri, student_account_id: Int) {
         val imageRef = Firebase.storage.reference.child("${student_account_id}.jpg")
         imageRef.putFile(uri).addOnSuccessListener {
             imageRef.downloadUrl.addOnSuccessListener {
@@ -88,26 +61,60 @@ class ProfileRepository {
             }
     }
 
-    private val updateProfileLiveData = MutableLiveData<Response<StudentProfileDetailsResponse>>()
-    suspend fun updateProfileDetails(updateProfileDetailsBody: UpdateProfileDetailsBody):
-            MutableLiveData<Response<StudentProfileDetailsResponse>> {
-        try {
-            val response=
-                ServiceBuilder.getInstance().updateProfileDetails(updateProfileDetailsBody)
-            Log.e("dddd", response.body().toString())
-            when {
-                response.isSuccessful ->
-                    updateProfileLiveData.postValue(Response.Success(response.body()))
-                response.code() == 400 -> {
-                    Utils().getNewAccessToken()
-                    updateProfileDetails(updateProfileDetailsBody)
+    private val updatePicLiveData = MutableLiveData<String>()
+    fun updateProfilePic(body: UpdateProfilePic):
+            MutableLiveData<String> {
+
+        ServiceBuilder.getInstance().updateProfilePic(body)
+            .enqueue(object : Callback<ProfileDetails> {
+                override fun onResponse(
+                    call: Call<ProfileDetails>,
+                    response: retrofit2.Response<ProfileDetails>
+                ) {
+                    when {
+                        response.isSuccessful ->
+                            updatePicLiveData.postValue("success")
+
+                        response.code() == 400 -> {
+                            Utils().getNewAccessToken()
+                            getProfile()
+                        }
+                        else -> updatePicLiveData.postValue(response.message())
+                    }
                 }
-                else ->
-                    updateProfileLiveData.postValue(Response.Error("Error code is ${response.code()}"))
+
+                override fun onFailure(call: Call<ProfileDetails>, t: Throwable) {
+                    updatePicLiveData.postValue(t.message)
+                }
+            })
+        return updatePicLiveData
+    }
+
+    private val updateProfileLiveData = MutableLiveData<String>()
+    fun updateProfile(body: ProfileDetailsExcludingId): MutableLiveData<String> {
+        ServiceBuilder.getInstance().updateProfile(body).enqueue(object : Callback<ProfileDetails> {
+            override fun onResponse(
+                call: Call<ProfileDetails>,
+                response: retrofit2.Response<ProfileDetails>
+            ) {
+                when {
+                    response.isSuccessful -> {
+                        updateProfileLiveData.postValue("success")
+                        Log.e("UPDATE PROFILE REPO", response.code().toString())
+                    }
+
+                    response.code() == 400 -> {
+                        Utils().getNewAccessToken()
+                        updateProfile(body)
+                    }
+                    else -> updateProfileLiveData.postValue(response.message())
+                }
             }
-        } catch (e: Exception) {
-            updateProfileLiveData.postValue(Response.Error(e.message!!))
-        }
+
+            override fun onFailure(call: Call<ProfileDetails>, t: Throwable) {
+                updateProfileLiveData.postValue(t.message)
+            }
+        })
         return updateProfileLiveData
     }
 }

@@ -9,6 +9,7 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.CommentsBinding
 import com.example.twowaits.network.dashboardApiCalls.Comment
 import com.example.twowaits.utils.Utils
+import com.example.twowaits.utils.formatTime
 
 class CommentsRecyclerAdapter(private val comments: List<Comment>, private val context: Context) :
     RecyclerView.Adapter<CommentsRecyclerAdapter.ViewHolder>() {
@@ -22,7 +23,7 @@ class CommentsRecyclerAdapter(private val comments: List<Comment>, private val c
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
-            commentedAt.text = "Commented at ${Utils().formatTime(comments[position].commented)}"
+            commentedAt.text = "Commented at ${formatTime(comments[position].commented)}"
             try {
                 commentorName.text = comments[position].author_id.student.name
                 Glide.with(context).load(comments[position].author_id.student.profile_pic_firebase)

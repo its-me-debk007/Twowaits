@@ -14,7 +14,7 @@
         app:elevation="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/circular_image_view" />
+        app:shapeAppearanceOverlay="@style/CurvedImage50Percent" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/navHeaderName"

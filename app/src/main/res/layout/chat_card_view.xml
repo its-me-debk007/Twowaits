@@ -50,7 +50,7 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/circular_image_view" />
+                app:shapeAppearanceOverlay="@style/CurvedImage50Percent" />
 
             <TextView
                 android:id="@+id/lastSeen"

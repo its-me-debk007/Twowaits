@@ -53,11 +53,10 @@
             android:layout_height="109dp"
             android:layout_marginTop="5dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/enter_details_profile_pic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/subheading"
-            app:shapeAppearanceOverlay="@style/circular_image_view" />
+            app:shapeAppearanceOverlay="@style/CurvedImage50Percent" />
 
         <TextView
             android:id="@+id/name"
@@ -226,7 +225,6 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/enterCollege"
             style="@style/textInputLayoutStyle"
-            app:passwordToggleEnabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
@@ -234,13 +232,13 @@
             android:layout_marginEnd="19dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/collegeName">
+            app:layout_constraintTop_toBottomOf="@+id/collegeName"
+            app:passwordToggleEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/enterYourCollege"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/enter_details_border"
                 android:fontFamily="@font/reemkufi_regular"
                 android:hint="Enter name of your college"
                 android:imeOptions="actionNext"
@@ -359,5 +357,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/courseTextInputLayout" />
 
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressBar"
+            style="@style/customProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/submitBtn"
+            app:layout_constraintEnd_toEndOf="@+id/submitBtn"
+            app:layout_constraintStart_toStartOf="@+id/submitBtn"
+            app:layout_constraintTop_toTopOf="@+id/submitBtn" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

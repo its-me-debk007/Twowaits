@@ -10,6 +10,7 @@ import com.example.twowaits.utils.Utils
 import com.example.twowaits.R
 import com.example.twowaits.network.dashboardApiCalls.Answer
 import com.example.twowaits.databinding.AnswersBinding
+import com.example.twowaits.utils.formatTime
 
 class AnswersRecyclerAdapter(
     private val answers: List<Answer>,
@@ -58,7 +59,7 @@ class AnswersRecyclerAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
-            answerDetails.text = "Answered at ${Utils().formatTime(answers[position].answered)}"
+            answerDetails.text = "Answered at ${formatTime(answers[position].answered)}"
             likesCount.text = answers[position].likes.toString()
             commentsCount.text = answers[position].comment.size.toString()
             answer.text = answers[position].answer

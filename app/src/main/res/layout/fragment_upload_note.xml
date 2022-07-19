@@ -142,7 +142,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/selectPDF"
-            app:shapeAppearanceOverlay="@style/curved_image_view" />
+            app:shapeAppearanceOverlay="@style/CurvedImage50Percent" />
 
         <ImageView
             android:layout_width="30dp"

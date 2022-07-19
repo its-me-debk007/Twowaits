@@ -31,6 +31,7 @@ import com.example.twowaits.recyclerAdapters.QuestionsAnswersRecyclerAdapter
 import com.example.twowaits.sealedClass.Response
 import com.example.twowaits.viewmodel.HomePageViewModel
 import com.example.twowaits.viewmodel.questionsAnswersViewModel.QuestionsAnswersViewModel
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -164,7 +165,8 @@ class ShowSearchQuestions : Fragment(R.layout.show_search_questions), ItemClicke
         if (dialog.window != null)
             dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
         dialog.findViewById<TextView>(R.id.particularQuestion).text = question
-        dialog.findViewById<Button>(R.id.answerButton).setOnClickListener {
+        val btn = dialog.findViewById<Button>(R.id.answerButton)
+        btn.setOnClickListener {
             if (dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim()
                     .isEmpty()
             ) {
@@ -179,7 +181,8 @@ class ShowSearchQuestions : Fragment(R.layout.show_search_questions), ItemClicke
                     question_id
                 )
             )
-            dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.VISIBLE
+            dialog.findViewById<CircularProgressIndicator>(R.id.progressBar).show()
+            btn.text = ""
             viewModel.createAnswerData.observe(viewLifecycleOwner) {
                 if (it == "success") {
                     Toast.makeText(context, "Added your answer successfully", Toast.LENGTH_SHORT)

@@ -1,30 +1,39 @@
-package com.example.twowaits.homePages
+package com.example.twowaits.ui.fragment.editProfile
 
 import android.app.DatePickerDialog
-import android.app.Dialog
-import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.twowaits.R
-import com.example.twowaits.network.dashboardApiCalls.FacultyProfileDetailsResponse
 import com.example.twowaits.databinding.EnterDetailsFacultyBinding
-import com.example.twowaits.databinding.PleaseWaitDialog2Binding
+import com.example.twowaits.model.ProfileDetailsExcludingId
+import com.example.twowaits.network.dashboardApiCalls.FacultyProfileDetailsResponse
+import com.example.twowaits.viewmodel.ProfileViewModel
 import java.util.*
 
 class EditProfileFaculty : Fragment(R.layout.enter_details_faculty) {
     private lateinit var binding: EnterDetailsFacultyBinding
+    private val viewModel by lazy { ViewModelProvider(this)[ProfileViewModel::class.java] }
+    private lateinit var data: FacultyProfileDetailsResponse
+    private var imgUri: Uri? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = EnterDetailsFacultyBinding.bind(view)
-        binding.apply {
+        binding = EnterDetailsFacultyBinding.bind(view).apply {
             (activity?.intent?.extras?.get("profileDetails") as
                     FacultyProfileDetailsResponse).apply {
-                Glide.with(requireActivity()).load(profile_pic_firebase).into(ProfilePic)
+                data = this
+                Glide.with(requireActivity())
+                    .load(profile_pic_firebase)
+                    .placeholder(R.drawable.enter_details_profile_pic)
+                    .into(ProfilePic)
                 enterYourName.setText(name)
                 enterYourCollege.setText(college)
                 autoCompleteTextView.setText(
@@ -38,7 +47,6 @@ class EditProfileFaculty : Fragment(R.layout.enter_details_faculty) {
                 enterYourDepartment.setText(department)
             }
 
-//            var imgUri: Uri? = null
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
@@ -54,12 +62,12 @@ class EditProfileFaculty : Fragment(R.layout.enter_details_faculty) {
             }
 
             val chooseImage = registerForActivityResult(ActivityResultContracts.GetContent()) {
+//                it?.let { uri ->
                 ProfilePic.setImageURI(it)
-//                imgUri = it
+                imgUri = it
+//                }
             }
-            AddPicBtn.setOnClickListener {
-                chooseImage.launch("image/*")
-            }
+            AddPicBtn.setOnClickListener { chooseImage.launch("image/*") }
             submitBtn.setOnClickListener {
                 var flag = false
                 enterName.helperText = ""
@@ -68,47 +76,47 @@ class EditProfileFaculty : Fragment(R.layout.enter_details_faculty) {
                 enterDepartment.helperText = ""
 
                 if (enterYourName.text.isNullOrBlank()) {
-                    enterName.helperText = "Please enter your name"
+                    enterName.helperText = "Enter name"
                     flag = true
                 }
                 if (enterYourCollege.text.isNullOrBlank()) {
-                    enterCollege.helperText = "Please enter your college"
+                    enterCollege.helperText = "Enter college"
                     flag = true
                 }
                 if (autoCompleteTextView.text.isNullOrBlank() || enterDate.text == "DD/MM/YYYY") {
-                    genderTextInputLayout.helperText = "Please enter your gender and DOB"
+                    genderTextInputLayout.helperText = "Enter gender and DOB"
                     flag = true
                 }
                 if (enterYourDepartment.text.isNullOrBlank()) {
-                    enterDepartment.helperText = "Please enter your department"
+                    enterDepartment.helperText = "Enter department"
                     flag = true
                 }
                 if (flag) return@setOnClickListener
 
-                val dialog = Dialog(requireContext())
-                dialog.setContentView(PleaseWaitDialog2Binding.inflate(layoutInflater).root)
-                dialog.setCancelable(false)
-                dialog.show()
-                if (dialog.window != null)
-                    dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
-//                viewModel.updateFacultyProfileDetails(
-//                    enterYourCollege.text.toString().trim(),
-//                    enterYourDepartment.text.toString().trim(),
-//                    enterDate.text.toString().trim(),
-//                    autoCompleteTextView.text.toString().trim()[0].toString(),
-//                    enterYourName.text.toString().trim(),
-//                    imgUri!!
-//                )
-//                viewModel.createFacultyProfileLiveData.observe(viewLifecycleOwner) {
-//                    if (it == "success") {
-
-//                        }
-//                        activity?.finish
-//                    } else {
-//                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-//                        dialog.hide()
-//                    }
-//                }
+                submitBtn.isEnabled = false
+                submitBtn.text = ""
+                progressBar.show()
+                imgUri?.let {
+                    Log.e("dddd", "imgUri is not null")
+                    viewModel.uploadPicFirebase(it, data.faculty_account_id)
+                    viewModel.firebaseLiveData.observe(viewLifecycleOwner) { message ->
+                        if (message.substring(0, 8) == "Uploaded") {
+                            val uri = message.substring(8)
+                            updateProfile(uri)
+                        } else {
+                            Toast.makeText(
+                                context, "$message\nPlease try again",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            submitBtn.isEnabled = true
+                            submitBtn.text = "Submit"
+                            progressBar.hide()
+                        }
+                    }
+                } ?: run {
+                    updateProfile(data.profile_pic_firebase!!)
+                    Log.e("dddd", "imgUri is null")
+                }
             }
         }
     }
@@ -130,5 +138,28 @@ class EditProfileFaculty : Fragment(R.layout.enter_details_faculty) {
         )
         binding.autoCompleteTextView.setAdapter(genderArrayAdapter)
         binding.enterYourDepartment.setAdapter(departmentArrayAdapter)
+    }
+
+    private fun updateProfile(uri: String) {
+        binding.apply {
+            viewModel.updateProfile(
+                ProfileDetailsExcludingId(
+                    enterYourName.text?.trim().toString(),
+                    enterYourCollege.text?.trim().toString(),
+                    enterYourDepartment.text.toString(),
+                    gender = autoCompleteTextView.text.toString(),
+                    dob = enterDate.text.toString(),
+                    profile_pic_firebase = uri
+                )
+            )
+            viewModel.updateProfileLiveData.observe(viewLifecycleOwner) {
+                Toast.makeText(
+                    context, if (it == "success") "Updated successfully" else it,
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                if (it == "success") activity?.finish()
+            }
+        }
     }
 }

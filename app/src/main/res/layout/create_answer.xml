@@ -82,17 +82,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/questionLayout" />
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/ProgressBar"
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/answerButton"
-                app:lottie_autoPlay="true"
-                app:lottie_fileName="progress_bar.json"
-                app:lottie_loop="true" />
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/answerButton"
+                app:layout_constraintEnd_toEndOf="@+id/answerButton"
+                app:layout_constraintStart_toStartOf="@+id/answerButton"
+                app:layout_constraintTop_toTopOf="@+id/answerButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

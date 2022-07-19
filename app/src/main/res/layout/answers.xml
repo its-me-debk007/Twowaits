@@ -17,10 +17,12 @@
         app:layout_constraintStart_toEndOf="@+id/answererProfilePic"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/answererProfilePic"
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/CurvedImage50Percent"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +48,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/roboto_regular"
-        android:text="@string/sample_long_text"
         android:textColor="#525252"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

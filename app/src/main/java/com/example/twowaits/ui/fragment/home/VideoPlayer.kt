@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.twowaits.R
 import com.example.twowaits.databinding.VideoPlayerBinding
 import com.example.twowaits.utils.Utils
+import com.example.twowaits.utils.downloadImg
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 
@@ -37,7 +38,7 @@ class VideoPlayer : Fragment(R.layout.video_player) {
             Toast.makeText(context, "Downloading", Toast.LENGTH_SHORT).show()
             binding.downloadBtn.isEnabled = false
 
-            Utils().downloadImg(
+            downloadImg(
                 requireContext(), Utils.VIDEO_URI,
                 "${context?.filesDir}/Downloaded Lectures/", "${lectureName}.mp4"
             )

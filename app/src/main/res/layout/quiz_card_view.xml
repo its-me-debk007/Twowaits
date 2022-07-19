@@ -33,23 +33,21 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/quiz" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/QuizTopic"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="6dp"
-                android:scrollHorizontally="true"
                 android:ellipsize="marquee"
-                android:marqueeRepeatLimit="marquee_forever"
                 android:fontFamily="@font/roboto_medium"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
                 android:text="COA Complete course Quiz"
-                android:textColor="#000000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/QuizImg"
-                android:singleLine="true" />
+                app:layout_constraintTop_toBottomOf="@+id/QuizImg" />
 
             <TextView
                 android:id="@+id/Detail"
@@ -76,7 +74,7 @@
                 app:layout_constraintStart_toEndOf="@+id/Detail"
                 app:layout_constraintTop_toBottomOf="@+id/QuizTopic" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/QuizCreator"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -84,21 +82,17 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="20dp"
-                android:scrollHorizontally="true"
                 android:ellipsize="marquee"
-                android:marqueeRepeatLimit="marquee_forever"
                 android:fontFamily="@font/roboto_regular"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
                 android:text="Quiz by Vishal Sir"
                 android:textColor="#303030"
                 android:textSize="11sp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:freezesText="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/NoOfQuestions"
-                android:singleLine="true" />
+                app:layout_constraintTop_toBottomOf="@+id/NoOfQuestions" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 

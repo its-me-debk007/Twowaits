@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.twowaits.R
 import com.example.twowaits.databinding.AskQuestionBinding
-import com.example.twowaits.utils.Utils
+import com.example.twowaits.utils.hideKeyboard
 import com.example.twowaits.viewmodel.questionsAnswersViewModel.QuestionsAnswersViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
@@ -26,7 +26,7 @@ class AskQuestion : Fragment(R.layout.ask_question) {
                 return@setOnClickListener
             }
             binding.questionLayout.helperText = ""
-            Utils().hideKeyboard(requireView(), activity)
+            requireView().hideKeyboard(activity)
             viewModel.askQuestion(AskQuestionBody(binding.question.text.toString()))
             binding.progressBar.visibility = View.VISIBLE
             binding.askBtn.isEnabled = false

@@ -13,11 +13,11 @@ import com.example.twowaits.viewmodel.quizViewModel.CreateQuizViewModel
 
 class CreateQuiz : Fragment(R.layout.create_quiz) {
     private lateinit var binding: CreateQuizBinding
+    val viewModel by lazy { ViewModelProvider(this)[CreateQuizViewModel::class.java] }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = CreateQuizBinding.bind(view)
-        val viewModel = ViewModelProvider(this)[CreateQuizViewModel::class.java]
         val actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.title = "Create a Quiz"
 

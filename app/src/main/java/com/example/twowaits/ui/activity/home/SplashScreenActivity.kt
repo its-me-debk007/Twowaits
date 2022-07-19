@@ -7,13 +7,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.lifecycle.lifecycleScope
 import com.example.twowaits.databinding.ActivitySplashScreenBinding
-import com.example.twowaits.utils.Utils
 import com.example.twowaits.ui.activity.auth.AuthActivity
 import com.example.twowaits.utils.Datastore
-import kotlinx.coroutines.DelicateCoroutinesApi
+import com.example.twowaits.utils.Utils
 import kotlinx.coroutines.launch
 
-@DelicateCoroutinesApi
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashScreenBinding
 
@@ -26,15 +24,21 @@ class SplashScreenActivity : AppCompatActivity() {
 
         binding.motionLayout.apply {
             startLayoutAnimation()
-            setTransitionListener(object : MotionLayout.TransitionListener{
-                override fun onTransitionStarted(motionLayout: MotionLayout?,
-                                                 startId: Int,
-                                                 endId: Int) {}
+            setTransitionListener(object : MotionLayout.TransitionListener {
+                override fun onTransitionStarted(
+                    motionLayout: MotionLayout?,
+                    startId: Int,
+                    endId: Int
+                ) {
+                }
 
-                override fun onTransitionChange(motionLayout: MotionLayout?,
-                                                startId: Int,
-                                                endId: Int,
-                                                progress: Float) {}
+                override fun onTransitionChange(
+                    motionLayout: MotionLayout?,
+                    startId: Int,
+                    endId: Int,
+                    progress: Float
+                ) {
+                }
 
                 override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
                     lifecycleScope.launch {
@@ -53,10 +57,13 @@ class SplashScreenActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onTransitionTrigger(motionLayout: MotionLayout?,
-                                                 triggerId: Int,
-                                                 positive: Boolean,
-                                                 progress: Float) {}
+                override fun onTransitionTrigger(
+                    motionLayout: MotionLayout?,
+                    triggerId: Int,
+                    positive: Boolean,
+                    progress: Float
+                ) {
+                }
             })
         }
     }

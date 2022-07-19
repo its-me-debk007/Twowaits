@@ -10,6 +10,5 @@ data class FacultyProfileDetailsResponse(
     val dob: String,
     val college: String,
     val gender: String,
-    val contact_id: Int,
-    val profile_pic_firebase: String
+    val profile_pic_firebase: String? = null
 ): Serializable

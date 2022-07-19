@@ -1,6 +1,6 @@
 package com.example.twowaits.model.home
 
-data class UpdateProfileDetailsBody(
+data class UpdateProfilePic(
     val name: String,
     val profile_pic_firebase: String
 )

@@ -8,7 +8,7 @@ import com.example.twowaits.ui.fragment.auth.CreateFacultyProfileBody
 import com.example.twowaits.ui.fragment.auth.CreateStudentProfileBody
 import com.example.twowaits.ui.fragment.auth.VerifyOtpBody
 import com.example.twowaits.model.BookmarkNoteBody
-import com.example.twowaits.model.home.UpdateProfileDetailsBody
+import com.example.twowaits.model.home.UpdateProfilePic
 import com.example.twowaits.model.home.UploadLectureBody
 import com.example.twowaits.model.home.UploadNoteBody
 import com.example.twowaits.ui.fragment.navDrawer.ChangePasswordBody
@@ -18,6 +18,8 @@ import com.example.twowaits.homePages.quiz.AddCorrectOptionBody
 import com.example.twowaits.homePages.quiz.AttemptQuizBody
 import com.example.twowaits.homePages.quiz.CreateQuestionBody
 import com.example.twowaits.homePages.quiz.CreateQuizBody
+import com.example.twowaits.model.ProfileDetails
+import com.example.twowaits.model.ProfileDetailsExcludingId
 import com.example.twowaits.model.auth.*
 import retrofit2.Call
 import retrofit2.Response
@@ -68,15 +70,17 @@ interface ApiInterface {
     ): Call<VerifyOtpResponse>
 
     @GET("profile/")
-    fun profileDetailsFaculty(): Call<FacultyProfileDetailsResponse>
-
-    @GET("profile/")
-    suspend fun profileDetailsStudent(): Response<StudentProfileDetailsResponse>
+    fun getProfile(): Call<ProfileDetails>
 
     @PUT("profile/")
-    suspend fun updateProfileDetails(
-        @Body updateProfileDetailsBody: UpdateProfileDetailsBody
-    ): Response<StudentProfileDetailsResponse>
+    fun updateProfilePic(
+        @Body body: UpdateProfilePic
+    ): Call<ProfileDetails>
+
+    @PUT("profile/")
+    fun updateProfile(
+        @Body body: ProfileDetailsExcludingId
+    ): Call<ProfileDetails>
 
     @POST("profile/student/")
     suspend fun createStudentProfileDetails(
@@ -86,7 +90,7 @@ interface ApiInterface {
     @POST("profile/faculty/")
     suspend fun createFacultyProfileDetails(
         @Body createFacultyProfileBody: CreateFacultyProfileBody
-    ): Response<FacultyProfileDetailsResponse>
+    ): Response<ProfileDetails>
 
     @GET("forum/")
     fun getQnA(): Call<List<QnAResponseItem>>

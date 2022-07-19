@@ -8,24 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
-import com.example.twowaits.utils.Utils
 import com.example.twowaits.databinding.FragmentLoginBinding
 import com.example.twowaits.model.auth.LoginBody
-import com.example.twowaits.sealedClass.Response
 import com.example.twowaits.repository.authRepository.LoginRepository
+import com.example.twowaits.sealedClass.Response
 import com.example.twowaits.ui.activity.home.HomeActivity
-import com.example.twowaits.utils.Datastore
-import com.google.android.material.snackbar.Snackbar
+import com.example.twowaits.utils.*
 import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
     private lateinit var binding: FragmentLoginBinding
     private val repository by lazy { LoginRepository() }
     private val datastore by lazy { Datastore(requireContext()) }
-
-    fun isValidEmail(str: String): Boolean {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(str).matches()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,7 +38,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
                 val userEmail = EmailAddress.text.toString().trim()
                 val userPassword = password.text.toString()
-                if (!isValidEmail(userEmail)) {
+                if (!userEmail.isValidEmail()) {
                     textInputLayout2.helperText = "Please enter a valid email"
                     return@setOnClickListener
                 }
@@ -53,12 +47,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     return@setOnClickListener
                 }
 
-                Utils().hideKeyboard(requireView(), activity)
+                requireView().hideKeyboard(activity)
                 binding.progressBar.visibility = View.VISIBLE
                 logIn.text = ""
                 logIn.isEnabled = false
 
-                var flag = false
                 repository.login(LoginBody(userEmail, userPassword))
                     .observe(viewLifecycleOwner) { loginResponse ->
 
@@ -82,56 +75,29 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                                         lifecycleScope.launch {
                                             datastore.saveAccessToken(tokensResponse.data!!.access)
                                             datastore.saveRefreshToken(tokensResponse.data.refresh)
-                                            datastore.saveUserDetails("email", userEmail)
+                                            datastore.saveUserDetails("USER_EMAIL", userEmail)
                                         }
                                         Utils.ACCESS_TOKEN = tokensResponse.data!!.access
                                         Utils.REFRESH_TOKEN = tokensResponse.data.refresh
-//                                        Utils.EMAIL = userEmail
 
                                         startActivity(Intent(activity, HomeActivity::class.java))
                                         activity?.finish()
-                                    } else if (tokensResponse is Response.Error) {
-                                        val snackBar = Snackbar.make(
-                                            logIn,
-                                            tokensResponse.errorMessage!!,
-                                            Snackbar.LENGTH_SHORT
-                                        )
-                                        snackBar.apply {
-                                            setAction("OK") {
-                                                dismiss()
-                                            }
-                                            animationMode = Snackbar.ANIMATION_MODE_SLIDE
-                                            show()
-                                        }
+                                    } else {
+                                        logIn.snackBar(tokensResponse.errorMessage!!)
                                         password.text?.clear()
                                         logIn.isEnabled = true
                                         logIn.text = "Log In"
                                         progressBar.visibility = View.INVISIBLE
-                                        flag = true
                                     }
                                 }
-                        } else if (loginResponse is Response.Error) {
-                            val snackBar = Snackbar.make(
-                                logIn,
-                                loginResponse.errorMessage!!,
-                                Snackbar.LENGTH_SHORT
-                            )
-                            snackBar.apply {
-                                setAction("OK") {
-                                    dismiss()
-                                }
-                                animationMode = Snackbar.ANIMATION_MODE_SLIDE
-                                show()
-                            }
+                        } else {
+                            logIn.snackBar(loginResponse.errorMessage!!)
                             password.text?.clear()
                             logIn.isEnabled = true
                             logIn.text = "Log In"
                             progressBar.visibility = View.INVISIBLE
-                            flag = true
                         }
                     }
-
-                if (flag) return@setOnClickListener
             }
         }
     }

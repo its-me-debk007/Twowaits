@@ -65,12 +65,6 @@ class HomeActivity : AppCompatActivity() {
             setContentView(NoInternetDialogBinding.inflate(layoutInflater).root)
             setCancelable(false)
         }
-
-//        Utils().saveAccessTokenLiveData.observe(this) {
-//            lifecycleScope.launch {
-//                dataStore.saveTokens("accessToken", it)
-//            }
-//        }
     }
 
     private fun navDrawerItemClicks() {
@@ -86,8 +80,9 @@ class HomeActivity : AppCompatActivity() {
                         .setPositiveButton("Logout") { _, _ ->
                             lifecycleScope.launch {
                                 dataStore.saveLoginData("")
+                                dataStore.saveAccessToken("")
                             }
-                            Utils.ACCESS_TOKEN = null
+                            Utils.ACCESS_TOKEN = ""
                             startActivity(Intent(this, AuthActivity::class.java))
                             finish()
                         }
@@ -112,11 +107,6 @@ class HomeActivity : AppCompatActivity() {
             true
         }
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.toolbar_menu, menu)
-//        return super.onCreateOptionsMenu(menu)
-//    }
 
     private fun isConnectedToInternet() {
         val checkNetworkConnection = ConnectivityLiveData(this)
@@ -154,7 +144,7 @@ class HomeActivity : AppCompatActivity() {
         val email = navHeader.findViewById<MaterialTextView>(R.id.navHeaderEmail)
 
         lifecycleScope.launch {
-            email.text = dataStore.readUserDetails("EMAIL")
+            email.text = dataStore.readUserDetails("USER_EMAIL")
             name.text = dataStore.readUserDetails("NAME")
         }
 
