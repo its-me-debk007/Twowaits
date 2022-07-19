@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
 import com.example.twowaits.databinding.CreatePasswordBinding
 import com.example.twowaits.repository.authRepository.ResetPasswordRepository
+import com.example.twowaits.utils.isValidPassword
 
 class CreatePassword : Fragment(R.layout.create_password) {
     private lateinit var binding: CreatePasswordBinding
@@ -18,9 +19,9 @@ class CreatePassword : Fragment(R.layout.create_password) {
         binding = CreatePasswordBinding.bind(view)
 
         binding.Proceed.setOnClickListener {
-            if (SignUpFragment().isValidPassword(binding.EnterYourPassword.text.toString()) != null) {
+            if (binding.EnterYourPassword.text.toString().isValidPassword() != null) {
                 binding.textInputLayout2.helperText =
-                    SignUpFragment().isValidPassword(binding.EnterYourPassword.text.toString())
+                    binding.EnterYourPassword.text.toString().isValidPassword()
                 return@setOnClickListener
             }
             binding.textInputLayout.helperText = ""

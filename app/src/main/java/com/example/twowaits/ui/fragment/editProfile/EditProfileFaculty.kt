@@ -15,7 +15,7 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.EnterDetailsFacultyBinding
 import com.example.twowaits.model.ProfileDetailsExcludingId
 import com.example.twowaits.network.dashboardApiCalls.FacultyProfileDetailsResponse
-import com.example.twowaits.viewmodel.ProfileViewModel
+import com.example.twowaits.viewModel.ProfileViewModel
 import java.util.*
 
 class EditProfileFaculty : Fragment(R.layout.enter_details_faculty) {

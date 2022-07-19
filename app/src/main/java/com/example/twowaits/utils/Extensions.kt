@@ -11,6 +11,22 @@ import com.google.android.material.snackbar.Snackbar
 
 fun String.isValidEmail() = android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
+fun String.isValidPassword(): String? = when {
+        this.length < 8 -> "Must contain at least 8 characters"
+
+        !this.matches(".*[A-Z].*".toRegex()) -> "Must contain at least 1 uppercase letter"
+
+        !this.matches(".*[a-z].*".toRegex()) -> "Must contain at least 1 lowercase letter"
+
+        !this.matches(".*[\$#%@&*/+_=?^!].*".toRegex()) -> "Must contain at least 1 special character"
+
+        !this.matches(".*[0-9].*".toRegex()) -> "Must contain at least 1 numeric digit"
+
+        this.contains("123") -> "Must not contain 123"
+
+        else -> null
+    }
+
 fun View.snackBar(msg: String) {
     Snackbar.make(this, msg, Snackbar.LENGTH_SHORT).apply {
         setAction("OK") { dismiss() }

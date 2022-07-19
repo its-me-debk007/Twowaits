@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
 import com.example.twowaits.databinding.CreateQuizBinding
-import com.example.twowaits.viewmodel.quizViewModel.CreateQuizViewModel
+import com.example.twowaits.viewModel.quizViewModel.CreateQuizViewModel
 
 class CreateQuiz : Fragment(R.layout.create_quiz) {
     private lateinit var binding: CreateQuizBinding

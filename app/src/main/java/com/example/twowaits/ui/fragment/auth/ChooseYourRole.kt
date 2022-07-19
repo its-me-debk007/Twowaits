@@ -8,11 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
-import com.example.twowaits.utils.Utils
 import com.example.twowaits.databinding.ChooseYourRoleBinding
-import com.example.twowaits.sealedClass.Response
 import com.example.twowaits.repository.authRepository.LoginRepository
+import com.example.twowaits.sealedClass.Response
+import com.example.twowaits.utils.ACCESS_TOKEN
 import com.example.twowaits.utils.Datastore
+import com.example.twowaits.utils.REFRESH_TOKEN
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 
@@ -45,8 +46,8 @@ class ChooseYourRole : Fragment(R.layout.choose_your_role) {
                             dataStore.saveAccessToken(it.data!!.access)
                             dataStore.saveRefreshToken(it.data.refresh)
                         }
-                        Utils.ACCESS_TOKEN = it.data!!.access
-                        Utils.REFRESH_TOKEN = it.data.refresh
+                        ACCESS_TOKEN = it.data!!.access
+                        REFRESH_TOKEN = it.data.refresh
                         teacher.isChecked = false
                         student.isChecked = false
                         ProgressBar.visibility = View.INVISIBLE
@@ -70,8 +71,8 @@ class ChooseYourRole : Fragment(R.layout.choose_your_role) {
                             dataStore.saveAccessToken(it.data!!.access)
                             dataStore.saveRefreshToken(it.data.refresh)
                         }
-                        Utils.ACCESS_TOKEN = it.data!!.access
-                        Utils.REFRESH_TOKEN = it.data.refresh
+                        ACCESS_TOKEN = it.data!!.access
+                        REFRESH_TOKEN = it.data.refresh
                         teacher.isChecked = false
                         student.isChecked = false
                         ProgressBar.visibility = View.INVISIBLE

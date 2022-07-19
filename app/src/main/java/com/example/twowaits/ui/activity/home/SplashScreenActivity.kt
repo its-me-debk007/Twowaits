@@ -8,8 +8,10 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.lifecycle.lifecycleScope
 import com.example.twowaits.databinding.ActivitySplashScreenBinding
 import com.example.twowaits.ui.activity.auth.AuthActivity
+import com.example.twowaits.utils.ACCESS_TOKEN
 import com.example.twowaits.utils.Datastore
-import com.example.twowaits.utils.Utils
+import com.example.twowaits.utils.REFRESH_TOKEN
+import com.example.twowaits.utils.USER
 import kotlinx.coroutines.launch
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -47,9 +49,9 @@ class SplashScreenActivity : AppCompatActivity() {
 
                         if (!loginStatus.isNullOrEmpty()) {
                             intent = Intent(this@SplashScreenActivity, HomeActivity::class.java)
-                            Utils.ACCESS_TOKEN = dataStore.getAccessToken()
-                            Utils.REFRESH_TOKEN = dataStore.getRefreshToken()
-                            Utils.USER = loginStatus
+                            ACCESS_TOKEN = dataStore.getAccessToken()
+                            REFRESH_TOKEN = dataStore.getRefreshToken()
+                            USER = loginStatus
                         } else
                             intent = Intent(this@SplashScreenActivity, AuthActivity::class.java)
 

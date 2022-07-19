@@ -13,7 +13,7 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.ChatBinding
 import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.chatRecyclerAdapters.ChatProfileClicked
 import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.chatRecyclerAdapters.ChatProfilesRecyclerAdapter
-import com.example.twowaits.viewmodel.ChatViewModel
+import com.example.twowaits.viewModel.ChatViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.DelicateCoroutinesApi

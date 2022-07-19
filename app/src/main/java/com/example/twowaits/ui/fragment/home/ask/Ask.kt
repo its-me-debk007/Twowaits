@@ -11,6 +11,7 @@ import com.example.twowaits.utils.Utils
 import com.example.twowaits.ui.activity.home.QuizActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.AskBinding
+import com.example.twowaits.utils.USER
 import com.google.android.material.transition.platform.MaterialFadeThrough
 
 class Ask : Fragment(R.layout.ask) {
@@ -34,7 +35,7 @@ class Ask : Fragment(R.layout.ask) {
         super.onViewCreated(view, savedInstanceState)
         binding = AskBinding.bind(view)
         val intent = Intent(context, AskActivity::class.java)
-        if (Utils.USER == "STUDENT") {
+        if (USER == "STUDENT") {
             binding.createQuiz.visibility = View.GONE
             binding.uploadLectureVideo.visibility = View.GONE
         }

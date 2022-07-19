@@ -21,6 +21,7 @@ import com.example.twowaits.connectivity.ConnectivityLiveData
 import com.example.twowaits.databinding.ActivityHomeBinding
 import com.example.twowaits.databinding.NoInternetDialogBinding
 import com.example.twowaits.ui.activity.auth.AuthActivity
+import com.example.twowaits.utils.ACCESS_TOKEN
 import com.example.twowaits.utils.Datastore
 import com.example.twowaits.utils.Utils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -82,7 +83,7 @@ class HomeActivity : AppCompatActivity() {
                                 dataStore.saveLoginData("")
                                 dataStore.saveAccessToken("")
                             }
-                            Utils.ACCESS_TOKEN = ""
+                            ACCESS_TOKEN = ""
                             startActivity(Intent(this, AuthActivity::class.java))
                             finish()
                         }

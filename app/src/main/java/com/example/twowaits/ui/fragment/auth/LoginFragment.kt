@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
@@ -14,11 +15,15 @@ import com.example.twowaits.repository.authRepository.LoginRepository
 import com.example.twowaits.sealedClass.Response
 import com.example.twowaits.ui.activity.home.HomeActivity
 import com.example.twowaits.utils.*
+import com.example.twowaits.viewModel.AuthViewModel
+import com.example.twowaits.viewModelFactory.AuthViewModelFactory
 import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
     private lateinit var binding: FragmentLoginBinding
-    private val repository by lazy { LoginRepository() }
+    private val viewModel by lazy {
+        ViewModelProvider(this, AuthViewModelFactory(LoginRepository()))[AuthViewModel::class.java]
+    }
     private val datastore by lazy { Datastore(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,52 +57,52 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 logIn.text = ""
                 logIn.isEnabled = false
 
-                repository.login(LoginBody(userEmail, userPassword))
-                    .observe(viewLifecycleOwner) { loginResponse ->
+                viewModel.login(LoginBody(userEmail, userPassword))
+                viewModel.loginLiveData.observe(viewLifecycleOwner) { loginResponse ->
 
-                        if (loginResponse is Response.Success) {
-                            repository.getAuthTokens(userEmail, userPassword)
-                                .observe(viewLifecycleOwner) { tokensResponse ->
-                                    if (tokensResponse is Response.Success) {
+                    if (loginResponse is Response.Success) {
+                        viewModel.getAuthTokens(userEmail, userPassword)
+                        viewModel.tokenLiveData.observe(viewLifecycleOwner) { tokensResponse ->
+                            if (tokensResponse is Response.Success) {
 
-                                        if (loginResponse.data?.type == "faculty") {
-                                            Utils.USER = "FACULTY"
-                                            lifecycleScope.launch {
-                                                datastore.saveLoginData("FACULTY")
-                                            }
-                                        } else {
-                                            Utils.USER = "STUDENT"
-                                            lifecycleScope.launch {
-                                                datastore.saveLoginData("STUDENT")
-                                            }
-                                        }
-
-                                        lifecycleScope.launch {
-                                            datastore.saveAccessToken(tokensResponse.data!!.access)
-                                            datastore.saveRefreshToken(tokensResponse.data.refresh)
-                                            datastore.saveUserDetails("USER_EMAIL", userEmail)
-                                        }
-                                        Utils.ACCESS_TOKEN = tokensResponse.data!!.access
-                                        Utils.REFRESH_TOKEN = tokensResponse.data.refresh
-
-                                        startActivity(Intent(activity, HomeActivity::class.java))
-                                        activity?.finish()
-                                    } else {
-                                        logIn.snackBar(tokensResponse.errorMessage!!)
-                                        password.text?.clear()
-                                        logIn.isEnabled = true
-                                        logIn.text = "Log In"
-                                        progressBar.visibility = View.INVISIBLE
+                                if (loginResponse.data?.type == "faculty") {
+                                    USER = "FACULTY"
+                                    lifecycleScope.launch {
+                                        datastore.saveLoginData("FACULTY")
+                                    }
+                                } else {
+                                    USER = "STUDENT"
+                                    lifecycleScope.launch {
+                                        datastore.saveLoginData("STUDENT")
                                     }
                                 }
-                        } else {
-                            logIn.snackBar(loginResponse.errorMessage!!)
-                            password.text?.clear()
-                            logIn.isEnabled = true
-                            logIn.text = "Log In"
-                            progressBar.visibility = View.INVISIBLE
+
+                                lifecycleScope.launch {
+                                    datastore.saveAccessToken(tokensResponse.data!!.access)
+                                    datastore.saveRefreshToken(tokensResponse.data.refresh)
+                                    datastore.saveUserDetails("USER_EMAIL", userEmail)
+                                }
+                                ACCESS_TOKEN = tokensResponse.data!!.access
+                                REFRESH_TOKEN = tokensResponse.data.refresh
+
+                                startActivity(Intent(activity, HomeActivity::class.java))
+                                activity?.finish()
+                            } else {
+                                logIn.snackBar(tokensResponse.errorMessage!!)
+                                password.text?.clear()
+                                logIn.isEnabled = true
+                                logIn.text = "Log In"
+                                progressBar.visibility = View.INVISIBLE
+                            }
                         }
+                    } else {
+                        logIn.snackBar(loginResponse.errorMessage!!)
+                        password.text?.clear()
+                        logIn.isEnabled = true
+                        logIn.text = "Log In"
+                        progressBar.visibility = View.INVISIBLE
                     }
+                }
             }
         }
     }

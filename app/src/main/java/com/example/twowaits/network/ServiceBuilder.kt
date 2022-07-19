@@ -1,7 +1,7 @@
 package com.example.twowaits.network
 
 import android.util.Log
-import com.example.twowaits.utils.Utils
+import com.example.twowaits.utils.ACCESS_TOKEN
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -14,13 +14,13 @@ object ServiceBuilder {
         .addConverterFactory(MoshiConverterFactory.create())
 
     fun getInstance(): ApiInterface {
-        Log.e("ACCESS TOKEN STATUS", Utils.ACCESS_TOKEN.toString())
-        if (Utils.ACCESS_TOKEN != null && Utils.ACCESS_TOKEN != "") {
+        Log.e("ACCESS TOKEN STATUS", ACCESS_TOKEN.toString())
+        if (ACCESS_TOKEN != null && ACCESS_TOKEN != "") {
             val tokenClient = OkHttpClient.Builder()
                 .addInterceptor { chain ->
                     val request = chain.request()
                         .newBuilder()
-                        .addHeader("Authorization", "Bearer ${Utils.ACCESS_TOKEN}")
+                        .addHeader("Authorization", "Bearer $ACCESS_TOKEN")
                         .build()
                     chain.proceed(request)
                 }

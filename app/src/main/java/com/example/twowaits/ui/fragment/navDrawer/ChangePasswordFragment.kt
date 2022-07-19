@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.twowaits.R
 import com.example.twowaits.databinding.FragmentChangePasswordBinding
 import com.example.twowaits.sealedClass.Response
-import com.example.twowaits.ui.fragment.auth.SignUpFragment
-import com.example.twowaits.viewmodel.HomePageViewModel
+import com.example.twowaits.utils.isValidPassword
+import com.example.twowaits.viewModel.HomePageViewModel
 
 class ChangePasswordFragment : Fragment(R.layout.fragment_change_password) {
     private lateinit var binding: FragmentChangePasswordBinding
@@ -20,9 +20,9 @@ class ChangePasswordFragment : Fragment(R.layout.fragment_change_password) {
         val viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
 
         binding.btn.setOnClickListener {
-            if (SignUpFragment().isValidPassword(binding.enterPassword.text.toString()) != null) {
+            if (binding.enterPassword.text.toString().isValidPassword() != null) {
                 binding.textInputLayout.helperText =
-                    SignUpFragment().isValidPassword(binding.enterPassword.text.toString())
+                    binding.enterPassword.text.toString().isValidPassword()
                 return@setOnClickListener
             }
             binding.textInputLayout.helperText = ""

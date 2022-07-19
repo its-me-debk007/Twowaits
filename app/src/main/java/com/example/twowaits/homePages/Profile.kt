@@ -25,8 +25,8 @@ import com.example.twowaits.sealedClass.Response
 import com.example.twowaits.ui.activity.home.AskActivity
 import com.example.twowaits.ui.fragment.home.Wishlist
 import com.example.twowaits.ui.fragment.home.YourQuestions
-import com.example.twowaits.utils.Utils
-import com.example.twowaits.viewmodel.ProfileViewModel
+import com.example.twowaits.utils.USER
+import com.example.twowaits.viewModel.ProfileViewModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.platform.MaterialFadeThrough
@@ -139,8 +139,8 @@ class Profile : Fragment(R.layout.fragment_profile) {
 
         binding.editProfile.setOnClickListener {
             Intent(context, AskActivity::class.java).apply {
-                putExtra("askActivityFragment", Utils.USER)
-                if (Utils.USER == "FACULTY") putExtra("profileDetails", profileDetailsFaculty)
+                putExtra("askActivityFragment", USER)
+                if (USER == "FACULTY") putExtra("profileDetails", profileDetailsFaculty)
                 else putExtra("profileDetails", profileDetailsStudent)
                 startActivity(this)
             }

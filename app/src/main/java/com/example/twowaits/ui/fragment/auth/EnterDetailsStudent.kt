@@ -15,13 +15,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.twowaits.utils.Utils
-import com.example.twowaits.ui.activity.home.HomeActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.EnterDetailsStudentBinding
 import com.example.twowaits.databinding.PleaseWaitDialog2Binding
+import com.example.twowaits.ui.activity.home.HomeActivity
 import com.example.twowaits.utils.Datastore
-import com.example.twowaits.viewmodel.EnterDetailsViewModel
+import com.example.twowaits.utils.USER
+import com.example.twowaits.viewModel.EnterDetailsViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 import java.util.*
@@ -76,7 +76,7 @@ class EnterDetailsStudent : Fragment(R.layout.enter_details_student) {
             )
             viewModel.createStudentProfileLiveData.observe(viewLifecycleOwner) {
                 if (it == "success") {
-                    Utils.USER = "STUDENT"
+                    USER = "STUDENT"
                     lifecycleScope.launch {
                         val userEmail = EnterDetailsStudentArgs.fromBundle(
                             requireArguments()

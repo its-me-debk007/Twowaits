@@ -7,16 +7,26 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
 import com.example.twowaits.databinding.FragmentSignUpBinding
 import com.example.twowaits.repository.authRepository.SignUpRepository
 import com.example.twowaits.utils.isValidEmail
+import com.example.twowaits.utils.isValidPassword
+import com.example.twowaits.viewModel.AuthViewModel
+import com.example.twowaits.viewModelFactory.AuthViewModelFactory
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
 class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
     private lateinit var binding: FragmentSignUpBinding
+    private val viewModel by lazy {
+        ViewModelProvider(
+            this,
+            AuthViewModelFactory(signUpRepository = SignUpRepository())
+        )[AuthViewModel::class.java]
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,9 +43,9 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
                 return@setOnClickListener
             }
 
-            if (isValidPassword(binding.password.text.toString()) != null) {
+            if (binding.password.text.toString().isValidPassword() != null) {
                 binding.textInputLayout.helperText =
-                    isValidPassword(binding.password.text.toString())
+                    binding.password.text.toString().isValidPassword()
                 return@setOnClickListener
             }
             binding.textInputLayout.helperText = ""
@@ -46,14 +56,13 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
             }
             binding.textInputLayout3.helperText = ""
 
-            val repository = SignUpRepository()
-            repository.signUp(userEmail, binding.confirmPassword.text.toString())
+            viewModel.signUp(userEmail, binding.confirmPassword.text.toString())
             binding.signUpBtn.isEnabled = false
             binding.signUpBtn.text = ""
             binding.progressBar.visibility = View.VISIBLE
 
             var flag = false
-            repository.errorMutableLiveData.observe(viewLifecycleOwner) {
+            viewModel.signUpLiveData.observe(viewLifecycleOwner) {
                 if (it == "success") {
                     val action = SignUpFragmentDirections.actionSignUpToOtpVerification(
                         userEmail,
@@ -92,23 +101,5 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
                 findNavController().navigate(R.id.action_signUp_to_firstAuthPage)
             }
         })
-    }
-
-    fun isValidPassword(password: String): String? {
-        return when {
-            password.length < 8 -> "Must contain at least 8 characters"
-
-            !password.matches(".*[A-Z].*".toRegex()) -> "Must contain at least 1 uppercase letter"
-
-            !password.matches(".*[a-z].*".toRegex()) -> "Must contain at least 1 lowercase letter"
-
-            !password.matches(".*[\$#%@&*/+_=?^!].*".toRegex()) -> "Must contain at least 1 special character"
-
-            !password.matches(".*[0-9].*".toRegex()) -> "Must contain at least 1 numeric digit"
-
-            password.contains("123") -> "Must not contain 123"
-
-            else -> null
-        }
     }
 }

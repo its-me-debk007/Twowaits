@@ -13,7 +13,7 @@ import com.example.twowaits.network.dashboardApiCalls.AddToWishlistBody
 import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.LecturesClicked
 import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.RecentLecturesRecyclerAdapter
 import com.example.twowaits.utils.Utils
-import com.example.twowaits.viewmodel.questionsAnswersViewModel.QuestionsAnswersViewModel
+import com.example.twowaits.viewModel.questionsAnswersViewModel.QuestionsAnswersViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

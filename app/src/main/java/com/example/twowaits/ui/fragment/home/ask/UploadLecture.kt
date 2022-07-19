@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.twowaits.R
 import com.example.twowaits.databinding.PleaseWaitDialogBinding
 import com.example.twowaits.databinding.UploadLectureBinding
-import com.example.twowaits.viewmodel.HomePageViewModel
+import com.example.twowaits.viewModel.HomePageViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

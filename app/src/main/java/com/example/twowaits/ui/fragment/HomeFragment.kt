@@ -38,8 +38,8 @@ import com.example.twowaits.sealedClass.Response
 import com.example.twowaits.ui.activity.home.AskActivity
 import com.example.twowaits.ui.activity.home.QuizActivity
 import com.example.twowaits.utils.Utils
-import com.example.twowaits.viewmodel.HomePageViewModel
-import com.example.twowaits.viewmodel.questionsAnswersViewModel.QuestionsAnswersViewModel
+import com.example.twowaits.viewModel.HomePageViewModel
+import com.example.twowaits.viewModel.questionsAnswersViewModel.QuestionsAnswersViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator

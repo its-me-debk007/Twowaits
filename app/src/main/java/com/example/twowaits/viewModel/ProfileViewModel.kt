@@ -1,4 +1,4 @@
-package com.example.twowaits.viewmodel
+package com.example.twowaits.viewModel
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
@@ -9,7 +9,6 @@ import com.example.twowaits.model.ProfileDetailsExcludingId
 import com.example.twowaits.model.home.UpdateProfilePic
 import com.example.twowaits.repository.homeRepository.ProfileRepository
 import com.example.twowaits.sealedClass.Response
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 
 class ProfileViewModel : ViewModel() {

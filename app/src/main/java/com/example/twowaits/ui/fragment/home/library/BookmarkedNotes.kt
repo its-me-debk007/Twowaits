@@ -14,7 +14,7 @@ import com.example.twowaits.databinding.BookmarkedNotesBinding
 import com.example.twowaits.model.BookmarkNoteBody
 import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.NotesClicked
 import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.RecentNotesRecyclerAdapter
-import com.example.twowaits.viewmodel.questionsAnswersViewModel.QuestionsAnswersViewModel
+import com.example.twowaits.viewModel.questionsAnswersViewModel.QuestionsAnswersViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

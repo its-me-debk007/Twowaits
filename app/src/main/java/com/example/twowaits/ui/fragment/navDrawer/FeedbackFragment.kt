@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.twowaits.R
 import com.example.twowaits.databinding.FragmentFeedbackBinding
-import com.example.twowaits.viewmodel.HomePageViewModel
+import com.example.twowaits.viewModel.HomePageViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

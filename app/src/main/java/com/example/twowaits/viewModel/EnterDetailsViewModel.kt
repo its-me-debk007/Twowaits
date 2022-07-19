@@ -1,4 +1,4 @@
-package com.example.twowaits.viewmodel
+package com.example.twowaits.viewModel
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData

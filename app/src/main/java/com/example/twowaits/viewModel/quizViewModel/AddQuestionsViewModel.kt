@@ -1,4 +1,4 @@
-package com.example.twowaits.viewmodel.quizViewModel
+package com.example.twowaits.viewModel.quizViewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.twowaits.databinding.ChatProfileBinding
-import com.example.twowaits.viewmodel.ChatViewModel
+import com.example.twowaits.viewModel.ChatViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

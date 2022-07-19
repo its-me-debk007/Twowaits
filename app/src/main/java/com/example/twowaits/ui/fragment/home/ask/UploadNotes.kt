@@ -13,7 +13,7 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.FragmentUploadNoteBinding
 import com.example.twowaits.databinding.PleaseWaitDialogBinding
 import com.example.twowaits.model.home.UploadNotePartialBody
-import com.example.twowaits.viewmodel.HomePageViewModel
+import com.example.twowaits.viewModel.HomePageViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi

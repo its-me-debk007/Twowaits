@@ -1,31 +1,15 @@
 package com.example.twowaits.utils
 
 import android.app.Application
-import android.content.Context
-import android.os.CountDownTimer
 import android.util.Log
-import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.downloader.OnDownloadListener
-import com.downloader.PRDownloader
 import com.example.twowaits.network.ServiceBuilder
 import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.GetQuizDataResponse
 import com.example.twowaits.ui.activity.home.HomeActivity
 import kotlinx.coroutines.runBlocking
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 class Utils : Application() {
     companion object {
-        var ACCESS_TOKEN: String? = null
-        var REFRESH_TOKEN: String? = null
-        lateinit var USER: String
-
         var CURRENT_QUESTION = 0
         var FIRST_TIME = true
         lateinit var QUIZ_DATA: GetQuizDataResponse
@@ -50,38 +34,4 @@ class Utils : Application() {
             }
         }
     }
-}
-
-fun formatTime(date: String): String {
-    val str = date.substring(0, 19)
-    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.UK)
-    val time = sdf.parse(str)!!.toString()
-
-    val day = time.substring(8, 10)
-    val month = time.substring(4, 7)
-    val tmp = time.substring(11, 13).toInt()
-    val meridian: String
-    val hours = if (tmp > 12) {
-        meridian = "pm"
-        tmp - 12
-    } else {
-        meridian = "am"
-        tmp
-    }
-    val minutes = time.substring(14, 16)
-
-    return "$hours:$minutes $meridian, $day $month"
-}
-
-fun downloadImg(context: Context, imgUrl: String, dirPath: String, imgName: String) {
-    PRDownloader.initialize(context)
-
-    PRDownloader.download(imgUrl, dirPath, imgName).build()
-        .start(object : OnDownloadListener {
-            override fun onDownloadComplete() {
-                Toast.makeText(context, "Downloaded successfully", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onError(p0: com.downloader.Error?) {}
-        })
 }
