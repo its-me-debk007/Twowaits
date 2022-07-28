@@ -11,9 +11,8 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.FragmentOtpVerificationBinding
 import com.example.twowaits.repository.authRepository.SendOtpRepository
 import com.example.twowaits.repository.authRepository.VerifyOtpRepository
-import kotlinx.coroutines.DelicateCoroutinesApi
+import com.example.twowaits.util.snackBar
 
-@DelicateCoroutinesApi
 class OtpVerification : Fragment(R.layout.fragment_otp_verification) {
     private lateinit var binding: FragmentOtpVerificationBinding
     private lateinit var timerCountDownTimer: CountDownTimer
@@ -22,6 +21,8 @@ class OtpVerification : Fragment(R.layout.fragment_otp_verification) {
         OtpVerificationArgs.fromBundle(requireArguments())
             .previousPage
     }
+    private val repository by lazy { SendOtpRepository() }
+    private val repository2 by lazy { VerifyOtpRepository() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,14 +49,10 @@ class OtpVerification : Fragment(R.layout.fragment_otp_verification) {
         }
         startTimer()
 
-        if (previousPage == "SignUp") {
-            val repository = SendOtpRepository()
-            repository.sendOtp(userEmail)
-        }
+        if (previousPage == "SignUp") repository.sendOtp(userEmail)
 
         binding.resendOTP.setOnClickListener {
             if (!timerOnStatus) {
-                val repository = SendOtpRepository()
                 repository.sendOtp(userEmail)
                 startTimer()
                 timerOnStatus = true
@@ -64,7 +61,6 @@ class OtpVerification : Fragment(R.layout.fragment_otp_verification) {
         }
 
         binding.verify.setOnClickListener {
-            val repository2 = VerifyOtpRepository()
             val otp = binding.EnterOTP.text.toString().trim()
             if (otp.isEmpty()) {
                 binding.EnterOTP.error = "Please enter the OTP"
@@ -73,13 +69,12 @@ class OtpVerification : Fragment(R.layout.fragment_otp_verification) {
                 binding.EnterOTP.error = "OTP is incorrect"
                 return@setOnClickListener
             }
-            repository2.verifyOtp(VerifyOtpBody(userEmail, otp))
             binding.verify.isEnabled = false
             binding.verify.text = ""
             binding.progressBar.visibility = View.VISIBLE
 
-            repository2.errorMutableLiveData.observe(viewLifecycleOwner) {
-                if (it == "success") {
+            repository2.verifyOtp(VerifyOtpBody(userEmail, otp)).observe(viewLifecycleOwner) {
+                if (it.data == "success") {
                     timerCountDownTimer.cancel()
                     if (previousPage == "SignUp") {
                         val action =
@@ -100,15 +95,13 @@ class OtpVerification : Fragment(R.layout.fragment_otp_verification) {
                         findNavController().navigate(action)
                     }
                 } else {
-                    Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+                    binding.verify.snackBar(it.errorMessage!!)
                     binding.verify.isEnabled = true
                     binding.verify.text = "Verify"
                     binding.progressBar.visibility = View.INVISIBLE
                 }
             }
         }
-//    Before Moving to next fragment:
-//      timerCountDownTimer.cancel()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

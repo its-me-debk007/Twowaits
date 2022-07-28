@@ -2,7 +2,7 @@ package com.example.twowaits.repository.homeRepository.chatRepositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.twowaits.utils.Utils
+import com.example.twowaits.util.Utils
 import com.example.twowaits.network.ServiceBuilder
 import com.example.twowaits.network.dashboardApiCalls.chatApiCalls.FetchConversationsMessagesResponse
 import kotlinx.coroutines.DelicateCoroutinesApi

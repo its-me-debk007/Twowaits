@@ -1,9 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    //safe-args
-    id 'androidx.navigation.safeargs'
+    id 'androidx.navigation.safeargs' // safe-args
     id 'com.google.gms.google-services'
+    id 'kotlin-parcelize' // 'kotlin-android-extensions' is deprecated, so don't use it for parcelize
 }
 
 android {
@@ -33,7 +33,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding true
     }
 }

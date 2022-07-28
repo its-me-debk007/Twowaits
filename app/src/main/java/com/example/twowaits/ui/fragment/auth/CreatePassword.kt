@@ -2,17 +2,18 @@ package com.example.twowaits.ui.fragment.auth
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
 import com.example.twowaits.databinding.CreatePasswordBinding
 import com.example.twowaits.repository.authRepository.ResetPasswordRepository
-import com.example.twowaits.utils.isValidPassword
+import com.example.twowaits.util.isValidPassword
+import com.example.twowaits.util.snackBar
 
 class CreatePassword : Fragment(R.layout.create_password) {
     private lateinit var binding: CreatePasswordBinding
+    val repository by lazy { ResetPasswordRepository() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,20 +36,20 @@ class CreatePassword : Fragment(R.layout.create_password) {
             val userEmail = CreatePasswordArgs.fromBundle(
                 requireArguments()
             ).userEmail
-            val repository = ResetPasswordRepository()
+
             repository.resetPassword(userEmail, binding.EnterYourPassword.text.toString())
+                .observe(viewLifecycleOwner) {
+                    binding.Proceed.isEnabled = true
+                    binding.ProgressBar.visibility = View.INVISIBLE
+                    binding.EnterYourPassword.text?.clear()
+                    binding.ConfirmYourPassword.text?.clear()
+
+                    if (it.data == "success") findNavController().navigate(R.id.action_createPassword2_to_login)
+                    else binding.Proceed.snackBar(it.errorMessage!!)
+                }
+
             binding.Proceed.isEnabled = false
             binding.ProgressBar.visibility = View.VISIBLE
-
-            repository.errorMutableLiveData.observe(viewLifecycleOwner) {
-                binding.Proceed.isEnabled = true
-                binding.ProgressBar.visibility = View.INVISIBLE
-                binding.EnterYourPassword.text?.clear()
-                binding.ConfirmYourPassword.text?.clear()
-
-                if (it == "success") findNavController().navigate(R.id.action_createPassword2_to_login)
-                else Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
-            }
         }
     }
 

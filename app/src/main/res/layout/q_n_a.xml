@@ -22,11 +22,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="10dp"
         android:fontFamily="@font/roboto_regular"
         android:text="Difference between microprocessor and microcontroller in details?"
-        android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/shareBtn"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +35,7 @@
         android:id="@+id/answersRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="-8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/addAnswer" />
 
@@ -54,35 +53,33 @@
         android:id="@+id/bookmarkBtn"
         android:layout_width="16dp"
         android:layout_height="22dp"
-        android:layout_marginTop="9dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/bookmark_button_state"
         android:textOff=""
         android:textOn=""
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/shareBtn"
         app:srcCompat="@drawable/bookmarks_icon" />
 
     <ImageView
         android:id="@+id/shareBtn"
         android:layout_width="22dp"
         android:layout_height="22dp"
-        android:layout_marginTop="9dp"
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toStartOf="@+id/bookmarkBtn"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_share" />
+        app:layout_constraintTop_toTopOf="@+id/question"
+        app:srcCompat="@drawable/ic_share"
+        android:contentDescription="Share" />
 
     <TextView
         android:id="@+id/addAnswer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
         android:fontFamily="@font/roboto_regular"
-        android:text="Add answer"
+        android:padding="8dp"
+        android:text="@string/add_answer"
         android:textColor="#A17A69"
-        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/question" />
 </androidx.constraintlayout.widget.ConstraintLayout>

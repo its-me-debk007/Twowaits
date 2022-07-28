@@ -9,24 +9,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto_medium"
         android:text="Karan Goel"
-        android:textColor="#000000"
-        android:textSize="13sp"
         app:layout_constraintStart_toEndOf="@+id/answererProfilePic"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/answererProfilePic" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/answererProfilePic"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:scaleType="centerCrop"
-        app:shapeAppearanceOverlay="@style/CurvedImage50Percent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/CurvedImage50Percent" />
 
     <TextView
         android:id="@+id/answerDetails"
@@ -45,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/roboto_regular"
         android:textColor="#525252"
@@ -55,8 +52,8 @@
 
     <ToggleButton
         android:id="@+id/likeBtn"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/like_button_state"
@@ -80,8 +77,8 @@
 
     <ImageView
         android:id="@+id/commentIcon"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toEndOf="@+id/likesCount"
@@ -121,9 +118,8 @@
         android:layout_marginTop="3dp"
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/roboto_regular"
-        android:text="Add Comment"
+        android:text="@string/add_comment"
         android:textColor="#A17A69"
-        android:textSize="13sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/commentIcon" />

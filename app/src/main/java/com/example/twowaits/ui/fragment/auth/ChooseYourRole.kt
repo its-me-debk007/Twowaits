@@ -11,9 +11,9 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.ChooseYourRoleBinding
 import com.example.twowaits.repository.authRepository.LoginRepository
 import com.example.twowaits.sealedClass.Response
-import com.example.twowaits.utils.ACCESS_TOKEN
-import com.example.twowaits.utils.Datastore
-import com.example.twowaits.utils.REFRESH_TOKEN
+import com.example.twowaits.util.ACCESS_TOKEN
+import com.example.twowaits.util.Datastore
+import com.example.twowaits.util.REFRESH_TOKEN
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 
@@ -44,7 +44,7 @@ class ChooseYourRole : Fragment(R.layout.choose_your_role) {
                         lifecycleScope.launch {
                             dataStore.saveLoginData("STUDENT")
                             dataStore.saveAccessToken(it.data!!.access)
-                            dataStore.saveRefreshToken(it.data.refresh)
+                            dataStore.saveRefreshToken(it.data.refresh!!)
                         }
                         ACCESS_TOKEN = it.data!!.access
                         REFRESH_TOKEN = it.data.refresh
@@ -69,7 +69,7 @@ class ChooseYourRole : Fragment(R.layout.choose_your_role) {
                         lifecycleScope.launch {
                             dataStore.saveLoginData("FACULTY")
                             dataStore.saveAccessToken(it.data!!.access)
-                            dataStore.saveRefreshToken(it.data.refresh)
+                            dataStore.saveRefreshToken(it.data.refresh!!)
                         }
                         ACCESS_TOKEN = it.data!!.access
                         REFRESH_TOKEN = it.data.refresh

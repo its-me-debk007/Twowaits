@@ -19,8 +19,8 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.EnterDetailsFacultyBinding
 import com.example.twowaits.databinding.PleaseWaitDialog2Binding
 import com.example.twowaits.ui.activity.home.HomeActivity
-import com.example.twowaits.utils.Datastore
-import com.example.twowaits.utils.USER
+import com.example.twowaits.util.Datastore
+import com.example.twowaits.util.USER
 import com.example.twowaits.viewModel.EnterDetailsViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch

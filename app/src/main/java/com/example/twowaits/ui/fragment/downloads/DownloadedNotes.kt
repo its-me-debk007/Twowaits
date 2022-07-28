@@ -9,7 +9,7 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.DownloadedNotesBinding
 import com.example.twowaits.recyclerAdapters.DownloadedNoteClicked
 import com.example.twowaits.recyclerAdapters.DownloadedNotesRecyclerAdapter
-import com.example.twowaits.utils.Utils
+import com.example.twowaits.util.Utils
 import java.io.File
 
 class DownloadedNotes : Fragment(R.layout.downloaded_notes), DownloadedNoteClicked {

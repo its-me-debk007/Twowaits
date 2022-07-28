@@ -14,8 +14,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/ActivityHomeAppBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:elevation="4dp"
+            android:layout_height="wrap_content"
             android:transitionName="shared_element"
             app:liftOnScroll="true">
 
@@ -61,16 +60,10 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
-            android:layout_height="53dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/nav_bar_border"
-            app:elevation="0dp"
-            app:itemIconTint="@color/navbar_icon_color"
-            app:itemRippleColor="#B49385"
-            app:itemTextColor="@color/navbar_icon_color"
+            app:backgroundTint="@color/nav_bar_color"
+            app:labelVisibilityMode="selected"
             app:menu="@menu/bottom_menu" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -1,6 +1,6 @@
 package com.example.twowaits.model.auth
 
-data class GettingTokensResponse(
+data class TokenResponse(
     val access: String,
-    val refresh: String
+    val refresh: String? = null
 )

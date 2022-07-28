@@ -3,7 +3,6 @@ package com.example.twowaits.ui.fragment.editProfile
 import android.app.DatePickerDialog
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -27,12 +26,11 @@ class EditProfileFaculty : Fragment(R.layout.enter_details_faculty) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = EnterDetailsFacultyBinding.bind(view).apply {
-            (activity?.intent?.extras?.get("profileDetails") as
-                    FacultyProfileDetailsResponse).apply {
-                data = this
+            (activity?.intent?.getParcelableExtra<FacultyProfileDetailsResponse>("profileDetails")).apply {
+                data = this!!
                 Glide.with(requireActivity())
                     .load(profile_pic_firebase)
-                    .placeholder(R.drawable.enter_details_profile_pic)
+                    .placeholder(R.drawable.ic_placeholder)
                     .into(ProfilePic)
                 enterYourName.setText(name)
                 enterYourCollege.setText(college)
@@ -57,15 +55,11 @@ class EditProfileFaculty : Fragment(R.layout.enter_details_faculty) {
                     enterDate.text = String.format("%d-%d-%d", year, month + 1, dayOfMonth)
                 }, year, month, day
             )
-            enterDate.setOnClickListener {
-                datePicker.show()
-            }
+            enterDate.setOnClickListener { datePicker.show() }
 
             val chooseImage = registerForActivityResult(ActivityResultContracts.GetContent()) {
-//                it?.let { uri ->
                 ProfilePic.setImageURI(it)
                 imgUri = it
-//                }
             }
             AddPicBtn.setOnClickListener { chooseImage.launch("image/*") }
             submitBtn.setOnClickListener {
@@ -97,7 +91,6 @@ class EditProfileFaculty : Fragment(R.layout.enter_details_faculty) {
                 submitBtn.text = ""
                 progressBar.show()
                 imgUri?.let {
-                    Log.e("dddd", "imgUri is not null")
                     viewModel.uploadPicFirebase(it, data.faculty_account_id)
                     viewModel.firebaseLiveData.observe(viewLifecycleOwner) { message ->
                         if (message.substring(0, 8) == "Uploaded") {
@@ -113,10 +106,7 @@ class EditProfileFaculty : Fragment(R.layout.enter_details_faculty) {
                             progressBar.hide()
                         }
                     }
-                } ?: run {
-                    updateProfile(data.profile_pic_firebase!!)
-                    Log.e("dddd", "imgUri is null")
-                }
+                } ?: updateProfile(data.profile_pic_firebase!!)
             }
         }
     }
@@ -147,7 +137,7 @@ class EditProfileFaculty : Fragment(R.layout.enter_details_faculty) {
                     enterYourName.text?.trim().toString(),
                     enterYourCollege.text?.trim().toString(),
                     enterYourDepartment.text.toString(),
-                    gender = autoCompleteTextView.text.toString(),
+                    gender = autoCompleteTextView.text[0].toString(),
                     dob = enterDate.text.toString(),
                     profile_pic_firebase = uri
                 )

@@ -1,4 +1,4 @@
-package com.example.twowaits.utils
+package com.example.twowaits.util
 
 import android.content.Context
 import android.widget.Toast

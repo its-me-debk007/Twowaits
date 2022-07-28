@@ -5,8 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.twowaits.ui.fragment.navDrawer.ChangePasswordBody
-import com.example.twowaits.ui.fragment.navDrawer.Feedbackbody
 import com.example.twowaits.model.auth.SendOtpResponse
 import com.example.twowaits.model.home.UploadNotePartialBody
 import com.example.twowaits.network.dashboardApiCalls.QnAResponseItem
@@ -16,6 +14,8 @@ import com.example.twowaits.network.dashboardApiCalls.RecentQuizzesResponse
 import com.example.twowaits.repository.homeRepository.HomePageRepository
 import com.example.twowaits.repository.homeRepository.questionsAnswersRepositories.QnARepository
 import com.example.twowaits.sealedClass.Response
+import com.example.twowaits.ui.fragment.navDrawer.ChangePasswordBody
+import com.example.twowaits.ui.fragment.navDrawer.Feedbackbody
 import kotlinx.coroutines.launch
 
 class HomePageViewModel : ViewModel() {
@@ -30,7 +30,6 @@ class HomePageViewModel : ViewModel() {
     lateinit var uploadPDF: MutableLiveData<String>
     lateinit var getSearchQnAData: MutableLiveData<List<QnAResponseItem>>
     lateinit var errorGetSearchQnAData: MutableLiveData<String>
-    lateinit var feedbackData: MutableLiveData<String>
 
     lateinit var uploadLectureData: MutableLiveData<String>
 
@@ -54,11 +53,9 @@ class HomePageViewModel : ViewModel() {
         changePasswordLiveData = homePageRepository.changePassword(changePasswordBody)
     }
 
-    fun feedback(feedbackBody: Feedbackbody) {
-        viewModelScope.launch {
-            homePageRepository.feedback(feedbackBody)
-            feedbackData = homePageRepository.feedbackData
-        }
+    lateinit var feedbackLiveData: MutableLiveData<Response<String>>
+    fun feedback(message: String, rating: Int) = viewModelScope.launch {
+        feedbackLiveData = homePageRepository.feedback(Feedbackbody(message, rating))
     }
 
     fun uploadNote(uri: Uri, uploadPartialNoteBody: UploadNotePartialBody) {

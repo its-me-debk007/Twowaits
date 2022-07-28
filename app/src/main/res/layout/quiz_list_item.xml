@@ -6,14 +6,15 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
-        android:layout_width="wrap_content"
+        style="@style/Widget.Material3.CardView.Elevated"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
+        app:cardElevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,64 +25,62 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/QuizImg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
+                android:id="@+id/img"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:contentDescription="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/quiz" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/QuizTopic"
+                android:id="@+id/name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="8dp"
                 android:ellipsize="marquee"
                 android:fontFamily="@font/roboto_medium"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
-                android:text="COA Complete course Quiz"
+                android:text="COA Complete course"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/QuizImg" />
+                app:layout_constraintTop_toBottomOf="@+id/img" />
 
             <TextView
-                android:id="@+id/Detail"
+                android:id="@+id/details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="6dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="No. of questions::"
-                android:textColor="#000000"
                 android:textSize="11sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/QuizTopic" />
+                app:layout_constraintTop_toBottomOf="@+id/name" />
 
             <TextView
-                android:id="@+id/NoOfQuestions"
+                android:id="@+id/noOfQuestions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="6dp"
                 android:text="20"
-                android:textColor="#000000"
                 android:textSize="11sp"
-                app:layout_constraintStart_toEndOf="@+id/Detail"
-                app:layout_constraintTop_toBottomOf="@+id/QuizTopic" />
+                app:layout_constraintStart_toEndOf="@+id/details"
+                app:layout_constraintTop_toBottomOf="@+id/name" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/QuizCreator"
+                android:id="@+id/quizCreator"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="16dp"
                 android:ellipsize="marquee"
                 android:fontFamily="@font/roboto_regular"
                 android:marqueeRepeatLimit="marquee_forever"
@@ -92,23 +91,21 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/NoOfQuestions" />
+                app:layout_constraintTop_toBottomOf="@+id/noOfQuestions" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/seeAll"
+        style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:backgroundTint="#A17A69"
         android:fontFamily="@font/roboto_regular"
         android:text="See All"
         android:textSize="16sp"
         android:visibility="invisible"
-        app:cornerRadius="31dp"
-        app:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

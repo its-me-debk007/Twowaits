@@ -1,16 +1,16 @@
 package com.example.twowaits.ui.fragment
 
-import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.media.Image
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.TextView
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
@@ -18,11 +18,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.lottie.LottieAnimationView
 import com.example.twowaits.NoteLectureActivity
 import com.example.twowaits.R
-import com.example.twowaits.databinding.CreateAnswerBinding
-import com.example.twowaits.databinding.CreateCommentBinding
 import com.example.twowaits.databinding.FragmentHomeBinding
 import com.example.twowaits.homePages.questionsAnswers.BookmarkQuestionBody
 import com.example.twowaits.homePages.questionsAnswers.CreateAnswerBody
@@ -37,7 +34,8 @@ import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.*
 import com.example.twowaits.sealedClass.Response
 import com.example.twowaits.ui.activity.home.AskActivity
 import com.example.twowaits.ui.activity.home.QuizActivity
-import com.example.twowaits.utils.Utils
+import com.example.twowaits.util.Utils
+import com.example.twowaits.util.hideKeyboard
 import com.example.twowaits.viewModel.HomePageViewModel
 import com.example.twowaits.viewModel.questionsAnswersViewModel.QuestionsAnswersViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -45,6 +43,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.textview.MaterialTextView
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import kotlinx.coroutines.DelicateCoroutinesApi
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent.setEventListener
@@ -63,7 +62,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), ItemClicked, QuizClicked,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         exitTransition = MaterialFadeThrough()
         enterTransition = MaterialFadeThrough()
         reenterTransition = MaterialFadeThrough()
@@ -81,18 +79,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), ItemClicked, QuizClicked,
         binding = FragmentHomeBinding.bind(view)
         binding.swipeToRefresh.setColorSchemeColors(Color.parseColor("#804D37"))
         activity?.invalidateOptionsMenu()
-//        binding.shimmer.startShimmer()
 
         viewModel.recentLectures()
         viewModel.recentLecturesLiveData.observe(viewLifecycleOwner) {
             if (it is Response.Success) {
                 binding.TopLecturesRecyclerView.adapter =
-                    RecentLecturesRecyclerAdapter(
-                        "HOME",
-                        it.data!!.size,
-                        it.data.toMutableList(),
-                        this
-                    )
+                    RecentLecturesRecyclerAdapter("HOME", it.data!!.toMutableList(), this)
                 binding.TopLecturesRecyclerView.layoutManager = object :
                     LinearLayoutManager(context, HORIZONTAL, false) {
                     override fun canScrollVertically(): Boolean = false
@@ -212,89 +204,107 @@ class HomeFragment : Fragment(R.layout.fragment_home), ItemClicked, QuizClicked,
     }
 
     override fun addAnswerClicked(question: String, question_id: Int, position: Int) {
-        val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
-        val dialog = Dialog(requireContext())
-        dialog.setContentView(CreateAnswerBinding.inflate(layoutInflater).root)
-        dialog.show()
-        if (dialog.window != null)
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
-        dialog.findViewById<TextView>(R.id.particularQuestion).text = question
-        val btn = dialog.findViewById<Button>(R.id.answerButton)
+        val customView = layoutInflater.inflate(R.layout.create_answer, null)
+        val progressBar = customView.findViewById<CircularProgressIndicator>(R.id.progressBar)
+        val textInputLayout = customView.findViewById<TextInputLayout>(R.id.questionLayout)
+        val btn = customView.findViewById<Button>(R.id.btn)
+        val customViewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
+        val builder = MaterialAlertDialogBuilder(requireContext()).apply {
+            setView(customView)
+            background = ColorDrawable(Color.TRANSPARENT)
+            setCancelable(false)
+        }
+        val dialog = builder.show()
+        customView.findViewById<ImageView>(R.id.ic_cancel).setOnClickListener { dialog.dismiss() }
+
+        customView.findViewById<MaterialTextView>(R.id.question).text = question
+
         btn.setOnClickListener {
-            if (dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim()
+            if (customView.findViewById<TextInputEditText>(R.id.answer).text.toString().trim()
                     .isEmpty()
             ) {
-                dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText =
-                    "Please enter your answer first"
+                textInputLayout.helperText = "Enter your answer"
                 return@setOnClickListener
             }
-            dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText = ""
-            viewModel.createAnswer(
+            textInputLayout.helperText = null
+            customViewModel.createAnswer(
                 CreateAnswerBody(
-                    dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim(),
-                    question_id
+                    customView.findViewById<TextInputEditText>(R.id.answer)
+                        .text.toString().trim(), question_id
                 )
             )
-            dialog.findViewById<CircularProgressIndicator>(R.id.progressBar).show()
-            btn.text = ""
-            viewModel.createAnswerData.observe(viewLifecycleOwner) {
-                if (it == "success") {
-                    Toast.makeText(context, "Added your answer successfully", Toast.LENGTH_SHORT)
-                        .show()
-                    dialog.cancel()
+            progressBar.show()
+            btn.isEnabled = false
+            btn.text = null
+            requireView().hideKeyboard(activity)
+            customViewModel.createAnswerData.observe(viewLifecycleOwner) {
+                if (it.data == "success") {
+                    Toast.makeText(
+                        context, "Added your answer successfully",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    dialog.dismiss()
                     updateRecyclerView(position)
-                } else {
-                    dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
-                        View.GONE
-                    Toast.makeText(context, "Please try again!\n$it", Toast.LENGTH_SHORT).show()
                 }
+                progressBar.hide()
+                btn.text = "Answer"
+                btn.isEnabled = true
+                Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     override fun addCommentClicked(answer: String, answer_id: Int, position: Int) {
-        val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
-        val dialog = Dialog(requireContext())
-        dialog.setContentView(CreateCommentBinding.inflate(layoutInflater).root)
-        dialog.show()
-        if (dialog.window != null)
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
-        dialog.findViewById<TextView>(R.id.particularQuestion).text = answer
-        dialog.findViewById<Button>(R.id.answerButton).setOnClickListener {
-            if (dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim()
+        val customView = layoutInflater.inflate(R.layout.create_comment, null)
+        val progressBar = customView.findViewById<CircularProgressIndicator>(R.id.progressBar)
+        val textInputLayout = customView.findViewById<TextInputLayout>(R.id.commentLayout)
+        val btn = customView.findViewById<Button>(R.id.btn)
+        val customViewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
+        val builder = MaterialAlertDialogBuilder(requireContext()).apply {
+            setView(customView)
+            background = ColorDrawable(Color.TRANSPARENT)
+        }
+        val dialog = builder.show()
+
+        customView.findViewById<MaterialTextView>(R.id.question).text = answer
+        btn.setOnClickListener {
+            if (customView.findViewById<TextInputEditText>(R.id.comment).text.toString().trim()
                     .isEmpty()
             ) {
-                dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText =
-                    "Please enter your comment first"
+                textInputLayout.helperText = "Enter your comment"
                 return@setOnClickListener
             }
-            dialog.findViewById<TextInputLayout>(R.id.questionLayout).helperText = ""
-            viewModel.createComment(
+            textInputLayout.helperText = null
+            customViewModel.createComment(
                 CreateCommentBody(
                     answer_id,
-                    dialog.findViewById<TextInputEditText>(R.id.answerOfQ).text.toString().trim()
+                    customView.findViewById<TextInputEditText>(R.id.comment).text.toString().trim()
                 )
             )
-            dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility = View.VISIBLE
-            viewModel.createCommentData.observe(viewLifecycleOwner) {
-                if (it == "success") {
+            progressBar.show()
+            btn.isEnabled = false
+            btn.text = null
+            requireView().hideKeyboard(activity)
+            customViewModel.createCommentData.observe(viewLifecycleOwner) {
+                if (it.data == "success") {
                     Toast.makeText(context, "Added your comment successfully", Toast.LENGTH_SHORT)
                         .show()
-                    dialog.cancel()
+                    dialog.dismiss()
                     updateRecyclerView(position)
                 } else {
-                    dialog.findViewById<LottieAnimationView>(R.id.ProgressBar).visibility =
-                        View.GONE
-                    Toast.makeText(context, "Please try again!\n$it", Toast.LENGTH_SHORT).show()
+                    progressBar.hide()
+                    btn.isEnabled = true
+                    btn.text = "Comment"
+                    Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
     override fun noItems() {
-        binding.QnARecyclerView.visibility = View.GONE
-        binding.emptyAnimation.visibility = View.VISIBLE
-        binding.text.visibility = View.VISIBLE
+//        binding.QnARecyclerView.visibility = View.GONE
+//        binding.emptyAnimation.visibility = View.VISIBLE
+//        binding.text.visibility = View.VISIBLE
     }
 
     private fun updateRecyclerView(position: Int) {

@@ -1,7 +1,7 @@
 package com.example.twowaits.ui.activity.home
 
-import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MenuItem
@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
@@ -19,11 +20,10 @@ import com.bumptech.glide.Glide
 import com.example.twowaits.R
 import com.example.twowaits.connectivity.ConnectivityLiveData
 import com.example.twowaits.databinding.ActivityHomeBinding
-import com.example.twowaits.databinding.NoInternetDialogBinding
 import com.example.twowaits.ui.activity.auth.AuthActivity
-import com.example.twowaits.utils.ACCESS_TOKEN
-import com.example.twowaits.utils.Datastore
-import com.example.twowaits.utils.Utils
+import com.example.twowaits.util.ACCESS_TOKEN
+import com.example.twowaits.util.Datastore
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
@@ -35,7 +35,6 @@ import java.io.File
 @DelicateCoroutinesApi
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var dialog: Dialog
     private lateinit var toggle: ActionBarDrawerToggle
     private val dataStore by lazy { Datastore(this) }
 
@@ -62,10 +61,6 @@ class HomeActivity : AppCompatActivity() {
         toggle.syncState()
         isConnectedToInternet()
         navDrawerItemClicks()
-        dialog = Dialog(this).apply {
-            setContentView(NoInternetDialogBinding.inflate(layoutInflater).root)
-            setCancelable(false)
-        }
     }
 
     private fun navDrawerItemClicks() {
@@ -81,9 +76,9 @@ class HomeActivity : AppCompatActivity() {
                         .setPositiveButton("Logout") { _, _ ->
                             lifecycleScope.launch {
                                 dataStore.saveLoginData("")
-                                dataStore.saveAccessToken("")
+                                dataStore.saveAccessToken("_")
                             }
-                            ACCESS_TOKEN = ""
+                            ACCESS_TOKEN = "_"
                             startActivity(Intent(this, AuthActivity::class.java))
                             finish()
                         }
@@ -110,13 +105,28 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun isConnectedToInternet() {
-        val checkNetworkConnection = ConnectivityLiveData(this)
-        checkNetworkConnection.observe(this) {
+        val customView = layoutInflater.inflate(R.layout.no_internet_dialog, null)
+        val builder = MaterialAlertDialogBuilder(this).apply {
+            setView(customView)
+            background = ColorDrawable(Color.TRANSPARENT)
+            setCancelable(false)
+        }
+        val downloads = customView.findViewById<MaterialButton>(R.id.downloads)
+        val exit = customView.findViewById<MaterialButton>(R.id.exit)
+        val dialog = builder.show()
+
+        ConnectivityLiveData(this).observe(this) {
             if (it) dialog.hide()
             else {
                 dialog.show()
-                if (dialog.window != null)
-                    dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
+
+                downloads.setOnClickListener {
+                    dialog.dismiss()
+                    findNavController(R.id.fragmentContainerView2).navigateUp()
+                    findNavController(R.id.fragmentContainerView2).navigate(R.id.downloads)
+                }
+
+                exit.setOnClickListener { finishAffinity() }
             }
         }
     }

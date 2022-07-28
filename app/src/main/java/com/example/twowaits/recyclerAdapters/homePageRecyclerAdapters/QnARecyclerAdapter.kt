@@ -17,9 +17,7 @@ class QnARecyclerAdapter : RecyclerView.Adapter<QnARecyclerAdapter.QnAViewHolder
 
     }
 
-    override fun getItemCount(): Int {
-        return 5
-    }
+    override fun getItemCount(): Int = 5
 
     class QnAViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val question: TextView = itemView.findViewById(R.id.Question)

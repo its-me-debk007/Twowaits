@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/profile"
-        android:name="com.example.twowaits.homePages.Profile"
+        android:name="com.example.twowaits.ui.fragment.Profile"
         android:label="profile"
         tools:layout="@layout/fragment_profile">
         <action

@@ -15,13 +15,12 @@ class RecentNotesRecyclerAdapter(
     private val adapter: String,
     private val notes: MutableList<RecentNotesResponse>,
     private val listener: NotesClicked
-) :
-    RecyclerView.Adapter<RecentNotesRecyclerAdapter.RecentNotesViewHolder>() {
+) : RecyclerView.Adapter<RecentNotesRecyclerAdapter.RecentNotesViewHolder>() {
 
     inner class RecentNotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val subjectName: TextView = itemView.findViewById(R.id.subjectName)
-        val noteDetails: TextView = itemView.findViewById(R.id.noteDetails)
-        val moreNoteDetails: TextView = itemView.findViewById(R.id.moreNoteDetails)
+        val subjectName: TextView = itemView.findViewById(R.id.name)
+        val noteDetails: TextView = itemView.findViewById(R.id.details)
+        val moreNoteDetails: TextView = itemView.findViewById(R.id.moreDetails)
         val bookmark: ToggleButton = itemView.findViewById(R.id.bookmark)
         val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
         val seeAll: MaterialButton = itemView.findViewById(R.id.seeAll)
@@ -42,10 +41,10 @@ class RecentNotesRecyclerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecentNotesViewHolder {
         val view: View = if (adapter == "HOME")
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.bookmarked_notes_card_view, parent, false)
+                .inflate(R.layout.bookmarked_notes_item, parent, false)
         else
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.bookmarked_notes_card_view2, parent, false)
+                .inflate(R.layout.bookmarked_notes_item2, parent, false)
         return RecentNotesViewHolder(view)
     }
 
@@ -56,6 +55,7 @@ class RecentNotesRecyclerAdapter(
                     seeAll.visibility = View.VISIBLE
                     cardView.visibility = View.GONE
                 }
+                else cardView.visibility = View.GONE
             } else {
                 subjectName.text = notes[position].title
                 bookmark.isChecked = notes[position].bookmarked_by_user == "True"

@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.twowaits.utils.Utils
 import com.example.twowaits.R
 import com.example.twowaits.network.dashboardApiCalls.Answer
 import com.example.twowaits.databinding.AnswersBinding
-import com.example.twowaits.utils.formatTime
+import com.example.twowaits.util.formatTime
 
 class AnswersRecyclerAdapter(
     private val answers: List<Answer>,

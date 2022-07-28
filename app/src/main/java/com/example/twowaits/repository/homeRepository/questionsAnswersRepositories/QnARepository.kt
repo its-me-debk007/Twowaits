@@ -3,15 +3,16 @@ package com.example.twowaits.repository.homeRepository.questionsAnswersRepositor
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.twowaits.utils.Utils
-import com.example.twowaits.network.ServiceBuilder
-import com.example.twowaits.network.dashboardApiCalls.*
-import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.AskQuestionResponse
-import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.BookmarkQuestionResponse
-import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.LikeAnswerResponse
-import com.example.twowaits.model.BookmarkNoteBody
 import com.example.twowaits.homePages.questionsAnswers.*
+import com.example.twowaits.model.BookmarkNoteBody
+import com.example.twowaits.network.ServiceBuilder
+import com.example.twowaits.network.dashboardApiCalls.AddToWishlistBody
+import com.example.twowaits.network.dashboardApiCalls.QnAResponseItem
+import com.example.twowaits.network.dashboardApiCalls.RecentLecturesResponse
+import com.example.twowaits.network.dashboardApiCalls.RecentNotesResponse
+import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.*
 import com.example.twowaits.sealedClass.Response
+import com.example.twowaits.util.Utils
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -45,33 +46,24 @@ class QnARepository {
     val getBookmarkedQLiveData: LiveData<List<QnAResponseItem>> = getBookmarkedQData
     private val errorGetBookmarkedQData = MutableLiveData<String>()
     val errorGetBookmarkedQLiveData: LiveData<String> = errorGetBookmarkedQData
-    val createAnswerData = MutableLiveData<String>()
-    val createCommentData = MutableLiveData<String>()
+
     val bookmarkNoteData = MutableLiveData<String>()
     val addToWishlistData = MutableLiveData<String>()
     val getSearchQnAData = MutableLiveData<List<QnAResponseItem>>()
     val errorGetSearchQnAData = MutableLiveData<String>()
     val bookmarkedNotesData = MutableLiveData<List<RecentNotesResponse>>()
     val errorBookmarkedNotesData = MutableLiveData<String>()
-    val getWishlistData = MutableLiveData<List<RecentLecturesResponse>>()
-    val errorGetWishlistData = MutableLiveData<String>()
 
     fun getYourQnA() {
         GlobalScope.launch(Dispatchers.IO) {
             val response = ServiceBuilder.getInstance().getYourQnA()
             when {
-                response.isSuccessful -> {
-                    q_n_aMutableLiveData.postValue(response.body())
-                }
+                response.isSuccessful -> q_n_aMutableLiveData.postValue(response.body())
                 response.code() == 400 -> {
-                    val result = Utils().getNewAccessToken()
-//                    if (result == "success") getYourQnA()
-//                    else
-//                        errorMutableLiveData.postValue("Some error has occurred!\nPlease try again")
+                    Utils().getNewAccessToken()
                     getYourQnA()
                 }
-                else ->
-                    errorMutableLiveData.postValue("${response.message()}\nPlease try again")
+                else -> errorMutableLiveData.postValue("${response.message()}\nPlease try again")
             }
         }
     }
@@ -217,10 +209,7 @@ class QnARepository {
                     getBookmarkedQData.postValue(response.body())
                 }
                 response.code() == 400 -> {
-                    val result = Utils().getNewAccessToken()
-//                    if (result == "success") getYourBookmarkedQ()
-//                    else
-//                        errorGetBookmarkedQData.postValue("Some error has occurred!\nPlease try again")
+                    Utils().getNewAccessToken()
                     getYourBookmarkedQ()
                 }
                 else ->
@@ -249,42 +238,57 @@ class QnARepository {
         }
     }
 
-    fun createAnswer(createAnswerBody: CreateAnswerBody) {
-        GlobalScope.launch(Dispatchers.IO) {
-            val response = ServiceBuilder.getInstance().createAnswer(createAnswerBody)
-            when {
-                response.isSuccessful -> {
-                    createAnswerData.postValue("success")
+    private val createAnswerData = MutableLiveData<Response<String>>()
+    fun createAnswer(createAnswerBody: CreateAnswerBody): MutableLiveData<Response<String>> {
+            ServiceBuilder.getInstance().createAnswer(createAnswerBody).enqueue(object : Callback<CreateAnswerResponse> {
+                override fun onResponse(
+                    call: Call<CreateAnswerResponse>,
+                    response: retrofit2.Response<CreateAnswerResponse>
+                ) {
+                    when {
+                        response.isSuccessful -> createAnswerData.postValue(Response.Success("success"))
+
+                        response.code() == 400 -> {
+                            Utils().getNewAccessToken()
+                            createAnswer(createAnswerBody)
+                        }
+                        else -> createAnswerData.postValue(Response.Error(
+                            "Error code is ${response.code()}\n${response.message()}"))
+                    }
                 }
-                response.code() == 400 -> {
-                    val result = Utils().getNewAccessToken()
-//                    if (result == "success") createAnswer(createAnswerBody)
-//                    else
-//                        createAnswerData.postValue("Some error has occurred!\nPlease try again")
-                    createAnswer(createAnswerBody)
+
+                override fun onFailure(call: Call<CreateAnswerResponse>, t: Throwable) {
+                    createAnswerData.postValue(Response.Error(if (t.message ==
+                        "Failed to connect to /3.110.33.189:80") "No Internet" else t.message!!))
                 }
-                else ->
-                    createAnswerData.postValue("Error code is ${response.code()}\n${response.message()}")
-            }
-        }
+            })
+            return createAnswerData
     }
 
-    fun createComment(createCommentBody: CreateCommentBody) {
-        GlobalScope.launch {
-            val response = ServiceBuilder.getInstance().createComment(createCommentBody)
-            when {
-                response.isSuccessful -> createCommentData.postValue("success")
-                response.code() == 400 -> {
-                    val result = Utils().getNewAccessToken()
-//                    if (result == "success") createComment(createCommentBody)
-//                    else
-//                        createCommentData.postValue("Some error has occurred!\nPlease try again")
-                    createComment(createCommentBody)
+    private val createCommentData = MutableLiveData<Response<String>>()
+    fun createComment(createCommentBody: CreateCommentBody): MutableLiveData<Response<String>> {
+            ServiceBuilder.getInstance().createComment(createCommentBody).enqueue(object : Callback<CreateCommentResponse> {
+                override fun onResponse(
+                    call: Call<CreateCommentResponse>,
+                    response: retrofit2.Response<CreateCommentResponse>
+                ) {
+                    when {
+                        response.isSuccessful -> createCommentData.postValue(Response.Success("success"))
+                        response.code() == 400 -> {
+                            Utils().getNewAccessToken()
+                            createComment(createCommentBody)
+                        }
+                        else -> createCommentData.postValue(Response.Error(
+                            "Error code is ${response.code()}\n${response.message()}"))
+                    }
                 }
-                else ->
-                    createCommentData.postValue("Error code is ${response.code()}\n${response.message()}")
-            }
-        }
+
+                override fun onFailure(call: Call<CreateCommentResponse>, t: Throwable) {
+                    createCommentData.postValue(Response.Error(if (t.message ==
+                        "Failed to connect to /3.110.33.189:80") "No Internet" else t.message!!))
+                }
+            })
+            return createCommentData
     }
 
     fun searchQnA(search: String) {
@@ -302,30 +306,39 @@ class QnARepository {
                     searchQnA(search)
                 }
                 else -> {
-                    errorGetSearchQnAData.postValue("${response.message()}\n" +
-                            "Please refresh the page")
+                    errorGetSearchQnAData.postValue(
+                        "${response.message()}\n" +
+                                "Please refresh the page"
+                    )
                 }
             }
         }
     }
 
-    fun getWishlist() {
-        GlobalScope.launch {
-            val response = ServiceBuilder.getInstance().getWishlist()
-            when {
-                response.isSuccessful -> {
-                    getWishlistData.postValue(response.body())
+    private val wishlistLiveData = MutableLiveData<Response<List<RecentLecturesResponse>>>()
+    fun getWishlist(): MutableLiveData<Response<List<RecentLecturesResponse>>> {
+        ServiceBuilder.getInstance().getWishlist()
+            .enqueue(object : Callback<List<RecentLecturesResponse>> {
+                override fun onResponse(
+                    call: Call<List<RecentLecturesResponse>>,
+                    response: retrofit2.Response<List<RecentLecturesResponse>>
+                ) {
+                    when {
+                        response.isSuccessful ->
+                            wishlistLiveData.postValue(Response.Success(response.body()))
+                        response.code() == 400 -> {
+                            Utils().getNewAccessToken()
+                            getWishlist()
+                        }
+                        else ->
+                            wishlistLiveData.postValue(Response.Error("${response.message()}\nPlease refresh the page"))
+                    }
                 }
-                response.code() == 400 -> {
-                    val result = Utils().getNewAccessToken()
-//                    if (result == "success") getWishlist()
-//                    else
-//                        errorGetWishlistData.postValue("Some error has occurred!\nPlease try again")
-                    getWishlist()
+
+                override fun onFailure(call: Call<List<RecentLecturesResponse>>, t: Throwable) {
+                    wishlistLiveData.postValue(Response.Error(t.message + "\nPlease try again"))
                 }
-                else ->
-                    errorGetWishlistData.postValue("${response.message()}\nPlease refresh the page")
-            }
-        }
+            })
+        return wishlistLiveData
     }
 }

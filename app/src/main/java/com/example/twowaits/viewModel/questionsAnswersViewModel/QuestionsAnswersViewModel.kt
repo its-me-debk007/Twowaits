@@ -3,6 +3,7 @@ package com.example.twowaits.viewModel.questionsAnswersViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.twowaits.network.dashboardApiCalls.*
 import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.AskQuestionResponse
 import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.BookmarkQuestionResponse
@@ -10,10 +11,14 @@ import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.L
 import com.example.twowaits.model.BookmarkNoteBody
 import com.example.twowaits.homePages.questionsAnswers.*
 import com.example.twowaits.repository.homeRepository.questionsAnswersRepositories.QnARepository
+import com.example.twowaits.sealedClass.Response
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.launch
 
 @DelicateCoroutinesApi
 class QuestionsAnswersViewModel: ViewModel() {
+    private val qnaRepository = QnARepository()
+
     lateinit var q_n_aLiveData: LiveData<List<QnAResponseItem>>
     lateinit var errorLiveData: LiveData<String>
     lateinit var askQuestionLiveData: LiveData<AskQuestionResponse>
@@ -24,14 +29,10 @@ class QuestionsAnswersViewModel: ViewModel() {
     lateinit var errorBookmarkQuestionLiveData: LiveData<String>
     lateinit var getBookmarkedQLiveData: LiveData<List<QnAResponseItem>>
     lateinit var errorGetBookmarkedQLiveData: LiveData<String>
-    lateinit var createAnswerData: MutableLiveData<String>
-    lateinit var createCommentData: MutableLiveData<String>
     lateinit var bookmarkNoteData: MutableLiveData<String>
     lateinit var bookmarkedNotesData: MutableLiveData<List<RecentNotesResponse>>
     lateinit var errorBookmarkedNotesData: MutableLiveData<String>
     lateinit var addToWishlistData: MutableLiveData<String>
-    lateinit var getWishlistData: MutableLiveData<List<RecentLecturesResponse>>
-    lateinit var errorGetWishlistData: MutableLiveData<String>
     var isClicked = false
 
     fun getQnA() {
@@ -88,22 +89,20 @@ class QuestionsAnswersViewModel: ViewModel() {
         errorBookmarkedNotesData = repository.errorBookmarkedNotesData
     }
 
-    fun getWishlist(){
-        val repository = QnARepository()
-        repository.getWishlist()
-        getWishlistData = repository.getWishlistData
-        errorGetWishlistData = repository.errorGetWishlistData
+    lateinit var wishlistLiveData: MutableLiveData<Response<List<RecentLecturesResponse>>>
+    fun getWishlist() = viewModelScope.launch {
+        wishlistLiveData = qnaRepository.getWishlist()
     }
 
-    fun createAnswer(createAnswerBody: CreateAnswerBody){
+    lateinit var createAnswerData: MutableLiveData<Response<String>>
+    fun createAnswer(createAnswerBody: CreateAnswerBody) = viewModelScope.launch {
         val repository = QnARepository()
-        repository.createAnswer(createAnswerBody)
-        createAnswerData = repository.createAnswerData
+        createAnswerData = repository.createAnswer(createAnswerBody)
     }
 
-    fun createComment(createCommentBody: CreateCommentBody){
+    lateinit var createCommentData: MutableLiveData<Response<String>>
+    fun createComment(createCommentBody: CreateCommentBody) = viewModelScope.launch {
         val repository = QnARepository()
-        repository.createComment(createCommentBody)
-        createCommentData = repository.createCommentData
+        createCommentData = repository.createComment(createCommentBody)
     }
 }

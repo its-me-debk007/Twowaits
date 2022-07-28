@@ -6,8 +6,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.twowaits.R
 import com.example.twowaits.databinding.FragmentPdfViewerBinding
-import com.example.twowaits.utils.Utils
-import com.example.twowaits.utils.downloadImg
+import com.example.twowaits.util.Utils
+import com.example.twowaits.util.downloadImg
 
 class PDFViewer : Fragment(R.layout.fragment_pdf_viewer) {
     private lateinit var binding: FragmentPdfViewerBinding

@@ -10,4 +10,8 @@
     <string name="exit"><font size="18" face="sans_serif"><b>Exit</b></font></string>
     <string name="logout"><font size="18" face="sans_serif"><b>Logout</b></font></string>
     <string name="your_downloads">Your Downloads</string>
+    <string name="view_downloads"><b>View Downloads</b></string>
+    <string name="exit_app">Exit App</string>
+    <string name="add_answer"><u>Add answer</u></string>
+    <string name="add_comment"><u>Add Comment</u></string>
 </resources>

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.twowaits.databinding.BookmarkedNotesCardView2Binding
+import com.example.twowaits.databinding.BookmarkedNotesItem2Binding
 
 class DownloadedNotesRecyclerAdapter(
     private val fileNames: List<String>,
@@ -15,7 +15,7 @@ class DownloadedNotesRecyclerAdapter(
         viewType: Int
     ): DownloadedNotesRecyclerAdapter.ViewHolder {
         return ViewHolder(
-            BookmarkedNotesCardView2Binding.inflate(
+            BookmarkedNotesItem2Binding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
@@ -26,9 +26,9 @@ class DownloadedNotesRecyclerAdapter(
         position: Int
     ) {
         holder.binding.apply {
-            subjectName.text = fileNames[position]
-            noteDetails.text = ""
-            moreNoteDetails.text = ""
+            name.text = fileNames[position]
+            details.text = ""
+            moreDetails.text = ""
         }
     }
 
@@ -36,7 +36,7 @@ class DownloadedNotesRecyclerAdapter(
         return fileNames.size
     }
 
-    inner class ViewHolder(val binding: BookmarkedNotesCardView2Binding) :
+    inner class ViewHolder(val binding: BookmarkedNotesItem2Binding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.apply {

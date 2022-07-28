@@ -16,9 +16,8 @@ class QuestionsAnswersRecyclerAdapter(
 ) :
     RecyclerView.Adapter<QuestionsAnswersRecyclerAdapter.ViewHolder>(), AnswerItemClicked {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(QNABinding.inflate(LayoutInflater.from(parent.context), parent, false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder(QNABinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
@@ -31,9 +30,7 @@ class QuestionsAnswersRecyclerAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return questionsAndAnswers.size
-    }
+    override fun getItemCount(): Int = questionsAndAnswers.size
 
     inner class ViewHolder(val binding: QNABinding) : RecyclerView.ViewHolder(binding.root) {
         init {

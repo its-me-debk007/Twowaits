@@ -9,7 +9,7 @@ import com.example.twowaits.R
 import com.example.twowaits.databinding.DownloadedLecturesBinding
 import com.example.twowaits.recyclerAdapters.DownloadedLectureClicked
 import com.example.twowaits.recyclerAdapters.DownloadedLecturesRecyclerAdapter
-import com.example.twowaits.utils.Utils
+import com.example.twowaits.util.Utils
 import java.io.File
 
 class DownloadedLectures : Fragment(R.layout.downloaded_lectures), DownloadedLectureClicked {

@@ -26,11 +26,11 @@ class EditProfileStudent : Fragment(R.layout.enter_details_student) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = EnterDetailsStudentBinding.bind(view).apply {
-            (activity?.intent?.extras?.get("profileDetails") as
-                    StudentProfileDetailsResponse).apply {
-                data = this
+            (activity?.intent?.getParcelableExtra<StudentProfileDetailsResponse>("profileDetails")).apply {
+                data = this!!
                 Glide.with(requireContext())
                     .load(profile_pic_firebase)
+                    .placeholder(R.drawable.ic_placeholder)
                     .into(ProfilePic)
                 enterYourName.setText(name)
                 autoCompleteTextView3.setText(branch)
@@ -63,22 +63,28 @@ class EditProfileStudent : Fragment(R.layout.enter_details_student) {
                 ProfilePic.setImageURI(it)
                 imgUri = it
             }
-            binding.AddPicBtn.setOnClickListener { chooseImage.launch("image/*") }
+            AddPicBtn.setOnClickListener { chooseImage.launch("image/*") }
 
-            binding.submitBtn.setOnClickListener {
+            submitBtn.setOnClickListener {
                 checkValidation()
-
+                submitBtn.isEnabled = false
+                submitBtn.text = ""
+                progressBar.show()
                 imgUri?.let {
                     viewModel.uploadPicFirebase(it, data.student_account_id)
                     viewModel.firebaseLiveData.observe(viewLifecycleOwner) { message ->
                         if (message.substring(0, 8) == "Uploaded") {
                             val uri = message.substring(8)
                             updateProfile(uri)
-                        } else Toast.makeText(context,
-                            "$message\nPlease try again",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        } else {
+                            Toast.makeText(
+                                context, "$message\nPlease try again",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            submitBtn.isEnabled = true
+                            submitBtn.text = "Submit"
+                            progressBar.hide()
+                        }
                     }
                 } ?: updateProfile(data.profile_pic_firebase)
             }
@@ -93,10 +99,6 @@ class EditProfileStudent : Fragment(R.layout.enter_details_student) {
         binding.enterCollege.helperText = ""
         binding.courseTextInputLayout.helperText = ""
         binding.yearTextInputLayout.helperText = ""
-//        if (imgUri == null) {
-//            Toast.makeText(context, "Please choose your profile pic", Toast.LENGTH_SHORT).show()
-//            flag = true
-//        }
         if (binding.enterYourName.text.isNullOrBlank()) {
             binding.enterName.helperText = "Please enter your name"
             flag = true
@@ -136,7 +138,7 @@ class EditProfileStudent : Fragment(R.layout.enter_details_student) {
                 ProfileDetailsExcludingId(
                     enterYourName.text?.trim().toString(),
                     enterYourCollege.text?.trim().toString(),
-                    gender = autoCompleteTextView.text.toString(),
+                    gender = autoCompleteTextView.text[0].toString(),
                     dob = enterDate.text.toString(),
                     profile_pic_firebase = uri,
                     course = autoCompleteTextView2.text.toString(),

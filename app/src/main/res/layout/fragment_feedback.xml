@@ -21,7 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,15 +36,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/feedbackLayout"
+            style="@style/textInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#FF0000"
-            app:hintEnabled="false"
+            app:passwordToggleEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/radioGroup">
@@ -53,7 +51,6 @@
                 android:id="@+id/feedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/login_border"
                 android:fontFamily="@font/reemkufi_regular"
                 android:hint="Enter your feedback"
                 android:inputType="textEmailAddress"
@@ -72,14 +69,11 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="5dp"
-            android:backgroundTint="#804D37"
             android:fontFamily="@font/roboto_medium"
             android:paddingTop="13dp"
             android:paddingBottom="12dp"
             android:text="Submit"
-            android:textAllCaps="false"
             android:textSize="20sp"
-            app:cornerRadius="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -92,71 +86,55 @@
             android:layout_marginStart="39dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:checkedButton="@id/option2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6">
 
             <RadioButton
                 android:id="@+id/option1"
+                style="@style/CustomRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="#804D37"
-                android:fontFamily="@font/reemkufi_regular"
-                android:text="Poor"
-                android:textColor="#804D37"
-                android:textSize="16sp" />
+                android:text="Poor" />
 
             <RadioButton
                 android:id="@+id/option2"
+                style="@style/CustomRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="#804D37"
-                android:fontFamily="@font/reemkufi_regular"
-                android:text="Average"
-                android:textColor="#804D37"
-                android:textSize="16sp" />
+                android:text="Average" />
 
             <RadioButton
                 android:id="@+id/option3"
+                style="@style/CustomRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="#804D37"
-                android:fontFamily="@font/reemkufi_regular"
-                android:text="Good"
-                android:textColor="#804D37"
-                android:textSize="16sp" />
+                android:text="Good" />
 
             <RadioButton
                 android:id="@+id/option4"
+                style="@style/CustomRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="#804D37"
-                android:fontFamily="@font/reemkufi_regular"
-                android:text="Excellent"
-                android:textColor="#804D37"
-                android:textSize="16sp" />
+                android:text="Excellent" />
 
             <RadioButton
                 android:id="@+id/option5"
+                style="@style/CustomRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="#804D37"
-                android:fontFamily="@font/reemkufi_regular"
-                android:text="Exceptional"
-                android:textColor="#804D37"
-                android:textSize="16sp" />
+                android:text="Exceptional" />
         </RadioGroup>
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progressBar"
+            style="@style/customProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
-            app:indicatorColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/submitBtn"
             app:layout_constraintEnd_toEndOf="@+id/submitBtn"
             app:layout_constraintStart_toStartOf="@+id/submitBtn"
-            app:layout_constraintTop_toTopOf="@+id/submitBtn"
-            app:trackCornerRadius="8dp" />
+            app:layout_constraintTop_toTopOf="@+id/submitBtn" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

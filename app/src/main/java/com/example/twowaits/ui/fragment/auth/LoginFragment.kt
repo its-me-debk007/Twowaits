@@ -14,7 +14,7 @@ import com.example.twowaits.model.auth.LoginBody
 import com.example.twowaits.repository.authRepository.LoginRepository
 import com.example.twowaits.sealedClass.Response
 import com.example.twowaits.ui.activity.home.HomeActivity
-import com.example.twowaits.utils.*
+import com.example.twowaits.util.*
 import com.example.twowaits.viewModel.AuthViewModel
 import com.example.twowaits.viewModelFactory.AuthViewModelFactory
 import kotlinx.coroutines.launch
@@ -31,12 +31,12 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         binding = FragmentLoginBinding.bind(view)
         binding.apply {
 
-            signUp.setOnClickListener {
-                findNavController().navigate(R.id.action_login3_to_signUp)
-            }
+            signUp.setOnClickListener { findNavController().navigate(R.id.action_login3_to_signUp) }
+
             forgotPassword.setOnClickListener {
                 findNavController().navigate(R.id.action_login3_to_verifyEmail)
             }
+
             logIn.setOnClickListener {
                 textInputLayout2.helperText = ""
                 textInputLayout.helperText = ""
@@ -79,7 +79,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
                                 lifecycleScope.launch {
                                     datastore.saveAccessToken(tokensResponse.data!!.access)
-                                    datastore.saveRefreshToken(tokensResponse.data.refresh)
+                                    datastore.saveRefreshToken(tokensResponse.data.refresh!!)
                                     datastore.saveUserDetails("USER_EMAIL", userEmail)
                                 }
                                 ACCESS_TOKEN = tokensResponse.data!!.access

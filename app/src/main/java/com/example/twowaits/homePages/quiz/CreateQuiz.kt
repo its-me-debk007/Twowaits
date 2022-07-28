@@ -30,7 +30,7 @@ class CreateQuiz : Fragment(R.layout.create_quiz) {
                     binding.TitleOfQuiz.helperText = "Please enter the title of the Quiz"
                     return@setOnClickListener
                 }
-                binding.NoOfQuestions.text!!.trim().isEmpty() -> {
+                binding.noOfQuestions.text!!.trim().isEmpty() -> {
                     binding.NoOfQuestionsOfQuiz.helperText =
                         "Please enter the no. of questions for the Quiz"
                     return@setOnClickListener
@@ -40,14 +40,14 @@ class CreateQuiz : Fragment(R.layout.create_quiz) {
                     return@setOnClickListener
                 }
             }
-            if (binding.NoOfQuestions.text.toString().toInt() > 50) {
+            if (binding.noOfQuestions.text.toString().toInt() > 50) {
                 binding.NoOfQuestionsOfQuiz.helperText = "You can add upto 50 Questions only"
                 return@setOnClickListener
             }
 
             val title = binding.Title.text?.trim().toString()
             val description = null
-            val noOfQuestion = binding.NoOfQuestions.text?.trim().toString().toInt()
+            val noOfQuestion = binding.noOfQuestions.text?.trim().toString().toInt()
             val timeLimit = binding.Duration.text?.trim().toString().toInt()
             val createQuizBody = CreateQuizBody(title, description, noOfQuestion, timeLimit)
 
@@ -63,18 +63,18 @@ class CreateQuiz : Fragment(R.layout.create_quiz) {
             }
         }
         binding.AddNoOfQuestions.setOnClickListener {
-            if (binding.NoOfQuestions.text.isNullOrEmpty()) binding.NoOfQuestions.setText("1")
+            if (binding.noOfQuestions.text.isNullOrEmpty()) binding.noOfQuestions.setText("1")
             else {
-                var noOfQuestions = binding.NoOfQuestions.text.toString().toInt()
-                binding.NoOfQuestions.setText((++noOfQuestions).toString())
+                var noOfQuestions = binding.noOfQuestions.text.toString().toInt()
+                binding.noOfQuestions.setText((++noOfQuestions).toString())
             }
         }
         binding.SubtractNoOfQuestions.setOnClickListener {
-            if (!binding.NoOfQuestions.text.isNullOrEmpty() &&
-                binding.NoOfQuestions.text.toString().toInt() > 1
+            if (!binding.noOfQuestions.text.isNullOrEmpty() &&
+                binding.noOfQuestions.text.toString().toInt() > 1
             ) {
-                var noOfQuestions = binding.NoOfQuestions.text.toString().toInt()
-                binding.NoOfQuestions.setText((--noOfQuestions).toString())
+                var noOfQuestions = binding.noOfQuestions.text.toString().toInt()
+                binding.noOfQuestions.setText((--noOfQuestions).toString())
             }
         }
         binding.AddDuration.setOnClickListener {

@@ -2,7 +2,7 @@ package com.example.twowaits.repository.homeRepository.quizRepositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.twowaits.utils.Utils
+import com.example.twowaits.util.Utils
 import com.example.twowaits.network.ServiceBuilder
 import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.*
 import com.example.twowaits.homePages.quiz.AttemptQuizBody
@@ -72,10 +72,7 @@ class AttemptQuizRepository {
                     attemptQuizData.postValue(response.body())
                 }
                 response.code() == 400 -> {
-                    val result = Utils().getNewAccessToken()
-//                    if (result == "success") attemptQuiz(attemptQuizBody)
-//                    else
-//                        errorAttemptQuizData.postValue("Some error has occurred!\nPlease try again")
+                    Utils().getNewAccessToken()
                     attemptQuiz(attemptQuizBody)
                 }
                 else -> {

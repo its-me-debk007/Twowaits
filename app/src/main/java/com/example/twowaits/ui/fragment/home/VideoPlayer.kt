@@ -7,8 +7,8 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.example.twowaits.R
 import com.example.twowaits.databinding.VideoPlayerBinding
-import com.example.twowaits.utils.Utils
-import com.example.twowaits.utils.downloadImg
+import com.example.twowaits.util.Utils
+import com.example.twowaits.util.downloadImg
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 

@@ -7,11 +7,10 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.ui.activity.home.AskActivity
-import com.example.twowaits.utils.Utils
 import com.example.twowaits.ui.activity.home.QuizActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.AskBinding
-import com.example.twowaits.utils.USER
+import com.example.twowaits.util.USER
 import com.google.android.material.transition.platform.MaterialFadeThrough
 
 class Ask : Fragment(R.layout.ask) {

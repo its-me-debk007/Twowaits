@@ -19,11 +19,11 @@ class QuizzesRecyclerAdapter(
     RecyclerView.Adapter<QuizzesRecyclerAdapter.QuizzesViewHolder>() {
 
     inner class QuizzesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val quizTopic: TextView = itemView.findViewById(R.id.QuizTopic)
-        val details: TextView = itemView.findViewById(R.id.Detail)
-        val quizCreator: TextView = itemView.findViewById(R.id.QuizCreator)
-        val quizImg: ImageView = itemView.findViewById(R.id.QuizImg)
-        val noOfQuestions: TextView = itemView.findViewById(R.id.NoOfQuestions)
+        val quizTopic: TextView = itemView.findViewById(R.id.name)
+        val details: TextView = itemView.findViewById(R.id.details)
+        val quizCreator: TextView = itemView.findViewById(R.id.quizCreator)
+        val quizImg: ImageView = itemView.findViewById(R.id.img)
+        val noOfQuestions: TextView = itemView.findViewById(R.id.noOfQuestions)
         val seeAll: MaterialButton = itemView.findViewById(R.id.seeAll)
         val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
 
@@ -36,7 +36,7 @@ class QuizzesRecyclerAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuizzesViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.quiz_card_view, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.quiz_list_item, parent, false)
         return QuizzesViewHolder(view)
     }
 

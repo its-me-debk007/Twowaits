@@ -8,10 +8,10 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.lifecycle.lifecycleScope
 import com.example.twowaits.databinding.ActivitySplashScreenBinding
 import com.example.twowaits.ui.activity.auth.AuthActivity
-import com.example.twowaits.utils.ACCESS_TOKEN
-import com.example.twowaits.utils.Datastore
-import com.example.twowaits.utils.REFRESH_TOKEN
-import com.example.twowaits.utils.USER
+import com.example.twowaits.util.ACCESS_TOKEN
+import com.example.twowaits.util.Datastore
+import com.example.twowaits.util.REFRESH_TOKEN
+import com.example.twowaits.util.USER
 import kotlinx.coroutines.launch
 
 class SplashScreenActivity : AppCompatActivity() {

@@ -12,7 +12,8 @@ import com.example.twowaits.databinding.WishlistBinding
 import com.example.twowaits.network.dashboardApiCalls.AddToWishlistBody
 import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.LecturesClicked
 import com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters.RecentLecturesRecyclerAdapter
-import com.example.twowaits.utils.Utils
+import com.example.twowaits.sealedClass.Response
+import com.example.twowaits.util.Utils
 import com.example.twowaits.viewModel.questionsAnswersViewModel.QuestionsAnswersViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 
@@ -25,16 +26,13 @@ class Wishlist : Fragment(R.layout.wishlist), LecturesClicked {
         binding = WishlistBinding.bind(view)
         val viewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         viewModel.getWishlist()
-        viewModel.getWishlistData.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) noItems()
-            binding.WishlistRecyclerView.adapter = RecentLecturesRecyclerAdapter(
-                "WISHLIST",
-                it.size, it.toMutableList(), this
-            )
-            binding.WishlistRecyclerView.isNestedScrollingEnabled = false
-        }
-        viewModel.errorGetWishlistData.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        viewModel.wishlistLiveData.observe(viewLifecycleOwner) {
+            if (it is Response.Success) {
+                if (it.data!!.isEmpty()) noItems()
+                binding.WishlistRecyclerView.adapter = RecentLecturesRecyclerAdapter(
+                    "WISHLIST", it.data.toMutableList(), this)
+            }
+            else Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
         }
     }
 

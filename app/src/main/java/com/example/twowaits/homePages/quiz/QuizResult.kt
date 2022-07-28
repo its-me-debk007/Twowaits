@@ -7,7 +7,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.twowaits.utils.Utils
+import com.example.twowaits.util.Utils
 import com.example.twowaits.R
 import com.example.twowaits.databinding.QuizResultBinding
 import com.example.twowaits.recyclerAdapters.DetailedQuizResultRecyclerAdapter

@@ -38,13 +38,13 @@ interface ApiInterface {
     fun getAuthTokens(
         @Field("email") email: String,
         @Field("password") password: String
-    ): Call<GettingTokensResponse>
+    ): Call<TokenResponse>
 
     @FormUrlEncoded
     @POST("account/token/refresh/")
     suspend fun generateNewToken(
         @Field("refresh") refresh: String
-    ): Response<GetNewAccessTokenResponse>
+    ): Response<TokenResponse>
 
     @FormUrlEncoded
     @POST("account/send-otp/")
@@ -58,9 +58,9 @@ interface ApiInterface {
     ): Call<LoginResponse>
 
     @POST("account/otp-verify/")
-    suspend fun verifyOtp(
+    fun verifyOtp(
         @Body verifyOtpBody: VerifyOtpBody
-    ): Response<VerifyOtpResponse>
+    ): Call<VerifyOtpResponse>
 
     @FormUrlEncoded
     @POST("account/forgot-reset/")
@@ -135,14 +135,14 @@ interface ApiInterface {
     ): Response<LikeAnswerResponse>
 
     @POST("forum/answer/")
-    suspend fun createAnswer(
+    fun createAnswer(
         @Body createAnswerBody: CreateAnswerBody
-    ): Response<CreateAnswerResponse>
+    ): Call<CreateAnswerResponse>
 
     @POST("forum/comment/")
-    suspend fun createComment(
+    fun createComment(
         @Body createCommentBody: CreateCommentBody
-    ): Response<CreateCommentResponse>
+    ): Call<CreateCommentResponse>
 
     @POST("forum/bookmark/")
     suspend fun bookmarkQuestion(
@@ -162,7 +162,7 @@ interface ApiInterface {
     suspend fun getBookmarkedNotes(): Response<List<RecentNotesResponse>>
 
     @GET("lecture/your-wishlist/")
-    suspend fun getWishlist(): Response<List<RecentLecturesResponse>>
+    fun getWishlist(): Call<List<RecentLecturesResponse>>
 
     @GET("forum/your-bookmarked/")
     suspend fun getYourBookmarkedQ(): Response<List<QnAResponseItem>>
@@ -200,9 +200,9 @@ interface ApiInterface {
     ): Response<List<QnAResponseItem>>
 
     @POST("profile/feedback/")
-    suspend fun feedback(
+    fun feedback(
         @Body feedbackBody: Feedbackbody
-    ): Response<FeedbackResponse>
+    ): Call<FeedbackResponse>
 
     @GET("quiz/results/view/{id}/")
     suspend fun detailedQuizResult(@Path("id") id: Int): Response<DetailedQuizResultResponse>

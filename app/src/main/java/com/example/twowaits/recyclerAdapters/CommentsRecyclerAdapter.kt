@@ -8,8 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.twowaits.R
 import com.example.twowaits.databinding.CommentsBinding
 import com.example.twowaits.network.dashboardApiCalls.Comment
-import com.example.twowaits.utils.Utils
-import com.example.twowaits.utils.formatTime
+import com.example.twowaits.util.formatTime
 
 class CommentsRecyclerAdapter(private val comments: List<Comment>, private val context: Context) :
     RecyclerView.Adapter<CommentsRecyclerAdapter.ViewHolder>() {

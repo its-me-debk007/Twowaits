@@ -2,18 +2,19 @@ package com.example.twowaits.repository.homeRepository
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
-import com.example.twowaits.ui.fragment.navDrawer.ChangePasswordBody
-import com.example.twowaits.ui.fragment.navDrawer.Feedbackbody
 import com.example.twowaits.model.auth.SendOtpResponse
 import com.example.twowaits.model.home.UploadLectureBody
 import com.example.twowaits.model.home.UploadNoteBody
 import com.example.twowaits.model.home.UploadNotePartialBody
 import com.example.twowaits.network.ServiceBuilder
+import com.example.twowaits.network.dashboardApiCalls.FeedbackResponse
 import com.example.twowaits.network.dashboardApiCalls.RecentLecturesResponse
 import com.example.twowaits.network.dashboardApiCalls.RecentNotesResponse
 import com.example.twowaits.network.dashboardApiCalls.RecentQuizzesResponse
 import com.example.twowaits.sealedClass.Response
-import com.example.twowaits.utils.Utils
+import com.example.twowaits.ui.fragment.navDrawer.ChangePasswordBody
+import com.example.twowaits.ui.fragment.navDrawer.Feedbackbody
+import com.example.twowaits.util.Utils
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -29,7 +30,6 @@ import kotlin.random.Random
 @DelicateCoroutinesApi
 class HomePageRepository {
     val uploadPDF = MutableLiveData<String>()
-    val feedbackData = MutableLiveData<String>()
     val uploadLectureData = MutableLiveData<String>()
     val recentQuizLiveData = MutableLiveData<Response<List<RecentQuizzesResponse>>>()
     val recentNoteLiveData = MutableLiveData<Response<List<RecentNotesResponse>>>()
@@ -133,28 +133,46 @@ class HomePageRepository {
                             changePassword(changePasswordBody)
                         }
 
-                        else -> changePasswordLiveData.postValue(Response.Error(response.message() + "\nPlease try again"))
+                        response.code() == 405 -> {
+                            changePasswordLiveData.postValue(Response.Error("Incorrect old password"))
+                        }
+
+                        else -> changePasswordLiveData.postValue(Response.Error(response.message()))
                     }
                 }
 
                 override fun onFailure(call: Call<SendOtpResponse>, t: Throwable) {
-                    changePasswordLiveData.postValue(Response.Error(t.message + "\nPlease try again"))
+                    changePasswordLiveData.postValue(Response.Error(t.message + "! Please try again"))
                 }
             })
         return changePasswordLiveData
     }
 
-    suspend fun feedback(feedbackBody: Feedbackbody) {
-        val response = ServiceBuilder.getInstance().feedback(feedbackBody)
-        when {
-            response.isSuccessful -> feedbackData.postValue("success")
-            response.code() == 400 -> {
-                Utils().getNewAccessToken()
-                feedback(feedbackBody)
-            }
-            else ->
-                feedbackData.postValue("${response.message()}\nPlease try again")
-        }
+    private val feedBackLiveData = MutableLiveData<Response<String>>()
+    fun feedback(feedbackBody: Feedbackbody): MutableLiveData<Response<String>> {
+        ServiceBuilder.getInstance().feedback(feedbackBody).enqueue(object : Callback<FeedbackResponse> {
+                override fun onResponse(
+                    call: Call<FeedbackResponse>,
+                    response: retrofit2.Response<FeedbackResponse>
+                ) {
+                    when {
+                        response.isSuccessful ->
+                            feedBackLiveData.postValue(Response.Success("success"))
+
+                        response.code() == 400 -> {
+                            Utils().getNewAccessToken()
+                            feedback(feedbackBody)
+                        }
+
+                        else -> feedBackLiveData.postValue(Response.Error(response.message() + "! Please try again"))
+                    }
+                }
+
+                override fun onFailure(call: Call<FeedbackResponse>, t: Throwable) {
+                    feedBackLiveData.postValue(Response.Error(t.message + "! Please try again"))
+                }
+            })
+        return feedBackLiveData
     }
 
     fun uploadNote(uri: Uri, uploadPartialNoteBody: UploadNotePartialBody) {

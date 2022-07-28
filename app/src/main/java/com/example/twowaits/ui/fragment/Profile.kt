@@ -1,4 +1,4 @@
-package com.example.twowaits.homePages
+package com.example.twowaits.ui.fragment
 
 import android.content.Intent
 import android.graphics.Color
@@ -25,7 +25,7 @@ import com.example.twowaits.sealedClass.Response
 import com.example.twowaits.ui.activity.home.AskActivity
 import com.example.twowaits.ui.fragment.home.Wishlist
 import com.example.twowaits.ui.fragment.home.YourQuestions
-import com.example.twowaits.utils.USER
+import com.example.twowaits.util.USER
 import com.example.twowaits.viewModel.ProfileViewModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.tabs.TabLayoutMediator
@@ -55,9 +55,6 @@ class Profile : Fragment(R.layout.fragment_profile) {
         }
 
         price = 199
-        binding.cardView2.strokeColor = Color.parseColor("#804D37")
-        binding.cardView2.strokeWidth = 6
-        binding.cardView2.cardElevation = 30F
 
         viewModel.getProfile()
         viewModel.profileLiveData.observe(viewLifecycleOwner) {
@@ -65,7 +62,7 @@ class Profile : Fragment(R.layout.fragment_profile) {
                 it.data!!.apply {
                     Glide.with(requireActivity())
                         .load(profile_pic_firebase)
-                        .placeholder(R.drawable.enter_details_profile_pic)
+                        .placeholder(R.drawable.ic_placeholder)
                         .into(binding.ProfilePic)
 
                     userName = name
@@ -120,6 +117,8 @@ class Profile : Fragment(R.layout.fragment_profile) {
                 viewModel.firebaseLiveData.observe(viewLifecycleOwner) { message ->
                     if (message.substring(0, 8) == "Uploaded") {
                         val uri = message.substring(8)
+                        if (USER == "FACULTY") profileDetailsFaculty.profile_pic_firebase = uri
+                        else profileDetailsStudent.profile_pic_firebase = uri
                         viewModel.updateProfilePic(userName, uri)
                         viewModel.updateProfilePicLiveData.observe(viewLifecycleOwner) { response ->
                             if (response != "success")
@@ -182,9 +181,9 @@ class Profile : Fragment(R.layout.fragment_profile) {
     }
 
     private fun highlightCard(view1: MaterialCardView, view2: MaterialCardView) {
-        view1.strokeColor = Color.parseColor("#804D37")
-        view1.strokeWidth = 6
-        view1.cardElevation = 30F
+//        view1.strokeColor = Color.parseColor("#804D37")
+        view1.strokeWidth = 5
+        view1.cardElevation = 12F
         view2.strokeWidth = 0
         view2.cardElevation = 0F
     }

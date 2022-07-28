@@ -9,7 +9,7 @@ import com.example.twowaits.model.ProfileDetailsExcludingId
 import com.example.twowaits.model.home.UpdateProfilePic
 import com.example.twowaits.network.ServiceBuilder
 import com.example.twowaits.sealedClass.Response
-import com.example.twowaits.utils.Utils
+import com.example.twowaits.util.Utils
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import retrofit2.Call

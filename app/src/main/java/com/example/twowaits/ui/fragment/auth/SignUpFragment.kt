@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -12,8 +11,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
 import com.example.twowaits.databinding.FragmentSignUpBinding
 import com.example.twowaits.repository.authRepository.SignUpRepository
-import com.example.twowaits.utils.isValidEmail
-import com.example.twowaits.utils.isValidPassword
+import com.example.twowaits.util.hideKeyboard
+import com.example.twowaits.util.isValidEmail
+import com.example.twowaits.util.isValidPassword
+import com.example.twowaits.util.snackBar
 import com.example.twowaits.viewModel.AuthViewModel
 import com.example.twowaits.viewModelFactory.AuthViewModelFactory
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -35,7 +36,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
             findNavController().navigate(R.id.action_signUp_to_login3)
         }
         binding.signUpBtn.setOnClickListener {
-            hideKeyboard(requireView())
+            requireView().hideKeyboard(activity)
             val userEmail = binding.EnterEmail.text.toString().trim()
 
             if (!userEmail.isValidEmail()) {
@@ -61,9 +62,8 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
             binding.signUpBtn.text = ""
             binding.progressBar.visibility = View.VISIBLE
 
-            var flag = false
             viewModel.signUpLiveData.observe(viewLifecycleOwner) {
-                if (it == "success") {
+                if (it.data == "success") {
                     val action = SignUpFragmentDirections.actionSignUpToOtpVerification(
                         userEmail,
                         binding.confirmPassword.text.toString(), "SignUp"
@@ -72,18 +72,11 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
                     clearFields()
                     findNavController().navigate(action)
                 } else {
-                    Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+                    binding.signUpBtn.snackBar(it.errorMessage!!)
                     clearFields()
-                    flag = true
                 }
             }
-            if (flag) return@setOnClickListener
         }
-    }
-
-    private fun hideKeyboard(view: View) {
-        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun clearFields() {

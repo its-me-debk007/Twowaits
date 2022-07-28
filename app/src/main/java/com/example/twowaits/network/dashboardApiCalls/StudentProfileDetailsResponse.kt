@@ -1,7 +1,9 @@
 package com.example.twowaits.network.dashboardApiCalls
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class StudentProfileDetailsResponse(
     val branch: String,
     val college: String,
@@ -13,5 +15,5 @@ data class StudentProfileDetailsResponse(
     val detail: String? = null,
     val gender: String,
     val dob: String,
-    val profile_pic_firebase: String
-): Serializable
+    var profile_pic_firebase: String
+) : Parcelable
