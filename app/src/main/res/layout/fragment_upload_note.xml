@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -37,15 +36,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/titleOfNote"
+            style="@style/textInputLayoutStyle"
+            app:passwordToggleEnabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#ff0000"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/SubHeading1">
@@ -54,14 +51,13 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/login_border"
                 android:fontFamily="@font/reemkufi_regular"
                 android:hint="Enter title of the note"
-                android:maxLength="20"
-                android:singleLine="true"
                 android:imeOptions="actionNext"
+                android:maxLength="20"
                 android:paddingTop="13dp"
                 android:paddingBottom="12dp"
+                android:singleLine="true"
                 android:textColor="#B89A8D"
                 android:textColorHint="#B89A8D"
                 android:textSize="16sp" />
@@ -82,32 +78,28 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/descriptionLayout"
+            style="@style/textInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#ff0000"
-            android:maxLines="1"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/SubHeading2">
+            app:layout_constraintTop_toBottomOf="@+id/SubHeading2"
+            app:passwordToggleEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/login_border"
                 android:fontFamily="@font/reemkufi_regular"
                 android:hint="Enter description"
-                android:maxLength="20"
-                android:singleLine="true"
                 android:imeOptions="actionDone"
+                android:maxLength="20"
                 android:paddingTop="13dp"
                 android:paddingBottom="12dp"
+                android:singleLine="true"
                 android:textColor="#B89A8D"
                 android:textColorHint="#B89A8D"
                 android:textSize="16sp" />
@@ -122,16 +114,16 @@
             android:backgroundTint="@color/white"
             android:fontFamily="@font/reemkufi_regular"
             android:paddingTop="13dp"
-            android:stateListAnimator="@null"
             android:paddingBottom="12dp"
+            android:stateListAnimator="@null"
             android:text="Select a PDF file:"
             android:textAllCaps="false"
             android:textColor="#804D37"
             android:textSize="16sp"
             app:cornerRadius="4dp"
-            app:strokeColor="#804D37"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/descriptionLayout"
+            app:strokeColor="#804D37"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.imageview.ShapeableImageView

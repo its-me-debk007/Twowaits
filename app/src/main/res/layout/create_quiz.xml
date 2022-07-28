@@ -36,31 +36,28 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/TitleOfQuiz"
+            style="@style/textInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#ff0000"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/SubHeading1">
+            app:layout_constraintTop_toBottomOf="@+id/SubHeading1"
+            app:passwordToggleEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/login_border"
                 android:fontFamily="@font/reemkufi_regular"
                 android:hint="Enter the title of quiz"
                 android:imeOptions="actionNext"
                 android:maxLength="30"
                 android:paddingTop="13dp"
-                android:singleLine="true"
                 android:paddingBottom="12dp"
+                android:singleLine="true"
                 android:textColor="#B89A8D"
                 android:textColorHint="#B89A8D"
                 android:textSize="16sp" />
@@ -81,19 +78,16 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/NoOfQuestionsOfQuiz"
+            style="@style/textInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
-            android:background="@drawable/login_border"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#ff0000"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/SubHeading2">
+            app:layout_constraintTop_toBottomOf="@+id/SubHeading2"
+            app:passwordToggleEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/noOfQuestions"
@@ -134,19 +128,16 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/DurationOfQuiz"
+            style="@style/textInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
-            android:background="@drawable/login_border"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextTextColor="#ff0000"
-            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/SubHeading3">
+            app:layout_constraintTop_toBottomOf="@+id/SubHeading3"
+            app:passwordToggleEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/Duration"
@@ -176,7 +167,6 @@
             android:layout_width="110dp"
             android:layout_height="55dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/login_border"
             android:backgroundTint="#804D37"
             android:src="@drawable/ic_minus"
             app:layout_constraintBottom_toBottomOf="@+id/DurationOfQuiz"
@@ -188,7 +178,6 @@
             android:layout_width="110dp"
             android:layout_height="55dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/login_border"
             android:backgroundTint="#804D37"
             android:src="@drawable/ic_plus_white"
             app:layout_constraintBottom_toBottomOf="@+id/DurationOfQuiz"
@@ -220,7 +209,6 @@
             android:layout_height="55dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/login_border"
             android:backgroundTint="#804D37"
             android:src="@drawable/ic_plus_white"
             app:layout_constraintBottom_toTopOf="@+id/SubHeading3"
@@ -233,7 +221,6 @@
             android:layout_height="55dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/login_border"
             android:backgroundTint="#804D37"
             android:src="@drawable/ic_minus"
             app:layout_constraintBottom_toTopOf="@+id/SubHeading3"
