@@ -10,7 +10,6 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 class YourQuestionsViewModel : ViewModel() {
     lateinit var q_n_aLiveData: LiveData<List<QnAResponseItem>>
     lateinit var errorLiveData: LiveData<String>
-    var isClicked = false
 
     fun getYourQnA() {
         val repository = QnARepository()

@@ -71,11 +71,11 @@ dependencies {
     //pdf viewer
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
     //exoplayer
-    implementation 'com.google.android.exoplayer:exoplayer:2.18.0'
+    def mediaVersion = "1.0.0-beta02"
+    implementation "androidx.media3:media3-exoplayer:$mediaVersion"
+    implementation "androidx.media3:media3-ui:$mediaVersion"
     //razorpay
     implementation 'com.razorpay:checkout:1.6.12'
-    //check keyboard open or close
-    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3'
     //PRDownloader
     implementation 'com.mindorks.android:prdownloader:0.6.0'
 }

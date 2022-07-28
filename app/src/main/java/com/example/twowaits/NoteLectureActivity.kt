@@ -3,7 +3,7 @@ package com.example.twowaits
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.twowaits.databinding.ActivityNoteLectureBinding
-import com.example.twowaits.homePages.PDFViewer
+import com.example.twowaits.ui.fragment.PDFViewer
 import com.example.twowaits.ui.fragment.home.VideoPlayer
 
 class NoteLectureActivity : AppCompatActivity() {

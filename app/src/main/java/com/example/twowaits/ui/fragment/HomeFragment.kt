@@ -3,7 +3,6 @@ package com.example.twowaits.ui.fragment
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.media.Image
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -38,7 +37,6 @@ import com.example.twowaits.util.Utils
 import com.example.twowaits.util.hideKeyboard
 import com.example.twowaits.viewModel.HomePageViewModel
 import com.example.twowaits.viewModel.questionsAnswersViewModel.QuestionsAnswersViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
@@ -46,8 +44,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import kotlinx.coroutines.DelicateCoroutinesApi
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent.setEventListener
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
 @DelicateCoroutinesApi
 class HomeFragment : Fragment(R.layout.fragment_home), ItemClicked, QuizClicked, NotesClicked,
@@ -55,9 +51,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), ItemClicked, QuizClicked,
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: QuestionsAnswersRecyclerAdapter
     private val viewModel by lazy { ViewModelProvider(this)[HomePageViewModel::class.java] }
-    private val bottomNavigationView by lazy {
-        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-    }
     private var isCommentIconClicked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,10 +132,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), ItemClicked, QuizClicked,
                 findNavController().navigate(R.id.action_homePage_self)
             }, 440)
         }
-        setEventListener(requireActivity(),
-            KeyboardVisibilityEventListener {
-                if (!it) bottomNavigationView?.visibility = View.VISIBLE
-            })
     }
 
     private fun goToMoreQnA() {

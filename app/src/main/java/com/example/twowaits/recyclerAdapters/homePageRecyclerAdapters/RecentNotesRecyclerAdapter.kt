@@ -3,13 +3,9 @@ package com.example.twowaits.recyclerAdapters.homePageRecyclerAdapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
-import com.example.twowaits.R
+import com.example.twowaits.databinding.BookmarkedNotesItemBinding
 import com.example.twowaits.network.dashboardApiCalls.RecentNotesResponse
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.card.MaterialCardView
 
 class RecentNotesRecyclerAdapter(
     private val adapter: String,
@@ -17,64 +13,69 @@ class RecentNotesRecyclerAdapter(
     private val listener: NotesClicked
 ) : RecyclerView.Adapter<RecentNotesRecyclerAdapter.RecentNotesViewHolder>() {
 
-    inner class RecentNotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val subjectName: TextView = itemView.findViewById(R.id.name)
-        val noteDetails: TextView = itemView.findViewById(R.id.details)
-        val moreNoteDetails: TextView = itemView.findViewById(R.id.moreDetails)
-        val bookmark: ToggleButton = itemView.findViewById(R.id.bookmark)
-        val cardView: MaterialCardView = itemView.findViewById(R.id.cardView)
-        val seeAll: MaterialButton = itemView.findViewById(R.id.seeAll)
+    inner class RecentNotesViewHolder(val binding: BookmarkedNotesItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         init {
-            cardView.setOnClickListener {
-                listener.onNotesClicked(
-                    notes[absoluteAdapterPosition].file_obj_firebase,
-                    notes[absoluteAdapterPosition].title
-                )
-            }
-            bookmark.setOnClickListener {
-                listener.onBookmarkNotesClicked(notes[absoluteAdapterPosition].id)
+            binding.apply {
+                cardView.setOnClickListener {
+                    listener.onNotesClicked(
+                        notes[absoluteAdapterPosition].file_obj_firebase,
+                        notes[absoluteAdapterPosition].title
+                    )
+                }
+                bookmark.setOnClickListener {
+                    listener.onBookmarkNotesClicked(notes[absoluteAdapterPosition].id)
+                }
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecentNotesViewHolder {
-        val view: View = if (adapter == "HOME")
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.bookmarked_notes_item, parent, false)
-        else
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.bookmarked_notes_item2, parent, false)
-        return RecentNotesViewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecentNotesViewHolder =
+        RecentNotesViewHolder(
+            BookmarkedNotesItemBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
+        )
 
     override fun onBindViewHolder(holder: RecentNotesViewHolder, position: Int) {
-        holder.apply {
-            if (absoluteAdapterPosition == notes.size) {
+        holder.binding.apply {
+            if (adapter != "HOME") {
+                constraintLayout.layoutParams.apply {
+                    width = ViewGroup.LayoutParams.MATCH_PARENT
+                    constraintLayout.layoutParams = this
+                }
+
+                cardView.layoutParams.apply {
+                    width = ViewGroup.LayoutParams.MATCH_PARENT
+                    cardView.layoutParams = this
+                }
+            }
+
+            if (holder.absoluteAdapterPosition == notes.size) {
                 if (adapter == "HOME") {
                     seeAll.visibility = View.VISIBLE
                     cardView.visibility = View.GONE
-                }
-                else cardView.visibility = View.GONE
+                } else cardView.visibility = View.GONE
             } else {
-                subjectName.text = notes[position].title
+                name.text = notes[position].title
                 bookmark.isChecked = notes[position].bookmarked_by_user == "True"
                 if (adapter == "BOOKMARK") {
                     bookmark.setOnClickListener {
-                        listener.onBookmarkNotesClicked(notes[absoluteAdapterPosition].id)
-                        notes.removeAt(absoluteAdapterPosition)
-                        notifyItemRemoved(absoluteAdapterPosition)
+                        listener.onBookmarkNotesClicked(notes[holder.absoluteAdapterPosition].id)
+                        notes.removeAt(holder.absoluteAdapterPosition)
+                        notifyItemRemoved(holder.absoluteAdapterPosition)
                         if (notes.size == 0) listener.noItems()
                     }
                 }
-                noteDetails.text = notes[position].description
+                details.text = notes[position].description
                 try {
-                    moreNoteDetails.text = "By " + notes[position].author_id.student.name
+                    moreDetails.text = "By " + notes[position].author_id.student.name
                 } catch (e: Exception) {
                     try {
-                        moreNoteDetails.text = "By " + notes[position].author_id.faculty.name
+                        moreDetails.text = "By " + notes[position].author_id.faculty.name
                     } catch (e: Exception) {
-                        moreNoteDetails.text = "By Anonymous"
+                        moreDetails.text = "By Anonymous"
                     }
                 }
             }

@@ -4,19 +4,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.twowaits.network.dashboardApiCalls.*
+import com.example.twowaits.homePages.questionsAnswers.*
+import com.example.twowaits.model.BookmarkNoteBody
+import com.example.twowaits.network.dashboardApiCalls.AddToWishlistBody
+import com.example.twowaits.network.dashboardApiCalls.QnAResponseItem
+import com.example.twowaits.network.dashboardApiCalls.RecentLecturesResponse
+import com.example.twowaits.network.dashboardApiCalls.RecentNotesResponse
 import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.AskQuestionResponse
 import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.BookmarkQuestionResponse
 import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.LikeAnswerResponse
-import com.example.twowaits.model.BookmarkNoteBody
-import com.example.twowaits.homePages.questionsAnswers.*
 import com.example.twowaits.repository.homeRepository.questionsAnswersRepositories.QnARepository
 import com.example.twowaits.sealedClass.Response
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 
 @DelicateCoroutinesApi
-class QuestionsAnswersViewModel: ViewModel() {
+class QuestionsAnswersViewModel : ViewModel() {
     private val qnaRepository = QnARepository()
 
     lateinit var q_n_aLiveData: LiveData<List<QnAResponseItem>>
@@ -33,60 +36,51 @@ class QuestionsAnswersViewModel: ViewModel() {
     lateinit var bookmarkedNotesData: MutableLiveData<List<RecentNotesResponse>>
     lateinit var errorBookmarkedNotesData: MutableLiveData<String>
     lateinit var addToWishlistData: MutableLiveData<String>
-    var isClicked = false
 
     fun getQnA() {
-        val repository = QnARepository()
-        repository.getYourQnA()
-        q_n_aLiveData = repository.q_n_aLiveData
-        errorLiveData = repository.errorLiveData
+        qnaRepository.getYourQnA()
+        q_n_aLiveData = qnaRepository.q_n_aLiveData
+        errorLiveData = qnaRepository.errorLiveData
     }
 
-    fun askQuestion(askQuestionBody: AskQuestionBody){
-        val repository = QnARepository()
-        repository.askQuestion(askQuestionBody)
-        askQuestionLiveData = repository.askQuestionLiveData
-        errorAskQuestionLiveData = repository.errorAskQuestionLiveData
+    fun askQuestion(askQuestionBody: AskQuestionBody) {
+        qnaRepository.askQuestion(askQuestionBody)
+        askQuestionLiveData = qnaRepository.askQuestionLiveData
+        errorAskQuestionLiveData = qnaRepository.errorAskQuestionLiveData
     }
 
-    fun likeAnswer(likeAnswerBody: LikeAnswerBody){
-        val repository = QnARepository()
-        repository.likeAnswer(likeAnswerBody)
-        likeAnswerLiveData = repository.likeAnswerLiveData
-        errorLikeAnswerLiveData = repository.errorLikeAnswerLiveData
+    fun likeAnswer(likeAnswerBody: LikeAnswerBody) {
+        qnaRepository.likeAnswer(likeAnswerBody)
+        likeAnswerLiveData = qnaRepository.likeAnswerLiveData
+        errorLikeAnswerLiveData = qnaRepository.errorLikeAnswerLiveData
     }
 
-    fun bookmarkQuestion(bookmarkQuestionBody: BookmarkQuestionBody){
-        val repository = QnARepository()
-        repository.bookmarkQuestion(bookmarkQuestionBody)
-        bookmarkQuestionLiveData = repository.bookmarkQuestionLiveData
-        errorBookmarkQuestionLiveData = repository.errorBookmarkQuestionLiveData
+    fun bookmarkQuestion(bookmarkQuestionBody: BookmarkQuestionBody) {
+        qnaRepository.bookmarkQuestion(bookmarkQuestionBody)
+        bookmarkQuestionLiveData = qnaRepository.bookmarkQuestionLiveData
+        errorBookmarkQuestionLiveData = qnaRepository.errorBookmarkQuestionLiveData
     }
 
-    fun bookmarkNote(bookmarkNoteBody: BookmarkNoteBody){
-        val repository = QnARepository()
-        repository.bookmarkNote(bookmarkNoteBody)
-        bookmarkNoteData = repository.bookmarkNoteData
+    fun bookmarkNote(bookmarkNoteBody: BookmarkNoteBody) {
+        qnaRepository.bookmarkNote(bookmarkNoteBody)
+        bookmarkNoteData = qnaRepository.bookmarkNoteData
     }
 
-    fun addToWishlist(addToWishlistBody: AddToWishlistBody){
-        val repository = QnARepository()
-        repository.addToWishlist(addToWishlistBody)
-        addToWishlistData = repository.addToWishlistData
+    fun addToWishlist(addToWishlistBody: AddToWishlistBody) {
+        qnaRepository.addToWishlist(addToWishlistBody)
+        addToWishlistData = qnaRepository.addToWishlistData
     }
 
-    fun getYourBookmarkedQ(){
-        val repository = QnARepository()
-        repository.getYourBookmarkedQ()
-        getBookmarkedQLiveData = repository.getBookmarkedQLiveData
-        errorGetBookmarkedQLiveData = repository.errorGetBookmarkedQLiveData
+    fun getYourBookmarkedQ() {
+        qnaRepository.getYourBookmarkedQ()
+        getBookmarkedQLiveData = qnaRepository.getBookmarkedQLiveData
+        errorGetBookmarkedQLiveData = qnaRepository.errorGetBookmarkedQLiveData
     }
 
-    fun getBookmarkedNotes(){
-        val repository = QnARepository()
-        repository.getBookmarkedNotes()
-        bookmarkedNotesData = repository.bookmarkedNotesData
-        errorBookmarkedNotesData = repository.errorBookmarkedNotesData
+    fun getBookmarkedNotes() {
+        qnaRepository.getBookmarkedNotes()
+        bookmarkedNotesData = qnaRepository.bookmarkedNotesData
+        errorBookmarkedNotesData = qnaRepository.errorBookmarkedNotesData
     }
 
     lateinit var wishlistLiveData: MutableLiveData<Response<List<RecentLecturesResponse>>>
@@ -96,13 +90,11 @@ class QuestionsAnswersViewModel: ViewModel() {
 
     lateinit var createAnswerData: MutableLiveData<Response<String>>
     fun createAnswer(createAnswerBody: CreateAnswerBody) = viewModelScope.launch {
-        val repository = QnARepository()
-        createAnswerData = repository.createAnswer(createAnswerBody)
+        createAnswerData = qnaRepository.createAnswer(createAnswerBody)
     }
 
     lateinit var createCommentData: MutableLiveData<Response<String>>
     fun createComment(createCommentBody: CreateCommentBody) = viewModelScope.launch {
-        val repository = QnARepository()
-        createCommentData = repository.createComment(createCommentBody)
+        createCommentData = qnaRepository.createComment(createCommentBody)
     }
 }
