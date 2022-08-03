@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/gudea_regular"
+            android:fontFamily="@font/gudea"
             android:text="You have no bookmarked questions!"
             android:textColor="#804D37"
             android:textSize="20sp"

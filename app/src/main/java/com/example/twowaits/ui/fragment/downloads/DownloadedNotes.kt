@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.example.twowaits.NoteLectureActivity
+import com.example.twowaits.ui.activity.NoteLectureActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.DownloadedNotesBinding
 import com.example.twowaits.recyclerAdapters.DownloadedNoteClicked
@@ -20,8 +20,8 @@ class DownloadedNotes : Fragment(R.layout.downloaded_notes), DownloadedNoteClick
         binding = DownloadedNotesBinding.bind(view)
         val file = File(context?.filesDir, "Downloaded Notes/")
         file.mkdirs()
-        if (!file.exists()) {
-            binding.DownloadedNotesRecyclerView.visibility = View.GONE
+        if (!file.exists() || file.listFiles().isEmpty()) {
+            binding.recyclerView.visibility = View.GONE
             binding.emptyAnimation.visibility = View.VISIBLE
             binding.text.visibility = View.VISIBLE
         } else {
@@ -29,22 +29,16 @@ class DownloadedNotes : Fragment(R.layout.downloaded_notes), DownloadedNoteClick
             file.listFiles().forEach {
                 fileNames.add(it.name)
             }
-            binding.DownloadedNotesRecyclerView.adapter =
-                DownloadedNotesRecyclerAdapter(fileNames, this)
-            binding.DownloadedNotesRecyclerView.isNestedScrollingEnabled = false
+            binding.recyclerView.adapter = DownloadedNotesRecyclerAdapter(fileNames, this)
         }
     }
 
     override fun onDownloadedNoteClicked(downloadedNoteName: String) {
         Utils.DOWNLOADED_NOTE = File(context?.filesDir, "Downloaded Notes/$downloadedNoteName")
-        val intent = Intent(context, NoteLectureActivity::class.java).apply {
+        Intent(context, NoteLectureActivity::class.java).apply {
             putExtra("PREVIOUS PAGE", "DOWNLOADS")
             putExtra("PAGE TYPE", "NOTE")
+            startActivity(this)
         }
-        startActivity(intent)
-    }
-
-    override fun onLongPress() {
-
     }
 }

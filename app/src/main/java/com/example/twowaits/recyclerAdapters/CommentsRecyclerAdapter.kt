@@ -32,10 +32,11 @@ class CommentsRecyclerAdapter(private val comments: List<Comment>, private val c
                     commentorName.text = comments[position].author_id.faculty.name
                     Glide.with(context)
                         .load(comments[position].author_id.faculty.profile_pic_firebase)
+                        .placeholder(R.drawable.ic_placeholder)
                         .into(commentorProfilePic)
                 } catch (e: Exception) {
                     commentorName.text = "Anonymous"
-                    commentorProfilePic.setImageResource(R.drawable.profile_pic_default)
+                    commentorProfilePic.setImageResource(R.drawable.ic_placeholder)
                 }
             }
             commentText.text = comments[position].comment

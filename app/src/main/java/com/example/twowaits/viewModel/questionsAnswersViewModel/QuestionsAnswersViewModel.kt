@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.twowaits.homePages.questionsAnswers.*
-import com.example.twowaits.model.BookmarkNoteBody
+import com.example.twowaits.model.*
 import com.example.twowaits.network.dashboardApiCalls.AddToWishlistBody
 import com.example.twowaits.network.dashboardApiCalls.QnAResponseItem
 import com.example.twowaits.network.dashboardApiCalls.RecentLecturesResponse

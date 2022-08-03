@@ -40,6 +40,11 @@ fun View.hideKeyboard(activity: FragmentActivity?) {
     imm.hideSoftInputFromWindow(this.windowToken, 0)
 }
 
+fun View.showKeyboard(activity: FragmentActivity?) {
+    val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+}
+
 lateinit var timerCountDownTimer: CountDownTimer
 private val timeLeftData = MutableLiveData<Int>()
 val timeLeftLiveData: LiveData<Int> = timeLeftData

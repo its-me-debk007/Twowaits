@@ -6,8 +6,8 @@ import com.example.twowaits.util.Utils
 import com.example.twowaits.network.ServiceBuilder
 import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.AddCorrectOptionResponse
 import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.AddQuestionsResponse
-import com.example.twowaits.homePages.quiz.AddCorrectOptionBody
-import com.example.twowaits.homePages.quiz.CreateQuestionBody
+import com.example.twowaits.model.AddCorrectOptionBody
+import com.example.twowaits.model.CreateQuestionBody
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

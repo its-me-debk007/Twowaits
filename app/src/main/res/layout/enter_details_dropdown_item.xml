@@ -2,7 +2,7 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fontFamily="@font/reemkufi_regular"
+    android:fontFamily="@font/reem_kufi"
     android:textSize="16sp"
     android:textColor="#A17A69"
     android:paddingBottom="12dp"

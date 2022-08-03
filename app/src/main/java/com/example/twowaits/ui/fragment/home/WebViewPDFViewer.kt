@@ -13,8 +13,7 @@ class WebViewPDFViewer : Fragment(R.layout.fragment_webview) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentWebviewBinding.bind(view)
-        binding.apply {
+        binding = FragmentWebviewBinding.bind(view).apply {
             val pdf = "http://www.africau.edu/images/default/sample.pdf"
             binding.onlineViewer.settings.javaScriptEnabled = true
             binding.onlineViewer.loadUrl("https://docs.google.com/gview?embedded=true&url=$pdf")

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homePage"
-        android:name="com.example.twowaits.ui.fragment.HomeFragment"
+        android:name="com.example.twowaits.ui.fragment.home.HomeFragment"
         android:label="home_page"
         tools:layout="@layout/fragment_home">
 
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/profile"
-        android:name="com.example.twowaits.ui.fragment.Profile"
+        android:name="com.example.twowaits.ui.fragment.profile.Profile"
         android:label="profile"
         tools:layout="@layout/fragment_profile">
         <action
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/library"
-        android:name="com.example.twowaits.ui.fragment.home.library.Library"
+        android:name="com.example.twowaits.ui.fragment.library.Library"
         android:label="library"
         tools:layout="@layout/fragment_library">
         <action
@@ -79,27 +79,4 @@
             app:popExitAnim="@android:anim/slide_out_right" />
 
     </fragment>
-    <fragment
-        android:id="@+id/chatList"
-        android:name="com.example.twowaits.homePages.chats.ChatList"
-        android:label="ChatList">
-        <action
-            android:id="@+id/action_chatList_to_homePage"
-            app:destination="@id/homePage"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            android:id="@+id/action_chatList_to_chatProfile"
-            app:destination="@id/chatProfile"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/chatProfile"
-        android:name="com.example.twowaits.homePages.chats.ChatProfile"
-        android:label="ChatProfile" />
 </navigation>

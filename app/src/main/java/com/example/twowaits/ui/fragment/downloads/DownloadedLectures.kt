@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.example.twowaits.NoteLectureActivity
+import com.example.twowaits.ui.activity.NoteLectureActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.DownloadedLecturesBinding
 import com.example.twowaits.recyclerAdapters.DownloadedLectureClicked
@@ -19,7 +19,7 @@ class DownloadedLectures : Fragment(R.layout.downloaded_lectures), DownloadedLec
         super.onViewCreated(view, savedInstanceState)
         binding = DownloadedLecturesBinding.bind(view)
         val file = File(context?.filesDir, "Downloaded Lectures/")
-        if (!file.exists()) {
+        if (!file.exists() || file.listFiles().isEmpty()) {
             binding.DownloadedLecturesRecyclerView.visibility = View.GONE
             binding.emptyAnimation.visibility = View.VISIBLE
             binding.text.visibility = View.VISIBLE

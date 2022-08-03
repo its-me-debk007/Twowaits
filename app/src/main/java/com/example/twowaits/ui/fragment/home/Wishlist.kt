@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.twowaits.NoteLectureActivity
+import com.example.twowaits.ui.activity.NoteLectureActivity
 import com.example.twowaits.R
 import com.example.twowaits.databinding.WishlistBinding
 import com.example.twowaits.network.dashboardApiCalls.AddToWishlistBody

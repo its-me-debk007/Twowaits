@@ -45,7 +45,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:text="Unfortunately no question has been asked!"
-            android:fontFamily="@font/gudea_regular"
+            android:fontFamily="@font/gudea"
             android:textColor="#804D37"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"

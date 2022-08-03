@@ -8,19 +8,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.twowaits.R
 import com.example.twowaits.databinding.YourQuestionsBinding
-import com.example.twowaits.homePages.questionsAnswers.BookmarkQuestionBody
-import com.example.twowaits.homePages.questionsAnswers.CreateAnswerBody
-import com.example.twowaits.homePages.questionsAnswers.CreateCommentBody
-import com.example.twowaits.homePages.questionsAnswers.LikeAnswerBody
+import com.example.twowaits.model.BookmarkQuestionBody
+import com.example.twowaits.model.CreateAnswerBody
+import com.example.twowaits.model.CreateCommentBody
+import com.example.twowaits.model.LikeAnswerBody
 import com.example.twowaits.network.dashboardApiCalls.Answer
 import com.example.twowaits.recyclerAdapters.ItemClicked
 import com.example.twowaits.recyclerAdapters.QuestionsAnswersRecyclerAdapter
 import com.example.twowaits.sealedClass.Response
+import com.example.twowaits.util.hideKeyboard
 import com.example.twowaits.viewModel.HomePageViewModel
 import com.example.twowaits.viewModel.YourQuestionsViewModel
 import com.example.twowaits.viewModel.questionsAnswersViewModel.QuestionsAnswersViewModel
@@ -30,9 +32,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
-import kotlinx.coroutines.DelicateCoroutinesApi
 
-@DelicateCoroutinesApi
 class YourQuestions : Fragment(), ItemClicked {
     private var _binding: YourQuestionsBinding? = null
     private val binding get() = _binding!!
@@ -105,8 +105,10 @@ class YourQuestions : Fragment(), ItemClicked {
         val builder = MaterialAlertDialogBuilder(requireContext()).apply {
             setView(customView)
             background = ColorDrawable(Color.TRANSPARENT)
+            setCancelable(false)
         }
         val dialog = builder.show()
+        customView.findViewById<ImageView>(R.id.ic_cancel).setOnClickListener { dialog.dismiss() }
 
         customView.findViewById<MaterialTextView>(R.id.question).text = question
 
@@ -127,6 +129,7 @@ class YourQuestions : Fragment(), ItemClicked {
             progressBar.show()
             btn.isEnabled = false
             btn.text = null
+            requireView().hideKeyboard(activity)
             customViewModel.createAnswerData.observe(viewLifecycleOwner) {
                 if (it.data == "success") {
                     Toast.makeText(
@@ -152,11 +155,13 @@ class YourQuestions : Fragment(), ItemClicked {
         val customViewModel = ViewModelProvider(this)[QuestionsAnswersViewModel::class.java]
         val builder = MaterialAlertDialogBuilder(requireContext()).apply {
             setView(customView)
+            setCancelable(false)
             background = ColorDrawable(Color.TRANSPARENT)
         }
         val dialog = builder.show()
+        customView.findViewById<ImageView>(R.id.ic_cancel).setOnClickListener { dialog.dismiss() }
 
-        customView.findViewById<MaterialTextView>(R.id.question).text = answer
+        customView.findViewById<MaterialTextView>(R.id.answer).text = answer
         btn.setOnClickListener {
             if (customView.findViewById<TextInputEditText>(R.id.comment).text.toString().trim()
                     .isEmpty()
@@ -174,6 +179,7 @@ class YourQuestions : Fragment(), ItemClicked {
             progressBar.show()
             btn.isEnabled = false
             btn.text = null
+            requireView().hideKeyboard(activity)
             customViewModel.createCommentData.observe(viewLifecycleOwner) {
                 if (it.data == "success") {
                     Toast.makeText(context, "Added your comment successfully", Toast.LENGTH_SHORT)

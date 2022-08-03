@@ -9,18 +9,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/roboto_slab_regular"
-        android:text="About EduCool"
-        android:textColor="#4E2615"
-        android:textSize="32sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/roboto_slab"
+            android:text="About EduCool"
+            android:textColor="#4E2615"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView4"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
-            android:fontFamily="@font/roboto_slab_regular"
+            android:fontFamily="@font/roboto_slab"
             android:text="Akshay Bhatia (Django Developer)"
             android:textColor="#6B3B25"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="22dp"
-            android:fontFamily="@font/roboto_slab_regular"
+            android:fontFamily="@font/roboto_slab"
             android:text="Debashish Kundu (Android Developer)"
             android:textColor="#6B3B25"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="22dp"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto_slab_regular"
+            android:fontFamily="@font/roboto_slab"
             android:text="Ananya (Designer)"
             android:textColor="#6B3B25"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -3,8 +3,7 @@ package com.example.twowaits.repository.homeRepository.questionsAnswersRepositor
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.twowaits.homePages.questionsAnswers.*
-import com.example.twowaits.model.BookmarkNoteBody
+import com.example.twowaits.model.*
 import com.example.twowaits.network.ServiceBuilder
 import com.example.twowaits.network.dashboardApiCalls.AddToWishlistBody
 import com.example.twowaits.network.dashboardApiCalls.QnAResponseItem

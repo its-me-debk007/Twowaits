@@ -1,7 +1,7 @@
 package com.example.twowaits.network.dashboardApiCalls
 
 data class RecentNotesResponse(
-    val author_id: AuthorIdX,
+    val author_id: AuthorId,
     val description: String,
     val id: Int,
     val note_file: List<Any>,

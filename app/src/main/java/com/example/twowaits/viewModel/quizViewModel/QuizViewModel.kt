@@ -3,17 +3,19 @@ package com.example.twowaits.viewModel.quizViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.*
-import com.example.twowaits.homePages.quiz.AttemptQuizBody
+import com.example.twowaits.model.AttemptQuizBody
 import com.example.twowaits.repository.homeRepository.quizRepositories.AttemptQuizRepository
+import com.example.twowaits.sealedClass.Response
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.launch
 
 @DelicateCoroutinesApi
 class QuizViewModel: ViewModel() {
-    lateinit var getQuizLiveData: LiveData<GetQuizDataResponse>
-    lateinit var errorGetQuizLiveData: LiveData<String>
-    lateinit var attemptQuizLiveData: LiveData<AttemptQuizResponse>
-    lateinit var errorAttemptQuizLiveData: LiveData<String>
+    val repository = AttemptQuizRepository()
+
+
     lateinit var registerResponseLiveData: LiveData<RegisterOptionsResponse>
     lateinit var errorRegisterResponseLiveData: LiveData<String>
     lateinit var viewScoreLiveData: LiveData<ViewScoreResponse>
@@ -21,18 +23,14 @@ class QuizViewModel: ViewModel() {
     lateinit var detailedQuizScoreData: MutableLiveData<DetailedQuizResultResponse>
     lateinit var errorDetailedQuizScoreData: MutableLiveData<String>
 
-    fun getQuizData(attemptQuizBody: AttemptQuizBody){
-        val repository = AttemptQuizRepository()
-        repository.getQuizData(attemptQuizBody)
-        getQuizLiveData = repository.getQuizLiveData
-        errorGetQuizLiveData = repository.errorGetQuizLiveData
+    lateinit var quizLiveData : MutableLiveData<Response<GetQuizDataResponse>>
+    fun getQuizData(attemptQuizBody: AttemptQuizBody) = viewModelScope.launch {
+        quizLiveData = repository.getQuizData(attemptQuizBody)
     }
 
-    fun attemptQuiz(attemptQuizBody: AttemptQuizBody){
-        val repository = AttemptQuizRepository()
-        repository.attemptQuiz(attemptQuizBody)
-        attemptQuizLiveData = repository.attemptQuizLiveData
-        errorAttemptQuizLiveData = repository.errorAttemptQuizLiveData
+    lateinit var attemptQuizLiveData : MutableLiveData<Response<AttemptQuizResponse>>
+    fun attemptQuiz(attemptQuizBody: AttemptQuizBody) = viewModelScope.launch {
+        attemptQuizLiveData = repository.attemptQuiz(attemptQuizBody)
     }
 
     fun registerResponse(registerResponseBody: RegisterResponseBody){

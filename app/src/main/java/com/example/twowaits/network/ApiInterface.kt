@@ -1,25 +1,21 @@
 package com.example.twowaits.network
 
 import com.example.twowaits.network.dashboardApiCalls.*
-import com.example.twowaits.network.dashboardApiCalls.chatApiCalls.FetchConversationsMessagesResponse
 import com.example.twowaits.network.dashboardApiCalls.questionsAnswersApiCalls.*
 import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.*
 import com.example.twowaits.ui.fragment.auth.CreateFacultyProfileBody
 import com.example.twowaits.ui.fragment.auth.CreateStudentProfileBody
 import com.example.twowaits.ui.fragment.auth.VerifyOtpBody
-import com.example.twowaits.model.BookmarkNoteBody
 import com.example.twowaits.model.home.UpdateProfilePic
 import com.example.twowaits.model.home.UploadLectureBody
 import com.example.twowaits.model.home.UploadNoteBody
 import com.example.twowaits.ui.fragment.navDrawer.ChangePasswordBody
 import com.example.twowaits.ui.fragment.navDrawer.Feedbackbody
-import com.example.twowaits.homePages.questionsAnswers.*
-import com.example.twowaits.homePages.quiz.AddCorrectOptionBody
-import com.example.twowaits.homePages.quiz.AttemptQuizBody
-import com.example.twowaits.homePages.quiz.CreateQuestionBody
-import com.example.twowaits.homePages.quiz.CreateQuizBody
-import com.example.twowaits.model.ProfileDetails
-import com.example.twowaits.model.ProfileDetailsExcludingId
+import com.example.twowaits.model.AddCorrectOptionBody
+import com.example.twowaits.model.AttemptQuizBody
+import com.example.twowaits.model.CreateQuestionBody
+import com.example.twowaits.model.CreateQuizBody
+import com.example.twowaits.model.*
 import com.example.twowaits.model.auth.*
 import retrofit2.Call
 import retrofit2.Response
@@ -105,14 +101,14 @@ interface ApiInterface {
     suspend fun addCorrectOption(@Body addCorrectOptionBody: AddCorrectOptionBody): Response<AddCorrectOptionResponse>
 
     @POST("quiz/results/data/")
-    suspend fun getQuizData(
+    fun getQuizData(
         @Body attemptQuizBody: AttemptQuizBody
-    ): Response<GetQuizDataResponse>
+    ): Call<GetQuizDataResponse>
 
     @POST("quiz/results/attempt/")
-    suspend fun attemptQuiz(
+    fun attemptQuiz(
         @Body attemptQuizBody: AttemptQuizBody
-    ): Response<AttemptQuizResponse>
+    ): Call<AttemptQuizResponse>
 
     @POST("quiz/results/answer/")
     suspend fun registerResponse(
@@ -185,9 +181,6 @@ interface ApiInterface {
     suspend fun uploadLecture(
         @Body uploadLectureBody: UploadLectureBody
     ): Response<UploadLectureResponse>
-
-    @GET("chat/conversation/")
-    suspend fun fetchConversationsMessages(): Response<List<FetchConversationsMessagesResponse>>
 
     @POST("account/change-password/")
     fun changePassword(

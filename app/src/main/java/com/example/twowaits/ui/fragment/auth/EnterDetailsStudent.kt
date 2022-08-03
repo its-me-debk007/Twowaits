@@ -16,8 +16,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.twowaits.R
+import com.example.twowaits.databinding.DialogPleaseWaitBinding
 import com.example.twowaits.databinding.EnterDetailsStudentBinding
-import com.example.twowaits.databinding.PleaseWaitDialog2Binding
 import com.example.twowaits.ui.activity.home.HomeActivity
 import com.example.twowaits.util.Datastore
 import com.example.twowaits.util.USER
@@ -58,7 +58,7 @@ class EnterDetailsStudent : Fragment(R.layout.enter_details_student) {
             checkValidation()
 
             val dialog = Dialog(requireContext())
-            dialog.setContentView(PleaseWaitDialog2Binding.inflate(layoutInflater).root)
+            dialog.setContentView(DialogPleaseWaitBinding.inflate(layoutInflater).root)
             dialog.setCancelable(false)
             dialog.show()
             if (dialog.window != null)

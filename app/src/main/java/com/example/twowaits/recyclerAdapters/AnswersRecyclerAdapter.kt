@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.twowaits.R
-import com.example.twowaits.network.dashboardApiCalls.Answer
 import com.example.twowaits.databinding.AnswersBinding
+import com.example.twowaits.network.dashboardApiCalls.Answer
 import com.example.twowaits.util.formatTime
 
 class AnswersRecyclerAdapter(
@@ -22,7 +22,7 @@ class AnswersRecyclerAdapter(
         init {
             binding.apply {
                 likeBtn.setOnClickListener {
-                    listener.likeBtnClicked(answers[absoluteAdapterPosition].answer_id)
+                    listener.likeBtnClicked(answers[adapterPosition].answer_id)
                     if (likeBtn.isChecked) likesCount.text =
                         (likesCount.text.toString().toInt() + 1).toString()
                     else likesCount.text = (likesCount.text.toString().toInt() - 1).toString()
@@ -38,8 +38,8 @@ class AnswersRecyclerAdapter(
                 }
                 addComment.setOnClickListener {
                     listener.addCommentClicked(
-                        answers[absoluteAdapterPosition].answer,
-                        answers[absoluteAdapterPosition].answer_id, absoluteAdapterPosition
+                        answers[adapterPosition].answer,
+                        answers[adapterPosition].answer_id, adapterPosition
                     )
                 }
             }
@@ -63,21 +63,24 @@ class AnswersRecyclerAdapter(
             commentsCount.text = answers[position].comment.size.toString()
             answer.text = answers[position].answer
             likeBtn.isChecked = answers[position].liked_by_user == "True"
-            commentsRecyclerView.adapter = CommentsRecyclerAdapter(answers[position].comment, context)
-            commentsRecyclerView.isNestedScrollingEnabled = false
-            commentsRecyclerView.isNestedScrollingEnabled = false
+            commentsRecyclerView.adapter =
+                CommentsRecyclerAdapter(answers[position].comment, context)
             try {
                 answerer.text = answers[position].author_id.student.name
-                Glide.with(context).load(answers[position].author_id.student.profile_pic_firebase)
+                Glide.with(context)
+                    .load(answers[position].author_id.student.profile_pic_firebase)
+                    .placeholder(R.drawable.ic_placeholder)
                     .into(answererProfilePic)
             } catch (e: Exception) {
                 try {
                     answerer.text = answers[position].author_id.faculty.name
-                    Glide.with(context).load(answers[position].author_id.faculty.profile_pic_firebase)
+                    Glide.with(context)
+                        .load(answers[position].author_id.faculty.profile_pic_firebase)
+                        .placeholder(R.drawable.ic_placeholder)
                         .into(answererProfilePic)
                 } catch (e: Exception) {
                     answerer.text = "Anonymous"
-                    answererProfilePic.setImageResource(R.drawable.profile_pic_default)
+                    answererProfilePic.setImageResource(R.drawable.ic_placeholder)
                 }
             }
         }

@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/reemkufi_regular"
+            android:fontFamily="@font/reem_kufi"
             android:text="@string/view_downloads"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"

@@ -41,7 +41,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/gudea_regular"
+            android:fontFamily="@font/gudea"
             android:text="Your wishlist is empty!"
             android:textColor="#804D37"
             android:textSize="20sp"

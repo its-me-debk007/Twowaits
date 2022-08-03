@@ -6,10 +6,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/DownloadedNotesRecyclerView"
+            android:id="@+id/recyclerView"
+            android:nestedScrollingEnabled="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -37,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/gudea_regular"
+            android:fontFamily="@font/gudea"
             android:text="You haven't downlaoded any notes yet!"
             android:textColor="#804D37"
             android:textSize="20sp"

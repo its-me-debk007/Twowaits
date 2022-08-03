@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.twowaits.util.Utils
 import com.example.twowaits.network.ServiceBuilder
 import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.CreateQuizResponse
-import com.example.twowaits.homePages.quiz.CreateQuizBody
+import com.example.twowaits.model.CreateQuizBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

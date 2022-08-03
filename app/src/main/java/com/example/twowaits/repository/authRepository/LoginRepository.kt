@@ -54,7 +54,10 @@ class LoginRepository {
                     call: Call<TokenResponse>,
                     response: retrofit2.Response<TokenResponse>
                 ) {
+                    if (response.isSuccessful)
                     tokenLiveData.postValue(Response.Success(response.body()!!))
+
+                    else tokenLiveData.postValue(Response.Error(response.message() + "! Please try again"))
                 }
 
                 override fun onFailure(call: Call<TokenResponse>, t: Throwable) {

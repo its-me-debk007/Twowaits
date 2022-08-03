@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".homePages.quiz.QuizResult">
+        tools:context=".ui.fragment.quiz.QuizResult">
 
         <TextView
             android:id="@+id/title"
@@ -29,137 +29,146 @@
             android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="2dp"
+            android:layout_marginTop="64dp"
             android:fontFamily="@font/roboto_medium"
             android:text="Score:"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/totalScore"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
 
         <TextView
             android:id="@+id/totalScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:fontFamily="@font/roboto_regular"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/roboto"
+            android:text="34343434"
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintEnd_toEndOf="@id/score"
+            app:layout_constraintStart_toStartOf="@+id/score"
+            app:layout_constraintTop_toBottomOf="@+id/score" />
 
         <TextView
             android:id="@+id/questions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/roboto_medium"
             android:text="No. of questions:"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/score" />
+            app:layout_constraintTop_toBottomOf="@+id/totalScore" />
 
         <TextView
             android:id="@+id/noOfQuestions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/black"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/roboto"
+            android:text="55555"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/questions"
             app:layout_constraintStart_toEndOf="@+id/questions"
-            app:layout_constraintTop_toBottomOf="@+id/score" />
+            app:layout_constraintStart_toStartOf="@+id/questions"
+            app:layout_constraintTop_toBottomOf="@+id/questions" />
 
         <TextView
             android:id="@+id/attempted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="@font/roboto_medium"
             android:text="Attempted Questions:"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/questions" />
+            app:layout_constraintTop_toBottomOf="@+id/noOfQuestions" />
 
         <TextView
             android:id="@+id/attemptedQuestions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto_regular"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/roboto"
+            android:text="efedffsf"
             android:textColor="@color/black"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/attempted"
             app:layout_constraintStart_toEndOf="@+id/attempted"
-            app:layout_constraintTop_toBottomOf="@+id/questions" />
+            app:layout_constraintStart_toStartOf="@+id/attempted"
+            app:layout_constraintTop_toBottomOf="@+id/attempted" />
 
         <TextView
             android:id="@+id/correct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="@font/roboto_medium"
             android:text="Correct Questions:"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attempted" />
+            app:layout_constraintTop_toBottomOf="@+id/attemptedQuestions" />
 
         <TextView
             android:id="@+id/correctQuestions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto_regular"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/roboto"
+            android:text="3334344"
             android:textColor="@color/black"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/correct"
             app:layout_constraintStart_toEndOf="@+id/correct"
-            app:layout_constraintTop_toBottomOf="@+id/attempted" />
+            app:layout_constraintStart_toStartOf="@+id/correct"
+            app:layout_constraintTop_toBottomOf="@+id/correct" />
 
         <TextView
             android:id="@+id/wrong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="@font/roboto_medium"
             android:text="Wrong Questions:"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/correct" />
+            app:layout_constraintTop_toBottomOf="@+id/correctQuestions" />
 
         <TextView
             android:id="@+id/wrongQuestions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto_regular"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/roboto"
+            android:text="fddsd"
             android:textColor="@color/black"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/wrong"
             app:layout_constraintStart_toEndOf="@+id/wrong"
-            app:layout_constraintTop_toBottomOf="@+id/correct" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/detailedResultRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/wrong"
             app:layout_constraintTop_toBottomOf="@+id/wrong" />
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/detailedResultRecyclerView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/wrong" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

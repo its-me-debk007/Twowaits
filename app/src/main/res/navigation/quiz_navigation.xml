@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/createQuiz2"
-        android:name="com.example.twowaits.homePages.quiz.CreateQuiz"
+        android:name="com.example.twowaits.ui.fragment.quiz.CreateQuiz"
         android:label="CreateQuiz" >
         <action
             android:id="@+id/action_createQuiz2_to_addQuestions2"
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/addQuestions2"
-        android:name="com.example.twowaits.homePages.quiz.AddQuestions"
+        android:name="com.example.twowaits.ui.fragment.quiz.AddQuestions"
         android:label="AddQuestions" >
         <argument android:name="noOfQuestions"
             app:argType="integer" />
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/quiz"
-        android:name="com.example.twowaits.homePages.quiz.Quiz"
+        android:name="com.example.twowaits.ui.fragment.quiz.Quiz"
         android:label="Quiz" >
         <action
             android:id="@+id/action_quiz_to_quizResult"
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/quizResult"
-        android:name="com.example.twowaits.homePages.quiz.QuizResult"
+        android:name="com.example.twowaits.ui.fragment.quiz.QuizResult"
         android:label="QuizResult" >
         <argument
             android:name="quizId"

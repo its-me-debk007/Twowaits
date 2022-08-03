@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".NoteLectureActivity"
+            android:name=".ui.activity.NoteLectureActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.home.QuizActivity"
@@ -29,7 +29,7 @@
             android:name=".ui.activity.home.NavDrawerActivity"
             android:exported="false" />
         <activity
-            android:name=".PaymentActivity"
+            android:name=".ui.activity.PaymentActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false" />
         <activity

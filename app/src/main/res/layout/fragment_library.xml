@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".ui.fragment.home.library.Library">
+        tools:context=".ui.fragment.library.Library">
 
         <TextView
             android:id="@+id/YourLibrary"

@@ -3,25 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F9F7F7">
-
-<!--    <com.facebook.shimmer.ShimmerFrameLayout-->
-<!--        android:id="@+id/ShimmerLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--    <include layout="@layout/quiz_shimmer_effect" />-->
-<!--    </com.facebook.shimmer.ShimmerFrameLayout>-->
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible">
+        android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/Title"
@@ -35,15 +22,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
+        style="@style/Widget.Material3.CardView.Elevated"
+        app:cardElevation="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="24dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TimeLeft">
@@ -95,7 +82,7 @@
                     android:id="@+id/option1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/reemkufi_regular"
+                    android:fontFamily="@font/reem_kufi"
                     android:textColor="#804D37"
                     android:buttonTint="#804D37"
                     android:textSize="16dp"
@@ -105,7 +92,7 @@
                     android:id="@+id/option2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/reemkufi_regular"
+                    android:fontFamily="@font/reem_kufi"
                     android:textColor="#804D37"
                     android:buttonTint="#804D37"
                     android:textSize="16dp"
@@ -115,7 +102,7 @@
                     android:id="@+id/option3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/reemkufi_regular"
+                    android:fontFamily="@font/reem_kufi"
                     android:textColor="#804D37"
                     android:buttonTint="#804D37"
                     android:textSize="16dp"
@@ -125,7 +112,7 @@
                     android:id="@+id/option4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/reemkufi_regular"
+                    android:fontFamily="@font/reem_kufi"
                     android:textColor="#804D37"
                     android:buttonTint="#804D37"
                     android:textSize="16dp"
@@ -133,64 +120,51 @@
 
             </RadioGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/NextBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:backgroundTint="#804D37"
-        android:fontFamily="@font/roboto_regular"
+        android:fontFamily="@font/roboto"
         android:paddingStart="19dp"
         android:paddingTop="4dp"
         android:paddingEnd="18dp"
         android:paddingBottom="4dp"
         android:text="Next"
-        android:textAllCaps="false"
-        android:textSize="18dp"
-        app:cornerRadius="4dp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/PreviousBtn"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:backgroundTint="#F9F7F7"
-        app:strokeWidth="1dp"
-        app:strokeColor="#804D37"
-        android:textColor="#804D37"
-        android:fontFamily="@font/roboto_regular"
+        android:fontFamily="@font/roboto"
         android:paddingStart="19dp"
         android:paddingTop="4dp"
         android:paddingEnd="18dp"
         android:paddingBottom="4dp"
         android:text="Previous"
-        android:textAllCaps="false"
-        android:textSize="18dp"
-        app:cornerRadius="4dp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/Clear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:backgroundTint="#804D37"
-        android:fontFamily="@font/roboto_regular"
-        android:paddingStart="19dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="18dp"
-        android:paddingBottom="4dp"
+        android:fontFamily="@font/roboto"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="24dp"
         android:text="Clear Option"
-        android:textAllCaps="false"
-        android:textSize="18dp"
-        app:cornerRadius="4dp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NextBtn" />
@@ -201,7 +175,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:fontFamily="@font/reemkufi_regular"
+        android:fontFamily="@font/reem_kufi"
         android:textColor="#804D37"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Title" />

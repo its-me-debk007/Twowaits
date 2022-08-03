@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.twowaits.R
 import com.example.twowaits.databinding.FragmentUploadNoteBinding
-import com.example.twowaits.databinding.PleaseWaitDialogBinding
+import com.example.twowaits.databinding.DialogPleaseWaitBinding
 import com.example.twowaits.model.home.UploadNotePartialBody
 import com.example.twowaits.viewModel.HomePageViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -57,7 +57,7 @@ class UploadNotes : Fragment(R.layout.fragment_upload_note) {
             binding.descriptionLayout.helperText = ""
             binding.upload.isEnabled = false
             val dialog = Dialog(requireContext())
-            dialog.setContentView(PleaseWaitDialogBinding.inflate(layoutInflater).root)
+            dialog.setContentView(DialogPleaseWaitBinding.inflate(layoutInflater).root)
             dialog.setCancelable(false)
             dialog.show()
             if (dialog.window != null)

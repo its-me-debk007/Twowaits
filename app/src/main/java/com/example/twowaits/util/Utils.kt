@@ -11,11 +11,8 @@ import java.io.File
 class Utils : Application() {
     companion object {
         var CURRENT_QUESTION = 0
-        var FIRST_TIME = true
-        lateinit var QUIZ_DATA: GetQuizDataResponse
         var QUIZ_RESULT_ID = 0
         var CHOSEN_OPTION: MutableMap<Int, Int> = mutableMapOf()
-        lateinit var TITLE_OF_QUIZ: String
         lateinit var PDF_URI: String
         lateinit var VIDEO_URI: String
         lateinit var DOWNLOADED_NOTE: File
@@ -30,7 +27,7 @@ class Utils : Application() {
                 ACCESS_TOKEN = response.body()?.access
                 Datastore(HomeActivity()).saveAccessToken(ACCESS_TOKEN!!)
             } catch (e: Exception) {
-                Log.e("GENERATING NEW TOKEN ERROR", e.message.toString())
+                Log.e("NEW_TOKEN_ERROR", e.message.toString())
             }
         }
     }

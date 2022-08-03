@@ -2,28 +2,20 @@ package com.example.twowaits.repository.homeRepository.quizRepositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.twowaits.util.Utils
+import com.example.twowaits.model.AttemptQuizBody
 import com.example.twowaits.network.ServiceBuilder
 import com.example.twowaits.network.dashboardApiCalls.quizApiCalls.*
-import com.example.twowaits.homePages.quiz.AttemptQuizBody
+import com.example.twowaits.sealedClass.Response
+import com.example.twowaits.util.Utils
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
 
 @DelicateCoroutinesApi
 class AttemptQuizRepository {
-    private val getQuizDataMutableLiveData = MutableLiveData<GetQuizDataResponse>()
-    val getQuizLiveData: LiveData<GetQuizDataResponse> = getQuizDataMutableLiveData
-
-    private val errorGetQuizData = MutableLiveData<String>()
-    val errorGetQuizLiveData: LiveData<String> = errorGetQuizData
-
-    private val attemptQuizData = MutableLiveData<AttemptQuizResponse>()
-    val attemptQuizLiveData: LiveData<AttemptQuizResponse> = attemptQuizData
-
-    private val errorAttemptQuizData = MutableLiveData<String>()
-    val errorAttemptQuizLiveData: LiveData<String> = errorAttemptQuizData
 
     private val registerResponseData = MutableLiveData<RegisterOptionsResponse>()
     val registerResponseLiveData: LiveData<RegisterOptionsResponse> = registerResponseData
@@ -40,46 +32,71 @@ class AttemptQuizRepository {
     val detailedQuizScoreData = MutableLiveData<DetailedQuizResultResponse>()
     val errorDetailedQuizScoreData = MutableLiveData<String>()
 
-    fun getQuizData(attemptQuizBody: AttemptQuizBody) {
-        GlobalScope.launch(Dispatchers.IO) {
-            val response = ServiceBuilder.getInstance().getQuizData(attemptQuizBody)
-            when {
-                response.isSuccessful -> {
-                    getQuizDataMutableLiveData.postValue(response.body())
+    private val quizLiveData = MutableLiveData<Response<GetQuizDataResponse>>()
+    fun getQuizData(attemptQuizBody: AttemptQuizBody): MutableLiveData<Response<GetQuizDataResponse>> {
+        ServiceBuilder.getInstance().getQuizData(attemptQuizBody)
+            .enqueue(object : Callback<GetQuizDataResponse> {
+                override fun onResponse(
+                    call: Call<GetQuizDataResponse>,
+                    response: retrofit2.Response<GetQuizDataResponse>
+                ) {
+                    when {
+                        response.isSuccessful -> quizLiveData.postValue(Response.Success(response.body()))
+
+                        response.code() == 400 -> {
+                            Utils().getNewAccessToken()
+                            getQuizData(attemptQuizBody)
+                        }
+
+                        else -> quizLiveData.postValue(
+                            Response.Error(
+                                "${response.message()}! Please try again"
+                            )
+                        )
+                    }
                 }
-                response.code() == 400 -> {
-                    val result = Utils().getNewAccessToken()
-//                    if (result == "success") getQuizData(attemptQuizBody)
-//                    else
-//                        errorGetQuizData.postValue("Some error has occurred!\nPlease try again")
-                    getQuizData(attemptQuizBody)
+
+                override fun onFailure(call: Call<GetQuizDataResponse>, t: Throwable) {
+                    quizLiveData.postValue(Response.Error("${t.message}! Please try again"))
                 }
-                else -> {
-                    errorGetQuizData.postValue("Error code is ${response.code()}\n${response.message()}")
-                }
-            }
-        }
+
+            })
+        return quizLiveData
     }
 
-    fun attemptQuiz(attemptQuizBody: AttemptQuizBody) {
-        GlobalScope.launch(Dispatchers.IO) {
-            val response = ServiceBuilder.getInstance().attemptQuiz(attemptQuizBody)
-            when {
-                response.code() == 208 -> {
-                    errorAttemptQuizData.postValue(response.body()?.message)
+    private val attemptQuizLiveData = MutableLiveData<Response<AttemptQuizResponse>>()
+    fun attemptQuiz(attemptQuizBody: AttemptQuizBody): MutableLiveData<Response<AttemptQuizResponse>> {
+        ServiceBuilder.getInstance().attemptQuiz(attemptQuizBody)
+            .enqueue(object : Callback<AttemptQuizResponse> {
+                override fun onResponse(
+                    call: Call<AttemptQuizResponse>,
+                    response: retrofit2.Response<AttemptQuizResponse>
+                ) {
+                    when {
+                        response.code() == 208 ->
+                            attemptQuizLiveData.postValue(Response.Error(response.body()?.message!!))
+
+                        response.code() == 201 -> attemptQuizLiveData.postValue(
+                            Response.Success(
+                                response.body()
+                            )
+                        )
+
+                        response.code() == 400 -> {
+                            Utils().getNewAccessToken()
+                            attemptQuiz(attemptQuizBody)
+                        }
+                        else ->
+                            attemptQuizLiveData.postValue(Response.Error("${response.message()}! Please try again"))
+                    }
                 }
-                response.code() == 201 -> {
-                    attemptQuizData.postValue(response.body())
+
+                override fun onFailure(call: Call<AttemptQuizResponse>, t: Throwable) {
+                    attemptQuizLiveData.postValue(Response.Error("${t.message}! Please try again"))
                 }
-                response.code() == 400 -> {
-                    Utils().getNewAccessToken()
-                    attemptQuiz(attemptQuizBody)
-                }
-                else -> {
-                    errorAttemptQuizData.postValue("Error code is ${response.code()}\n${response.message()}")
-                }
-            }
-        }
+
+            })
+        return attemptQuizLiveData
     }
 
     fun registerResponse(registerResponseBody: RegisterResponseBody) {

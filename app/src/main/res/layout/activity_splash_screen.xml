@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/motionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/activity_splash_screen_scene"
-    tools:context=".ui.activity.home.SplashScreenActivity">
+    app:layoutDescription="@xml/activity_splash_screen_scene">
 
     <ImageView
         android:id="@+id/splashBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@null"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +24,7 @@
         android:layout_height="wrap_content"
         android:alpha="0"
         android:fontFamily="@font/poppins_bold"
-        android:text="EduCool"
+        android:text="@string/app_name"
         android:textColor="@color/white"
         android:textSize="41sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -48,6 +47,7 @@
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

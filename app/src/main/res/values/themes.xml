@@ -49,7 +49,7 @@
 
     <style name="CustomRadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
         <item name="android:textColor">@color/light_brown</item>
-        <item name="android:fontFamily">@font/reemkufi_regular</item>
+        <item name="android:fontFamily">@font/reem_kufi</item>
         <item name="android:textSize">16sp</item>
     </style>
 </resources>
